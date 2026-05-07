@@ -50,8 +50,8 @@ const EducationSocioemotional = () => {
         const { data: result, error: fetchError } = await supabase
           .from("education_indicators")
           .select("*")
-          .eq("seccion", "Pruebas socioemocionales")
-          .eq("indicador", "Porcentaje de estudiantes prosperando - Trabajo en equipo")
+          .eq("seccion", "Competencias socioemocionales")
+          .eq("indicador", "Porcentaje de estudiantes prosperando - trabajo en equipo")
           .eq("year", 2024)
           .in("categoria", ["EA", "No EA", "Rural", "Total"])
           .order("categoria", { ascending: true });
@@ -64,8 +64,8 @@ const EducationSocioemotional = () => {
         const { data: historicalResult, error: historicalError } = await supabase
           .from("education_indicators")
           .select("*")
-          .eq("seccion", "Pruebas socioemocionales")
-          .eq("indicador", "Porcentaje de estudiantes prosperando - Trabajo en equipo")
+          .eq("seccion", "Competencias socioemocionales")
+          .eq("indicador", "Porcentaje de estudiantes prosperando - trabajo en equipo")
           .in("categoria", ["EA", "No EA"])
           .order("year", { ascending: true })
           .order("categoria", { ascending: true });
@@ -78,12 +78,12 @@ const EducationSocioemotional = () => {
         const { data: distributionResult, error: distributionError } = await supabase
           .from("education_indicators")
           .select("*")
-          .eq("seccion", "Pruebas socioemocionales")
+          .eq("seccion", "Competencias socioemocionales")
           .eq("categoria_2", "Media")
           .in("indicador", [
-            "Porcentaje de estudiantes en riesgo - Trabajo en equipo",
-            "Porcentaje de estudiantes en proceso - Trabajo en equipo",
-            "Porcentaje de estudiantes prosperando - Trabajo en equipo"
+            "Porcentaje de estudiantes en riesgo - trabajo en equipo",
+            "Porcentaje de estudiantes en proceso - trabajo en equipo",
+            "Porcentaje de estudiantes prosperando - trabajo en equipo"
           ])
           .order("year", { ascending: true })
           .order("indicador", { ascending: true });
@@ -96,12 +96,12 @@ const EducationSocioemotional = () => {
         const { data: distributionResultQuinto, error: distributionErrorQuinto } = await supabase
           .from("education_indicators")
           .select("*")
-          .eq("seccion", "Pruebas socioemocionales")
+          .eq("seccion", "Competencias socioemocionales")
           .eq("categoria_2", "Quinto")
           .in("indicador", [
-            "Porcentaje de estudiantes en riesgo - Trabajo en equipo",
-            "Porcentaje de estudiantes en proceso - Trabajo en equipo",
-            "Porcentaje de estudiantes prosperando - Trabajo en equipo"
+            "Porcentaje de estudiantes en riesgo - trabajo en equipo",
+            "Porcentaje de estudiantes en proceso - trabajo en equipo",
+            "Porcentaje de estudiantes prosperando - trabajo en equipo"
           ])
           .order("year", { ascending: true })
           .order("indicador", { ascending: true });
@@ -114,11 +114,11 @@ const EducationSocioemotional = () => {
         const { data: columnResult, error: columnError } = await supabase
           .from("education_indicators")
           .select("*")
-          .eq("seccion", "Pruebas socioemocionales")
+          .eq("seccion", "Competencias socioemocionales")
           .in("indicador", [
-            "Porcentaje de estudiantes en riesgo - Trabajo en equipo",
-            "Porcentaje de estudiantes en proceso - Trabajo en equipo",
-            "Porcentaje de estudiantes prosperando - Trabajo en equipo"
+            "Porcentaje de estudiantes en riesgo - trabajo en equipo",
+            "Porcentaje de estudiantes en proceso - trabajo en equipo",
+            "Porcentaje de estudiantes prosperando - trabajo en equipo"
           ])
           .order("year", { ascending: true })
           .order("indicador", { ascending: true });
@@ -274,9 +274,9 @@ const EducationSocioemotional = () => {
     
     // Map indicator to simplified label and create data structure
     const labelMap: Record<string, string> = {
-      "Porcentaje de estudiantes en riesgo - Trabajo en equipo": "En riesgo",
-      "Porcentaje de estudiantes en proceso - Trabajo en equipo": "En proceso",
-      "Porcentaje de estudiantes prosperando - Trabajo en equipo": "Prosperando"
+      "Porcentaje de estudiantes en riesgo - trabajo en equipo": "En riesgo",
+      "Porcentaje de estudiantes en proceso - trabajo en equipo": "En proceso",
+      "Porcentaje de estudiantes prosperando - trabajo en equipo": "Prosperando"
     };
 
     return filteredData.map(item => ({
