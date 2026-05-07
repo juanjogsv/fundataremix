@@ -296,7 +296,7 @@ const EducationLaborMarket = () => {
                 { header: "Solo trabajando (%)", key: "Solo trabajando" },
                 { header: "Solo estudiando (%)", key: "Solo estudiando" },
                 { header: "Buscando trabajo (%)", key: "Buscando trabajo" },
-                { header: "NINIS (%)", key: "NINIS" }
+                { header: "NOES (%)", key: "NINIS" }
               ]}
             />
           </div>
@@ -365,11 +365,11 @@ const EducationLaborMarket = () => {
                 />
                 <Line 
                   type="monotone"
-                  dataKey="NINIS" 
+                  dataKey="NOES" 
                   stroke="hsl(280 65% 60%)" 
                   strokeWidth={2}
                   dot={{ fill: 'hsl(280 65% 60%)', r: 4 }}
-                  name="NINIS"
+                  name="NOES"
                 />
               </LineChart>
             </ResponsiveContainer>
