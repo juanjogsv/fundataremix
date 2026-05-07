@@ -235,7 +235,15 @@ const Admin = () => {
               Sistema de carga modular de datos - Fundación Transformar
             </p>
           </div>
-          <div className="flex gap-2">
+          <div className="flex flex-wrap gap-2">
+            <Button
+              variant="default"
+              onClick={() => document.getElementById("dama-panel")?.scrollIntoView({ behavior: "smooth" })}
+              className="gap-2 bg-luker-teal hover:bg-luker-teal/90"
+            >
+              <Database className="h-4 w-4" />
+              Panel Maestro DAMA
+            </Button>
             <Button
               variant="outline"
               onClick={() => navigate("/admin/documentos")}
@@ -256,7 +264,7 @@ const Admin = () => {
         </div>
 
         {/* ⭐ DAMA Master Base — single source of truth (default & featured) */}
-        <section className="space-y-3">
+        <section id="dama-panel" className="space-y-3 scroll-mt-24">
           <div className="flex items-center gap-2">
             <h2 className="text-xl md:text-2xl font-bold text-luker-teal">
               ⭐ Gestión de la Base Maestra DAMA
@@ -272,9 +280,10 @@ const Admin = () => {
         {/* Otras cargas operativas */}
         <div className="pt-4 border-t border-border/50">
           <h2 className="text-lg font-semibold text-muted-foreground mb-4">
-            Otras cargas y herramientas
+            Otras cargas y herramientas (módulos legacy)
           </h2>
         </div>
+
 
         {/* Participants Upload - Full Width */}
         <div className="mb-8">
