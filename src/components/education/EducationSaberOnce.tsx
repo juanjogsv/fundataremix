@@ -81,7 +81,7 @@ const EducationSaberOnce = () => {
       const { data, error } = await supabase
         .from("education_indicators")
         .select("*")
-        .eq("seccion", "Saber Once")
+        .eq("seccion", "Resultados pruebas Saber 11")
         .order("valor", { ascending: false });
       
       if (error) throw error;
