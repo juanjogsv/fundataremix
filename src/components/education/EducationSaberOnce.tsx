@@ -104,8 +104,8 @@ const EducationSaberOnce = () => {
       setAvailableRankingYears(yearsList.sort((a, b) => b - a));
       
       if (!selectedRankingIndicator && indicatorsList.length > 0) {
-        const globalIndicator = indicatorsList.find(i => 
-          i.toLowerCase().includes('global') && !i.toLowerCase().includes('manizales') && !i.toLowerCase().includes('medellín')
+        const globalIndicator = indicatorsList.find(i =>
+          i.toLowerCase() === 'puntaje global'
         );
         setSelectedRankingIndicator(globalIndicator || indicatorsList[0]);
       }
