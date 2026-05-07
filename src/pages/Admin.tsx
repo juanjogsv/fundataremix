@@ -255,12 +255,17 @@ const Admin = () => {
           </div>
         </div>
 
+        {/* DAMA Master Base — single source for Education + Socioeconomic Context */}
+        <div className="mb-8">
+          <UploadDamaData />
+        </div>
+
         {/* Participants Upload - Full Width */}
         <div className="mb-8">
           <UploadParticipantsData />
         </div>
 
-        {/* Special Upload Components */}
+        {/* Special Upload Components (legacy — kept as backup) */}
         <div className="grid gap-6 md:grid-cols-2 mb-8">
           <UploadATALData />
           <UploadMCVData />
