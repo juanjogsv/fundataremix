@@ -8,7 +8,7 @@ import { Progress } from "@/components/ui/progress";
 import { useAuth } from "@/hooks/useAuth";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
-import { ArrowLeft, Upload, FileSpreadsheet, FolderArchive, Loader2 } from "lucide-react";
+import { ArrowLeft, Upload, FileSpreadsheet, FolderArchive, Loader2, Database } from "lucide-react";
 import UploadATALData from "@/components/admin/UploadATALData";
 import UploadMCVData from "@/components/admin/UploadMCVData";
 import UploadDamaData from "@/components/admin/UploadDamaData";
