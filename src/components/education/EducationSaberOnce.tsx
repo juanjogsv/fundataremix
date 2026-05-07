@@ -17,7 +17,7 @@ const EducationSaberOnce = () => {
   const [selectedIndicator, setSelectedIndicator] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("Total");
   const [availableIndicators, setAvailableIndicators] = useState<string[]>([]);
-  const [availableCategories] = useState<string[]>(["Total", "RURAL", "URBANO", "OFICIAL", "NO OFICIAL"]);
+  const [availableCategories] = useState<string[]>(["Total", "Rural", "Urbano", "Oficial", "No oficial"]);
 
   const { data: indicators, isLoading, error } = useQuery({
     queryKey: ["education-saber-once"],
@@ -26,7 +26,7 @@ const EducationSaberOnce = () => {
       const { data, error } = await supabase
         .from("education_indicators")
         .select("*")
-        .eq("seccion", "Saber Once")
+        .eq("seccion", "Resultados pruebas Saber 11")
         .eq("departamento", "Manizales")
         .order("year", { ascending: true });
       
