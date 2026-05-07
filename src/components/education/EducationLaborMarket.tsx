@@ -296,7 +296,7 @@ const EducationLaborMarket = () => {
                 { header: "Solo trabajando (%)", key: "Solo trabajando" },
                 { header: "Solo estudiando (%)", key: "Solo estudiando" },
                 { header: "Buscando trabajo (%)", key: "Buscando trabajo" },
-                { header: "NOES (%)", key: "NINIS" }
+                { header: "NOES (%)", key: "NOES" }
               ]}
             />
           </div>
