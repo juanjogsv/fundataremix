@@ -14,19 +14,19 @@ const EducationLaborMarket = () => {
   const chartRef2 = useRef<HTMLDivElement>(null);
   const chartRef3 = useRef<HTMLDivElement>(null);
 
-  // Query para obtener datos de ocupación de egresados
+  // Query para obtener datos de ocupación de egresados (MLJ_02 - Condición de actividad de egresados)
   const { data: occupationData, isLoading: isLoadingOccupation, error: errorOccupation } = useQuery({
     queryKey: ["education-labor-market-occupation"],
     queryFn: async () => {
       const { data, error } = await supabase
-        .from("education_indicators")
+        .from("mcv_indicators")
         .select("*")
-        .eq("seccion", "Mercado laboral juvenil")
-        .eq("indicador", "Ocupación egresados")
+        .eq("cod_indicador", "MLJ_02")
+        .eq("entidad", "Manizales")
         .order("year", { ascending: false });
-      
+
       if (error) throw error;
-      return data;
+      return (data || []).map((d: any) => ({ ...d, valor: d.dato, departamento: d.entidad }));
     },
   });
 
@@ -35,16 +35,15 @@ const EducationLaborMarket = () => {
     queryKey: ["education-labor-market-occupational"],
     queryFn: async () => {
       const { data, error } = await supabase
-        .from("education_indicators")
+        .from("mcv_indicators")
         .select("*")
-        .eq("seccion", "Mercado laboral juvenil")
-        .eq("indicador", "Ocupación egresados")
-        .eq("departamento", "Manizales")
-        .in("categoria", ["Estudiando y trabajando", "Solo trabajando", "Solo estudiando", "Buscando trabajo", "NINIS"])
+        .eq("cod_indicador", "MLJ_02")
+        .eq("entidad", "Manizales")
+        .in("categoria", ["Estudiando y trabajando", "Solo trabajando", "Solo estudiando", "Buscando trabajo", "NOES"])
         .order("year", { ascending: true });
-      
+
       if (error) throw error;
-      return data;
+      return (data || []).map((d: any) => ({ ...d, valor: d.dato }));
     },
   });
 
@@ -53,15 +52,15 @@ const EducationLaborMarket = () => {
     queryKey: ["education-labor-market-total"],
     queryFn: async () => {
       const { data, error } = await supabase
-        .from("education_indicators")
+        .from("mcv_indicators")
         .select("*")
-        .eq("seccion", "Mercado laboral juvenil")
-        .eq("indicador", "Ocupación egresados")
+        .eq("cod_indicador", "MLJ_02")
+        .eq("entidad", "Manizales")
         .eq("year", 2024)
         .in("categoria", ["Estudiando y trabajando", "Solo trabajando", "Solo estudiando"]);
-      
+
       if (error) throw error;
-      return data;
+      return (data || []).map((d: any) => ({ ...d, valor: d.dato }));
     },
   });
 
@@ -70,15 +69,15 @@ const EducationLaborMarket = () => {
     queryKey: ["education-labor-market-historical"],
     queryFn: async () => {
       const { data, error } = await supabase
-        .from("education_indicators")
+        .from("mcv_indicators")
         .select("*")
-        .eq("seccion", "Mercado laboral juvenil")
-        .eq("indicador", "Ocupación egresados")
+        .eq("cod_indicador", "MLJ_02")
+        .eq("entidad", "Manizales")
         .in("categoria", ["Estudiando y trabajando", "Solo trabajando", "Solo estudiando"])
         .order("year", { ascending: true });
-      
+
       if (error) throw error;
-      return data;
+      return (data || []).map((d: any) => ({ ...d, valor: d.dato }));
     },
   });
 
@@ -297,7 +296,7 @@ const EducationLaborMarket = () => {
                 { header: "Solo trabajando (%)", key: "Solo trabajando" },
                 { header: "Solo estudiando (%)", key: "Solo estudiando" },
                 { header: "Buscando trabajo (%)", key: "Buscando trabajo" },
-                { header: "NINIS (%)", key: "NINIS" }
+                { header: "NOES (%)", key: "NOES" }
               ]}
             />
           </div>
@@ -366,11 +365,11 @@ const EducationLaborMarket = () => {
                 />
                 <Line 
                   type="monotone"
-                  dataKey="NINIS" 
+                  dataKey="NOES" 
                   stroke="hsl(280 65% 60%)" 
                   strokeWidth={2}
                   dot={{ fill: 'hsl(280 65% 60%)', r: 4 }}
-                  name="NINIS"
+                  name="NOES"
                 />
               </LineChart>
             </ResponsiveContainer>

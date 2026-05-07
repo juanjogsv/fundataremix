@@ -17,7 +17,7 @@ const EducationSaberOnce = () => {
   const [selectedIndicator, setSelectedIndicator] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("Total");
   const [availableIndicators, setAvailableIndicators] = useState<string[]>([]);
-  const [availableCategories] = useState<string[]>(["Total", "RURAL", "URBANO", "OFICIAL", "NO OFICIAL"]);
+  const [availableCategories] = useState<string[]>(["Total", "Rural", "Urbano", "Oficial", "No oficial"]);
 
   const { data: indicators, isLoading, error } = useQuery({
     queryKey: ["education-saber-once"],
@@ -26,7 +26,7 @@ const EducationSaberOnce = () => {
       const { data, error } = await supabase
         .from("education_indicators")
         .select("*")
-        .eq("seccion", "Saber Once")
+        .eq("seccion", "Resultados pruebas Saber 11")
         .eq("departamento", "Manizales")
         .order("year", { ascending: true });
       
@@ -45,11 +45,10 @@ const EducationSaberOnce = () => {
       const indicatorsList = Array.from(new Set(indicators.map(i => i.indicador).filter(Boolean))) as string[];
       setAvailableIndicators(indicatorsList.sort());
       
-      // Set default indicator (prefer 'global' without city names)
+      // Set default indicator (prefer 'Puntaje global')
       if (!selectedIndicator && indicatorsList.length > 0) {
-        const globalIndicator = indicatorsList.find(i => 
-          i.toLowerCase() === 'global' || 
-          (i.toLowerCase().includes('global') && !i.toLowerCase().includes('manizales') && !i.toLowerCase().includes('medellín'))
+        const globalIndicator = indicatorsList.find(i =>
+          i.toLowerCase() === 'puntaje global'
         );
         setSelectedIndicator(globalIndicator || indicatorsList[0]);
       }
@@ -82,7 +81,7 @@ const EducationSaberOnce = () => {
       const { data, error } = await supabase
         .from("education_indicators")
         .select("*")
-        .eq("seccion", "Saber Once")
+        .eq("seccion", "Resultados pruebas Saber 11")
         .order("valor", { ascending: false });
       
       if (error) throw error;
@@ -105,8 +104,8 @@ const EducationSaberOnce = () => {
       setAvailableRankingYears(yearsList.sort((a, b) => b - a));
       
       if (!selectedRankingIndicator && indicatorsList.length > 0) {
-        const globalIndicator = indicatorsList.find(i => 
-          i.toLowerCase().includes('global') && !i.toLowerCase().includes('manizales') && !i.toLowerCase().includes('medellín')
+        const globalIndicator = indicatorsList.find(i =>
+          i.toLowerCase() === 'puntaje global'
         );
         setSelectedRankingIndicator(globalIndicator || indicatorsList[0]);
       }
@@ -143,10 +142,10 @@ const EducationSaberOnce = () => {
       const { data, error } = await supabase
         .from("education_indicators")
         .select("departamento")
-        .eq("seccion", "Saber Once")
+        .eq("seccion", "Resultados pruebas Saber 11")
         .eq("categoria", "Total")
         .eq("year", 2024)
-        .eq("indicador", "global")
+        .eq("indicador", "Puntaje global")
         .order("departamento", { ascending: true })
         .limit(1000);
 
@@ -180,7 +179,7 @@ const EducationSaberOnce = () => {
       setAvailableEvolutionIndicators(sorted);
 
       if (!selectedEvolutionIndicator) {
-        const global = sorted.find((i) => i.toLowerCase() === "global");
+        const global = sorted.find((i) => i.toLowerCase() === "puntaje global");
         setSelectedEvolutionIndicator(global || sorted[0]);
       }
     }
@@ -194,7 +193,7 @@ const EducationSaberOnce = () => {
       const { data, error } = await supabase
         .from("education_indicators")
         .select("year, departamento, indicador, valor")
-        .eq("seccion", "Saber Once")
+        .eq("seccion", "Resultados pruebas Saber 11")
         .eq("categoria", "Total")
         .eq("indicador", selectedEvolutionIndicator)
         .order("year", { ascending: true })
