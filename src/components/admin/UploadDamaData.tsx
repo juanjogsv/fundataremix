@@ -28,6 +28,7 @@ interface UploadSummary {
 
 const REQUIRED_DATA_COLS = ["cod_indicador", "cod_entidad", "anio", "valor"];
 const REQUIRED_SHEETS = ["datos", "catalogo_indicadores", "catalogo_entidades"];
+const CHUNK_SIZE = 500;
 
 const UploadDamaData = () => {
   const { toast } = useToast();
@@ -52,37 +53,6 @@ const UploadDamaData = () => {
     setSummary(null);
   };
 
-  const validateFile = async (file: File): Promise<{ catalogCount: number; entitiesCount: number; dataCount: number }> => {
-    setProgressLabel("Validando hojas y columnas…");
-    setProgress(15);
-    const buf = new Uint8Array(await file.arrayBuffer());
-    const wb = XLSX.read(buf, { type: "array" });
-
-    for (const s of REQUIRED_SHEETS) {
-      if (!wb.SheetNames.includes(s)) {
-        throw new Error(`Falta la hoja "${s}". El archivo debe contener: ${REQUIRED_SHEETS.join(", ")}.`);
-      }
-    }
-
-    const datosSheet = wb.Sheets["datos"];
-    const sample = XLSX.utils.sheet_to_json<any>(datosSheet, { range: 0, defval: null });
-    if (sample.length === 0) {
-      throw new Error('La hoja "datos" está vacía.');
-    }
-    const cols = Object.keys(sample[0] ?? {});
-    const missing = REQUIRED_DATA_COLS.filter((c) => !cols.includes(c));
-    if (missing.length) {
-      throw new Error(
-        `La hoja "datos" no contiene las columnas requeridas: ${missing.join(", ")}.`,
-      );
-    }
-
-    const catalogCount = XLSX.utils.sheet_to_json(wb.Sheets["catalogo_indicadores"]).length;
-    const entitiesCount = XLSX.utils.sheet_to_json(wb.Sheets["catalogo_entidades"]).length;
-    const dataCount = sample.length;
-    return { catalogCount, entitiesCount, dataCount };
-  };
-
   const handleFile = useCallback(async (file: File) => {
     setFileName(file.name);
     setErrorMsg(null);
@@ -90,48 +60,115 @@ const UploadDamaData = () => {
     setProgress(0);
 
     try {
-      // Validate
+      // 1) Parse workbook in browser
       setPhase("validating");
-      const pre = await validateFile(file);
+      setProgressLabel("Leyendo y validando archivo…");
+      setProgress(5);
 
-      // Upload + process
+      const buf = new Uint8Array(await file.arrayBuffer());
+      const wb = XLSX.read(buf, { type: "array" });
+
+      for (const s of REQUIRED_SHEETS) {
+        if (!wb.SheetNames.includes(s)) {
+          throw new Error(`Falta la hoja "${s}". El archivo debe contener: ${REQUIRED_SHEETS.join(", ")}.`);
+        }
+      }
+
+      const cat = XLSX.utils.sheet_to_json<any>(wb.Sheets["catalogo_indicadores"], { defval: null });
+      const ent = XLSX.utils.sheet_to_json<any>(wb.Sheets["catalogo_entidades"], { defval: null });
+      const dat = XLSX.utils.sheet_to_json<any>(wb.Sheets["datos"], { defval: null });
+
+      if (!dat.length) throw new Error('La hoja "datos" está vacía.');
+      const cols = Object.keys(dat[0] ?? {});
+      const missing = REQUIRED_DATA_COLS.filter((c) => !cols.includes(c));
+      if (missing.length) {
+        throw new Error(`La hoja "datos" no contiene las columnas requeridas: ${missing.join(", ")}.`);
+      }
+
+      // 2) Build payloads
+      const catRows = cat.map((r) => ({
+        cod_indicador: String(r.cod_indicador ?? "").trim(),
+        indicador: r.indicador ?? null,
+        dimension: r.dimension ?? null,
+        seccion: r.seccion ?? null,
+        periodicidad: r.periodicidad ?? null,
+        fuente: r.fuente ?? null,
+        unidad_medida: r.unidad_medida ?? null,
+      })).filter((r) => r.cod_indicador);
+
+      const entMap = new Map<string, string>();
+      for (const r of ent) {
+        const code = String(r.cod_entidad ?? "").trim();
+        if (code && !entMap.has(code)) entMap.set(code, String(r.entidad ?? "").trim());
+      }
+      const entRows = [...entMap.entries()].map(([cod_entidad, entidad]) => ({ cod_entidad, entidad }));
+
+      const dataRows = dat.map((r) => ({
+        cod_indicador: String(r.cod_indicador ?? "").trim(),
+        cod_entidad: String(r.cod_entidad ?? "").trim(),
+        anio: Number(r.anio),
+        categoria: r.categoria != null && r.categoria !== "" ? String(r.categoria) : null,
+        categoria_2: r.categoria_2 != null && r.categoria_2 !== "" ? String(r.categoria_2) : null,
+        valor: r.valor != null && r.valor !== "" ? Number(r.valor) : null,
+        fecha_actualizacion: r.fecha_actualizacion
+          ? new Date(r.fecha_actualizacion).toISOString().slice(0, 10)
+          : null,
+      })).filter((r) => r.cod_indicador && r.cod_entidad && !Number.isNaN(r.anio));
+
+      // 3) Replace tables (delete + chunked insert) directly via SDK
       setPhase("uploading");
-      setProgressLabel(`Enviando archivo (${(file.size / 1024 / 1024).toFixed(1)} MB)…`);
-      setProgress(35);
+      setProgressLabel("Limpiando tablas previas…");
+      setProgress(12);
 
-      const fd = new FormData();
-      fd.append("file", file);
+      const del1 = await supabase.from("dama_data").delete().not("id", "is", null);
+      if (del1.error) throw del1.error;
+      const del2 = await supabase.from("dama_catalog").delete().neq("cod_indicador", "__never__");
+      if (del2.error) throw del2.error;
+      const del3 = await supabase.from("dama_entities").delete().neq("cod_entidad", "__never__");
+      if (del3.error) throw del3.error;
 
-      // Simulate processing tick while edge function runs
+      setProgressLabel(`Cargando ${catRows.length} indicadores…`);
+      setProgress(18);
+      if (catRows.length) {
+        const { error } = await supabase.from("dama_catalog").insert(catRows);
+        if (error) throw error;
+      }
+
+      setProgressLabel(`Cargando ${entRows.length} entidades…`);
+      setProgress(22);
+      if (entRows.length) {
+        const { error } = await supabase.from("dama_entities").insert(entRows);
+        if (error) throw error;
+      }
+
       setPhase("processing");
-      setProgressLabel(
-        `Procesando ${pre.dataCount.toLocaleString()} filas, ${pre.catalogCount} indicadores, ${pre.entitiesCount} entidades…`,
-      );
-      setProgress(70);
+      let inserted = 0;
+      const total = dataRows.length;
+      for (let i = 0; i < total; i += CHUNK_SIZE) {
+        const chunk = dataRows.slice(i, i + CHUNK_SIZE);
+        const { error } = await supabase.from("dama_data").insert(chunk);
+        if (error) throw error;
+        inserted += chunk.length;
+        const pct = 25 + Math.round((inserted / total) * 65);
+        setProgress(Math.min(pct, 90));
+        setProgressLabel(`Insertando datos… ${inserted.toLocaleString()} / ${total.toLocaleString()}`);
+      }
 
-      const { data, error } = await supabase.functions.invoke("process-dama-upload", {
-        body: fd,
-      });
-      if (error) throw error;
-      if (data?.error) throw new Error(data.error);
-
-      // Sync
+      // 4) Sync legacy
       setPhase("syncing");
       setProgressLabel("Sincronizando vistas legacy…");
       setProgress(95);
+      const { error: rpcErr } = await supabase.rpc("sync_legacy_from_dama" as any);
+      if (rpcErr) throw rpcErr;
 
-      setSummary({
-        catalog: data?.catalog ?? pre.catalogCount,
-        entities: data?.entities ?? pre.entitiesCount,
-        data: data?.data ?? pre.dataCount,
-      });
+      setSummary({ catalog: catRows.length, entities: entRows.length, data: inserted });
       setProgress(100);
       setPhase("done");
       setProgressLabel("Carga completada");
 
       toast({
         title: "Base Maestra DAMA actualizada",
-        description: `${data?.catalog ?? pre.catalogCount} indicadores · ${data?.entities ?? pre.entitiesCount} entidades · ${data?.data ?? pre.dataCount} filas.`,
+        description: `${catRows.length} indicadores · ${entRows.length} entidades · ${inserted} filas.`,
       });
     } catch (e: any) {
       console.error("[DAMA Upload]", e);
@@ -182,9 +219,7 @@ const UploadDamaData = () => {
           </div>
           <div className="flex-1">
             <div className="flex items-center gap-2 flex-wrap">
-              <CardTitle className="text-lg md:text-xl font-bold">
-                Base Maestra DAMA
-              </CardTitle>
+              <CardTitle className="text-lg md:text-xl font-bold">Base Maestra DAMA</CardTitle>
               <Badge variant="outline" className="border-luker-teal/40 text-luker-teal gap-1">
                 <Sparkles className="h-3 w-3" /> Fuente principal
               </Badge>
@@ -200,7 +235,6 @@ const UploadDamaData = () => {
       </CardHeader>
 
       <CardContent className="space-y-4">
-        {/* Drag & Drop area */}
         <div
           onDragOver={(e) => {
             e.preventDefault();
@@ -236,9 +270,7 @@ const UploadDamaData = () => {
                 <p className="text-base font-semibold">
                   Arrastra el archivo aquí o haz click para seleccionar
                 </p>
-                <p className="text-xs text-muted-foreground mt-1">
-                  Formatos aceptados: .xlsx · .csv
-                </p>
+                <p className="text-xs text-muted-foreground mt-1">Formatos aceptados: .xlsx · .csv</p>
               </div>
             </div>
           )}
@@ -258,16 +290,14 @@ const UploadDamaData = () => {
           />
         </div>
 
-        {/* Error */}
         {phase === "error" && errorMsg && (
           <Alert variant="destructive">
             <AlertCircle className="h-4 w-4" />
-            <AlertTitle>Validación fallida</AlertTitle>
+            <AlertTitle>Carga fallida</AlertTitle>
             <AlertDescription className="break-words">{errorMsg}</AlertDescription>
           </Alert>
         )}
 
-        {/* Success summary */}
         {phase === "done" && summary && (
           <Alert className="border-luker-green/40 bg-luker-green/5">
             <CheckCircle2 className="h-4 w-4 text-luker-green" />
@@ -297,7 +327,6 @@ const UploadDamaData = () => {
           </Alert>
         )}
 
-        {/* Action bar */}
         <div className="flex flex-wrap items-center gap-2 pt-2 border-t border-border/50">
           <Button
             variant="outline"
@@ -306,11 +335,7 @@ const UploadDamaData = () => {
             disabled={syncing || isBusy}
             className="gap-2"
           >
-            {syncing ? (
-              <Loader2 className="h-4 w-4 animate-spin" />
-            ) : (
-              <RefreshCcw className="h-4 w-4" />
-            )}
+            {syncing ? <Loader2 className="h-4 w-4 animate-spin" /> : <RefreshCcw className="h-4 w-4" />}
             Sincronizar vistas
           </Button>
           {phase !== "idle" && phase !== "validating" && (
