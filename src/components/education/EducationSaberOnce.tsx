@@ -179,7 +179,7 @@ const EducationSaberOnce = () => {
       setAvailableEvolutionIndicators(sorted);
 
       if (!selectedEvolutionIndicator) {
-        const global = sorted.find((i) => i.toLowerCase() === "global");
+        const global = sorted.find((i) => i.toLowerCase() === "puntaje global");
         setSelectedEvolutionIndicator(global || sorted[0]);
       }
     }
