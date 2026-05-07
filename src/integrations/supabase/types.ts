@@ -972,6 +972,7 @@ export type Database = {
         }
         Returns: boolean
       }
+      sync_legacy_from_dama: { Args: never; Returns: undefined }
     }
     Enums: {
       app_role: "admin" | "user"
