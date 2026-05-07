@@ -255,9 +255,25 @@ const Admin = () => {
           </div>
         </div>
 
-        {/* DAMA Master Base — single source for Education + Socioeconomic Context */}
-        <div className="mb-8">
+        {/* ⭐ DAMA Master Base — single source of truth (default & featured) */}
+        <section className="space-y-3">
+          <div className="flex items-center gap-2">
+            <h2 className="text-xl md:text-2xl font-bold text-luker-teal">
+              ⭐ Gestión de la Base Maestra DAMA
+            </h2>
+          </div>
+          <p className="text-sm text-muted-foreground">
+            Punto de entrada principal del panel. Toda actualización de Educación y
+            Contexto Socioeconómico se hace desde aquí.
+          </p>
           <UploadDamaData />
+        </section>
+
+        {/* Otras cargas operativas */}
+        <div className="pt-4 border-t border-border/50">
+          <h2 className="text-lg font-semibold text-muted-foreground mb-4">
+            Otras cargas y herramientas
+          </h2>
         </div>
 
         {/* Participants Upload - Full Width */}
