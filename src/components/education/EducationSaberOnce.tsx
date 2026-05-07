@@ -45,11 +45,10 @@ const EducationSaberOnce = () => {
       const indicatorsList = Array.from(new Set(indicators.map(i => i.indicador).filter(Boolean))) as string[];
       setAvailableIndicators(indicatorsList.sort());
       
-      // Set default indicator (prefer 'global' without city names)
+      // Set default indicator (prefer 'Puntaje global')
       if (!selectedIndicator && indicatorsList.length > 0) {
-        const globalIndicator = indicatorsList.find(i => 
-          i.toLowerCase() === 'global' || 
-          (i.toLowerCase().includes('global') && !i.toLowerCase().includes('manizales') && !i.toLowerCase().includes('medellín'))
+        const globalIndicator = indicatorsList.find(i =>
+          i.toLowerCase() === 'puntaje global'
         );
         setSelectedIndicator(globalIndicator || indicatorsList[0]);
       }
