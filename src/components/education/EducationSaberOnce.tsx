@@ -193,7 +193,7 @@ const EducationSaberOnce = () => {
       const { data, error } = await supabase
         .from("education_indicators")
         .select("year, departamento, indicador, valor")
-        .eq("seccion", "Saber Once")
+        .eq("seccion", "Resultados pruebas Saber 11")
         .eq("categoria", "Total")
         .eq("indicador", selectedEvolutionIndicator)
         .order("year", { ascending: true })
