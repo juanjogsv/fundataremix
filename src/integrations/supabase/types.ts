@@ -56,6 +56,102 @@ export type Database = {
         }
         Relationships: []
       }
+      dama_catalog: {
+        Row: {
+          cod_indicador: string
+          created_at: string
+          dimension: string | null
+          fuente: string | null
+          indicador: string
+          periodicidad: string | null
+          seccion: string | null
+          unidad_medida: string | null
+          updated_at: string
+        }
+        Insert: {
+          cod_indicador: string
+          created_at?: string
+          dimension?: string | null
+          fuente?: string | null
+          indicador: string
+          periodicidad?: string | null
+          seccion?: string | null
+          unidad_medida?: string | null
+          updated_at?: string
+        }
+        Update: {
+          cod_indicador?: string
+          created_at?: string
+          dimension?: string | null
+          fuente?: string | null
+          indicador?: string
+          periodicidad?: string | null
+          seccion?: string | null
+          unidad_medida?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      dama_data: {
+        Row: {
+          anio: number
+          categoria: string | null
+          categoria_2: string | null
+          cod_entidad: string
+          cod_indicador: string
+          created_at: string
+          fecha_actualizacion: string | null
+          id: string
+          updated_at: string
+          valor: number | null
+        }
+        Insert: {
+          anio: number
+          categoria?: string | null
+          categoria_2?: string | null
+          cod_entidad: string
+          cod_indicador: string
+          created_at?: string
+          fecha_actualizacion?: string | null
+          id?: string
+          updated_at?: string
+          valor?: number | null
+        }
+        Update: {
+          anio?: number
+          categoria?: string | null
+          categoria_2?: string | null
+          cod_entidad?: string
+          cod_indicador?: string
+          created_at?: string
+          fecha_actualizacion?: string | null
+          id?: string
+          updated_at?: string
+          valor?: number | null
+        }
+        Relationships: []
+      }
+      dama_entities: {
+        Row: {
+          cod_entidad: string
+          created_at: string
+          entidad: string
+          updated_at: string
+        }
+        Insert: {
+          cod_entidad: string
+          created_at?: string
+          entidad: string
+          updated_at?: string
+        }
+        Update: {
+          cod_entidad?: string
+          created_at?: string
+          entidad?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       document_categories: {
         Row: {
           created_at: string
@@ -876,6 +972,7 @@ export type Database = {
         }
         Returns: boolean
       }
+      sync_legacy_from_dama: { Args: never; Returns: undefined }
     }
     Enums: {
       app_role: "admin" | "user"

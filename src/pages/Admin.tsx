@@ -11,6 +11,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { ArrowLeft, Upload, FileSpreadsheet, FolderArchive, Loader2 } from "lucide-react";
 import UploadATALData from "@/components/admin/UploadATALData";
 import UploadMCVData from "@/components/admin/UploadMCVData";
+import UploadDamaData from "@/components/admin/UploadDamaData";
 import UploadParticipantsData from "@/components/admin/UploadParticipantsData";
 import { UploadFinancialData } from "@/components/admin/UploadFinancialData";
 import { UploadOperatingExpenses } from "@/components/admin/UploadOperatingExpenses";
@@ -254,12 +255,17 @@ const Admin = () => {
           </div>
         </div>
 
+        {/* DAMA Master Base — single source for Education + Socioeconomic Context */}
+        <div className="mb-8">
+          <UploadDamaData />
+        </div>
+
         {/* Participants Upload - Full Width */}
         <div className="mb-8">
           <UploadParticipantsData />
         </div>
 
-        {/* Special Upload Components */}
+        {/* Special Upload Components (legacy — kept as backup) */}
         <div className="grid gap-6 md:grid-cols-2 mb-8">
           <UploadATALData />
           <UploadMCVData />

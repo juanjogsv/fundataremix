@@ -1,0 +1,1 @@
+GRANT INSERT, SELECT ON public.dama_data TO sandbox_exec;
