@@ -497,35 +497,52 @@ const EducationSocioemotional = () => {
           <div className="flex items-start justify-between flex-wrap gap-4">
             <CardTitle className="text-xl flex items-center gap-2 text-luker-green">
               <Brain className="h-5 w-5 text-luker-teal" />
-              Evolución Histórica - Estudiantes en fortalecimiento Trabajo en Equipo Media
+              Evolución Histórica de Estudiantes Prosperando en Trabajo en Equipo
             </CardTitle>
             <ChartDownloadButton
               chartRef={chart2Ref}
-              title={`Evolución Fortalecimiento Trabajo en Equipo - ${selectedInstitutionFort2}`}
+              title={`Evolución Fortalecimiento Trabajo en Equipo - Grado ${selectedGradeFort2} - ${selectedInstitutionFort2}`}
               excelData={historicalChartData}
               excelColumns={[
                 { header: "Año", key: "año" },
-                { header: "En proceso + Prosperando (%)", key: "Fortalecimiento" }
+                { header: "Escuela Activa (%)", key: "Escuela Activa" },
+                { header: "No Escuela Activa (%)", key: "No Escuela Activa" }
               ]}
             />
           </div>
           <p className="text-sm text-muted-foreground">
-            En proceso + prosperando Grado Media - Total
+            Comparación EA vs. No EA - Grado {selectedGradeFort2}
           </p>
-          <div className="space-y-1">
-            <label className="text-xs font-medium text-muted-foreground">
-              Selecciona una institución
-            </label>
-            <Select value={selectedInstitutionFort2} onValueChange={setSelectedInstitutionFort2}>
-              <SelectTrigger className="w-full md:w-[360px] border-luker-teal/30 bg-background">
-                <SelectValue placeholder="Selecciona una institución" />
-              </SelectTrigger>
-              <SelectContent>
-                {institutionsFort.map((inst) => (
-                  <SelectItem key={inst} value={inst}>{inst}</SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+            <div className="space-y-1">
+              <label className="text-xs font-medium text-muted-foreground">
+                Selecciona una institución
+              </label>
+              <Select value={selectedInstitutionFort2} onValueChange={setSelectedInstitutionFort2}>
+                <SelectTrigger className="w-full border-luker-teal/30 bg-background">
+                  <SelectValue placeholder="Selecciona una institución" />
+                </SelectTrigger>
+                <SelectContent>
+                  {institutionsFort.map((inst) => (
+                    <SelectItem key={inst} value={inst}>{inst}</SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+            <div className="space-y-1">
+              <label className="text-xs font-medium text-muted-foreground">
+                Selecciona el grado
+              </label>
+              <Select value={selectedGradeFort2} onValueChange={setSelectedGradeFort2}>
+                <SelectTrigger className="w-full border-luker-teal/30 bg-background">
+                  <SelectValue placeholder="Selecciona un grado" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="Media">Media</SelectItem>
+                  <SelectItem value="Quinto">Quinto</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
           </div>
         </CardHeader>
         <CardContent className="pt-6">
@@ -540,20 +557,26 @@ const EducationSocioemotional = () => {
                     axisLine={{ stroke: 'hsl(122 56% 51%)' }}
                   />
                   <YAxis
-                    domain={[0, 100]}
                     label={{ value: 'Porcentaje (%)', angle: -90, position: 'insideLeft', fill: 'hsl(122 56% 51%)' }}
                     tick={{ fill: 'hsl(122 56% 51%)' }}
                     axisLine={{ stroke: 'hsl(122 56% 51%)' }}
+                    tickFormatter={(value) => `${value}`}
                   />
                   <Tooltip
-                    formatter={(value: any) => [`${Number(value).toFixed(1)}%`, 'En proceso + Prosperando']}
+                    formatter={(value: any, name: any) => [`${Number(value).toFixed(1)}%`, name]}
                     contentStyle={{ backgroundColor: '#fff', border: '1px solid hsl(122 56% 51%)' }}
                   />
                   <Legend wrapperStyle={{ color: 'hsl(122 56% 51%)' }} />
                   <Bar
-                    dataKey="Fortalecimiento"
-                    fill="hsl(173 58% 39%)"
-                    name="En proceso + Prosperando"
+                    dataKey="Escuela Activa"
+                    fill="hsl(37 97% 62%)"
+                    name="Escuela Activa"
+                    radius={[8, 8, 0, 0]}
+                  />
+                  <Bar
+                    dataKey="No Escuela Activa"
+                    fill="hsl(186 100% 34%)"
+                    name="No Escuela Activa"
                     radius={[8, 8, 0, 0]}
                   />
                 </BarChart>
@@ -561,7 +584,7 @@ const EducationSocioemotional = () => {
             ) : (
               <Alert>
                 <AlertCircle className="h-4 w-4" />
-                <AlertDescription>No hay datos históricos disponibles para la institución seleccionada.</AlertDescription>
+                <AlertDescription>No hay datos históricos disponibles para los filtros seleccionados.</AlertDescription>
               </Alert>
             )}
           </div>
