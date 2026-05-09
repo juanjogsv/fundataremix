@@ -409,7 +409,7 @@ const EducationSocioemotional = () => {
             </CardTitle>
             <ChartDownloadButton
               chartRef={chart1Ref}
-              title={`Fortalecimiento Trabajo en Equipo - ${selectedInstitutionFort1} 2024`}
+              title={`Fortalecimiento Trabajo en Equipo - Grado ${selectedGradeFort1} 2024`}
               excelData={chartData}
               excelColumns={[
                 { header: "Categoría", key: "categoría" },
@@ -419,21 +419,20 @@ const EducationSocioemotional = () => {
           </div>
           <div className="space-y-1">
             <label className="text-xs font-medium text-muted-foreground">
-              Selecciona una institución
+              Selecciona el grado
             </label>
-            <Select value={selectedInstitutionFort1} onValueChange={setSelectedInstitutionFort1}>
+            <Select value={selectedGradeFort1} onValueChange={setSelectedGradeFort1}>
               <SelectTrigger className="w-full md:w-[360px] border-luker-teal/30 bg-background">
-                <SelectValue placeholder="Selecciona una institución" />
+                <SelectValue placeholder="Selecciona un grado" />
               </SelectTrigger>
               <SelectContent>
-                {institutionsFort.map((inst) => (
-                  <SelectItem key={inst} value={inst}>{inst}</SelectItem>
-                ))}
+                <SelectItem value="Media">Media</SelectItem>
+                <SelectItem value="Quinto">Quinto</SelectItem>
               </SelectContent>
             </Select>
           </div>
           <p className="text-sm text-muted-foreground">
-            En proceso + prosperando Grado Media - Año 2024
+            En proceso + prosperando Grado {selectedGradeFort1} - Año 2024
           </p>
         </CardHeader>
         <CardContent className="pt-6">
