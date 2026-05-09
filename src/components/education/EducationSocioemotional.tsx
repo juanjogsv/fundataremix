@@ -19,11 +19,12 @@ const EducationSocioemotional = () => {
   const chart3Ref = useRef<HTMLDivElement>(null);
   const chart4Ref = useRef<HTMLDivElement>(null);
   const chart5Ref = useRef<HTMLDivElement>(null);
-  const [selectedGrade, setSelectedGrade] = useState<string>("Media");
-  
-  // Estado para la segunda tarjeta (evolución histórica)
-  const [historicalData, setHistoricalData] = useState<any[]>([]);
-  const [selectedGradeHistorical, setSelectedGradeHistorical] = useState<string>("Media");
+
+  // Estado para Cards 1 y 2: Fortalecimiento Trabajo en Equipo (CSOC_01 + CSOC_03)
+  const [fortalecimientoData, setFortalecimientoData] = useState<any[]>([]);
+  const [institutionsFort, setInstitutionsFort] = useState<string[]>([]);
+  const [selectedInstitutionFort1, setSelectedInstitutionFort1] = useState<string>("Total");
+  const [selectedInstitutionFort2, setSelectedInstitutionFort2] = useState<string>("Total");
   
   // Estado para la tercera tarjeta (distribución de niveles - Media)
   const [distributionData, setDistributionData] = useState<any[]>([]);
