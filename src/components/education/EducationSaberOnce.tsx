@@ -367,9 +367,9 @@ const EducationSaberOnce = () => {
                       <SelectValue placeholder="Seleccione indicador" />
                     </SelectTrigger>
                     <SelectContent>
-                      {availableIndicators.map((indicator) => (
-                        <SelectItem key={indicator} value={indicator}>
-                          {indicator}
+                      {SABER_OPTIONS.map((opt) => (
+                        <SelectItem key={opt.code} value={opt.code}>
+                          {opt.label}
                         </SelectItem>
                       ))}
                     </SelectContent>
@@ -383,7 +383,7 @@ const EducationSaberOnce = () => {
                       <SelectValue placeholder="Seleccione categoría" />
                     </SelectTrigger>
                     <SelectContent>
-                      {availableCategories.map((category) => (
+                      {availableCategoriesCard1.map((category) => (
                         <SelectItem key={category} value={category}>
                           {category}
                         </SelectItem>
@@ -400,12 +400,12 @@ const EducationSaberOnce = () => {
                     <BarChart data={chartData}>
                       <CartesianGrid strokeDasharray="3 3" />
                       <XAxis dataKey="año" />
-                      <YAxis tickFormatter={(value) => Math.round(value).toString()} />
+                      <YAxis domain={[0, 500]} ticks={[0, 100, 200, 300, 400, 500]} tickFormatter={(value) => Math.round(value).toString()} />
                       <Tooltip 
                         formatter={(value: number) => [Math.round(value), 'Puntaje']}
                       />
                       <Legend />
-                      <Bar dataKey="puntaje" fill="hsl(var(--luker-red))" name="Puntaje" />
+                      <Bar dataKey="puntaje" fill="#e11d48" name="Puntaje" />
                     </BarChart>
                   </ResponsiveContainer>
                 </div>
