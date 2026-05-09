@@ -142,7 +142,7 @@ const EducationSaberOnce = () => {
     const entityMap = new Map(damaEntities.map(e => [e.cod_entidad, e.entidad]));
     const grouped: Record<string, number[]> = {};
     rankingData
-      .filter(d => d.anio === selectedRankingYear && d.categoria === selectedRankingCategory && d.cod_entidad)
+      .filter(d => d.anio === selectedRankingYear && normalize(d.categoria) === normalize(selectedRankingCategory) && d.cod_entidad)
       .forEach(d => {
         const code = String(d.cod_entidad);
         // Solo ciudades capitales (códigos de 5 dígitos)
