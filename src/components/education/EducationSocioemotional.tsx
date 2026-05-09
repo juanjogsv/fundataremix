@@ -496,9 +496,6 @@ const EducationSocioemotional = () => {
               ]}
             />
           </div>
-          <p className="text-sm text-muted-foreground">
-            En proceso + prosperando Grado Media - Total
-          </p>
           <div className="space-y-1">
             <label className="text-xs font-medium text-muted-foreground">
               Selecciona una institución
@@ -514,6 +511,9 @@ const EducationSocioemotional = () => {
               </SelectContent>
             </Select>
           </div>
+          <p className="text-sm text-muted-foreground">
+            En proceso + prosperando Grado Media - Total
+          </p>
         </CardHeader>
         <CardContent className="pt-6">
           <div ref={chart2Ref}>
@@ -555,132 +555,32 @@ const EducationSocioemotional = () => {
         </CardContent>
       </Card>
 
-      {/* Tarjeta 3: Distribución de Niveles de Desempeño */}
-      <div className="space-y-6">
-        {/* Filtro de Categoría para Distribución */}
-        <Card className="border-luker-teal/20">
-          <CardHeader>
-            <CardTitle className="text-xl flex items-center gap-2 text-luker-teal">
-              <Brain className="h-5 w-5 text-luker-green" />
-              Filtrar por Categoría
+      {/* Tarjeta 3: Distribución de Niveles de Desempeño - Quinto */}
+      <Card className="border-luker-green/20 shadow-lg">
+        <CardHeader className="bg-gradient-to-r from-luker-green/5 to-luker-teal/5 space-y-3">
+          <div className="flex items-center justify-between flex-wrap gap-4">
+            <CardTitle className="text-xl flex items-center gap-2 text-luker-green">
+              <Brain className="h-5 w-5 text-luker-teal" />
+              Distribución de Niveles de Desempeño en Trabajo en Equipo
             </CardTitle>
-            <p className="text-sm text-muted-foreground mt-1">
-              Selecciona la categoría para ver la distribución de niveles de desempeño
-            </p>
-          </CardHeader>
-          <CardContent>
-            <Select value={selectedCategory} onValueChange={setSelectedCategory}>
-              <SelectTrigger className="w-full md:w-[400px] border-luker-teal/30">
-                <SelectValue placeholder="Selecciona una categoría" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="Total">Total</SelectItem>
-                <SelectItem value="EA">Escuela Activa</SelectItem>
-                <SelectItem value="No EA">No Escuela Activa</SelectItem>
-                <SelectItem value="Rural">Rural</SelectItem>
-              </SelectContent>
-            </Select>
-          </CardContent>
-        </Card>
-
-        {/* Gráfico de Barras Apiladas Horizontales */}
-        <Card className="border-luker-green/20 shadow-lg">
-          <CardHeader className="bg-gradient-to-r from-luker-green/5 to-luker-teal/5">
-            <div className="flex items-center justify-between flex-wrap gap-4">
-              <div>
-                <CardTitle className="text-xl flex items-center gap-2 text-luker-green">
-                  <Brain className="h-5 w-5 text-luker-teal" />
-                  Distribución de Niveles de Desempeño en Trabajo en Equipo
-                </CardTitle>
-                <p className="text-sm text-muted-foreground mt-1">
-                  Grado Media - {selectedCategory === "EA" ? "Escuela Activa" : selectedCategory === "No EA" ? "No Escuela Activa" : selectedCategory}
-                </p>
-              </div>
-              <ChartDownloadButton 
-                chartRef={chart3Ref} 
-                title={`Distribución Niveles Desempeño Media - ${selectedCategory}`}
-                excelData={distributionChartData}
-                excelColumns={[
-                  { header: "Año", key: "año" },
-                  { header: "Riesgo (%)", key: "Riesgo" },
-                  { header: "Proceso (%)", key: "Proceso" },
-                  { header: "Prosperando (%)", key: "Prosperando" }
-                ]}
-              />
-            </div>
-          </CardHeader>
-          <CardContent className="pt-6">
-            <div ref={chart3Ref}>
-            {distributionChartData.length > 0 ? (
-              <ResponsiveContainer width="100%" height={400}>
-                <BarChart data={distributionChartData} layout="vertical">
-                  <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
-                  <XAxis 
-                    type="number"
-                    tick={{ fill: 'hsl(122 56% 51%)' }}
-                    axisLine={{ stroke: 'hsl(122 56% 51%)' }}
-                    tickFormatter={(value) => `${value}%`}
-                  />
-                  <YAxis 
-                    type="category"
-                    dataKey="año" 
-                    tick={{ fill: 'hsl(122 56% 51%)' }}
-                    axisLine={{ stroke: 'hsl(122 56% 51%)' }}
-                  />
-                  <Tooltip 
-                    formatter={(value: any) => [`${Number(value).toFixed(1)}%`, '']}
-                    contentStyle={{ backgroundColor: '#fff', border: '1px solid hsl(122 56% 51%)' }}
-                  />
-                  <Legend wrapperStyle={{ color: 'hsl(122 56% 51%)' }} />
-                  <Bar 
-                    dataKey="Riesgo" 
-                    stackId="a"
-                    fill="hsl(0 84% 60%)" 
-                    name="En Riesgo"
-                  />
-                  <Bar 
-                    dataKey="Proceso" 
-                    stackId="a"
-                    fill="hsl(37 97% 62%)" 
-                    name="En Proceso"
-                  />
-                  <Bar 
-                    dataKey="Prosperando" 
-                    stackId="a"
-                    fill="hsl(122 56% 51%)" 
-                    name="Prosperando"
-                  />
-                </BarChart>
-              </ResponsiveContainer>
-            ) : (
-              <Alert>
-                <AlertCircle className="h-4 w-4" />
-                <AlertDescription>
-                  No hay datos de distribución disponibles para la categoría seleccionada.
-                </AlertDescription>
-              </Alert>
-            )}
-            </div>
-          </CardContent>
-        </Card>
-      </div>
-
-      {/* Tarjeta 4: Distribución de Niveles de Desempeño - Quinto */}
-      <div className="space-y-6">
-        {/* Filtro de Categoría para Distribución Quinto */}
-        <Card className="border-luker-teal/20">
-          <CardHeader>
-            <CardTitle className="text-xl flex items-center gap-2 text-luker-teal">
-              <Brain className="h-5 w-5 text-luker-green" />
-              Filtrar por Categoría - Grado Quinto
-            </CardTitle>
-            <p className="text-sm text-muted-foreground mt-1">
-              Selecciona la categoría para ver la distribución de niveles de desempeño
-            </p>
-          </CardHeader>
-          <CardContent>
+            <ChartDownloadButton
+              chartRef={chart4Ref}
+              title={`Distribución Niveles Desempeño Quinto - ${selectedCategoryQuinto}`}
+              excelData={distributionChartDataQuinto}
+              excelColumns={[
+                { header: "Año", key: "año" },
+                { header: "Riesgo (%)", key: "Riesgo" },
+                { header: "Proceso (%)", key: "Proceso" },
+                { header: "Prosperando (%)", key: "Prosperando" }
+              ]}
+            />
+          </div>
+          <div className="space-y-1">
+            <label className="text-xs font-medium text-muted-foreground">
+              Selecciona una categoría
+            </label>
             <Select value={selectedCategoryQuinto} onValueChange={setSelectedCategoryQuinto}>
-              <SelectTrigger className="w-full md:w-[400px] border-luker-teal/30">
+              <SelectTrigger className="w-full md:w-[360px] border-luker-teal/30 bg-background">
                 <SelectValue placeholder="Selecciona una categoría" />
               </SelectTrigger>
               <SelectContent>
@@ -690,131 +590,167 @@ const EducationSocioemotional = () => {
                 <SelectItem value="Rural">Rural</SelectItem>
               </SelectContent>
             </Select>
-          </CardContent>
-        </Card>
+          </div>
+          <p className="text-sm text-muted-foreground">
+            Grado Quinto - {selectedCategoryQuinto === "EA" ? "Escuela Activa" : selectedCategoryQuinto === "No EA" ? "No Escuela Activa" : selectedCategoryQuinto}
+          </p>
+        </CardHeader>
+        <CardContent className="pt-6">
+          <div ref={chart4Ref}>
+          {distributionChartDataQuinto.length > 0 ? (
+            <ResponsiveContainer width="100%" height={400}>
+              <BarChart data={distributionChartDataQuinto} layout="vertical">
+                <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
+                <XAxis
+                  type="number"
+                  tick={{ fill: 'hsl(122 56% 51%)' }}
+                  axisLine={{ stroke: 'hsl(122 56% 51%)' }}
+                  tickFormatter={(value) => `${value}%`}
+                />
+                <YAxis
+                  type="category"
+                  dataKey="año"
+                  tick={{ fill: 'hsl(122 56% 51%)' }}
+                  axisLine={{ stroke: 'hsl(122 56% 51%)' }}
+                />
+                <Tooltip
+                  formatter={(value: any) => [`${Number(value).toFixed(1)}%`, '']}
+                  contentStyle={{ backgroundColor: '#fff', border: '1px solid hsl(122 56% 51%)' }}
+                />
+                <Legend wrapperStyle={{ color: 'hsl(122 56% 51%)' }} />
+                <Bar dataKey="Riesgo" stackId="a" fill="hsl(0 84% 60%)" name="En Riesgo" />
+                <Bar dataKey="Proceso" stackId="a" fill="hsl(37 97% 62%)" name="En Proceso" />
+                <Bar dataKey="Prosperando" stackId="a" fill="hsl(122 56% 51%)" name="Prosperando" />
+              </BarChart>
+            </ResponsiveContainer>
+          ) : (
+            <Alert>
+              <AlertCircle className="h-4 w-4" />
+              <AlertDescription>
+                No hay datos de distribución disponibles para la categoría seleccionada.
+              </AlertDescription>
+            </Alert>
+          )}
+          </div>
+        </CardContent>
+      </Card>
 
-        {/* Gráfico de Barras Apiladas Horizontales - Quinto */}
-        <Card className="border-luker-green/20 shadow-lg">
-          <CardHeader className="bg-gradient-to-r from-luker-green/5 to-luker-teal/5">
-            <div className="flex items-center justify-between flex-wrap gap-4">
-              <div>
-                <CardTitle className="text-xl flex items-center gap-2 text-luker-green">
-                  <Brain className="h-5 w-5 text-luker-teal" />
-                  Distribución de Niveles de Desempeño en Trabajo en Equipo
-                </CardTitle>
-                <p className="text-sm text-muted-foreground mt-1">
-                  Grado Quinto - {selectedCategoryQuinto === "EA" ? "Escuela Activa" : selectedCategoryQuinto === "No EA" ? "No Escuela Activa" : selectedCategoryQuinto}
-                </p>
-              </div>
-              <ChartDownloadButton 
-                chartRef={chart4Ref} 
-                title={`Distribución Niveles Desempeño Quinto - ${selectedCategoryQuinto}`}
-                excelData={distributionChartDataQuinto}
-                excelColumns={[
-                  { header: "Año", key: "año" },
-                  { header: "Riesgo (%)", key: "Riesgo" },
-                  { header: "Proceso (%)", key: "Proceso" },
-                  { header: "Prosperando (%)", key: "Prosperando" }
-                ]}
-              />
-            </div>
-          </CardHeader>
-          <CardContent className="pt-6">
-            <div ref={chart4Ref}>
-            {distributionChartDataQuinto.length > 0 ? (
-              <ResponsiveContainer width="100%" height={400}>
-                <BarChart data={distributionChartDataQuinto} layout="vertical">
-                  <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
-                  <XAxis 
-                    type="number"
-                    tick={{ fill: 'hsl(122 56% 51%)' }}
-                    axisLine={{ stroke: 'hsl(122 56% 51%)' }}
-                    tickFormatter={(value) => `${value}%`}
-                  />
-                  <YAxis 
-                    type="category"
-                    dataKey="año" 
-                    tick={{ fill: 'hsl(122 56% 51%)' }}
-                    axisLine={{ stroke: 'hsl(122 56% 51%)' }}
-                  />
-                  <Tooltip 
-                    formatter={(value: any) => [`${Number(value).toFixed(1)}%`, '']}
-                    contentStyle={{ backgroundColor: '#fff', border: '1px solid hsl(122 56% 51%)' }}
-                  />
-                  <Legend wrapperStyle={{ color: 'hsl(122 56% 51%)' }} />
-                  <Bar 
-                    dataKey="Riesgo" 
-                    stackId="a"
-                    fill="hsl(0 84% 60%)" 
-                    name="En Riesgo"
-                  />
-                  <Bar 
-                    dataKey="Proceso" 
-                    stackId="a"
-                    fill="hsl(37 97% 62%)" 
-                    name="En Proceso"
-                  />
-                  <Bar 
-                    dataKey="Prosperando" 
-                    stackId="a"
-                    fill="hsl(122 56% 51%)" 
-                    name="Prosperando"
-                  />
-                </BarChart>
-              </ResponsiveContainer>
-            ) : (
-              <Alert>
-                <AlertCircle className="h-4 w-4" />
-                <AlertDescription>
-                  No hay datos de distribución disponibles para la categoría seleccionada.
-                </AlertDescription>
-              </Alert>
-            )}
-            </div>
-          </CardContent>
-        </Card>
-      </div>
+      {/* Tarjeta 4: Distribución de Niveles de Desempeño - Media */}
+      <Card className="border-luker-green/20 shadow-lg">
+        <CardHeader className="bg-gradient-to-r from-luker-green/5 to-luker-teal/5 space-y-3">
+          <div className="flex items-center justify-between flex-wrap gap-4">
+            <CardTitle className="text-xl flex items-center gap-2 text-luker-green">
+              <Brain className="h-5 w-5 text-luker-teal" />
+              Distribución de Niveles de Desempeño en Trabajo en Equipo
+            </CardTitle>
+            <ChartDownloadButton
+              chartRef={chart3Ref}
+              title={`Distribución Niveles Desempeño Media - ${selectedCategory}`}
+              excelData={distributionChartData}
+              excelColumns={[
+                { header: "Año", key: "año" },
+                { header: "Riesgo (%)", key: "Riesgo" },
+                { header: "Proceso (%)", key: "Proceso" },
+                { header: "Prosperando (%)", key: "Prosperando" }
+              ]}
+            />
+          </div>
+          <div className="space-y-1">
+            <label className="text-xs font-medium text-muted-foreground">
+              Selecciona una categoría
+            </label>
+            <Select value={selectedCategory} onValueChange={setSelectedCategory}>
+              <SelectTrigger className="w-full md:w-[360px] border-luker-teal/30 bg-background">
+                <SelectValue placeholder="Selecciona una categoría" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="Total">Total</SelectItem>
+                <SelectItem value="EA">Escuela Activa</SelectItem>
+                <SelectItem value="No EA">No Escuela Activa</SelectItem>
+                <SelectItem value="Rural">Rural</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+          <p className="text-sm text-muted-foreground">
+            Grado Media - {selectedCategory === "EA" ? "Escuela Activa" : selectedCategory === "No EA" ? "No Escuela Activa" : selectedCategory}
+          </p>
+        </CardHeader>
+        <CardContent className="pt-6">
+          <div ref={chart3Ref}>
+          {distributionChartData.length > 0 ? (
+            <ResponsiveContainer width="100%" height={400}>
+              <BarChart data={distributionChartData} layout="vertical">
+                <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
+                <XAxis
+                  type="number"
+                  tick={{ fill: 'hsl(122 56% 51%)' }}
+                  axisLine={{ stroke: 'hsl(122 56% 51%)' }}
+                  tickFormatter={(value) => `${value}%`}
+                />
+                <YAxis
+                  type="category"
+                  dataKey="año"
+                  tick={{ fill: 'hsl(122 56% 51%)' }}
+                  axisLine={{ stroke: 'hsl(122 56% 51%)' }}
+                />
+                <Tooltip
+                  formatter={(value: any) => [`${Number(value).toFixed(1)}%`, '']}
+                  contentStyle={{ backgroundColor: '#fff', border: '1px solid hsl(122 56% 51%)' }}
+                />
+                <Legend wrapperStyle={{ color: 'hsl(122 56% 51%)' }} />
+                <Bar dataKey="Riesgo" stackId="a" fill="hsl(0 84% 60%)" name="En Riesgo" />
+                <Bar dataKey="Proceso" stackId="a" fill="hsl(37 97% 62%)" name="En Proceso" />
+                <Bar dataKey="Prosperando" stackId="a" fill="hsl(122 56% 51%)" name="Prosperando" />
+              </BarChart>
+            </ResponsiveContainer>
+          ) : (
+            <Alert>
+              <AlertCircle className="h-4 w-4" />
+              <AlertDescription>
+                No hay datos de distribución disponibles para la categoría seleccionada.
+              </AlertDescription>
+            </Alert>
+          )}
+          </div>
+        </CardContent>
+      </Card>
 
       {/* Tarjeta 5: Análisis por Nivel con Filtros Múltiples */}
-      <div className="space-y-6">
-        {/* Filtros Triple */}
-        <Card className="border-luker-teal/20">
-          <CardHeader>
-            <CardTitle className="text-xl flex items-center gap-2 text-luker-teal">
-              <Brain className="h-5 w-5 text-luker-green" />
-              Filtros de Visualización
+      <Card className="border-luker-green/20 shadow-lg">
+        <CardHeader className="bg-gradient-to-r from-luker-green/5 to-luker-teal/5 space-y-3">
+          <div className="flex items-center justify-between flex-wrap gap-4">
+            <CardTitle className="text-xl flex items-center gap-2 text-luker-green">
+              <Brain className="h-5 w-5 text-luker-teal" />
+              Desempeño en Trabajo en Equipo por Nivel
             </CardTitle>
-            <p className="text-sm text-muted-foreground mt-1">
-              Selecciona el año, grado e institución educativa para el análisis
-            </p>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            {/* Filtro de Año */}
-            <div>
-              <label className="text-sm font-medium text-muted-foreground mb-2 block">
-                Año
-              </label>
+            <ChartDownloadButton
+              chartRef={chart5Ref}
+              title={`Desempeño Trabajo en Equipo - ${selectedYearColumn} ${selectedGradeColumn} ${selectedCategoryColumn}`}
+              excelData={columnChartData}
+              excelColumns={[
+                { header: "Nivel", key: "nivel" },
+                { header: "Porcentaje (%)", key: "porcentaje" }
+              ]}
+            />
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+            <div className="space-y-1">
+              <label className="text-xs font-medium text-muted-foreground">Año</label>
               <Select value={selectedYearColumn} onValueChange={setSelectedYearColumn}>
-                <SelectTrigger className="w-full md:w-[400px] border-luker-teal/30">
+                <SelectTrigger className="w-full border-luker-teal/30 bg-background">
                   <SelectValue placeholder="Selecciona un año" />
                 </SelectTrigger>
                 <SelectContent>
                   {availableYears.map((year) => (
-                    <SelectItem key={year} value={year}>
-                      {year}
-                    </SelectItem>
+                    <SelectItem key={year} value={year}>{year}</SelectItem>
                   ))}
                 </SelectContent>
               </Select>
             </div>
-
-            {/* Filtro de Grado */}
-            <div>
-              <label className="text-sm font-medium text-muted-foreground mb-2 block">
-                Grado
-              </label>
+            <div className="space-y-1">
+              <label className="text-xs font-medium text-muted-foreground">Grado</label>
               <Select value={selectedGradeColumn} onValueChange={setSelectedGradeColumn}>
-                <SelectTrigger className="w-full md:w-[400px] border-luker-teal/30">
+                <SelectTrigger className="w-full border-luker-teal/30 bg-background">
                   <SelectValue placeholder="Selecciona un grado" />
                 </SelectTrigger>
                 <SelectContent>
@@ -823,93 +759,64 @@ const EducationSocioemotional = () => {
                 </SelectContent>
               </Select>
             </div>
-
-            {/* Filtro de Institución/Categoría */}
-            <div>
-              <label className="text-sm font-medium text-muted-foreground mb-2 block">
-                Institución Educativa / Categoría
-              </label>
+            <div className="space-y-1">
+              <label className="text-xs font-medium text-muted-foreground">Institución Educativa</label>
               <Select value={selectedCategoryColumn} onValueChange={setSelectedCategoryColumn}>
-                <SelectTrigger className="w-full md:w-[400px] border-luker-teal/30">
+                <SelectTrigger className="w-full border-luker-teal/30 bg-background">
                   <SelectValue placeholder="Selecciona una categoría" />
                 </SelectTrigger>
                 <SelectContent>
                   {availableCategories.map((category) => (
-                    <SelectItem key={category} value={category}>
-                      {category}
-                    </SelectItem>
+                    <SelectItem key={category} value={category}>{category}</SelectItem>
                   ))}
                 </SelectContent>
               </Select>
             </div>
-          </CardContent>
-        </Card>
-
-        {/* Gráfico de Columnas */}
-        <Card className="border-luker-green/20 shadow-lg">
-          <CardHeader className="bg-gradient-to-r from-luker-green/5 to-luker-teal/5">
-            <div className="flex items-center justify-between flex-wrap gap-4">
-              <div>
-                <CardTitle className="text-xl flex items-center gap-2 text-luker-green">
-                  <Brain className="h-5 w-5 text-luker-teal" />
-                  Desempeño en Trabajo en Equipo por Nivel
-                </CardTitle>
-                <p className="text-sm text-muted-foreground mt-1">
-                  Análisis por IE - Año {selectedYearColumn}, Grado {selectedGradeColumn}, {selectedCategoryColumn}
-                </p>
-              </div>
-              <ChartDownloadButton 
-                chartRef={chart5Ref} 
-                title={`Desempeño Trabajo en Equipo - ${selectedYearColumn} ${selectedGradeColumn} ${selectedCategoryColumn}`}
-                excelData={columnChartData}
-                excelColumns={[
-                  { header: "Nivel", key: "nivel" },
-                  { header: "Porcentaje (%)", key: "porcentaje" }
-                ]}
-              />
-            </div>
-          </CardHeader>
-          <CardContent className="pt-6">
-            <div ref={chart5Ref}>
-            {columnChartData.length > 0 ? (
-              <ResponsiveContainer width="100%" height={400}>
-                <BarChart data={columnChartData}>
-                  <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
-                  <XAxis 
-                    dataKey="nivel"
-                    tick={{ fill: 'hsl(122 56% 51%)' }}
-                    axisLine={{ stroke: 'hsl(122 56% 51%)' }}
-                  />
-                  <YAxis 
-                    label={{ value: 'Porcentaje (%)', angle: -90, position: 'insideLeft', fill: 'hsl(122 56% 51%)' }}
-                    tick={{ fill: 'hsl(122 56% 51%)' }}
-                    axisLine={{ stroke: 'hsl(122 56% 51%)' }}
-                  />
-                  <Tooltip 
-                    formatter={(value: any) => [`${Number(value).toFixed(1)}%`, 'Porcentaje']}
-                    contentStyle={{ backgroundColor: '#fff', border: '1px solid hsl(122 56% 51%)' }}
-                  />
-                  <Legend wrapperStyle={{ color: 'hsl(122 56% 51%)' }} />
-                  <Bar 
-                    dataKey="porcentaje" 
-                    fill="hsl(37 97% 62%)"
-                    name="Porcentaje de estudiantes"
-                    radius={[8, 8, 0, 0]}
-                  />
-                </BarChart>
-              </ResponsiveContainer>
-            ) : (
-              <Alert>
-                <AlertCircle className="h-4 w-4" />
-                <AlertDescription>
-                  No hay datos disponibles para los filtros seleccionados.
-                </AlertDescription>
-              </Alert>
-            )}
-            </div>
-          </CardContent>
-        </Card>
-      </div>
+          </div>
+          <p className="text-sm text-muted-foreground">
+            Análisis por IE - Año {selectedYearColumn}, Grado {selectedGradeColumn}, {selectedCategoryColumn}
+          </p>
+        </CardHeader>
+        <CardContent className="pt-6">
+          <div ref={chart5Ref}>
+          {columnChartData.length > 0 ? (
+            <ResponsiveContainer width="100%" height={400}>
+              <BarChart data={columnChartData}>
+                <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
+                <XAxis
+                  dataKey="nivel"
+                  tick={{ fill: 'hsl(122 56% 51%)' }}
+                  axisLine={{ stroke: 'hsl(122 56% 51%)' }}
+                />
+                <YAxis
+                  label={{ value: 'Porcentaje (%)', angle: -90, position: 'insideLeft', fill: 'hsl(122 56% 51%)' }}
+                  tick={{ fill: 'hsl(122 56% 51%)' }}
+                  axisLine={{ stroke: 'hsl(122 56% 51%)' }}
+                />
+                <Tooltip
+                  formatter={(value: any) => [`${Number(value).toFixed(1)}%`, 'Porcentaje']}
+                  contentStyle={{ backgroundColor: '#fff', border: '1px solid hsl(122 56% 51%)' }}
+                />
+                <Legend wrapperStyle={{ color: 'hsl(122 56% 51%)' }} />
+                <Bar
+                  dataKey="porcentaje"
+                  fill="hsl(37 97% 62%)"
+                  name="Porcentaje de estudiantes"
+                  radius={[8, 8, 0, 0]}
+                />
+              </BarChart>
+            </ResponsiveContainer>
+          ) : (
+            <Alert>
+              <AlertCircle className="h-4 w-4" />
+              <AlertDescription>
+                No hay datos disponibles para los filtros seleccionados.
+              </AlertDescription>
+            </Alert>
+          )}
+          </div>
+        </CardContent>
+      </Card>
     </div>
   );
 };
