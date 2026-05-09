@@ -382,82 +382,69 @@ const EducationSocioemotional = () => {
 
   return (
     <div className="space-y-8">
-      {/* Tarjeta 1: Trabajo en Equipo - Año 2024 */}
-      <div className="space-y-6">
-        {/* Filtro de Grado */}
-        <Card className="border-luker-teal/20">
-          <CardHeader>
-            <CardTitle className="text-xl flex items-center gap-2 text-luker-teal">
-              <Brain className="h-5 w-5 text-luker-green" />
-              Filtrar por Grado
+      {/* Tarjeta 1: Fortalecimiento Trabajo en Equipo - Año 2024 */}
+      <Card className="border-luker-green/20 shadow-lg">
+        <CardHeader className="bg-gradient-to-r from-luker-green/5 to-luker-teal/5 space-y-3">
+          <div className="flex items-start justify-between flex-wrap gap-4">
+            <CardTitle className="text-xl flex items-center gap-2 text-luker-green">
+              <Brain className="h-5 w-5 text-luker-teal" />
+              Estudiantes en fortalecimiento en Trabajo en Equipo
             </CardTitle>
-            <p className="text-sm text-muted-foreground mt-1">
-              Selecciona el grado para ver los resultados de trabajo en equipo
-            </p>
-          </CardHeader>
-          <CardContent>
-            <Select value={selectedGrade} onValueChange={setSelectedGrade}>
-              <SelectTrigger className="w-full md:w-[400px] border-luker-teal/30">
-                <SelectValue placeholder="Selecciona un grado" />
+            <ChartDownloadButton
+              chartRef={chart1Ref}
+              title={`Fortalecimiento Trabajo en Equipo - ${selectedInstitutionFort1} 2024`}
+              excelData={chartData}
+              excelColumns={[
+                { header: "Categoría", key: "categoría" },
+                { header: "Porcentaje (%)", key: "porcentaje" }
+              ]}
+            />
+          </div>
+          <div className="space-y-1">
+            <label className="text-xs font-medium text-muted-foreground">
+              Selecciona una institución
+            </label>
+            <Select value={selectedInstitutionFort1} onValueChange={setSelectedInstitutionFort1}>
+              <SelectTrigger className="w-full md:w-[360px] border-luker-teal/30 bg-background">
+                <SelectValue placeholder="Selecciona una institución" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="Media">Media</SelectItem>
-                <SelectItem value="Quinto">Quinto</SelectItem>
+                {institutionsFort.map((inst) => (
+                  <SelectItem key={inst} value={inst}>{inst}</SelectItem>
+                ))}
               </SelectContent>
             </Select>
-          </CardContent>
-        </Card>
-
-        {/* Gráfico de Barras */}
-        <Card className="border-luker-green/20 shadow-lg">
-          <CardHeader className="bg-gradient-to-r from-luker-green/5 to-luker-teal/5">
-            <div className="flex items-center justify-between flex-wrap gap-4">
-              <div>
-                <CardTitle className="text-xl flex items-center gap-2 text-luker-green">
-                  <Brain className="h-5 w-5 text-luker-teal" />
-                  Estudiantes Prosperando en Trabajo en Equipo
-                </CardTitle>
-                <p className="text-sm text-muted-foreground mt-1">
-                  Grado {selectedGrade} - Año 2024
-                </p>
-              </div>
-              <ChartDownloadButton 
-                chartRef={chart1Ref} 
-                title={`Estudiantes Prosperando Trabajo en Equipo - ${selectedGrade} 2024`}
-                excelData={chartData}
-                excelColumns={[
-                  { header: "Categoría", key: "categoría" },
-                  { header: "Porcentaje (%)", key: "porcentaje" }
-                ]}
-              />
-            </div>
-          </CardHeader>
-          <CardContent className="pt-6">
-            <div ref={chart1Ref}>
+          </div>
+          <p className="text-sm text-muted-foreground">
+            En proceso + prosperando Grado Media - Año 2024
+          </p>
+        </CardHeader>
+        <CardContent className="pt-6">
+          <div ref={chart1Ref}>
             {chartData.length > 0 ? (
               <ResponsiveContainer width="100%" height={400}>
-                <BarChart data={chartData} margin={{ bottom: 70 }}>
+                <BarChart data={chartData} margin={{ bottom: 20 }}>
                   <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
-                  <XAxis 
-                    dataKey="categoría" 
-                    tick={<CustomXAxisTick />}
+                  <XAxis
+                    dataKey="categoría"
+                    tick={{ fill: 'hsl(122 56% 51%)' }}
                     axisLine={{ stroke: 'hsl(122 56% 51%)' }}
-                    height={80}
                   />
-                  <YAxis 
+                  <YAxis
+                    domain={[0, 100]}
                     label={{ value: 'Porcentaje (%)', angle: -90, position: 'insideLeft', fill: 'hsl(122 56% 51%)' }}
                     tick={{ fill: 'hsl(122 56% 51%)' }}
                     axisLine={{ stroke: 'hsl(122 56% 51%)' }}
                   />
-                  <Tooltip 
-                    formatter={(value: any) => [`${Number(value).toFixed(1)}%`, 'Prosperando']}
+                  <Tooltip
+                    formatter={(value: any) => [`${Number(value).toFixed(1)}%`, 'En proceso + Prosperando']}
                     contentStyle={{ backgroundColor: '#fff', border: '1px solid hsl(122 56% 51%)' }}
                   />
                   <Legend wrapperStyle={{ color: 'hsl(122 56% 51%)' }} />
-                  <Bar 
-                    dataKey="porcentaje" 
-                    fill="hsl(37 97% 62%)" 
-                    name="Estudiantes Prosperando"
+                  <Bar
+                    dataKey="porcentaje"
+                    fill="hsl(37 97% 62%)"
+                    name="En proceso + Prosperando"
                     radius={[8, 8, 0, 0]}
                   />
                 </BarChart>
@@ -465,98 +452,76 @@ const EducationSocioemotional = () => {
             ) : (
               <Alert>
                 <AlertCircle className="h-4 w-4" />
-                <AlertDescription>
-                  No hay datos disponibles para el grado seleccionado.
-                </AlertDescription>
+                <AlertDescription>No hay datos disponibles para la institución seleccionada.</AlertDescription>
               </Alert>
             )}
-            </div>
-          </CardContent>
-        </Card>
-      </div>
+          </div>
+        </CardContent>
+      </Card>
 
-      {/* Tarjeta 2: Evolución Histórica EA vs No EA */}
-      <div className="space-y-6">
-        {/* Filtro de Grado para Evolución Histórica */}
-        <Card className="border-luker-teal/20">
-          <CardHeader>
-            <CardTitle className="text-xl flex items-center gap-2 text-luker-teal">
-              <Brain className="h-5 w-5 text-luker-green" />
-              Filtrar por Grado - Evolución Histórica
+      {/* Tarjeta 2: Evolución Histórica Fortalecimiento Trabajo en Equipo */}
+      <Card className="border-luker-green/20 shadow-lg">
+        <CardHeader className="bg-gradient-to-r from-luker-green/5 to-luker-teal/5 space-y-3">
+          <div className="flex items-start justify-between flex-wrap gap-4">
+            <CardTitle className="text-xl flex items-center gap-2 text-luker-green">
+              <Brain className="h-5 w-5 text-luker-teal" />
+              Evolución Histórica - Estudiantes en fortalecimiento en Trabajo en Equipo
             </CardTitle>
-            <p className="text-sm text-muted-foreground mt-1">
-              Selecciona el grado para ver la evolución histórica de trabajo en equipo
-            </p>
-          </CardHeader>
-          <CardContent>
-            <Select value={selectedGradeHistorical} onValueChange={setSelectedGradeHistorical}>
-              <SelectTrigger className="w-full md:w-[400px] border-luker-teal/30">
-                <SelectValue placeholder="Selecciona un grado" />
+            <ChartDownloadButton
+              chartRef={chart2Ref}
+              title={`Evolución Fortalecimiento Trabajo en Equipo - ${selectedInstitutionFort2}`}
+              excelData={historicalChartData}
+              excelColumns={[
+                { header: "Año", key: "año" },
+                { header: "En proceso + Prosperando (%)", key: "Fortalecimiento" }
+              ]}
+            />
+          </div>
+          <div className="space-y-1">
+            <label className="text-xs font-medium text-muted-foreground">
+              Selecciona una institución
+            </label>
+            <Select value={selectedInstitutionFort2} onValueChange={setSelectedInstitutionFort2}>
+              <SelectTrigger className="w-full md:w-[360px] border-luker-teal/30 bg-background">
+                <SelectValue placeholder="Selecciona una institución" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="Media">Media</SelectItem>
-                <SelectItem value="Quinto">Quinto</SelectItem>
+                {institutionsFort.map((inst) => (
+                  <SelectItem key={inst} value={inst}>{inst}</SelectItem>
+                ))}
               </SelectContent>
             </Select>
-          </CardContent>
-        </Card>
-
-        {/* Gráfico de Evolución Histórica */}
-        <Card className="border-luker-green/20 shadow-lg">
-          <CardHeader className="bg-gradient-to-r from-luker-green/5 to-luker-teal/5">
-            <div className="flex items-center justify-between flex-wrap gap-4">
-              <div>
-                <CardTitle className="text-xl flex items-center gap-2 text-luker-green">
-                  <Brain className="h-5 w-5 text-luker-teal" />
-                  Evolución Histórica de Estudiantes Prosperando en Trabajo en Equipo
-                </CardTitle>
-                <p className="text-sm text-muted-foreground mt-1">
-                  Comparación EA vs. No EA - Grado {selectedGradeHistorical}
-                </p>
-              </div>
-              <ChartDownloadButton 
-                chartRef={chart2Ref} 
-                title={`Evolución Histórica Trabajo en Equipo - ${selectedGradeHistorical}`}
-                excelData={historicalChartData}
-                excelColumns={[
-                  { header: "Año", key: "año" },
-                  { header: "Escuela Activa (%)", key: "EA" },
-                  { header: "No Escuela Activa (%)", key: "No EA" }
-                ]}
-              />
-            </div>
-          </CardHeader>
-          <CardContent className="pt-6">
-            <div ref={chart2Ref}>
+          </div>
+          <p className="text-sm text-muted-foreground">
+            En proceso + prosperando Grado Media - {selectedInstitutionFort2}
+          </p>
+        </CardHeader>
+        <CardContent className="pt-6">
+          <div ref={chart2Ref}>
             {historicalChartData.length > 0 ? (
               <ResponsiveContainer width="100%" height={400}>
                 <BarChart data={historicalChartData}>
                   <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
-                  <XAxis 
-                    dataKey="año" 
+                  <XAxis
+                    dataKey="año"
                     tick={{ fill: 'hsl(122 56% 51%)' }}
                     axisLine={{ stroke: 'hsl(122 56% 51%)' }}
                   />
-                  <YAxis 
+                  <YAxis
+                    domain={[0, 100]}
                     label={{ value: 'Porcentaje (%)', angle: -90, position: 'insideLeft', fill: 'hsl(122 56% 51%)' }}
                     tick={{ fill: 'hsl(122 56% 51%)' }}
                     axisLine={{ stroke: 'hsl(122 56% 51%)' }}
                   />
-                  <Tooltip 
-                    formatter={(value: any) => [`${Number(value).toFixed(1)}%`, '']}
+                  <Tooltip
+                    formatter={(value: any) => [`${Number(value).toFixed(1)}%`, 'En proceso + Prosperando']}
                     contentStyle={{ backgroundColor: '#fff', border: '1px solid hsl(122 56% 51%)' }}
                   />
                   <Legend wrapperStyle={{ color: 'hsl(122 56% 51%)' }} />
-                  <Bar 
-                    dataKey="EA" 
-                    fill="hsl(37 97% 62%)" 
-                    name="Escuela Activa"
-                    radius={[8, 8, 0, 0]}
-                  />
-                  <Bar 
-                    dataKey="No EA" 
-                    fill="hsl(173 58% 39%)" 
-                    name="No Escuela Activa"
+                  <Bar
+                    dataKey="Fortalecimiento"
+                    fill="hsl(173 58% 39%)"
+                    name="En proceso + Prosperando"
                     radius={[8, 8, 0, 0]}
                   />
                 </BarChart>
@@ -564,15 +529,12 @@ const EducationSocioemotional = () => {
             ) : (
               <Alert>
                 <AlertCircle className="h-4 w-4" />
-                <AlertDescription>
-                  No hay datos históricos disponibles para el grado seleccionado.
-                </AlertDescription>
+                <AlertDescription>No hay datos históricos disponibles para la institución seleccionada.</AlertDescription>
               </Alert>
             )}
-            </div>
-          </CardContent>
-        </Card>
-      </div>
+          </div>
+        </CardContent>
+      </Card>
 
       {/* Tarjeta 3: Distribución de Niveles de Desempeño */}
       <div className="space-y-6">
