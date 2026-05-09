@@ -47,33 +47,26 @@ const EducationSocioemotional = () => {
       try {
         setIsLoading(true);
         
-        // Fetch current year data (2024) for first card
-        const { data: result, error: fetchError } = await supabase
-          .from("education_indicators")
-          .select("*")
-          .eq("seccion", "Competencias socioemocionales")
-          .eq("indicador", "Porcentaje de estudiantes prosperando - trabajo en equipo")
-          .eq("year", 2024)
-          .in("categoria", ["EA", "No EA", "Rural", "Total"])
-          .order("categoria", { ascending: true });
+        // Fetch CSOC_01 + CSOC_03 (Prosperando + En proceso) - Grado Media - Manizales
+        const { data: fortResult, error: fortError } = await supabase
+          .from("dama_data")
+          .select("anio, categoria, valor, cod_indicador")
+          .in("cod_indicador", ["CSOC_01", "CSOC_03"])
+          .eq("categoria_2", "Media")
+          .eq("cod_entidad", "17001")
+          .limit(10000);
 
-        if (fetchError) throw fetchError;
-        
-        setData(result || []);
+        if (fortError) throw fortError;
+        setFortalecimientoData(fortResult || []);
 
-        // Fetch historical data for second card
-        const { data: historicalResult, error: historicalError } = await supabase
-          .from("education_indicators")
-          .select("*")
-          .eq("seccion", "Competencias socioemocionales")
-          .eq("indicador", "Porcentaje de estudiantes prosperando - trabajo en equipo")
-          .in("categoria", ["EA", "No EA"])
-          .order("year", { ascending: true })
-          .order("categoria", { ascending: true });
+        const normalizeInst = (s: string) =>
+          s && s.toLowerCase().trim() === 'escuela activa urbana' ? 'Escuela Activa' : s;
+        const instSet = new Set<string>();
+        (fortResult || []).forEach((it: any) => {
+          if (it.categoria) instSet.add(normalizeInst(it.categoria));
+        });
+        setInstitutionsFort(['Total', ...Array.from(instSet).sort()]);
 
-        if (historicalError) throw historicalError;
-        
-        setHistoricalData(historicalResult || []);
 
         // Fetch distribution data for third card
         const { data: distributionResult, error: distributionError } = await supabase
