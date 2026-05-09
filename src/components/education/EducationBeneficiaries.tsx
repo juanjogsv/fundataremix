@@ -220,7 +220,7 @@ const EducationBeneficiaries = () => {
           <SelectContent className="bg-white">
             <SelectItem value="todos">Todos los Programas</SelectItem>
             {programs.map(program => (
-              <SelectItem key={program} value={program}>{program}</SelectItem>
+              <SelectItem key={program} value={program}>{displayProgramLabel(program)}</SelectItem>
             ))}
           </SelectContent>
         </Select>
