@@ -129,7 +129,7 @@ const EducationATALKPIs = () => {
             bgColor: "bg-luker-teal/10",
           },
           {
-            title: "Desempeño - Grado Primero",
+            title: "Nivel Estándar o Avanzado Fluidez - Grado Primero",
             value: primero != null ? fmtPercent(primero) : SD,
             year: atalYear,
             icon: TrendingUp,
@@ -137,7 +137,7 @@ const EducationATALKPIs = () => {
             bgColor: "bg-luker-green/10",
           },
           {
-            title: "Desempeño - Grado Quinto",
+            title: "Nivel Estándar o Avanzado Fluidez - Grado Quinto",
             value: quinto != null ? fmtPercent(quinto) : SD,
             year: atalYear,
             icon: Award,
