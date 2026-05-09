@@ -146,48 +146,8 @@ const EducationATL = () => {
     fetchData();
   }, []);
 
-  // Procesar datos de 2024 para la tarjeta 1
-  const current2024Data = useMemo(() => {
-    if (!data2024 || data2024.length === 0) return [];
-
-    // Filtrar por "Total" únicamente
-    const filteredData = data2024.filter((item) => item.categoria === "Total");
-
-    if (filteredData.length === 0) return [];
-
-    // Agrupar por grado, separando entrada y salida
-    const gradeMap = new Map<string, { entrada: number; salida: number }>();
-
-    filteredData.forEach((item) => {
-      const grade = (item.categoria_2 as string) || "Sin grado";
-      const type = (item.categoria_3 as string) || "";
-      const value = parseFloat(item.valor) || 0;
-
-      if (!gradeMap.has(grade)) {
-        gradeMap.set(grade, { entrada: 0, salida: 0 });
-      }
-
-      const gradeData = gradeMap.get(grade)!;
-      if (type === "Entrada") {
-        gradeData.entrada = value;
-      } else if (type === "Salida") {
-        gradeData.salida = value;
-      }
-    });
-
-    // Convertir a formato para el gráfico
-    const grados = ["Primero", "Segundo", "Tercero", "Cuarto", "Quinto"];
-    const chartData = grados.map(grado => {
-      const data = gradeMap.get(grado) || { entrada: 0, salida: 0 };
-      return {
-        grado,
-        Entrada: data.entrada,
-        Salida: data.salida
-      };
-    });
-
-    return chartData;
-  }, [data2024]);
+  // Datos comparativos para la tarjeta 1 (ATAL_01 vs ATAL_02)
+  const current2024Data = comparisonData;
 
   // Procesar datos de Card 4: Primero histórico - Entrada vs Salida
   const historicalPrimeroChartData = useMemo(() => {
