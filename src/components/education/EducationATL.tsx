@@ -21,8 +21,9 @@ const EducationATL = () => {
   const [selectedInstitutionCard4, setSelectedInstitutionCard4] = useState<string>("Total");
   const [selectedInstitutionCard5, setSelectedInstitutionCard5] = useState<string>("Total");
   
-  // Datos de 2024
-  const [data2024, setData2024] = useState<any[]>([]);
+  // Datos comparativo ATAL_01 vs ATAL_02 (último año)
+  const [comparisonData, setComparisonData] = useState<any[]>([]);
+  const [comparisonYear, setComparisonYear] = useState<number | null>(null);
   // Datos para Card 4: Primero - Entrada vs Salida histórico
   const [dataPrimeroHistorico, setDataPrimeroHistorico] = useState<any[]>([]);
   // Datos para Card 5: Quinto - Entrada vs Salida histórico
