@@ -149,47 +149,41 @@ const EducationATL = () => {
   // Datos comparativos para la tarjeta 1 (ATAL_01 vs ATAL_02)
   const current2024Data = comparisonData;
 
-  // Procesar datos de Card 4: Primero histórico - Entrada vs Salida
+  // Procesar datos de Card 4: Primero histórico - Entrada (ATAL_01) vs Salida (ATAL_02) desde dama_data
   const historicalPrimeroChartData = useMemo(() => {
     if (!dataPrimeroHistorico || dataPrimeroHistorico.length === 0) return [];
 
-    // Filtrar por institución seleccionada
-    const filteredData = dataPrimeroHistorico.filter((item) => item.categoria === selectedInstitutionCard4);
+    const normalizeInst = (s: string) =>
+      s && s.toLowerCase().trim() === 'escuela activa urbana' ? 'Escuela Activa' : s;
+
+    const filteredData = selectedInstitutionCard4 === 'Total'
+      ? dataPrimeroHistorico
+      : dataPrimeroHistorico.filter((item: any) => normalizeInst(item.categoria) === selectedInstitutionCard4);
 
     if (filteredData.length === 0) return [];
 
-    // Agrupar por año, separando entrada y salida
-    const yearMap = new Map<number, { entrada: number; salida: number }>();
+    // Agrupar por año, promediando ATAL_01 (Entrada) y ATAL_02 (Salida)
+    const yearMap = new Map<number, { entrada: number[]; salida: number[] }>();
 
-    filteredData.forEach((item) => {
-      const year = item.year as number;
-      const type = (item.categoria_3 as string) || "";
-      let value = parseFloat(item.valor) || 0;
-      
-      // Multiplicar por 100 si es año 2024
-      if (year === 2024) {
-        value = value * 100;
-      }
+    filteredData.forEach((item: any) => {
+      const year = item.anio as number;
+      const value = parseFloat(item.valor);
+      if (!year || Number.isNaN(value)) return;
 
-      if (!yearMap.has(year)) {
-        yearMap.set(year, { entrada: 0, salida: 0 });
-      }
-
-      const yearData = yearMap.get(year)!;
-      if (type === "Entrada") {
-        yearData.entrada = value;
-      } else if (type === "Salida") {
-        yearData.salida = value;
-      }
+      if (!yearMap.has(year)) yearMap.set(year, { entrada: [], salida: [] });
+      const yd = yearMap.get(year)!;
+      if (item.cod_indicador === 'ATAL_01') yd.entrada.push(value);
+      else if (item.cod_indicador === 'ATAL_02') yd.salida.push(value);
     });
 
-    // Convertir a formato para el gráfico
-    const chartData = Array.from(yearMap.entries())
+    const avg = (arr: number[]) => arr.length ? arr.reduce((a, b) => a + b, 0) / arr.length : 0;
+
+    return Array.from(yearMap.entries())
       .sort((a, b) => a[0] - b[0])
       .map(([year, data]) => ({
         año: year.toString(),
-        Entrada: data.entrada,
-        Salida: data.salida
+        Entrada: Number(avg(data.entrada).toFixed(2)),
+        Salida: Number(avg(data.salida).toFixed(2)),
       }));
 
     console.log("ATL Primero - chartData", chartData);
