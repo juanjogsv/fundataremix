@@ -60,16 +60,16 @@ const EducationBeneficiaries = () => {
     return uniquePrograms.sort();
   }, [participants]);
 
-  // Get unique programs for schools filter
+  // Programs available in DAMA schools dataset (from categoria_2)
   const schoolPrograms = useMemo(() => {
-    if (!participants) return [];
-    const uniquePrograms = [...new Set(participants
-      .filter(item => item.categoria === "N° de colegios")
-      .map(item => item.programa)
-      .filter(prog => prog && prog !== null)
-    )];
-    return uniquePrograms.sort();
-  }, [participants]);
+    if (!damaSchools) return [];
+    const set = new Set<string>();
+    damaSchools.forEach((r: any) => {
+      const p = normalizeProgram(r.categoria_2);
+      if (p) set.add(p);
+    });
+    return Array.from(set).sort();
+  }, [damaSchools]);
 
   // Process data for stacked bar chart with Educación and Formare (Total Beneficiarios only)
   const chartData = useMemo(() => {
