@@ -421,7 +421,7 @@ const EducationSocioemotional = () => {
             />
           </div>
           <p className="text-sm text-muted-foreground">
-            En proceso + prosperando Grado {selectedGradeFort1} - Año 2024
+            En proceso + prosperando - Año 2024
           </p>
           <div className="space-y-1">
             <label className="text-xs font-medium text-muted-foreground">
