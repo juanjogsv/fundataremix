@@ -185,10 +185,6 @@ const EducationATL = () => {
         Entrada: Number(avg(data.entrada).toFixed(2)),
         Salida: Number(avg(data.salida).toFixed(2)),
       }));
-
-    console.log("ATL Primero - chartData", chartData);
-
-    return chartData;
   }, [dataPrimeroHistorico, selectedInstitutionCard4]);
 
   // Procesar datos de Card 5: Quinto histórico - Entrada vs Salida
