@@ -156,8 +156,13 @@ const EducationSocioemotional = () => {
     }
   }, [availableYears, selectedYearColumn]);
 
-  const normalizeInst = (s: string) =>
-    s && s.toLowerCase().trim() === 'escuela activa urbana' ? 'Escuela Activa' : s;
+  const normalizeInst = (s: string) => {
+    if (!s) return s;
+    const t = s.toLowerCase().trim();
+    if (t === 'ea' || t === 'escuela activa' || t === 'escuela activa urbana') return 'Escuela Activa';
+    if (t === 'no ea' || t === 'no escuela activa') return 'No Escuela Activa';
+    return s;
+  };
 
   // Helper: agrupa por (institución, año) sumando CSOC_01 + CSOC_03 (ambos deben existir)
   const sumByInstitutionYear = (rows: any[]) => {
@@ -230,10 +235,10 @@ const EducationSocioemotional = () => {
       if (!byYear.has(s.year)) byYear.set(s.year, { ea: [], noea: [] });
       const slot = byYear.get(s.year)!;
       if (s.inst === 'Escuela Activa') slot.ea.push(s.sum);
-      else if (s.inst === 'No EA') slot.noea.push(s.sum);
+      else if (s.inst === 'No Escuela Activa') slot.noea.push(s.sum);
     });
     const showEA = selectedInstitutionFort2 === 'Total' || selectedInstitutionFort2 === 'Escuela Activa';
-    const showNoEA = selectedInstitutionFort2 === 'Total' || selectedInstitutionFort2 === 'No EA';
+    const showNoEA = selectedInstitutionFort2 === 'Total' || selectedInstitutionFort2 === 'No Escuela Activa';
     return Array.from(byYear.entries())
       .sort((a, b) => a[0] - b[0])
       .map(([year, vals]) => {
@@ -510,9 +515,6 @@ const EducationSocioemotional = () => {
               ]}
             />
           </div>
-          <p className="text-sm text-muted-foreground">
-            Comparación EA vs. No EA - Grado {selectedGradeFort2}
-          </p>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
             <div className="space-y-1">
               <label className="text-xs font-medium text-muted-foreground">
@@ -544,6 +546,9 @@ const EducationSocioemotional = () => {
               </Select>
             </div>
           </div>
+          <p className="text-sm text-muted-foreground">
+            Comparación EA vs. No EA - Grado {selectedGradeFort2}
+          </p>
         </CardHeader>
         <CardContent className="pt-6">
           <div ref={chart2Ref}>
