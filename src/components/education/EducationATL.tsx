@@ -317,46 +317,14 @@ const EducationATL = () => {
         </CardContent>
       </Card>
 
-      {/* Filtro de Institución para Tarjeta 4 */}
-      <Card className="border-luker-teal/20">
-        <CardHeader>
-          <CardTitle className="text-xl flex items-center gap-2 text-luker-teal">
-            <BookOpen className="h-5 w-5 text-luker-green" />
-            Filtrar Avance Histórico Grado Primero
-          </CardTitle>
-          <p className="text-sm text-muted-foreground mt-1">
-            Selecciona una institución para ver la evolución de grado primero
-          </p>
-        </CardHeader>
-        <CardContent>
-          <Select value={selectedInstitutionCard4} onValueChange={setSelectedInstitutionCard4}>
-            <SelectTrigger className="w-full md:w-[400px] border-luker-teal/30">
-              <SelectValue placeholder="Selecciona una institución" />
-            </SelectTrigger>
-            <SelectContent>
-              {institutionsCard4.map((institution) => (
-                <SelectItem key={institution} value={institution}>
-                  {institution}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        </CardContent>
-      </Card>
-
       {/* Tarjeta 4: Avance Histórico de Lectura - Grado Primero */}
       <Card className="border-luker-green/20 shadow-lg">
-        <CardHeader className="bg-gradient-to-r from-luker-green/5 to-luker-teal/5">
-          <div className="flex items-center justify-between flex-wrap gap-4">
-            <div>
-              <CardTitle className="text-xl flex items-center gap-2 text-luker-green">
-                <BookOpen className="h-5 w-5 text-luker-teal" />
-                Avance Histórico Fluidez Lectura (Grado Primero)
-              </CardTitle>
-              <p className="text-sm text-muted-foreground mt-1">
-                Porcentaje de Estudiantes de Primero con Nivel Estándar o Avanzado Fluidez: Entrada vs. Salida - {selectedInstitutionCard4}
-              </p>
-            </div>
+        <CardHeader className="bg-gradient-to-r from-luker-green/5 to-luker-teal/5 space-y-3">
+          <div className="flex items-start justify-between flex-wrap gap-4">
+            <CardTitle className="text-xl flex items-center gap-2 text-luker-green">
+              <BookOpen className="h-5 w-5 text-luker-teal" />
+              Avance Histórico Fluidez Lectura (Grado Primero)
+            </CardTitle>
             <ChartDownloadButton 
               chartRef={chartPrimeroRef} 
               title={`ATAL Avance Histórico Primero - ${selectedInstitutionCard4}`}
@@ -368,6 +336,26 @@ const EducationATL = () => {
               ]}
             />
           </div>
+          <div className="space-y-1">
+            <label className="text-xs font-medium text-muted-foreground">
+              Selecciona una institución para ver la evolución
+            </label>
+            <Select value={selectedInstitutionCard4} onValueChange={setSelectedInstitutionCard4}>
+              <SelectTrigger className="w-full md:w-[360px] border-luker-teal/30 bg-background">
+                <SelectValue placeholder="Selecciona una institución" />
+              </SelectTrigger>
+              <SelectContent>
+                {institutionsCard4.map((institution) => (
+                  <SelectItem key={institution} value={institution}>
+                    {institution}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+          <p className="text-sm text-muted-foreground">
+            Porcentaje de Estudiantes de Primero con Nivel Estándar o Avanzado Fluidez: Entrada vs. Salida - {selectedInstitutionCard4}
+          </p>
         </CardHeader>
         <CardContent className="pt-6" ref={chartPrimeroRef}>
           {historicalPrimeroChartData.length > 0 ? (
@@ -408,46 +396,14 @@ const EducationATL = () => {
         </CardContent>
       </Card>
 
-      {/* Filtro de Institución para Tarjeta 5 */}
-      <Card className="border-luker-teal/20">
-        <CardHeader>
-          <CardTitle className="text-xl flex items-center gap-2 text-luker-teal">
-            <BookOpen className="h-5 w-5 text-luker-green" />
-            Filtrar Avance Histórico Grado Quinto
-          </CardTitle>
-          <p className="text-sm text-muted-foreground mt-1">
-            Selecciona una institución para ver la evolución de grado quinto
-          </p>
-        </CardHeader>
-        <CardContent>
-          <Select value={selectedInstitutionCard5} onValueChange={setSelectedInstitutionCard5}>
-            <SelectTrigger className="w-full md:w-[400px] border-luker-teal/30">
-              <SelectValue placeholder="Selecciona una institución" />
-            </SelectTrigger>
-            <SelectContent>
-              {institutionsCard5.map((institution) => (
-                <SelectItem key={institution} value={institution}>
-                  {institution}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        </CardContent>
-      </Card>
-
       {/* Tarjeta 5: Avance Histórico de Lectura - Grado Quinto */}
       <Card className="border-luker-green/20 shadow-lg">
-        <CardHeader className="bg-gradient-to-r from-luker-green/5 to-luker-teal/5">
-          <div className="flex items-center justify-between flex-wrap gap-4">
-            <div>
-              <CardTitle className="text-xl flex items-center gap-2 text-luker-green">
-                <BookOpen className="h-5 w-5 text-luker-teal" />
-                Avance Histórico Fluidez Lectura (Grado Quinto)
-              </CardTitle>
-              <p className="text-sm text-muted-foreground mt-1">
-                Porcentaje de Estudiantes de Quinto con Nivel Estándar o Avanzado Fluidez: Entrada vs. Salida - {selectedInstitutionCard5}
-              </p>
-            </div>
+        <CardHeader className="bg-gradient-to-r from-luker-green/5 to-luker-teal/5 space-y-3">
+          <div className="flex items-start justify-between flex-wrap gap-4">
+            <CardTitle className="text-xl flex items-center gap-2 text-luker-green">
+              <BookOpen className="h-5 w-5 text-luker-teal" />
+              Avance Histórico Fluidez Lectura (Grado Quinto)
+            </CardTitle>
             <ChartDownloadButton 
               chartRef={chartQuintoRef} 
               title={`ATAL Avance Histórico Quinto - ${selectedInstitutionCard5}`}
@@ -459,6 +415,26 @@ const EducationATL = () => {
               ]}
             />
           </div>
+          <div className="space-y-1">
+            <label className="text-xs font-medium text-muted-foreground">
+              Selecciona una institución para ver la evolución
+            </label>
+            <Select value={selectedInstitutionCard5} onValueChange={setSelectedInstitutionCard5}>
+              <SelectTrigger className="w-full md:w-[360px] border-luker-teal/30 bg-background">
+                <SelectValue placeholder="Selecciona una institución" />
+              </SelectTrigger>
+              <SelectContent>
+                {institutionsCard5.map((institution) => (
+                  <SelectItem key={institution} value={institution}>
+                    {institution}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+          <p className="text-sm text-muted-foreground">
+            Porcentaje de Estudiantes de Quinto con Nivel Estándar o Avanzado Fluidez: Entrada vs. Salida - {selectedInstitutionCard5}
+          </p>
         </CardHeader>
         <CardContent className="pt-6" ref={chartQuintoRef}>
           {historicalQuintoChartData.length > 0 ? (
