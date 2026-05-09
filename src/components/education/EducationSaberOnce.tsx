@@ -218,24 +218,24 @@ const EducationSaberOnce = () => {
   const evolutionChartData = useMemo(() => {
     if (!evolutionData || !selectedEvolutionIndicator) return [];
 
-    // ALWAYS create all years from 2015 to 2024
-    const years = Array.from({ length: 10 }, (_, i) => 2015 + i);
+    // Dynamic year range based on actual data
+    const yearsInData = Array.from(new Set(evolutionData.map((d: any) => d.year).filter(Boolean))) as number[];
+    if (yearsInData.length === 0) return [];
+    const minYear = Math.min(...yearsInData);
+    const maxYear = Math.max(...yearsInData);
+    const years: number[] = [];
+    for (let y = minYear; y <= maxYear; y++) years.push(y);
 
-    // evolutionData already filtered by indicador in the query
     const filteredData = evolutionData;
 
-    // Build chart data with ALL years (2015-2024)
     const chartData = years.map((year) => {
       const yearData: any = { año: year };
-
-      // Only include selected cities in the data (prevents missing keys)
       selectedCities.forEach((city) => {
         const cityData = filteredData.find(
           (d) => d.year === year && d.departamento === city
         );
         yearData[city] = cityData ? Math.round(cityData.valor || 0) : null;
       });
-
       return yearData;
     });
 
