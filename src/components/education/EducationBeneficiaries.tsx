@@ -8,6 +8,13 @@ import { Users, AlertCircle, School } from "lucide-react";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend } from "recharts";
 
+const normalizeProgram = (raw: string | null | undefined) => {
+  if (!raw) return "";
+  const v = raw.trim();
+  if (/^escuela\s+activa(\s+urbana)?$/i.test(v)) return "Escuela Activa";
+  return v;
+};
+
 const EducationBeneficiaries = () => {
   const [selectedProgram, setSelectedProgram] = useState<string>("todos");
   const [selectedSchoolProgram, setSelectedSchoolProgram] = useState<string>("Aprendamos todos a leer");
@@ -22,6 +29,21 @@ const EducationBeneficiaries = () => {
         .in("base", ["Educación", "Formare"])
         .order("year", { ascending: true });
       
+      if (error) throw error;
+      return data;
+    },
+  });
+
+  // Fetch schools data from DAMA master base (cod_indicador = GP_03 "Número de instituciones beneficiarias")
+  const { data: damaSchools } = useQuery({
+    queryKey: ["dama-schools-gp03"],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("dama_data")
+        .select("anio, cod_entidad, categoria_2, valor")
+        .eq("cod_indicador", "GP_03")
+        .eq("cod_entidad", "17001")
+        .order("anio", { ascending: true });
       if (error) throw error;
       return data;
     },
