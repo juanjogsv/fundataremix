@@ -8,6 +8,13 @@ import { Users, AlertCircle, School } from "lucide-react";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend } from "recharts";
 
+const normalizeProgram = (raw: string | null | undefined) => {
+  if (!raw) return "";
+  const v = raw.trim();
+  if (/^escuela\s+activa(\s+urbana)?$/i.test(v)) return "Escuela Activa";
+  return v;
+};
+
 const EducationBeneficiaries = () => {
   const [selectedProgram, setSelectedProgram] = useState<string>("todos");
   const [selectedSchoolProgram, setSelectedSchoolProgram] = useState<string>("Aprendamos todos a leer");
@@ -27,6 +34,21 @@ const EducationBeneficiaries = () => {
     },
   });
 
+  // Fetch schools data from DAMA master base (cod_indicador = GP_03 "Número de instituciones beneficiarias")
+  const { data: damaSchools } = useQuery({
+    queryKey: ["dama-schools-gp03"],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("dama_data")
+        .select("anio, cod_entidad, categoria_2, valor")
+        .eq("cod_indicador", "GP_03")
+        .eq("cod_entidad", "17001")
+        .order("anio", { ascending: true });
+      if (error) throw error;
+      return data;
+    },
+  });
+
   // Get unique specific programs for filter
   const programs = useMemo(() => {
     if (!participants) return [];
@@ -38,16 +60,16 @@ const EducationBeneficiaries = () => {
     return uniquePrograms.sort();
   }, [participants]);
 
-  // Get unique programs for schools filter
+  // Programs available in DAMA schools dataset (from categoria_2)
   const schoolPrograms = useMemo(() => {
-    if (!participants) return [];
-    const uniquePrograms = [...new Set(participants
-      .filter(item => item.categoria === "N° de colegios")
-      .map(item => item.programa)
-      .filter(prog => prog && prog !== null)
-    )];
-    return uniquePrograms.sort();
-  }, [participants]);
+    if (!damaSchools) return [];
+    const set = new Set<string>();
+    damaSchools.forEach((r: any) => {
+      const p = normalizeProgram(r.categoria_2);
+      if (p) set.add(p);
+    });
+    return Array.from(set).sort();
+  }, [damaSchools]);
 
   // Process data for stacked bar chart with Educación and Formare (Total Beneficiarios only)
   const chartData = useMemo(() => {
@@ -99,31 +121,24 @@ const EducationBeneficiaries = () => {
     return data.sort((a, b) => a.year - b.year);
   }, [participants, selectedProgram]);
 
-  // Process data for schools chart (N° de colegios) - filtered by program
+  // Schools chart from DAMA (cod_indicador GP_03), filtered by normalized program
   const schoolsChartData = useMemo(() => {
-    if (!participants || !selectedSchoolProgram) return [];
+    if (!damaSchools || !selectedSchoolProgram) return [];
 
-    const colegiosData = participants.filter(
-      item => item.categoria === "N° de colegios" && item.programa === selectedSchoolProgram
+    const filtered = damaSchools.filter(
+      (r: any) => normalizeProgram(r.categoria_2) === selectedSchoolProgram
     );
 
-    // Group by year
-    const yearGroups = colegiosData.reduce((acc, item) => {
-      const year = item.year;
-      if (!acc[year]) {
-        acc[year] = 0;
-      }
-      acc[year] += Number(item.valor) || 0;
+    const yearGroups = filtered.reduce((acc: Record<number, number>, item: any) => {
+      const y = Number(item.anio);
+      acc[y] = (acc[y] || 0) + (Number(item.valor) || 0);
       return acc;
-    }, {} as Record<number, number>);
+    }, {});
 
-    const data = Object.entries(yearGroups).map(([year, colegios]) => ({
-      year: parseInt(year),
-      colegios
-    }));
-
-    return data.sort((a, b) => a.year - b.year);
-  }, [participants, selectedSchoolProgram]);
+    return Object.entries(yearGroups)
+      .map(([year, colegios]) => ({ year: parseInt(year), colegios: colegios as number }))
+      .sort((a, b) => a.year - b.year);
+  }, [damaSchools, selectedSchoolProgram]);
 
   // Latest year participants total (dynamic — siempre el año más reciente disponible)
   const year2024Data = useMemo(() => {
