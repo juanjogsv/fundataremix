@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
-import { Users, DollarSign, TrendingUp, Award } from "lucide-react";
+import { Users, Building2, TrendingUp, Award } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 
@@ -34,12 +34,27 @@ const EducationATALKPIs = () => {
   useEffect(() => {
     const load = async () => {
       try {
-        // Pull all relevant rows in one query
-        const { data, error } = await supabase
-          .from("dama_data")
-          .select("cod_indicador, anio, categoria, categoria_2, valor, cod_entidad")
-          .in("cod_indicador", ["GP_02", "GP_03", "ATAL_02"])
-          .eq("cod_entidad", COD_ENTIDAD);
+        // Pull rows in two queries to avoid 1000-row default limit
+        const [gpRes, atalRes] = await Promise.all([
+          supabase
+            .from("dama_data")
+            .select("cod_indicador, anio, categoria_2, valor")
+            .in("cod_indicador", ["GP_02", "GP_03"])
+            .eq("cod_entidad", COD_ENTIDAD)
+            .ilike("categoria_2", "%aprendamos todos a leer%"),
+          supabase
+            .from("dama_data")
+            .select("cod_indicador, anio, categoria_2, valor")
+            .eq("cod_indicador", "ATAL_02")
+            .eq("cod_entidad", COD_ENTIDAD)
+            .in("categoria_2", ["Primero", "Quinto"])
+            .limit(5000),
+        ]);
+
+        if (gpRes.error) throw gpRes.error;
+        if (atalRes.error) throw atalRes.error;
+        const data = [...(gpRes.data ?? []), ...(atalRes.data ?? [])];
+        const error = null as any;
 
         if (error) throw error;
 
@@ -106,10 +121,10 @@ const EducationATALKPIs = () => {
             bgColor: "bg-luker-orange/10",
           },
           {
-            title: "Inversión ATAL",
-            value: gp03Val != null ? fmtCurrency(gp03Val) : SD,
+            title: "Instituciones ATAL",
+            value: gp03Val != null ? fmtNumber(gp03Val) : SD,
             year: gp03Year,
-            icon: DollarSign,
+            icon: Building2,
             color: "text-luker-teal",
             bgColor: "bg-luker-teal/10",
           },
