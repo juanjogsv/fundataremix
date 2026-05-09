@@ -56,14 +56,18 @@ const EducationSaberOnce = () => {
   }, [indicators, selectedIndicator]);
 
   const chartData = (() => {
-    const allYears = Array.from({ length: 10 }, (_, i) => 2015 + i); // 2015 to 2024
-    
     const filteredData = indicators
-      ?.filter(item => 
+      ?.filter(item =>
         item.indicador === selectedIndicator &&
         item.categoria === selectedCategory
       ) || [];
-    
+
+    const yearsInData = Array.from(new Set(filteredData.map(i => i.year).filter(Boolean))) as number[];
+    const minYear = yearsInData.length ? Math.min(...yearsInData) : 2015;
+    const maxYear = yearsInData.length ? Math.max(...yearsInData) : new Date().getFullYear();
+    const allYears: number[] = [];
+    for (let y = minYear; y <= maxYear; y++) allYears.push(y);
+
     return allYears.map(year => {
       const dataPoint = filteredData.find(item => item.year === year);
       return {
@@ -91,7 +95,7 @@ const EducationSaberOnce = () => {
 
   const [selectedRankingIndicator, setSelectedRankingIndicator] = useState("");
   const [selectedRankingCategory, setSelectedRankingCategory] = useState("Total");
-  const [selectedRankingYear, setSelectedRankingYear] = useState(2024);
+  const [selectedRankingYear, setSelectedRankingYear] = useState<number>(new Date().getFullYear());
   const [availableRankingIndicators, setAvailableRankingIndicators] = useState<string[]>([]);
   const [availableRankingYears, setAvailableRankingYears] = useState<number[]>([]);
 
