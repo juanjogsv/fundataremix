@@ -217,20 +217,32 @@ const EducationSocioemotional = () => {
     ];
   }, [fortalecimientoData, selectedGradeFort1]);
 
-  // Card 2: histórico por año, mismo cálculo
+  // Card 2: histórico por año, barras agrupadas EA vs No EA - filtrado por grado
   const historicalChartData = useMemo(() => {
     if (!fortalecimientoData.length) return [];
-    const sums = sumByInstitutionYear(fortalecimientoData);
-    const byYear = new Map<number, number[]>();
+    const filteredByGrade = fortalecimientoData.filter(
+      (r: any) => r.categoria_2 === selectedGradeFort2
+    );
+    const sums = sumByInstitutionYear(filteredByGrade);
+    // Agrupa por año, separando EA y No EA
+    const byYear = new Map<number, { ea: number[]; noea: number[] }>();
     sums.forEach(s => {
-      if (selectedInstitutionFort2 !== 'Total' && s.inst !== selectedInstitutionFort2) return;
-      if (!byYear.has(s.year)) byYear.set(s.year, []);
-      byYear.get(s.year)!.push(s.sum);
+      if (!byYear.has(s.year)) byYear.set(s.year, { ea: [], noea: [] });
+      const slot = byYear.get(s.year)!;
+      if (s.inst === 'Escuela Activa') slot.ea.push(s.sum);
+      else if (s.inst === 'No EA') slot.noea.push(s.sum);
     });
+    const showEA = selectedInstitutionFort2 === 'Total' || selectedInstitutionFort2 === 'Escuela Activa';
+    const showNoEA = selectedInstitutionFort2 === 'Total' || selectedInstitutionFort2 === 'No EA';
     return Array.from(byYear.entries())
       .sort((a, b) => a[0] - b[0])
-      .map(([year, vals]) => ({ año: year.toString(), Fortalecimiento: Number(avg(vals).toFixed(2)) }));
-  }, [fortalecimientoData, selectedInstitutionFort2]);
+      .map(([year, vals]) => {
+        const row: any = { año: year.toString() };
+        if (showEA) row["Escuela Activa"] = Number(avg(vals.ea).toFixed(2));
+        if (showNoEA) row["No Escuela Activa"] = Number(avg(vals.noea).toFixed(2));
+        return row;
+      });
+  }, [fortalecimientoData, selectedInstitutionFort2, selectedGradeFort2]);
 
   // Process data for distribution chart (third card)
   const distributionChartData = useMemo(() => {
