@@ -75,18 +75,18 @@ const EducationATL = () => {
           'Salida': Number(avg(acc[g].r).toFixed(2)),
         })));
 
-        // Fetch data for Card 4: Primero histórico (Entrada y Salida)
+        // Fetch data for Card 4: Primero histórico (Entrada ATAL_01 vs Salida ATAL_02) desde dama_data
         const { data: dataPrimero, error: errorPrimero } = await supabase
-          .from('education_indicators')
-          .select('*')
-          .eq('indicador', 'Estudiantes que alcanzan el nivel estándar o avanzado')
+          .from('dama_data')
+          .select('anio, categoria, valor, cod_indicador')
+          .in('cod_indicador', ['ATAL_01', 'ATAL_02'])
           .eq('categoria_2', 'Primero')
-          .gte('year', 2018)
-          .lte('year', 2024)
-          .order('year', { ascending: true });
+          .gte('anio', 2018)
+          .lte('anio', 2025)
+          .limit(10000);
 
         if (errorPrimero) throw errorPrimero;
-        console.log("📚 Datos PRIMERO histórico obtenidos:", dataPrimero?.length || 0, "registros");
+        console.log("📚 Datos PRIMERO (dama_data) obtenidos:", dataPrimero?.length || 0, "registros");
         setDataPrimeroHistorico(dataPrimero || []);
 
         // Fetch data for Card 5: Quinto histórico (Entrada y Salida)
