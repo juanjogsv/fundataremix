@@ -4,7 +4,7 @@ import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Skeleton } from "@/components/ui/skeleton";
 import { BookOpen } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, LabelList } from 'recharts';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import EducationATALKPIs from "./EducationATALKPIs";
 import { ChartDownloadButton } from "@/components/ui/chart-download-button";
@@ -316,8 +316,12 @@ const EducationATL = () => {
                   contentStyle={{ backgroundColor: '#fff', border: '1px solid hsl(122 56% 51%)' }}
                 />
                 <Legend wrapperStyle={{ color: 'hsl(122 56% 51%)' }} />
-                <Bar dataKey="Entrada" fill="hsl(37 97% 62%)" name="Entrada" radius={[4, 4, 0, 0]} />
-                <Bar dataKey="Salida" fill="hsl(180 100% 34%)" name="Salida" radius={[4, 4, 0, 0]} />
+                <Bar dataKey="Entrada" fill="hsl(37 97% 62%)" name="Entrada" radius={[4, 4, 0, 0]}>
+                  <LabelList dataKey="Entrada" position="top" formatter={(v: any) => Number(v) === 0 ? '0' : ''} fill="hsl(122 56% 51%)" fontSize={12} />
+                </Bar>
+                <Bar dataKey="Salida" fill="hsl(180 100% 34%)" name="Salida" radius={[4, 4, 0, 0]}>
+                  <LabelList dataKey="Salida" position="top" formatter={(v: any) => Number(v) === 0 ? '0' : ''} fill="hsl(122 56% 51%)" fontSize={12} />
+                </Bar>
               </BarChart>
             </ResponsiveContainer>
           ) : (
@@ -403,8 +407,12 @@ const EducationATL = () => {
                   contentStyle={{ backgroundColor: '#fff', border: '1px solid hsl(122 56% 51%)' }}
                 />
                 <Legend wrapperStyle={{ color: 'hsl(122 56% 51%)' }} />
-                <Bar dataKey="Entrada" fill="hsl(37 97% 62%)" name="Entrada" radius={[4, 4, 0, 0]} />
-                <Bar dataKey="Salida" fill="hsl(180 100% 34%)" name="Salida" radius={[4, 4, 0, 0]} />
+                <Bar dataKey="Entrada" fill="hsl(37 97% 62%)" name="Entrada" radius={[4, 4, 0, 0]}>
+                  <LabelList dataKey="Entrada" position="top" formatter={(v: any) => Number(v) === 0 ? '0' : ''} fill="hsl(122 56% 51%)" fontSize={12} />
+                </Bar>
+                <Bar dataKey="Salida" fill="hsl(180 100% 34%)" name="Salida" radius={[4, 4, 0, 0]}>
+                  <LabelList dataKey="Salida" position="top" formatter={(v: any) => Number(v) === 0 ? '0' : ''} fill="hsl(122 56% 51%)" fontSize={12} />
+                </Bar>
               </BarChart>
             </ResponsiveContainer>
           ) : (
@@ -489,8 +497,12 @@ const EducationATL = () => {
                   contentStyle={{ backgroundColor: '#fff', border: '1px solid hsl(122 56% 51%)' }}
                 />
                 <Legend wrapperStyle={{ color: 'hsl(122 56% 51%)' }} />
-                <Bar dataKey="Entrada" fill="hsl(37 97% 62%)" name="Entrada" radius={[4, 4, 0, 0]} />
-                <Bar dataKey="Salida" fill="hsl(180 100% 34%)" name="Salida" radius={[4, 4, 0, 0]} />
+                <Bar dataKey="Entrada" fill="hsl(37 97% 62%)" name="Entrada" radius={[4, 4, 0, 0]}>
+                  <LabelList dataKey="Entrada" position="top" formatter={(v: any) => Number(v) === 0 ? '0' : ''} fill="hsl(122 56% 51%)" fontSize={12} />
+                </Bar>
+                <Bar dataKey="Salida" fill="hsl(180 100% 34%)" name="Salida" radius={[4, 4, 0, 0]}>
+                  <LabelList dataKey="Salida" position="top" formatter={(v: any) => Number(v) === 0 ? '0' : ''} fill="hsl(122 56% 51%)" fontSize={12} />
+                </Bar>
               </BarChart>
             </ResponsiveContainer>
           ) : (
