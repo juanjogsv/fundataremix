@@ -655,6 +655,9 @@ const EducationSocioemotional = () => {
               ]}
             />
           </div>
+          <p className="text-sm text-muted-foreground">
+            Grado Media - {selectedCategory === "EA" ? "Escuela Activa" : selectedCategory === "No EA" ? "No Escuela Activa" : selectedCategory}
+          </p>
           <div className="space-y-1">
             <label className="text-xs font-medium text-muted-foreground">
               Selecciona una categoría
@@ -671,9 +674,6 @@ const EducationSocioemotional = () => {
               </SelectContent>
             </Select>
           </div>
-          <p className="text-sm text-muted-foreground">
-            Grado Media - {selectedCategory === "EA" ? "Escuela Activa" : selectedCategory === "No EA" ? "No Escuela Activa" : selectedCategory}
-          </p>
         </CardHeader>
         <CardContent className="pt-6">
           <div ref={chart3Ref}>
