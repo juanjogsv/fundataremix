@@ -246,7 +246,7 @@ const EducationBeneficiaries = () => {
           <CardTitle className="text-luker-brown">
             {selectedProgram === "todos" 
               ? "Histórico participantes" 
-              : `Histórico participantes - ${selectedProgram}`}
+              : `Histórico participantes - ${displayProgramLabel(selectedProgram)}`}
           </CardTitle>
         </CardHeader>
         <CardContent>
