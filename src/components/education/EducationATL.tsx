@@ -104,22 +104,18 @@ const EducationATL = () => {
         setDataQuintoHistorico(dataQuinto || []);
 
         // Get unique institutions for Card 4 (including "Total")
+        const normalizeInst = (s: string) =>
+          s && s.toLowerCase().trim() === 'escuela activa urbana' ? 'Escuela Activa' : s;
         const allInstitutionsCard4 = new Set<string>();
-        (dataPrimero || []).forEach((item) => {
+        (dataPrimero || []).forEach((item: any) => {
           if (item.categoria) {
-            allInstitutionsCard4.add(item.categoria);
+            allInstitutionsCard4.add(normalizeInst(item.categoria));
           }
         });
 
-        const institutionsListCard4 = Array.from(allInstitutionsCard4).sort();
+        const institutionsListCard4 = ['Total', ...Array.from(allInstitutionsCard4).sort()];
         setInstitutionsCard4(institutionsListCard4);
-        
-        // Set "Total" as default for Card 4
-        if (institutionsListCard4.includes("Total")) {
-          setSelectedInstitutionCard4("Total");
-        } else if (institutionsListCard4.length > 0) {
-          setSelectedInstitutionCard4(institutionsListCard4[0]);
-        }
+        setSelectedInstitutionCard4('Total');
 
         // Get unique institutions for Card 5 (including "Total")
         const allInstitutionsCard5 = new Set<string>();
