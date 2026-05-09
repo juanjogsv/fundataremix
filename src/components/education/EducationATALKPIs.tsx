@@ -121,10 +121,10 @@ const EducationATALKPIs = () => {
             bgColor: "bg-luker-orange/10",
           },
           {
-            title: "Inversión ATAL",
-            value: gp03Val != null ? fmtCurrency(gp03Val) : SD,
+            title: "Instituciones ATAL",
+            value: gp03Val != null ? fmtNumber(gp03Val) : SD,
             year: gp03Year,
-            icon: DollarSign,
+            icon: Building2,
             color: "text-luker-teal",
             bgColor: "bg-luker-teal/10",
           },
