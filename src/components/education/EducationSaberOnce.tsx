@@ -492,7 +492,7 @@ const EducationSaberOnce = () => {
                       <SelectValue placeholder="Seleccione categoría" />
                     </SelectTrigger>
                     <SelectContent>
-                      {availableCategories.map((category) => (
+                      {availableCategoriesCard1.map((category) => (
                         <SelectItem key={category} value={category}>
                           {category}
                         </SelectItem>
