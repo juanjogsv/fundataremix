@@ -37,33 +37,37 @@ const EducationATL = () => {
       try {
         setIsLoading(true);
         
-        // Fetch ATAL_01 vs ATAL_02 from dama_data (Manizales)
-        const { data: atalCmp, error: errCmp } = await supabase
-          .from('dama_data')
-          .select('cod_indicador, anio, categoria_2, valor')
-          .in('cod_indicador', ['ATAL_01', 'ATAL_02'])
-          .eq('cod_entidad', '17001')
-          .limit(10000);
-
-        if (errCmp) throw errCmp;
-
-        // Determine latest year present across both indicators
-        const years = (atalCmp || []).map((r: any) => r.anio).filter((y: any) => y != null);
-        const latestYear = years.length ? Math.max(...years) : null;
+        // Determine latest year for ATAL_01 / ATAL_02 (Manizales)
+        const [{ data: y1 }, { data: y2 }] = await Promise.all([
+          supabase.from('dama_data').select('anio').eq('cod_indicador', 'ATAL_01').eq('cod_entidad', '17001').order('anio', { ascending: false }).limit(1),
+          supabase.from('dama_data').select('anio').eq('cod_indicador', 'ATAL_02').eq('cod_entidad', '17001').order('anio', { ascending: false }).limit(1),
+        ]);
+        const latestYear = Math.max(y1?.[0]?.anio ?? 0, y2?.[0]?.anio ?? 0) || null;
         setComparisonYear(latestYear);
 
         const grados = ["Primero", "Segundo", "Tercero", "Cuarto", "Quinto"];
         const acc: Record<string, { b: number[]; r: number[] }> = {};
         grados.forEach(g => { acc[g] = { b: [], r: [] }; });
-        (atalCmp || []).forEach((row: any) => {
-          if (row.anio !== latestYear) return;
-          const grade = row.categoria_2;
-          if (!grade || !acc[grade]) return;
-          const v = parseFloat(row.valor);
-          if (Number.isNaN(v)) return;
-          if (row.cod_indicador === 'ATAL_01') acc[grade].b.push(v);
-          else if (row.cod_indicador === 'ATAL_02') acc[grade].r.push(v);
-        });
+
+        if (latestYear) {
+          const [{ data: a1, error: e1 }, { data: a2, error: e2 }] = await Promise.all([
+            supabase.from('dama_data').select('categoria_2, valor').eq('cod_indicador', 'ATAL_01').eq('cod_entidad', '17001').eq('anio', latestYear).limit(5000),
+            supabase.from('dama_data').select('categoria_2, valor').eq('cod_indicador', 'ATAL_02').eq('cod_entidad', '17001').eq('anio', latestYear).limit(5000),
+          ]);
+          if (e1) throw e1;
+          if (e2) throw e2;
+          (a1 || []).forEach((row: any) => {
+            const g = row.categoria_2;
+            const v = parseFloat(row.valor);
+            if (g && acc[g] && !Number.isNaN(v)) acc[g].b.push(v);
+          });
+          (a2 || []).forEach((row: any) => {
+            const g = row.categoria_2;
+            const v = parseFloat(row.valor);
+            if (g && acc[g] && !Number.isNaN(v)) acc[g].r.push(v);
+          });
+        }
+
         const avg = (arr: number[]) => arr.length ? arr.reduce((a, b) => a + b, 0) / arr.length : 0;
         setComparisonData(grados.map(g => ({
           grado: g,
