@@ -349,7 +349,7 @@ const EducationSaberOnce = () => {
                 Error al cargar los datos. Por favor, intente nuevamente.
               </AlertDescription>
             </Alert>
-          ) : !indicators || indicators.length === 0 ? (
+          ) : !damaSaberData || damaSaberData.length === 0 ? (
             <Alert>
               <AlertCircle className="h-4 w-4" />
               <AlertDescription>
