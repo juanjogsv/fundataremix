@@ -295,7 +295,7 @@ const EducationATL = () => {
                 Resultados Fluidez: Comparativo Entrada vs. Salida
               </CardTitle>
               <p className="text-sm text-muted-foreground mt-1">
-                Promedio por grado escolar — Año {comparisonYear ?? "—"}
+                % de estudiantes Nivel Estándar o Avanzado Fluidez - Año {comparisonYear ?? 2025}
               </p>
             </div>
             <ChartDownloadButton 
