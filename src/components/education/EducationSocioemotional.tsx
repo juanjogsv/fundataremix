@@ -408,7 +408,7 @@ const EducationSocioemotional = () => {
           <div className="flex items-start justify-between flex-wrap gap-4">
             <CardTitle className="text-xl flex items-center gap-2 text-luker-green">
               <Brain className="h-5 w-5 text-luker-teal" />
-              Estudiantes en fortalecimiento en Trabajo en Equipo
+              Estudiantes en fortalecimiento Trabajo en Equipo
             </CardTitle>
             <ChartDownloadButton
               chartRef={chart1Ref}
@@ -421,7 +421,7 @@ const EducationSocioemotional = () => {
             />
           </div>
           <p className="text-sm text-muted-foreground">
-            En proceso + prosperando Grado {selectedGradeFort1} - Año 2024
+            En proceso + prosperando - Año 2024
           </p>
           <div className="space-y-1">
             <label className="text-xs font-medium text-muted-foreground">
