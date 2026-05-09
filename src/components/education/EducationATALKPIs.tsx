@@ -1,137 +1,138 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
-import { Users, School, TrendingUp, Award } from "lucide-react";
+import { Users, DollarSign, TrendingUp, Award } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 
-interface ATALKPIData {
-  beneficiarios: number | null;
-  beneficiariosYear: number | null;
-  instituciones: number | null;
-  institucionesYear: number | null;
-  nivelPrimero: number | null;
-  nivelPrimeroYear: number | null;
-  nivelQuinto: number | null;
-  nivelQuintoYear: number | null;
+interface KPI {
+  title: string;
+  value: string;
+  year: number | null;
+  icon: typeof Users;
+  color: string;
+  bgColor: string;
 }
+
+const COD_ENTIDAD = "17001"; // Manizales
+const SD = "S.D.";
+
+const fmtNumber = (n: number) =>
+  Number(n).toLocaleString("es-CO", { maximumFractionDigits: 0 });
+const fmtCurrency = (n: number) =>
+  Number(n).toLocaleString("es-CO", {
+    style: "currency",
+    currency: "COP",
+    maximumFractionDigits: 0,
+  });
+const fmtPercent = (n: number) => `${Number(n).toFixed(1)}%`;
 
 const EducationATALKPIs = () => {
   const { toast } = useToast();
-  const [data, setData] = useState<ATALKPIData>({
-    beneficiarios: null,
-    beneficiariosYear: null,
-    instituciones: null,
-    institucionesYear: null,
-    nivelPrimero: null,
-    nivelPrimeroYear: null,
-    nivelQuinto: null,
-    nivelQuintoYear: null
-  });
   const [loading, setLoading] = useState(true);
+  const [kpis, setKpis] = useState<KPI[]>([]);
 
   useEffect(() => {
-    const loadData = async () => {
+    const load = async () => {
       try {
-        // 1. Tarjeta 1: Beneficiarios ATAL
-        const { data: beneficiarios, error: errorBenef } = await supabase
-          .from('education_beneficiaries')
-          .select('valor, year')
-          .eq('departamento', 'Caldas')
-          .eq('programa', 'Educación')
-          .order('year', { ascending: false })
-          .limit(100);
+        // Pull all relevant rows in one query
+        const { data, error } = await supabase
+          .from("dama_data")
+          .select("cod_indicador, anio, categoria, categoria_2, valor, cod_entidad")
+          .in("cod_indicador", ["GP_02", "GP_03", "ATAL_02"])
+          .eq("cod_entidad", COD_ENTIDAD);
 
-        if (errorBenef) throw errorBenef;
+        if (error) throw error;
 
-        console.log('Beneficiarios data:', beneficiarios);
+        const rows = (data ?? []) as Array<{
+          cod_indicador: string;
+          anio: number;
+          categoria: string | null;
+          categoria_2: string | null;
+          valor: number | null;
+        }>;
 
-        // Obtener el último año disponible
-        const lastYear = beneficiarios && beneficiarios.length > 0 
-          ? Math.max(...beneficiarios.map((b: any) => b.year || 0))
-          : null;
+        const isATL = (s: string | null) =>
+          (s ?? "").trim().toLowerCase() === "aprendamos todos a leer";
 
-        // Filtrar por último año y sumar valores
-        const beneficiariosLastYear = beneficiarios?.filter((b: any) => b.year === lastYear);
-        const totalBeneficiarios = beneficiariosLastYear?.reduce((sum: number, item: any) => 
-          sum + (parseFloat(String(item.valor)) || 0), 0) || null;
-
-        // 2. Tarjeta 2: Instituciones Educativas (conteo distinto de categoría excluyendo "Total")
-        const { data: instituciones, error: errorInst } = await supabase
-          .from('education_indicators')
-          .select('categoria, year')
-          .eq('departamento', 'Manizales')
-          .eq('seccion', 'Aprendamos todos a leer')
-          .order('year', { ascending: false });
-
-        if (errorInst) throw errorInst;
-
-        console.log('Instituciones data:', instituciones);
-
-        // Obtener el último año disponible de los indicadores
-        const lastYearInst = instituciones && instituciones.length > 0 
-          ? Math.max(...instituciones.map((i: any) => i.year || 0))
-          : null;
-
-        // Filtrar por último año, excluir "Total" y contar categorías únicas
-        const institucionesUnicas = new Set(
-          instituciones
-            ?.filter((i: any) => i.year === lastYearInst && i.categoria && i.categoria !== 'Total')
-            .map((i: any) => i.categoria)
+        // KPI 1: GP_02, categoria_2 = ATL, latest year
+        const gp02 = rows.filter(
+          (r) => r.cod_indicador === "GP_02" && isATL(r.categoria_2)
         );
-        const totalInstituciones = institucionesUnicas.size || null;
+        const gp02Year = gp02.length ? Math.max(...gp02.map((r) => r.anio)) : null;
+        const gp02Val = gp02Year
+          ? gp02
+              .filter((r) => r.anio === gp02Year)
+              .reduce((s, r) => s + (Number(r.valor) || 0), 0)
+          : null;
 
-        // 3. Tarjeta 3: Nivel Estándar o Avanzado - Grado Primero
-        const { data: primero, error: errorPrimero } = await supabase
-          .from('education_indicators')
-          .select('valor')
-          .eq('departamento', 'Manizales')
-          .eq('indicador', 'Estudiantes que alcanzan el nivel estándar o avanzado')
-          .eq('year', 2024)
-          .eq('categoria', 'Total')
-          .eq('categoria_2', 'Primero')
-          .eq('categoria_3', 'Salida')
-          .maybeSingle();
+        // KPI 2: GP_03, categoria_2 = ATL, latest year
+        const gp03 = rows.filter(
+          (r) => r.cod_indicador === "GP_03" && isATL(r.categoria_2)
+        );
+        const gp03Year = gp03.length ? Math.max(...gp03.map((r) => r.anio)) : null;
+        const gp03Val = gp03Year
+          ? gp03
+              .filter((r) => r.anio === gp03Year)
+              .reduce((s, r) => s + (Number(r.valor) || 0), 0)
+          : null;
 
-        if (errorPrimero) throw errorPrimero;
+        // KPI 3 & 4: ATAL_02 averages by categoria_2, latest year
+        const atal = rows.filter((r) => r.cod_indicador === "ATAL_02");
+        const atalYear = atal.length ? Math.max(...atal.map((r) => r.anio)) : null;
 
-        console.log('Primero data:', primero);
+        const avgFor = (grade: string) => {
+          if (!atalYear) return null;
+          const subset = atal.filter(
+            (r) =>
+              r.anio === atalYear &&
+              (r.categoria_2 ?? "").trim().toLowerCase() === grade.toLowerCase() &&
+              r.valor != null
+          );
+          if (!subset.length) return null;
+          const sum = subset.reduce((s, r) => s + Number(r.valor), 0);
+          return sum / subset.length;
+        };
 
-        // Multiplicar por 100 para convertir a porcentaje
-        const valorPrimero = primero?.valor ? parseFloat(String(primero.valor)) * 100 : null;
+        const primero = avgFor("Primero");
+        const quinto = avgFor("Quinto");
 
-        // 4. Tarjeta 4: Nivel Estándar o Avanzado - Grado Quinto
-        const { data: quinto, error: errorQuinto } = await supabase
-          .from('education_indicators')
-          .select('valor')
-          .eq('departamento', 'Manizales')
-          .eq('indicador', 'Estudiantes que alcanzan el nivel estándar o avanzado')
-          .eq('year', 2024)
-          .eq('categoria', 'Total')
-          .eq('categoria_2', 'Quinto')
-          .eq('categoria_3', 'Salida')
-          .maybeSingle();
-
-        if (errorQuinto) throw errorQuinto;
-
-        console.log('Quinto data:', quinto);
-
-        // Multiplicar por 100 para convertir a porcentaje
-        const valorQuinto = quinto?.valor ? parseFloat(String(quinto.valor)) * 100 : null;
-
-        setData({
-          beneficiarios: totalBeneficiarios,
-          beneficiariosYear: lastYear,
-          instituciones: totalInstituciones,
-          institucionesYear: lastYearInst,
-          nivelPrimero: valorPrimero,
-          nivelPrimeroYear: 2024,
-          nivelQuinto: valorQuinto,
-          nivelQuintoYear: 2024
-        });
-
+        setKpis([
+          {
+            title: "Beneficiarios ATAL",
+            value: gp02Val != null ? fmtNumber(gp02Val) : SD,
+            year: gp02Year,
+            icon: Users,
+            color: "text-luker-orange",
+            bgColor: "bg-luker-orange/10",
+          },
+          {
+            title: "Inversión ATAL",
+            value: gp03Val != null ? fmtCurrency(gp03Val) : SD,
+            year: gp03Year,
+            icon: DollarSign,
+            color: "text-luker-teal",
+            bgColor: "bg-luker-teal/10",
+          },
+          {
+            title: "Desempeño - Grado Primero",
+            value: primero != null ? fmtPercent(primero) : SD,
+            year: atalYear,
+            icon: TrendingUp,
+            color: "text-luker-green",
+            bgColor: "bg-luker-green/10",
+          },
+          {
+            title: "Desempeño - Grado Quinto",
+            value: quinto != null ? fmtPercent(quinto) : SD,
+            year: atalYear,
+            icon: Award,
+            color: "text-luker-red",
+            bgColor: "bg-luker-red/10",
+          },
+        ]);
         setLoading(false);
-      } catch (error) {
-        console.error('Error cargando datos ATAL KPI:', error);
+      } catch (e) {
+        console.error("Error cargando KPIs ATAL:", e);
         toast({
           title: "Error",
           description: "No se pudieron cargar los indicadores de ATAL.",
@@ -140,48 +141,8 @@ const EducationATALKPIs = () => {
         setLoading(false);
       }
     };
-
-    loadData();
+    load();
   }, [toast]);
-
-  const kpiCards = [
-    {
-      title: "Beneficiarios ATAL",
-      value: data.beneficiarios,
-      year: data.beneficiariosYear,
-      icon: Users,
-      color: "text-luker-orange",
-      bgColor: "bg-luker-orange/10",
-      format: "number"
-    },
-    {
-      title: "Instituciones Educativas Participantes",
-      value: data.instituciones,
-      year: data.institucionesYear,
-      icon: School,
-      color: "text-luker-teal",
-      bgColor: "bg-luker-teal/10",
-      format: "number"
-    },
-    {
-      title: "Nivel Estándar o Avanzado - Grado Primero",
-      value: data.nivelPrimero,
-      year: data.nivelPrimeroYear,
-      icon: TrendingUp,
-      color: "text-luker-green",
-      bgColor: "bg-luker-green/10",
-      format: "percentage"
-    },
-    {
-      title: "Nivel Estándar o Avanzado - Grado Quinto",
-      value: data.nivelQuinto,
-      year: data.nivelQuintoYear,
-      icon: Award,
-      color: "text-luker-red",
-      bgColor: "bg-luker-red/10",
-      format: "percentage"
-    }
-  ];
 
   if (loading) {
     return (
@@ -189,7 +150,7 @@ const EducationATALKPIs = () => {
         {[1, 2, 3, 4].map((i) => (
           <Card key={i} className="animate-pulse">
             <CardContent className="p-6">
-              <div className="h-20 bg-gray-200 rounded"></div>
+              <div className="h-20 bg-muted rounded" />
             </CardContent>
           </Card>
         ))}
@@ -199,11 +160,11 @@ const EducationATALKPIs = () => {
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-      {kpiCards.map((kpi, index) => {
+      {kpis.map((kpi, i) => {
         const Icon = kpi.icon;
         return (
-          <Card 
-            key={index} 
+          <Card
+            key={i}
             className={`${kpi.bgColor} border-none shadow-sm hover:shadow-md transition-all duration-200`}
           >
             <CardContent className="p-4">
@@ -215,17 +176,9 @@ const EducationATALKPIs = () => {
                   <p className="text-xs font-medium text-gray-600 leading-tight">
                     {kpi.title}
                   </p>
-                  <p className={`text-3xl font-bold ${kpi.color}`}>
-                    {kpi.value !== null 
-                      ? kpi.format === "percentage" 
-                        ? `${Number(kpi.value).toFixed(1)}%` 
-                        : Number(kpi.value).toLocaleString('es-CO', { maximumFractionDigits: 0 })
-                      : '--'}
-                  </p>
+                  <p className={`text-3xl font-bold ${kpi.color}`}>{kpi.value}</p>
                   {kpi.year && (
-                    <p className="text-xs text-gray-500">
-                      Año {kpi.year}
-                    </p>
+                    <p className="text-xs text-gray-500">Año {kpi.year}</p>
                   )}
                 </div>
               </div>
