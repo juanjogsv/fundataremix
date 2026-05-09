@@ -14,68 +14,78 @@ const EducationSaberOnce = () => {
   const chart2Ref = useRef<HTMLDivElement>(null);
   const chart3Ref = useRef<HTMLDivElement>(null);
 
-  const [selectedIndicator, setSelectedIndicator] = useState("");
+  // Card 1: Saber 11 histórico desde dama_data (entidad Manizales = 17001)
+  const SABER_OPTIONS = [
+    { code: "SABER_02", label: "Saber_01 - Puntaje Global" },
+    { code: "SABER_05", label: "Saber_02 - Matemáticas" },
+    { code: "SABER_04", label: "Saber_03 - Lectura Crítica" },
+    { code: "SABER_01", label: "Saber_04 - Ciencias Naturales" },
+    { code: "SABER_06", label: "Saber_05 - Sociales y Ciudadanas" },
+    { code: "SABER_03", label: "Saber_06 - Inglés" },
+  ];
+
+  const [selectedIndicator, setSelectedIndicator] = useState<string>("SABER_02");
   const [selectedCategory, setSelectedCategory] = useState("Total");
   const [availableIndicators, setAvailableIndicators] = useState<string[]>([]);
-  const [availableCategories] = useState<string[]>(["Total", "Rural", "Urbano", "Oficial", "No oficial"]);
 
-  const { data: indicators, isLoading, error } = useQuery({
-    queryKey: ["education-saber-once"],
+  const { data: damaSaberData, isLoading, error } = useQuery({
+    queryKey: ["dama-saber-manizales", selectedIndicator],
     queryFn: async () => {
-      console.log("🔍 Fetching Saber Once data...");
+      const { data, error } = await supabase
+        .from("dama_data")
+        .select("anio, categoria, valor, cod_indicador")
+        .eq("cod_indicador", selectedIndicator)
+        .eq("cod_entidad", "17001")
+        .order("anio", { ascending: true });
+      if (error) throw error;
+      return data;
+    },
+  });
+
+  // For legacy code below (Card 2 ranking uses indicators list from education_indicators)
+  const { data: indicators } = useQuery({
+    queryKey: ["education-saber-once-legacy"],
+    queryFn: async () => {
       const { data, error } = await supabase
         .from("education_indicators")
         .select("*")
         .eq("seccion", "Resultados pruebas Saber 11")
         .eq("departamento", "Manizales")
         .order("year", { ascending: true });
-      
-      if (error) {
-        console.error("❌ Error fetching Saber Once:", error);
-        throw error;
-      }
-      console.log("✅ Saber Once data loaded:", data?.length, "records");
+      if (error) throw error;
       return data;
     },
   });
 
   useEffect(() => {
     if (indicators && indicators.length > 0) {
-      // Extract unique indicators
       const indicatorsList = Array.from(new Set(indicators.map(i => i.indicador).filter(Boolean))) as string[];
       setAvailableIndicators(indicatorsList.sort());
-      
-      // Set default indicator (prefer 'Puntaje global')
-      if (!selectedIndicator && indicatorsList.length > 0) {
-        const globalIndicator = indicatorsList.find(i =>
-          i.toLowerCase() === 'puntaje global'
-        );
-        setSelectedIndicator(globalIndicator || indicatorsList[0]);
-      }
     }
-  }, [indicators, selectedIndicator]);
+  }, [indicators]);
 
-  const chartData = (() => {
-    const filteredData = indicators
-      ?.filter(item =>
-        item.indicador === selectedIndicator &&
-        item.categoria === selectedCategory
-      ) || [];
+  const availableCategoriesCard1 = useMemo(() => {
+    const cats = Array.from(new Set((damaSaberData || []).map(d => d.categoria).filter(Boolean))) as string[];
+    const ordered = ["Total", "Oficial", "No oficial", "Urbano", "Rural", "Hombre", "Mujer", "Planteles oficiales", "Planteles privados"];
+    return ordered.filter(c => cats.includes(c)).concat(cats.filter(c => !ordered.includes(c)));
+  }, [damaSaberData]);
 
-    const yearsInData = Array.from(new Set(filteredData.map(i => i.year).filter(Boolean))) as number[];
-    const minYear = yearsInData.length ? Math.min(...yearsInData) : 2015;
-    const maxYear = yearsInData.length ? Math.max(...yearsInData) : new Date().getFullYear();
-    const allYears: number[] = [];
-    for (let y = minYear; y <= maxYear; y++) allYears.push(y);
-
-    return allYears.map(year => {
-      const dataPoint = filteredData.find(item => item.year === year);
-      return {
-        año: year.toString(),
-        puntaje: dataPoint?.valor || 0,
-      };
+  const chartData = useMemo(() => {
+    const filtered = (damaSaberData || []).filter(d => d.categoria === selectedCategory);
+    const grouped: Record<number, number[]> = {};
+    filtered.forEach(d => {
+      if (d.anio == null || d.valor == null) return;
+      if (!grouped[d.anio]) grouped[d.anio] = [];
+      grouped[d.anio].push(Number(d.valor));
     });
-  })();
+    const years: number[] = [];
+    for (let y = 2015; y <= 2024; y++) years.push(y);
+    return years.map(year => {
+      const vals = grouped[year] || [];
+      const avg = vals.length ? vals.reduce((a, b) => a + b, 0) / vals.length : 0;
+      return { año: year.toString(), puntaje: Math.round(avg) };
+    });
+  }, [damaSaberData, selectedCategory]);
 
 
   // Query for Card 2 - Ranking
