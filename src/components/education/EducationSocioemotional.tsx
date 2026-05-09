@@ -156,8 +156,13 @@ const EducationSocioemotional = () => {
     }
   }, [availableYears, selectedYearColumn]);
 
-  const normalizeInst = (s: string) =>
-    s && s.toLowerCase().trim() === 'escuela activa urbana' ? 'Escuela Activa' : s;
+  const normalizeInst = (s: string) => {
+    if (!s) return s;
+    const t = s.toLowerCase().trim();
+    if (t === 'ea' || t === 'escuela activa' || t === 'escuela activa urbana') return 'Escuela Activa';
+    if (t === 'no ea' || t === 'no escuela activa') return 'No Escuela Activa';
+    return s;
+  };
 
   // Helper: agrupa por (institución, año) sumando CSOC_01 + CSOC_03 (ambos deben existir)
   const sumByInstitutionYear = (rows: any[]) => {
