@@ -21,8 +21,9 @@ const EducationATL = () => {
   const [selectedInstitutionCard4, setSelectedInstitutionCard4] = useState<string>("Total");
   const [selectedInstitutionCard5, setSelectedInstitutionCard5] = useState<string>("Total");
   
-  // Datos de 2024
-  const [data2024, setData2024] = useState<any[]>([]);
+  // Datos comparativo ATAL_01 vs ATAL_02 (último año)
+  const [comparisonData, setComparisonData] = useState<any[]>([]);
+  const [comparisonYear, setComparisonYear] = useState<number | null>(null);
   // Datos para Card 4: Primero - Entrada vs Salida histórico
   const [dataPrimeroHistorico, setDataPrimeroHistorico] = useState<any[]>([]);
   // Datos para Card 5: Quinto - Entrada vs Salida histórico
@@ -36,17 +37,39 @@ const EducationATL = () => {
       try {
         setIsLoading(true);
         
-        // Fetch data for 2024
-        const { data: data2024Result, error: error2024 } = await supabase
-          .from('education_indicators')
-          .select('*')
-          .eq('indicador', 'Estudiantes que alcanzan el nivel estándar o avanzado')
-          .eq('year', 2024)
-          .order('categoria_2', { ascending: true });
+        // Fetch ATAL_01 vs ATAL_02 from dama_data (Manizales)
+        const { data: atalCmp, error: errCmp } = await supabase
+          .from('dama_data')
+          .select('cod_indicador, anio, categoria_2, valor')
+          .in('cod_indicador', ['ATAL_01', 'ATAL_02'])
+          .eq('cod_entidad', '17001')
+          .limit(10000);
 
-        if (error2024) throw error2024;
-        console.log("📊 Datos 2024 obtenidos:", data2024Result?.length || 0, "registros");
-        setData2024(data2024Result || []);
+        if (errCmp) throw errCmp;
+
+        // Determine latest year present across both indicators
+        const years = (atalCmp || []).map((r: any) => r.anio).filter((y: any) => y != null);
+        const latestYear = years.length ? Math.max(...years) : null;
+        setComparisonYear(latestYear);
+
+        const grados = ["Primero", "Segundo", "Tercero", "Cuarto", "Quinto"];
+        const acc: Record<string, { b: number[]; r: number[] }> = {};
+        grados.forEach(g => { acc[g] = { b: [], r: [] }; });
+        (atalCmp || []).forEach((row: any) => {
+          if (row.anio !== latestYear) return;
+          const grade = row.categoria_2;
+          if (!grade || !acc[grade]) return;
+          const v = parseFloat(row.valor);
+          if (Number.isNaN(v)) return;
+          if (row.cod_indicador === 'ATAL_01') acc[grade].b.push(v);
+          else if (row.cod_indicador === 'ATAL_02') acc[grade].r.push(v);
+        });
+        const avg = (arr: number[]) => arr.length ? arr.reduce((a, b) => a + b, 0) / arr.length : 0;
+        setComparisonData(grados.map(g => ({
+          grado: g,
+          'Línea de Base': Number(avg(acc[g].b).toFixed(2)),
+          'Resultado Final': Number(avg(acc[g].r).toFixed(2)),
+        })));
 
         // Fetch data for Card 4: Primero histórico (Entrada y Salida)
         const { data: dataPrimero, error: errorPrimero } = await supabase
@@ -123,48 +146,8 @@ const EducationATL = () => {
     fetchData();
   }, []);
 
-  // Procesar datos de 2024 para la tarjeta 1
-  const current2024Data = useMemo(() => {
-    if (!data2024 || data2024.length === 0) return [];
-
-    // Filtrar por "Total" únicamente
-    const filteredData = data2024.filter((item) => item.categoria === "Total");
-
-    if (filteredData.length === 0) return [];
-
-    // Agrupar por grado, separando entrada y salida
-    const gradeMap = new Map<string, { entrada: number; salida: number }>();
-
-    filteredData.forEach((item) => {
-      const grade = (item.categoria_2 as string) || "Sin grado";
-      const type = (item.categoria_3 as string) || "";
-      const value = parseFloat(item.valor) || 0;
-
-      if (!gradeMap.has(grade)) {
-        gradeMap.set(grade, { entrada: 0, salida: 0 });
-      }
-
-      const gradeData = gradeMap.get(grade)!;
-      if (type === "Entrada") {
-        gradeData.entrada = value;
-      } else if (type === "Salida") {
-        gradeData.salida = value;
-      }
-    });
-
-    // Convertir a formato para el gráfico
-    const grados = ["Primero", "Segundo", "Tercero", "Cuarto", "Quinto"];
-    const chartData = grados.map(grado => {
-      const data = gradeMap.get(grado) || { entrada: 0, salida: 0 };
-      return {
-        grado,
-        Entrada: data.entrada,
-        Salida: data.salida
-      };
-    });
-
-    return chartData;
-  }, [data2024]);
+  // Datos comparativos para la tarjeta 1 (ATAL_01 vs ATAL_02)
+  const current2024Data = comparisonData;
 
   // Procesar datos de Card 4: Primero histórico - Entrada vs Salida
   const historicalPrimeroChartData = useMemo(() => {
@@ -298,27 +281,27 @@ const EducationATL = () => {
       {/* KPIs ATAL */}
       <EducationATALKPIs />
 
-      {/* Tarjeta 1: Resultados 2024 - Entrada vs Salida (Total) */}
+      {/* Tarjeta 1: Comparativo Línea de Base (ATAL_01) vs Resultado Final (ATAL_02) */}
       <Card className="border-luker-green/20 shadow-lg">
         <CardHeader className="bg-gradient-to-r from-luker-green/5 to-luker-teal/5">
           <div className="flex items-center justify-between flex-wrap gap-4">
             <div>
               <CardTitle className="text-xl flex items-center gap-2 text-luker-green">
                 <BookOpen className="h-5 w-5 text-luker-teal" />
-                Resultados 2024: Comparativo Entrada vs. Salida
+                Resultados: Comparativo Entrada vs. Salida
               </CardTitle>
               <p className="text-sm text-muted-foreground mt-1">
-                Datos agregados de todas las instituciones educativas
+                Promedio por grado escolar — Año {comparisonYear ?? "—"}
               </p>
             </div>
             <ChartDownloadButton 
               chartRef={chart2024Ref} 
-              title="ATAL Resultados 2024 Entrada vs Salida"
+              title={`ATAL Comparativo Línea de Base vs Resultado Final ${comparisonYear ?? ""}`}
               excelData={current2024Data}
               excelColumns={[
                 { header: "Grado", key: "grado" },
-                { header: "Entrada (%)", key: "Entrada" },
-                { header: "Salida (%)", key: "Salida" }
+                { header: "Línea de Base (%)", key: "Línea de Base" },
+                { header: "Resultado Final (%)", key: "Resultado Final" }
               ]}
             />
           </div>
@@ -343,8 +326,8 @@ const EducationATL = () => {
                   contentStyle={{ backgroundColor: '#fff', border: '1px solid hsl(122 56% 51%)' }}
                 />
                 <Legend wrapperStyle={{ color: 'hsl(122 56% 51%)' }} />
-                <Bar dataKey="Entrada" fill="hsl(37 97% 62%)" name="Entrada" radius={[4, 4, 0, 0]} />
-                <Bar dataKey="Salida" fill="hsl(180 100% 34%)" name="Salida" radius={[4, 4, 0, 0]} />
+                <Bar dataKey="Línea de Base" fill="hsl(37 97% 62%)" name="Línea de Base" radius={[4, 4, 0, 0]} />
+                <Bar dataKey="Resultado Final" fill="hsl(180 100% 34%)" name="Resultado Final" radius={[4, 4, 0, 0]} />
               </BarChart>
             </ResponsiveContainer>
           ) : (
