@@ -235,10 +235,10 @@ const EducationSocioemotional = () => {
       if (!byYear.has(s.year)) byYear.set(s.year, { ea: [], noea: [] });
       const slot = byYear.get(s.year)!;
       if (s.inst === 'Escuela Activa') slot.ea.push(s.sum);
-      else if (s.inst === 'No EA') slot.noea.push(s.sum);
+      else if (s.inst === 'No Escuela Activa') slot.noea.push(s.sum);
     });
     const showEA = selectedInstitutionFort2 === 'Total' || selectedInstitutionFort2 === 'Escuela Activa';
-    const showNoEA = selectedInstitutionFort2 === 'Total' || selectedInstitutionFort2 === 'No EA';
+    const showNoEA = selectedInstitutionFort2 === 'Total' || selectedInstitutionFort2 === 'No Escuela Activa';
     return Array.from(byYear.entries())
       .sort((a, b) => a[0] - b[0])
       .map(([year, vals]) => {
