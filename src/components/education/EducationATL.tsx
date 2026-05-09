@@ -292,7 +292,7 @@ const EducationATL = () => {
             <div>
               <CardTitle className="text-xl flex items-center gap-2 text-luker-green">
                 <BookOpen className="h-5 w-5 text-luker-teal" />
-                Resultados: Comparativo Entrada vs. Salida
+                Resultados Fluidez: Comparativo Entrada vs. Salida
               </CardTitle>
               <p className="text-sm text-muted-foreground mt-1">
                 Promedio por grado escolar — Año {comparisonYear ?? "—"}
