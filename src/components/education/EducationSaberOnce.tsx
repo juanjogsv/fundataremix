@@ -70,8 +70,11 @@ const EducationSaberOnce = () => {
     return ordered.filter(c => cats.includes(c)).concat(cats.filter(c => !ordered.includes(c)));
   }, [damaSaberData]);
 
+  const normalize = (v: any) => (v ?? "").toString().trim().toLowerCase();
+
   const chartData = useMemo(() => {
-    const filtered = (damaSaberData || []).filter(d => d.categoria === selectedCategory);
+    const target = normalize(selectedCategory);
+    const filtered = (damaSaberData || []).filter(d => normalize(d.categoria) === target);
     const grouped: Record<number, number[]> = {};
     filtered.forEach(d => {
       if (d.anio == null || d.valor == null) return;
