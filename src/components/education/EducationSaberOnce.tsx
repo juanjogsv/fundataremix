@@ -483,9 +483,9 @@ const EducationSaberOnce = () => {
                       <SelectValue placeholder="Seleccione indicador" />
                     </SelectTrigger>
                     <SelectContent>
-                      {availableRankingIndicators.map((indicator) => (
-                        <SelectItem key={indicator} value={indicator}>
-                          {indicator}
+                      {SABER_OPTIONS.map((opt) => (
+                        <SelectItem key={opt.code} value={opt.code}>
+                          {opt.label}
                         </SelectItem>
                       ))}
                     </SelectContent>
@@ -499,7 +499,7 @@ const EducationSaberOnce = () => {
                       <SelectValue placeholder="Seleccione categoría" />
                     </SelectTrigger>
                     <SelectContent>
-                      {availableCategoriesCard1.map((category) => (
+                      {availableRankingCategories.map((category) => (
                         <SelectItem key={category} value={category}>
                           {category}
                         </SelectItem>
@@ -511,6 +511,34 @@ const EducationSaberOnce = () => {
 
               {/* Chart */}
               {rankingChartData.length > 0 ? (
+                <div ref={chart2Ref} className="h-[800px] mt-6">
+                  <ResponsiveContainer width="100%" height="100%">
+                    <BarChart data={rankingChartData} layout="vertical">
+                      <CartesianGrid strokeDasharray="3 3" />
+                      <XAxis type="number" />
+                      <YAxis 
+                        type="category" 
+                        dataKey="entidad" 
+                        width={180} 
+                        tick={{ fontSize: 12 }}
+                      />
+                      <Tooltip />
+                      <Legend />
+                      <Bar dataKey="puntaje" name="Puntaje">
+                        {rankingChartData.map((entry, index) => (
+                          <Cell 
+                            key={`cell-${index}`} 
+                            fill={entry.entidad.toLowerCase().includes('manizales') 
+                              ? '#e11d48' 
+                              : '#0d9488'
+                            } 
+                          />
+                        ))}
+                      </Bar>
+                    </BarChart>
+                  </ResponsiveContainer>
+                </div>
+              ) : (
                 <div ref={chart2Ref} className="h-[800px] mt-6">
                   <ResponsiveContainer width="100%" height="100%">
                     <BarChart data={rankingChartData} layout="vertical">
