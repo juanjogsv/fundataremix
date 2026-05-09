@@ -509,7 +509,7 @@ const EducationSocioemotional = () => {
             </Select>
           </div>
           <p className="text-sm text-muted-foreground">
-            En proceso + prosperando Grado Media - {selectedInstitutionFort2}
+            En proceso + prosperando Grado Media - Total
           </p>
         </CardHeader>
         <CardContent className="pt-6">
