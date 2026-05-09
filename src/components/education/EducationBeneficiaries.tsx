@@ -15,6 +15,22 @@ const normalizeProgram = (raw: string | null | undefined) => {
   return v;
 };
 
+const PROGRAM_LABEL_OVERRIDES: Record<string, string> = {
+  "# de estudiantes en programa Aprendamos Todos Matemáticas (1ero, 2do y 3ro)": "Aprendamos matemáticas",
+  "# de estudiantes en programa Aprendamos Todos Matemática (1ero, 2do y 3ro)": "Aprendamos matemáticas",
+  "# de estudiantes en programas de formación en inglés (English at Work)": "English at Work",
+  "# de participantes en otras iniciativas de educación": "Otras iniciativas de educación",
+};
+
+const displayProgramLabel = (raw: string) => {
+  if (!raw) return raw;
+  if (PROGRAM_LABEL_OVERRIDES[raw]) return PROGRAM_LABEL_OVERRIDES[raw];
+  const key = Object.keys(PROGRAM_LABEL_OVERRIDES).find(
+    (k) => k.toLowerCase() === raw.trim().toLowerCase()
+  );
+  return key ? PROGRAM_LABEL_OVERRIDES[key] : raw;
+};
+
 const EducationBeneficiaries = () => {
   const [selectedProgram, setSelectedProgram] = useState<string>("todos");
   const [selectedSchoolProgram, setSelectedSchoolProgram] = useState<string>("Aprendamos todos a leer");
@@ -204,7 +220,7 @@ const EducationBeneficiaries = () => {
           <SelectContent className="bg-white">
             <SelectItem value="todos">Todos los Programas</SelectItem>
             {programs.map(program => (
-              <SelectItem key={program} value={program}>{program}</SelectItem>
+              <SelectItem key={program} value={program}>{displayProgramLabel(program)}</SelectItem>
             ))}
           </SelectContent>
         </Select>
@@ -230,7 +246,7 @@ const EducationBeneficiaries = () => {
           <CardTitle className="text-luker-brown">
             {selectedProgram === "todos" 
               ? "Histórico participantes" 
-              : `Histórico participantes - ${selectedProgram}`}
+              : `Histórico participantes - ${displayProgramLabel(selectedProgram)}`}
           </CardTitle>
         </CardHeader>
         <CardContent>
