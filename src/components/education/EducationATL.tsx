@@ -281,27 +281,27 @@ const EducationATL = () => {
       {/* KPIs ATAL */}
       <EducationATALKPIs />
 
-      {/* Tarjeta 1: Resultados 2024 - Entrada vs Salida (Total) */}
+      {/* Tarjeta 1: Comparativo Línea de Base (ATAL_01) vs Resultado Final (ATAL_02) */}
       <Card className="border-luker-green/20 shadow-lg">
         <CardHeader className="bg-gradient-to-r from-luker-green/5 to-luker-teal/5">
           <div className="flex items-center justify-between flex-wrap gap-4">
             <div>
               <CardTitle className="text-xl flex items-center gap-2 text-luker-green">
                 <BookOpen className="h-5 w-5 text-luker-teal" />
-                Resultados 2024: Comparativo Entrada vs. Salida
+                Resultados: Comparativo Entrada vs. Salida
               </CardTitle>
               <p className="text-sm text-muted-foreground mt-1">
-                Datos agregados de todas las instituciones educativas
+                Promedio por grado escolar — Año {comparisonYear ?? "—"}
               </p>
             </div>
             <ChartDownloadButton 
               chartRef={chart2024Ref} 
-              title="ATAL Resultados 2024 Entrada vs Salida"
+              title={`ATAL Comparativo Línea de Base vs Resultado Final ${comparisonYear ?? ""}`}
               excelData={current2024Data}
               excelColumns={[
                 { header: "Grado", key: "grado" },
-                { header: "Entrada (%)", key: "Entrada" },
-                { header: "Salida (%)", key: "Salida" }
+                { header: "Línea de Base (%)", key: "Línea de Base" },
+                { header: "Resultado Final (%)", key: "Resultado Final" }
               ]}
             />
           </div>
