@@ -119,21 +119,15 @@ const EducationATL = () => {
 
         // Get unique institutions for Card 5 (including "Total")
         const allInstitutionsCard5 = new Set<string>();
-        (dataQuinto || []).forEach((item) => {
+        (dataQuinto || []).forEach((item: any) => {
           if (item.categoria) {
-            allInstitutionsCard5.add(item.categoria);
+            allInstitutionsCard5.add(normalizeInst(item.categoria));
           }
         });
 
-        const institutionsListCard5 = Array.from(allInstitutionsCard5).sort();
+        const institutionsListCard5 = ['Total', ...Array.from(allInstitutionsCard5).sort()];
         setInstitutionsCard5(institutionsListCard5);
-        
-        // Set "Total" as default for Card 5
-        if (institutionsListCard5.includes("Total")) {
-          setSelectedInstitutionCard5("Total");
-        } else if (institutionsListCard5.length > 0) {
-          setSelectedInstitutionCard5(institutionsListCard5[0]);
-        }
+        setSelectedInstitutionCard5('Total');
 
       } catch (err: any) {
         console.error('Error fetching ATL data:', err);
