@@ -538,6 +538,7 @@ const EducationSaberOnce = () => {
                     </BarChart>
                   </ResponsiveContainer>
                 </div>
+              ) : (
                 <Alert>
                   <AlertCircle className="h-4 w-4" />
                   <AlertDescription>
