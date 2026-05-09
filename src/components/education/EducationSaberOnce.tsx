@@ -103,10 +103,16 @@ const EducationSaberOnce = () => {
     if (rankingData && rankingData.length > 0) {
       const indicatorsList = Array.from(new Set(rankingData.map(i => i.indicador).filter(Boolean))) as string[];
       setAvailableRankingIndicators(indicatorsList.sort());
-      
+
       const yearsList = Array.from(new Set(rankingData.map(i => i.year).filter(Boolean))) as number[];
-      setAvailableRankingYears(yearsList.sort((a, b) => b - a));
-      
+      const sortedYears = yearsList.sort((a, b) => b - a);
+      setAvailableRankingYears(sortedYears);
+
+      // Default to most recent year available in data
+      if (sortedYears.length > 0 && !sortedYears.includes(selectedRankingYear)) {
+        setSelectedRankingYear(sortedYears[0]);
+      }
+
       if (!selectedRankingIndicator && indicatorsList.length > 0) {
         const globalIndicator = indicatorsList.find(i =>
           i.toLowerCase() === 'puntaje global'
@@ -114,7 +120,7 @@ const EducationSaberOnce = () => {
         setSelectedRankingIndicator(globalIndicator || indicatorsList[0]);
       }
     }
-  }, [rankingData, selectedRankingIndicator]);
+  }, [rankingData, selectedRankingIndicator, selectedRankingYear]);
 
   const rankingChartData = (() => {
     const filteredData = rankingData
