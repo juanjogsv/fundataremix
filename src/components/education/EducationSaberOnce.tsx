@@ -538,35 +538,6 @@ const EducationSaberOnce = () => {
                     </BarChart>
                   </ResponsiveContainer>
                 </div>
-              ) : (
-                <div ref={chart2Ref} className="h-[800px] mt-6">
-                  <ResponsiveContainer width="100%" height="100%">
-                    <BarChart data={rankingChartData} layout="vertical">
-                      <CartesianGrid strokeDasharray="3 3" />
-                      <XAxis type="number" />
-                      <YAxis 
-                        type="category" 
-                        dataKey="entidad" 
-                        width={180} 
-                        tick={{ fontSize: 12 }}
-                      />
-                      <Tooltip />
-                      <Legend />
-                      <Bar dataKey="puntaje" name="Puntaje">
-                        {rankingChartData.map((entry, index) => (
-                          <Cell 
-                            key={`cell-${index}`} 
-                            fill={entry.entidad.toLowerCase().includes('manizales') 
-                              ? 'hsl(var(--luker-red))' 
-                              : 'hsl(var(--luker-teal))'
-                            } 
-                          />
-                        ))}
-                      </Bar>
-                    </BarChart>
-                  </ResponsiveContainer>
-                </div>
-              ) : (
                 <Alert>
                   <AlertCircle className="h-4 w-4" />
                   <AlertDescription>
