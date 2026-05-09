@@ -25,6 +25,7 @@ const EducationSocioemotional = () => {
   const [institutionsFort, setInstitutionsFort] = useState<string[]>([]);
   const [selectedGradeFort1, setSelectedGradeFort1] = useState<string>("Media");
   const [selectedInstitutionFort2, setSelectedInstitutionFort2] = useState<string>("Total");
+  const [selectedGradeFort2, setSelectedGradeFort2] = useState<string>("Media");
   
   // Estado para la tercera tarjeta (distribución de niveles - Media)
   const [distributionData, setDistributionData] = useState<any[]>([]);
