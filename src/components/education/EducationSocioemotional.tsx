@@ -420,6 +420,9 @@ const EducationSocioemotional = () => {
               ]}
             />
           </div>
+          <p className="text-sm text-muted-foreground">
+            En proceso + prosperando Grado {selectedGradeFort1} - Año 2024
+          </p>
           <div className="space-y-1">
             <label className="text-xs font-medium text-muted-foreground">
               Selecciona el grado
@@ -434,9 +437,6 @@ const EducationSocioemotional = () => {
               </SelectContent>
             </Select>
           </div>
-          <p className="text-sm text-muted-foreground">
-            En proceso + prosperando Grado {selectedGradeFort1} - Año 2024
-          </p>
         </CardHeader>
         <CardContent className="pt-6">
           <div ref={chart1Ref}>
