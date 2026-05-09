@@ -121,31 +121,24 @@ const EducationBeneficiaries = () => {
     return data.sort((a, b) => a.year - b.year);
   }, [participants, selectedProgram]);
 
-  // Process data for schools chart (N° de colegios) - filtered by program
+  // Schools chart from DAMA (cod_indicador GP_03), filtered by normalized program
   const schoolsChartData = useMemo(() => {
-    if (!participants || !selectedSchoolProgram) return [];
+    if (!damaSchools || !selectedSchoolProgram) return [];
 
-    const colegiosData = participants.filter(
-      item => item.categoria === "N° de colegios" && item.programa === selectedSchoolProgram
+    const filtered = damaSchools.filter(
+      (r: any) => normalizeProgram(r.categoria_2) === selectedSchoolProgram
     );
 
-    // Group by year
-    const yearGroups = colegiosData.reduce((acc, item) => {
-      const year = item.year;
-      if (!acc[year]) {
-        acc[year] = 0;
-      }
-      acc[year] += Number(item.valor) || 0;
+    const yearGroups = filtered.reduce((acc: Record<number, number>, item: any) => {
+      const y = Number(item.anio);
+      acc[y] = (acc[y] || 0) + (Number(item.valor) || 0);
       return acc;
-    }, {} as Record<number, number>);
+    }, {});
 
-    const data = Object.entries(yearGroups).map(([year, colegios]) => ({
-      year: parseInt(year),
-      colegios
-    }));
-
-    return data.sort((a, b) => a.year - b.year);
-  }, [participants, selectedSchoolProgram]);
+    return Object.entries(yearGroups)
+      .map(([year, colegios]) => ({ year: parseInt(year), colegios: colegios as number }))
+      .sort((a, b) => a.year - b.year);
+  }, [damaSchools, selectedSchoolProgram]);
 
   // Latest year participants total (dynamic — siempre el año más reciente disponible)
   const year2024Data = useMemo(() => {
