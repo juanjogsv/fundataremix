@@ -364,10 +364,10 @@ const EducationATL = () => {
             <div>
               <CardTitle className="text-xl flex items-center gap-2 text-luker-green">
                 <BookOpen className="h-5 w-5 text-luker-teal" />
-                Avance Histórico de Lectura (Grado Primero)
+                Avance Histórico Fluidez Lectura (Grado Primero)
               </CardTitle>
               <p className="text-sm text-muted-foreground mt-1">
-                Porcentaje de Estudiantes de Primero con Nivel Estándar o Avanzado: Entrada vs. Salida - {selectedInstitutionCard4}
+                Porcentaje de Estudiantes de Primero con Nivel Estándar o Avanzado Fluidez: Entrada vs. Salida - {selectedInstitutionCard4}
               </p>
             </div>
             <ChartDownloadButton 
