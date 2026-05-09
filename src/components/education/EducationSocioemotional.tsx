@@ -23,7 +23,7 @@ const EducationSocioemotional = () => {
   // Estado para Cards 1 y 2: Fortalecimiento Trabajo en Equipo (CSOC_01 + CSOC_03)
   const [fortalecimientoData, setFortalecimientoData] = useState<any[]>([]);
   const [institutionsFort, setInstitutionsFort] = useState<string[]>([]);
-  const [selectedInstitutionFort1, setSelectedInstitutionFort1] = useState<string>("Total");
+  const [selectedGradeFort1, setSelectedGradeFort1] = useState<string>("Media");
   const [selectedInstitutionFort2, setSelectedInstitutionFort2] = useState<string>("Total");
   
   // Estado para la tercera tarjeta (distribución de niveles - Media)
