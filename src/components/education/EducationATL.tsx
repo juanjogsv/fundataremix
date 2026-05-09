@@ -89,18 +89,18 @@ const EducationATL = () => {
         console.log("📚 Datos PRIMERO (dama_data) obtenidos:", dataPrimero?.length || 0, "registros");
         setDataPrimeroHistorico(dataPrimero || []);
 
-        // Fetch data for Card 5: Quinto histórico (Entrada y Salida)
+        // Fetch data for Card 5: Quinto histórico (Entrada ATAL_01 vs Salida ATAL_02) desde dama_data
         const { data: dataQuinto, error: errorQuinto } = await supabase
-          .from('education_indicators')
-          .select('*')
-          .eq('indicador', 'Estudiantes que alcanzan el nivel estándar o avanzado')
+          .from('dama_data')
+          .select('anio, categoria, valor, cod_indicador')
+          .in('cod_indicador', ['ATAL_01', 'ATAL_02'])
           .eq('categoria_2', 'Quinto')
-          .gte('year', 2018)
-          .lte('year', 2024)
-          .order('year', { ascending: true });
+          .gte('anio', 2018)
+          .lte('anio', 2025)
+          .limit(10000);
 
         if (errorQuinto) throw errorQuinto;
-        console.log("📘 Datos QUINTO histórico obtenidos:", dataQuinto?.length || 0, "registros");
+        console.log("📘 Datos QUINTO (dama_data) obtenidos:", dataQuinto?.length || 0, "registros");
         setDataQuintoHistorico(dataQuinto || []);
 
         // Get unique institutions for Card 4 (including "Total")
@@ -119,21 +119,15 @@ const EducationATL = () => {
 
         // Get unique institutions for Card 5 (including "Total")
         const allInstitutionsCard5 = new Set<string>();
-        (dataQuinto || []).forEach((item) => {
+        (dataQuinto || []).forEach((item: any) => {
           if (item.categoria) {
-            allInstitutionsCard5.add(item.categoria);
+            allInstitutionsCard5.add(normalizeInst(item.categoria));
           }
         });
 
-        const institutionsListCard5 = Array.from(allInstitutionsCard5).sort();
+        const institutionsListCard5 = ['Total', ...Array.from(allInstitutionsCard5).sort()];
         setInstitutionsCard5(institutionsListCard5);
-        
-        // Set "Total" as default for Card 5
-        if (institutionsListCard5.includes("Total")) {
-          setSelectedInstitutionCard5("Total");
-        } else if (institutionsListCard5.length > 0) {
-          setSelectedInstitutionCard5(institutionsListCard5[0]);
-        }
+        setSelectedInstitutionCard5('Total');
 
       } catch (err: any) {
         console.error('Error fetching ATL data:', err);
@@ -187,52 +181,41 @@ const EducationATL = () => {
       }));
   }, [dataPrimeroHistorico, selectedInstitutionCard4]);
 
-  // Procesar datos de Card 5: Quinto histórico - Entrada vs Salida
+  // Procesar datos de Card 5: Quinto histórico - Entrada (ATAL_01) vs Salida (ATAL_02) desde dama_data
   const historicalQuintoChartData = useMemo(() => {
     if (!dataQuintoHistorico || dataQuintoHistorico.length === 0) return [];
 
-    // Filtrar por institución seleccionada
-    const filteredData = dataQuintoHistorico.filter((item) => item.categoria === selectedInstitutionCard5);
+    const normalizeInst = (s: string) =>
+      s && s.toLowerCase().trim() === 'escuela activa urbana' ? 'Escuela Activa' : s;
+
+    const filteredData = selectedInstitutionCard5 === 'Total'
+      ? dataQuintoHistorico
+      : dataQuintoHistorico.filter((item: any) => normalizeInst(item.categoria) === selectedInstitutionCard5);
 
     if (filteredData.length === 0) return [];
 
-    // Agrupar por año, separando entrada y salida
-    const yearMap = new Map<number, { entrada: number; salida: number }>();
+    const yearMap = new Map<number, { entrada: number[]; salida: number[] }>();
 
-    filteredData.forEach((item) => {
-      const year = item.year as number;
-      const type = (item.categoria_3 as string) || "";
-      let value = parseFloat(item.valor) || 0;
-      
-      // Multiplicar por 100 si es año 2024
-      if (year === 2024) {
-        value = value * 100;
-      }
+    filteredData.forEach((item: any) => {
+      const year = item.anio as number;
+      const value = parseFloat(item.valor);
+      if (!year || Number.isNaN(value)) return;
 
-      if (!yearMap.has(year)) {
-        yearMap.set(year, { entrada: 0, salida: 0 });
-      }
-
-      const yearData = yearMap.get(year)!;
-      if (type === "Entrada") {
-        yearData.entrada = value;
-      } else if (type === "Salida") {
-        yearData.salida = value;
-      }
+      if (!yearMap.has(year)) yearMap.set(year, { entrada: [], salida: [] });
+      const yd = yearMap.get(year)!;
+      if (item.cod_indicador === 'ATAL_01') yd.entrada.push(value);
+      else if (item.cod_indicador === 'ATAL_02') yd.salida.push(value);
     });
 
-    // Convertir a formato para el gráfico
-    const chartData = Array.from(yearMap.entries())
+    const avg = (arr: number[]) => arr.length ? arr.reduce((a, b) => a + b, 0) / arr.length : 0;
+
+    return Array.from(yearMap.entries())
       .sort((a, b) => a[0] - b[0])
       .map(([year, data]) => ({
         año: year.toString(),
-        Entrada: data.entrada,
-        Salida: data.salida
+        Entrada: Number(avg(data.entrada).toFixed(2)),
+        Salida: Number(avg(data.salida).toFixed(2)),
       }));
-
-    console.log("ATL Quinto - chartData", chartData);
-
-    return chartData;
   }, [dataQuintoHistorico, selectedInstitutionCard5]);
 
   if (isLoading) {
@@ -459,10 +442,10 @@ const EducationATL = () => {
             <div>
               <CardTitle className="text-xl flex items-center gap-2 text-luker-green">
                 <BookOpen className="h-5 w-5 text-luker-teal" />
-                Avance Histórico de Lectura (Grado Quinto)
+                Avance Histórico Fluidez Lectura (Grado Quinto)
               </CardTitle>
               <p className="text-sm text-muted-foreground mt-1">
-                Porcentaje de Estudiantes de Quinto con Nivel Estándar o Avanzado: Entrada vs. Salida - {selectedInstitutionCard5}
+                Porcentaje de Estudiantes de Quinto con Nivel Estándar o Avanzado Fluidez: Entrada vs. Salida - {selectedInstitutionCard5}
               </p>
             </div>
             <ChartDownloadButton 
@@ -488,6 +471,7 @@ const EducationATL = () => {
                   axisLine={{ stroke: 'hsl(122 56% 51%)' }}
                 />
                 <YAxis 
+                  domain={[0, 100]}
                   label={{ value: 'Porcentaje (%)', angle: -90, position: 'insideLeft', fill: 'hsl(122 56% 51%)' }}
                   tick={{ fill: 'hsl(122 56% 51%)' }}
                   axisLine={{ stroke: 'hsl(122 56% 51%)' }}
