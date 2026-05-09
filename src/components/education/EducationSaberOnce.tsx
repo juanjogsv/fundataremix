@@ -70,8 +70,11 @@ const EducationSaberOnce = () => {
     return ordered.filter(c => cats.includes(c)).concat(cats.filter(c => !ordered.includes(c)));
   }, [damaSaberData]);
 
+  const normalize = (v: any) => (v ?? "").toString().trim().toLowerCase();
+
   const chartData = useMemo(() => {
-    const filtered = (damaSaberData || []).filter(d => d.categoria === selectedCategory);
+    const target = normalize(selectedCategory);
+    const filtered = (damaSaberData || []).filter(d => normalize(d.categoria) === target);
     const grouped: Record<number, number[]> = {};
     filtered.forEach(d => {
       if (d.anio == null || d.valor == null) return;
@@ -139,7 +142,7 @@ const EducationSaberOnce = () => {
     const entityMap = new Map(damaEntities.map(e => [e.cod_entidad, e.entidad]));
     const grouped: Record<string, number[]> = {};
     rankingData
-      .filter(d => d.anio === selectedRankingYear && d.categoria === selectedRankingCategory && d.cod_entidad)
+      .filter(d => d.anio === selectedRankingYear && normalize(d.categoria) === normalize(selectedRankingCategory) && d.cod_entidad)
       .forEach(d => {
         const code = String(d.cod_entidad);
         // Solo ciudades capitales (códigos de 5 dígitos)
