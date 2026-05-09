@@ -182,18 +182,36 @@ const EducationSocioemotional = () => {
 
   const avg = (arr: number[]) => arr.length ? arr.reduce((a, b) => a + b, 0) / arr.length : 0;
 
-  // Card 1: año 2024, agrupado por institución -> suma; si Total => promedio entre instituciones
+  // Card 1: 4 barras (EA, No EA, Rural, Total) - suma CSOC_01 + CSOC_03 - año 2024
   const chartData = useMemo(() => {
     if (!fortalecimientoData.length) return [];
-    const sums = sumByInstitutionYear(fortalecimientoData.filter((r: any) => r.anio === 2024));
-    if (selectedInstitutionFort1 === 'Total') {
-      const value = Number(avg(sums.map(s => s.sum)).toFixed(2));
-      return [{ categoría: 'Total', porcentaje: value }];
-    }
-    const filtered = sums.filter(s => s.inst === selectedInstitutionFort1);
-    const value = Number(avg(filtered.map(s => s.sum)).toFixed(2));
-    return [{ categoría: selectedInstitutionFort1, porcentaje: value }];
-  }, [fortalecimientoData, selectedInstitutionFort1]);
+    const rows = fortalecimientoData.filter(
+      (r: any) => r.anio === 2024 && r.categoria_2 === selectedGradeFort1
+    );
+    const buckets: Record<string, { c1: number | null; c3: number | null }> = {
+      EA: { c1: null, c3: null },
+      "No EA": { c1: null, c3: null },
+      Rural: { c1: null, c3: null },
+    };
+    rows.forEach((r: any) => {
+      if (!buckets[r.categoria]) return;
+      const v = parseFloat(r.valor);
+      if (Number.isNaN(v)) return;
+      if (r.cod_indicador === 'CSOC_01') buckets[r.categoria].c1 = v;
+      else if (r.cod_indicador === 'CSOC_03') buckets[r.categoria].c3 = v;
+    });
+    const sumOf = (k: string) => (buckets[k].c1 ?? 0) + (buckets[k].c3 ?? 0);
+    const ea = sumOf('EA');
+    const noea = sumOf('No EA');
+    const rural = sumOf('Rural');
+    const total = Number(((ea + noea + rural) / 3).toFixed(2));
+    return [
+      { categoría: 'Escuela Activa', porcentaje: Number(ea.toFixed(2)) },
+      { categoría: 'No Escuela Activa', porcentaje: Number(noea.toFixed(2)) },
+      { categoría: 'Rural', porcentaje: Number(rural.toFixed(2)) },
+      { categoría: 'Total', porcentaje: total },
+    ];
+  }, [fortalecimientoData, selectedGradeFort1]);
 
   // Card 2: histórico por año, mismo cálculo
   const historicalChartData = useMemo(() => {
