@@ -16,12 +16,12 @@ const EducationSaberOnce = () => {
 
   // Card 1: Saber 11 histórico desde dama_data (entidad Manizales = 17001)
   const SABER_OPTIONS = [
-    { code: "SABER_02", label: "Saber_01 - Puntaje Global" },
-    { code: "SABER_05", label: "Saber_02 - Matemáticas" },
-    { code: "SABER_04", label: "Saber_03 - Lectura Crítica" },
-    { code: "SABER_01", label: "Saber_04 - Ciencias Naturales" },
-    { code: "SABER_06", label: "Saber_05 - Sociales y Ciudadanas" },
-    { code: "SABER_03", label: "Saber_06 - Inglés" },
+    { code: "SABER_02", label: "Puntaje Global" },
+    { code: "SABER_05", label: "Matemáticas" },
+    { code: "SABER_04", label: "Lectura Crítica" },
+    { code: "SABER_01", label: "Ciencias Naturales" },
+    { code: "SABER_06", label: "Sociales y Ciudadanas" },
+    { code: "SABER_03", label: "Inglés" },
   ];
 
   const [selectedIndicator, setSelectedIndicator] = useState<string>("SABER_02");
