@@ -1,0 +1,1 @@
+UPDATE public.dama_entities SET entidad = 'Cúcuta' WHERE cod_entidad = '54001';
