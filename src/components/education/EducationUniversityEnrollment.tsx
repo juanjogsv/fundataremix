@@ -27,7 +27,6 @@ const EducationUniversityEnrollment = () => {
           .eq("indicador", "Matrícula técnica UTC por institución educativa")
           .eq("categoria_2", "Universidad / Instituto técnico o tecnológico")
           .gte("year", 2018)
-          .lte("year", 2024)
           .order("year", { ascending: true });
 
         if (fetchError) throw fetchError;

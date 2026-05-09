@@ -50,12 +50,11 @@ const EducationBeneficiaries = () => {
   }, [participants]);
 
   // Process data for stacked bar chart with Educación and Formare (Total Beneficiarios only)
-  // Exclude 2025 while database is being updated
   const chartData = useMemo(() => {
     if (!participants) return [];
 
     const beneficiariosData = participants.filter(
-      item => item.categoria === "Total Beneficiarios" && item.year !== 2025
+      item => item.categoria === "Total Beneficiarios"
     );
 
     // Group by year
@@ -126,26 +125,16 @@ const EducationBeneficiaries = () => {
     return data.sort((a, b) => a.year - b.year);
   }, [participants, selectedSchoolProgram]);
 
-  // Get 2024 year total (while we update to 2025)
+  // Latest year participants total (dynamic — siempre el año más reciente disponible)
   const year2024Data = useMemo(() => {
-    if (chartData.length === 0) return { total: 0, year: 2024 };
-    const data2024 = chartData.find(d => d.year === 2024);
-    if (data2024) {
-      return { total: data2024.total, year: 2024 };
-    }
-    // Fallback to latest year if 2024 not found
+    if (chartData.length === 0) return { total: 0, year: new Date().getFullYear() };
     const latest = chartData[chartData.length - 1];
     return { total: latest.total, year: latest.year };
   }, [chartData]);
 
-  // Get 2024 schools total
+  // Latest year schools total (dynamic)
   const schools2024Data = useMemo(() => {
-    if (schoolsChartData.length === 0) return { total: 0, year: 2024 };
-    const data2024 = schoolsChartData.find(d => d.year === 2024);
-    if (data2024) {
-      return { total: data2024.colegios, year: 2024 };
-    }
-    // Fallback to latest year if 2024 not found
+    if (schoolsChartData.length === 0) return { total: 0, year: new Date().getFullYear() };
     const latest = schoolsChartData[schoolsChartData.length - 1];
     return { total: latest.colegios, year: latest.year };
   }, [schoolsChartData]);

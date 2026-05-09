@@ -56,14 +56,18 @@ const EducationSaberOnce = () => {
   }, [indicators, selectedIndicator]);
 
   const chartData = (() => {
-    const allYears = Array.from({ length: 10 }, (_, i) => 2015 + i); // 2015 to 2024
-    
     const filteredData = indicators
-      ?.filter(item => 
+      ?.filter(item =>
         item.indicador === selectedIndicator &&
         item.categoria === selectedCategory
       ) || [];
-    
+
+    const yearsInData = Array.from(new Set(filteredData.map(i => i.year).filter(Boolean))) as number[];
+    const minYear = yearsInData.length ? Math.min(...yearsInData) : 2015;
+    const maxYear = yearsInData.length ? Math.max(...yearsInData) : new Date().getFullYear();
+    const allYears: number[] = [];
+    for (let y = minYear; y <= maxYear; y++) allYears.push(y);
+
     return allYears.map(year => {
       const dataPoint = filteredData.find(item => item.year === year);
       return {
@@ -91,7 +95,7 @@ const EducationSaberOnce = () => {
 
   const [selectedRankingIndicator, setSelectedRankingIndicator] = useState("");
   const [selectedRankingCategory, setSelectedRankingCategory] = useState("Total");
-  const [selectedRankingYear, setSelectedRankingYear] = useState(2024);
+  const [selectedRankingYear, setSelectedRankingYear] = useState<number>(new Date().getFullYear());
   const [availableRankingIndicators, setAvailableRankingIndicators] = useState<string[]>([]);
   const [availableRankingYears, setAvailableRankingYears] = useState<number[]>([]);
 
@@ -99,10 +103,16 @@ const EducationSaberOnce = () => {
     if (rankingData && rankingData.length > 0) {
       const indicatorsList = Array.from(new Set(rankingData.map(i => i.indicador).filter(Boolean))) as string[];
       setAvailableRankingIndicators(indicatorsList.sort());
-      
+
       const yearsList = Array.from(new Set(rankingData.map(i => i.year).filter(Boolean))) as number[];
-      setAvailableRankingYears(yearsList.sort((a, b) => b - a));
-      
+      const sortedYears = yearsList.sort((a, b) => b - a);
+      setAvailableRankingYears(sortedYears);
+
+      // Default to most recent year available in data
+      if (sortedYears.length > 0 && !sortedYears.includes(selectedRankingYear)) {
+        setSelectedRankingYear(sortedYears[0]);
+      }
+
       if (!selectedRankingIndicator && indicatorsList.length > 0) {
         const globalIndicator = indicatorsList.find(i =>
           i.toLowerCase() === 'puntaje global'
@@ -110,7 +120,7 @@ const EducationSaberOnce = () => {
         setSelectedRankingIndicator(globalIndicator || indicatorsList[0]);
       }
     }
-  }, [rankingData, selectedRankingIndicator]);
+  }, [rankingData, selectedRankingIndicator, selectedRankingYear]);
 
   const rankingChartData = (() => {
     const filteredData = rankingData
@@ -208,24 +218,24 @@ const EducationSaberOnce = () => {
   const evolutionChartData = useMemo(() => {
     if (!evolutionData || !selectedEvolutionIndicator) return [];
 
-    // ALWAYS create all years from 2015 to 2024
-    const years = Array.from({ length: 10 }, (_, i) => 2015 + i);
+    // Dynamic year range based on actual data
+    const yearsInData = Array.from(new Set(evolutionData.map((d: any) => d.year).filter(Boolean))) as number[];
+    if (yearsInData.length === 0) return [];
+    const minYear = Math.min(...yearsInData);
+    const maxYear = Math.max(...yearsInData);
+    const years: number[] = [];
+    for (let y = minYear; y <= maxYear; y++) years.push(y);
 
-    // evolutionData already filtered by indicador in the query
     const filteredData = evolutionData;
 
-    // Build chart data with ALL years (2015-2024)
     const chartData = years.map((year) => {
       const yearData: any = { año: year };
-
-      // Only include selected cities in the data (prevents missing keys)
       selectedCities.forEach((city) => {
         const cityData = filteredData.find(
           (d) => d.year === year && d.departamento === city
         );
         yearData[city] = cityData ? Math.round(cityData.valor || 0) : null;
       });
-
       return yearData;
     });
 
