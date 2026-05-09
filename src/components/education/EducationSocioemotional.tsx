@@ -153,51 +153,63 @@ const EducationSocioemotional = () => {
     }
   }, [availableYears, selectedYearColumn]);
 
-  // Process data for first chart
+  const normalizeInst = (s: string) =>
+    s && s.toLowerCase().trim() === 'escuela activa urbana' ? 'Escuela Activa' : s;
+
+  // Helper: agrupa por (institución, año) sumando CSOC_01 + CSOC_03 (ambos deben existir)
+  const sumByInstitutionYear = (rows: any[]) => {
+    const map = new Map<string, { entrada: number | null; salida: number | null }>();
+    rows.forEach((r: any) => {
+      const inst = normalizeInst(r.categoria);
+      const year = r.anio;
+      if (!inst || !year) return;
+      const key = `${inst}__${year}`;
+      if (!map.has(key)) map.set(key, { entrada: null, salida: null });
+      const v = parseFloat(r.valor);
+      if (Number.isNaN(v)) return;
+      const slot = map.get(key)!;
+      if (r.cod_indicador === 'CSOC_01') slot.entrada = v;
+      else if (r.cod_indicador === 'CSOC_03') slot.salida = v;
+    });
+    const result: { inst: string; year: number; sum: number }[] = [];
+    map.forEach((val, key) => {
+      const [inst, yearStr] = key.split('__');
+      const a = val.entrada ?? 0;
+      const b = val.salida ?? 0;
+      result.push({ inst, year: parseInt(yearStr), sum: a + b });
+    });
+    return result;
+  };
+
+  const avg = (arr: number[]) => arr.length ? arr.reduce((a, b) => a + b, 0) / arr.length : 0;
+
+  // Card 1: año 2024, agrupado por institución -> suma; si Total => promedio entre instituciones
   const chartData = useMemo(() => {
-    if (!data || data.length === 0) return [];
+    if (!fortalecimientoData.length) return [];
+    const sums = sumByInstitutionYear(fortalecimientoData.filter((r: any) => r.anio === 2024));
+    if (selectedInstitutionFort1 === 'Total') {
+      const value = Number(avg(sums.map(s => s.sum)).toFixed(2));
+      return [{ categoría: 'Total', porcentaje: value }];
+    }
+    const filtered = sums.filter(s => s.inst === selectedInstitutionFort1);
+    const value = Number(avg(filtered.map(s => s.sum)).toFixed(2));
+    return [{ categoría: selectedInstitutionFort1, porcentaje: value }];
+  }, [fortalecimientoData, selectedInstitutionFort1]);
 
-    const filteredData = data.filter(item => item.categoria_2 === selectedGrade);
-    
-    // Map category names
-    const categoryMap: Record<string, string> = {
-      "EA": "Escuela Activa",
-      "No EA": "No Escuela Activa",
-      "Rural": "Rural",
-      "Total": "Total"
-    };
-    
-    return filteredData.map(item => ({
-      categoría: categoryMap[item.categoria] || item.categoria,
-      porcentaje: parseFloat(item.valor) || 0
-    }));
-  }, [data, selectedGrade]);
-
-  // Process data for historical chart (second card)
+  // Card 2: histórico por año, mismo cálculo
   const historicalChartData = useMemo(() => {
-    if (!historicalData || historicalData.length === 0) return [];
-
-    const filteredData = historicalData.filter(item => item.categoria_2 === selectedGradeHistorical);
-    
-    // Group by year
-    const yearGroups = filteredData.reduce((acc, item) => {
-      const year = item.year.toString();
-      if (!acc[year]) {
-        acc[year] = { año: year };
-      }
-      
-      // Add EA and No EA values
-      if (item.categoria === "EA") {
-        acc[year]["EA"] = parseFloat(item.valor) || 0;
-      } else if (item.categoria === "No EA") {
-        acc[year]["No EA"] = parseFloat(item.valor) || 0;
-      }
-      
-      return acc;
-    }, {} as Record<string, any>);
-    
-    return Object.values(yearGroups).sort((a: any, b: any) => parseInt(a.año) - parseInt(b.año));
-  }, [historicalData, selectedGradeHistorical]);
+    if (!fortalecimientoData.length) return [];
+    const sums = sumByInstitutionYear(fortalecimientoData);
+    const byYear = new Map<number, number[]>();
+    sums.forEach(s => {
+      if (selectedInstitutionFort2 !== 'Total' && s.inst !== selectedInstitutionFort2) return;
+      if (!byYear.has(s.year)) byYear.set(s.year, []);
+      byYear.get(s.year)!.push(s.sum);
+    });
+    return Array.from(byYear.entries())
+      .sort((a, b) => a[0] - b[0])
+      .map(([year, vals]) => ({ año: year.toString(), Fortalecimiento: Number(avg(vals).toFixed(2)) }));
+  }, [fortalecimientoData, selectedInstitutionFort2]);
 
   // Process data for distribution chart (third card)
   const distributionChartData = useMemo(() => {
