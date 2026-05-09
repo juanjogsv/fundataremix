@@ -326,8 +326,8 @@ const EducationATL = () => {
                   contentStyle={{ backgroundColor: '#fff', border: '1px solid hsl(122 56% 51%)' }}
                 />
                 <Legend wrapperStyle={{ color: 'hsl(122 56% 51%)' }} />
-                <Bar dataKey="Entrada" fill="hsl(37 97% 62%)" name="Entrada" radius={[4, 4, 0, 0]} />
-                <Bar dataKey="Salida" fill="hsl(180 100% 34%)" name="Salida" radius={[4, 4, 0, 0]} />
+                <Bar dataKey="Línea de Base" fill="hsl(37 97% 62%)" name="Línea de Base" radius={[4, 4, 0, 0]} />
+                <Bar dataKey="Resultado Final" fill="hsl(180 100% 34%)" name="Resultado Final" radius={[4, 4, 0, 0]} />
               </BarChart>
             </ResponsiveContainer>
           ) : (
