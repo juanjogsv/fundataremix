@@ -88,66 +88,73 @@ const EducationSaberOnce = () => {
   }, [damaSaberData, selectedCategory]);
 
 
-  // Query for Card 2 - Ranking
-  const { data: rankingData, isLoading: isLoadingRanking } = useQuery({
-    queryKey: ["education-saber-once-ranking"],
+  // Card 2 - Ranking de ciudades (dama_data + dama_entities)
+  const [selectedRankingIndicator, setSelectedRankingIndicator] = useState<string>("SABER_02");
+  const [selectedRankingCategory, setSelectedRankingCategory] = useState("Total");
+  const [selectedRankingYear, setSelectedRankingYear] = useState<number>(2024);
+
+  const { data: damaEntities } = useQuery({
+    queryKey: ["dama-entities-cities"],
     queryFn: async () => {
       const { data, error } = await supabase
-        .from("education_indicators")
-        .select("*")
-        .eq("seccion", "Resultados pruebas Saber 11")
-        .order("valor", { ascending: false });
-      
+        .from("dama_entities")
+        .select("cod_entidad, entidad");
       if (error) throw error;
       return data;
     },
   });
 
-  const [selectedRankingIndicator, setSelectedRankingIndicator] = useState("");
-  const [selectedRankingCategory, setSelectedRankingCategory] = useState("Total");
-  const [selectedRankingYear, setSelectedRankingYear] = useState<number>(new Date().getFullYear());
-  const [availableRankingIndicators, setAvailableRankingIndicators] = useState<string[]>([]);
-  const [availableRankingYears, setAvailableRankingYears] = useState<number[]>([]);
+  const { data: rankingData, isLoading: isLoadingRanking } = useQuery({
+    queryKey: ["dama-saber-ranking", selectedRankingIndicator],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("dama_data")
+        .select("anio, categoria, valor, cod_entidad")
+        .eq("cod_indicador", selectedRankingIndicator)
+        .limit(5000);
+      if (error) throw error;
+      return data;
+    },
+  });
+
+  const availableRankingYears = useMemo(() => {
+    const years = Array.from(new Set((rankingData || []).map(d => d.anio).filter(Boolean))) as number[];
+    return years.sort((a, b) => b - a);
+  }, [rankingData]);
+
+  const availableRankingCategories = useMemo(() => {
+    const cats = Array.from(new Set((rankingData || []).map(d => d.categoria).filter(Boolean))) as string[];
+    const ordered = ["Total", "Oficial", "No oficial", "Urbano", "Rural", "Hombre", "Mujer", "Planteles oficiales", "Planteles privados"];
+    return ordered.filter(c => cats.includes(c)).concat(cats.filter(c => !ordered.includes(c)));
+  }, [rankingData]);
 
   useEffect(() => {
-    if (rankingData && rankingData.length > 0) {
-      const indicatorsList = Array.from(new Set(rankingData.map(i => i.indicador).filter(Boolean))) as string[];
-      setAvailableRankingIndicators(indicatorsList.sort());
-
-      const yearsList = Array.from(new Set(rankingData.map(i => i.year).filter(Boolean))) as number[];
-      const sortedYears = yearsList.sort((a, b) => b - a);
-      setAvailableRankingYears(sortedYears);
-
-      // Default to most recent year available in data
-      if (sortedYears.length > 0 && !sortedYears.includes(selectedRankingYear)) {
-        setSelectedRankingYear(sortedYears[0]);
-      }
-
-      if (!selectedRankingIndicator && indicatorsList.length > 0) {
-        const globalIndicator = indicatorsList.find(i =>
-          i.toLowerCase() === 'puntaje global'
-        );
-        setSelectedRankingIndicator(globalIndicator || indicatorsList[0]);
-      }
+    if (availableRankingYears.length > 0 && !availableRankingYears.includes(selectedRankingYear)) {
+      setSelectedRankingYear(availableRankingYears[0]);
     }
-  }, [rankingData, selectedRankingIndicator, selectedRankingYear]);
+  }, [availableRankingYears, selectedRankingYear]);
 
-  const rankingChartData = (() => {
-    const filteredData = rankingData
-      ?.filter(item => 
-        item.indicador === selectedRankingIndicator &&
-        item.categoria === selectedRankingCategory &&
-        item.year === selectedRankingYear &&
-        item.departamento
-      )
-      .sort((a, b) => (b.valor || 0) - (a.valor || 0))
-      .map((item, index) => ({
-        entidad: `${index + 1}. ${item.departamento}`,
-        puntaje: Math.round(item.valor || 0),
-      })) || [];
-    
-    return filteredData;
-  })();
+  const rankingChartData = useMemo(() => {
+    if (!rankingData || !damaEntities) return [];
+    const entityMap = new Map(damaEntities.map(e => [e.cod_entidad, e.entidad]));
+    const grouped: Record<string, number[]> = {};
+    rankingData
+      .filter(d => d.anio === selectedRankingYear && d.categoria === selectedRankingCategory && d.cod_entidad)
+      .forEach(d => {
+        const code = String(d.cod_entidad);
+        // Solo ciudades capitales (códigos de 5 dígitos)
+        if (code.length !== 5) return;
+        if (d.valor == null) return;
+        if (!grouped[code]) grouped[code] = [];
+        grouped[code].push(Number(d.valor));
+      });
+    return Object.entries(grouped)
+      .map(([code, vals]) => ({
+        entidad: entityMap.get(code) || code,
+        puntaje: Math.round(vals.reduce((a, b) => a + b, 0) / vals.length),
+      }))
+      .sort((a, b) => b.puntaje - a.puntaje);
+  }, [rankingData, damaEntities, selectedRankingYear, selectedRankingCategory]);
 
   // Query and state for Card 3 - Evolution comparison with indicator filter
   const [selectedEvolutionIndicator, setSelectedEvolutionIndicator] = useState("");
@@ -476,9 +483,9 @@ const EducationSaberOnce = () => {
                       <SelectValue placeholder="Seleccione indicador" />
                     </SelectTrigger>
                     <SelectContent>
-                      {availableRankingIndicators.map((indicator) => (
-                        <SelectItem key={indicator} value={indicator}>
-                          {indicator}
+                      {SABER_OPTIONS.map((opt) => (
+                        <SelectItem key={opt.code} value={opt.code}>
+                          {opt.label}
                         </SelectItem>
                       ))}
                     </SelectContent>
@@ -492,7 +499,7 @@ const EducationSaberOnce = () => {
                       <SelectValue placeholder="Seleccione categoría" />
                     </SelectTrigger>
                     <SelectContent>
-                      {availableCategoriesCard1.map((category) => (
+                      {availableRankingCategories.map((category) => (
                         <SelectItem key={category} value={category}>
                           {category}
                         </SelectItem>
@@ -522,8 +529,8 @@ const EducationSaberOnce = () => {
                           <Cell 
                             key={`cell-${index}`} 
                             fill={entry.entidad.toLowerCase().includes('manizales') 
-                              ? 'hsl(var(--luker-red))' 
-                              : 'hsl(var(--luker-teal))'
+                              ? '#e11d48' 
+                              : '#0d9488'
                             } 
                           />
                         ))}
