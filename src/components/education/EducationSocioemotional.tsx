@@ -47,12 +47,11 @@ const EducationSocioemotional = () => {
       try {
         setIsLoading(true);
         
-        // Fetch CSOC_01 + CSOC_03 (Prosperando + En proceso) - Grado Media - Manizales
+        // Fetch CSOC_01 + CSOC_03 (Prosperando + En proceso) - Manizales
         const { data: fortResult, error: fortError } = await supabase
           .from("dama_data")
-          .select("anio, categoria, valor, cod_indicador")
+          .select("anio, categoria, categoria_2, valor, cod_indicador")
           .in("cod_indicador", ["CSOC_01", "CSOC_03"])
-          .eq("categoria_2", "Media")
           .eq("cod_entidad", "17001")
           .limit(10000);
 
