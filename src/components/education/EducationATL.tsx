@@ -37,17 +37,39 @@ const EducationATL = () => {
       try {
         setIsLoading(true);
         
-        // Fetch data for 2024
-        const { data: data2024Result, error: error2024 } = await supabase
-          .from('education_indicators')
-          .select('*')
-          .eq('indicador', 'Estudiantes que alcanzan el nivel estándar o avanzado')
-          .eq('year', 2024)
-          .order('categoria_2', { ascending: true });
+        // Fetch ATAL_01 vs ATAL_02 from dama_data (Manizales)
+        const { data: atalCmp, error: errCmp } = await supabase
+          .from('dama_data')
+          .select('cod_indicador, anio, categoria_2, valor')
+          .in('cod_indicador', ['ATAL_01', 'ATAL_02'])
+          .eq('cod_entidad', '17001')
+          .limit(10000);
 
-        if (error2024) throw error2024;
-        console.log("📊 Datos 2024 obtenidos:", data2024Result?.length || 0, "registros");
-        setData2024(data2024Result || []);
+        if (errCmp) throw errCmp;
+
+        // Determine latest year present across both indicators
+        const years = (atalCmp || []).map((r: any) => r.anio).filter((y: any) => y != null);
+        const latestYear = years.length ? Math.max(...years) : null;
+        setComparisonYear(latestYear);
+
+        const grados = ["Primero", "Segundo", "Tercero", "Cuarto", "Quinto"];
+        const acc: Record<string, { b: number[]; r: number[] }> = {};
+        grados.forEach(g => { acc[g] = { b: [], r: [] }; });
+        (atalCmp || []).forEach((row: any) => {
+          if (row.anio !== latestYear) return;
+          const grade = row.categoria_2;
+          if (!grade || !acc[grade]) return;
+          const v = parseFloat(row.valor);
+          if (Number.isNaN(v)) return;
+          if (row.cod_indicador === 'ATAL_01') acc[grade].b.push(v);
+          else if (row.cod_indicador === 'ATAL_02') acc[grade].r.push(v);
+        });
+        const avg = (arr: number[]) => arr.length ? arr.reduce((a, b) => a + b, 0) / arr.length : 0;
+        setComparisonData(grados.map(g => ({
+          grado: g,
+          'Línea de Base': Number(avg(acc[g].b).toFixed(2)),
+          'Resultado Final': Number(avg(acc[g].r).toFixed(2)),
+        })));
 
         // Fetch data for Card 4: Primero histórico (Entrada y Salida)
         const { data: dataPrimero, error: errorPrimero } = await supabase
