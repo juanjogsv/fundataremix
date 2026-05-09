@@ -75,18 +75,18 @@ const EducationATL = () => {
           'Salida': Number(avg(acc[g].r).toFixed(2)),
         })));
 
-        // Fetch data for Card 4: Primero histórico (Entrada y Salida)
+        // Fetch data for Card 4: Primero histórico (Entrada ATAL_01 vs Salida ATAL_02) desde dama_data
         const { data: dataPrimero, error: errorPrimero } = await supabase
-          .from('education_indicators')
-          .select('*')
-          .eq('indicador', 'Estudiantes que alcanzan el nivel estándar o avanzado')
+          .from('dama_data')
+          .select('anio, categoria, valor, cod_indicador')
+          .in('cod_indicador', ['ATAL_01', 'ATAL_02'])
           .eq('categoria_2', 'Primero')
-          .gte('year', 2018)
-          .lte('year', 2024)
-          .order('year', { ascending: true });
+          .gte('anio', 2018)
+          .lte('anio', 2025)
+          .limit(10000);
 
         if (errorPrimero) throw errorPrimero;
-        console.log("📚 Datos PRIMERO histórico obtenidos:", dataPrimero?.length || 0, "registros");
+        console.log("📚 Datos PRIMERO (dama_data) obtenidos:", dataPrimero?.length || 0, "registros");
         setDataPrimeroHistorico(dataPrimero || []);
 
         // Fetch data for Card 5: Quinto histórico (Entrada y Salida)
@@ -104,22 +104,18 @@ const EducationATL = () => {
         setDataQuintoHistorico(dataQuinto || []);
 
         // Get unique institutions for Card 4 (including "Total")
+        const normalizeInst = (s: string) =>
+          s && s.toLowerCase().trim() === 'escuela activa urbana' ? 'Escuela Activa' : s;
         const allInstitutionsCard4 = new Set<string>();
-        (dataPrimero || []).forEach((item) => {
+        (dataPrimero || []).forEach((item: any) => {
           if (item.categoria) {
-            allInstitutionsCard4.add(item.categoria);
+            allInstitutionsCard4.add(normalizeInst(item.categoria));
           }
         });
 
-        const institutionsListCard4 = Array.from(allInstitutionsCard4).sort();
+        const institutionsListCard4 = ['Total', ...Array.from(allInstitutionsCard4).sort()];
         setInstitutionsCard4(institutionsListCard4);
-        
-        // Set "Total" as default for Card 4
-        if (institutionsListCard4.includes("Total")) {
-          setSelectedInstitutionCard4("Total");
-        } else if (institutionsListCard4.length > 0) {
-          setSelectedInstitutionCard4(institutionsListCard4[0]);
-        }
+        setSelectedInstitutionCard4('Total');
 
         // Get unique institutions for Card 5 (including "Total")
         const allInstitutionsCard5 = new Set<string>();
@@ -153,52 +149,42 @@ const EducationATL = () => {
   // Datos comparativos para la tarjeta 1 (ATAL_01 vs ATAL_02)
   const current2024Data = comparisonData;
 
-  // Procesar datos de Card 4: Primero histórico - Entrada vs Salida
+  // Procesar datos de Card 4: Primero histórico - Entrada (ATAL_01) vs Salida (ATAL_02) desde dama_data
   const historicalPrimeroChartData = useMemo(() => {
     if (!dataPrimeroHistorico || dataPrimeroHistorico.length === 0) return [];
 
-    // Filtrar por institución seleccionada
-    const filteredData = dataPrimeroHistorico.filter((item) => item.categoria === selectedInstitutionCard4);
+    const normalizeInst = (s: string) =>
+      s && s.toLowerCase().trim() === 'escuela activa urbana' ? 'Escuela Activa' : s;
+
+    const filteredData = selectedInstitutionCard4 === 'Total'
+      ? dataPrimeroHistorico
+      : dataPrimeroHistorico.filter((item: any) => normalizeInst(item.categoria) === selectedInstitutionCard4);
 
     if (filteredData.length === 0) return [];
 
-    // Agrupar por año, separando entrada y salida
-    const yearMap = new Map<number, { entrada: number; salida: number }>();
+    // Agrupar por año, promediando ATAL_01 (Entrada) y ATAL_02 (Salida)
+    const yearMap = new Map<number, { entrada: number[]; salida: number[] }>();
 
-    filteredData.forEach((item) => {
-      const year = item.year as number;
-      const type = (item.categoria_3 as string) || "";
-      let value = parseFloat(item.valor) || 0;
-      
-      // Multiplicar por 100 si es año 2024
-      if (year === 2024) {
-        value = value * 100;
-      }
+    filteredData.forEach((item: any) => {
+      const year = item.anio as number;
+      const value = parseFloat(item.valor);
+      if (!year || Number.isNaN(value)) return;
 
-      if (!yearMap.has(year)) {
-        yearMap.set(year, { entrada: 0, salida: 0 });
-      }
-
-      const yearData = yearMap.get(year)!;
-      if (type === "Entrada") {
-        yearData.entrada = value;
-      } else if (type === "Salida") {
-        yearData.salida = value;
-      }
+      if (!yearMap.has(year)) yearMap.set(year, { entrada: [], salida: [] });
+      const yd = yearMap.get(year)!;
+      if (item.cod_indicador === 'ATAL_01') yd.entrada.push(value);
+      else if (item.cod_indicador === 'ATAL_02') yd.salida.push(value);
     });
 
-    // Convertir a formato para el gráfico
-    const chartData = Array.from(yearMap.entries())
+    const avg = (arr: number[]) => arr.length ? arr.reduce((a, b) => a + b, 0) / arr.length : 0;
+
+    return Array.from(yearMap.entries())
       .sort((a, b) => a[0] - b[0])
       .map(([year, data]) => ({
         año: year.toString(),
-        Entrada: data.entrada,
-        Salida: data.salida
+        Entrada: Number(avg(data.entrada).toFixed(2)),
+        Salida: Number(avg(data.salida).toFixed(2)),
       }));
-
-    console.log("ATL Primero - chartData", chartData);
-
-    return chartData;
   }, [dataPrimeroHistorico, selectedInstitutionCard4]);
 
   // Procesar datos de Card 5: Quinto histórico - Entrada vs Salida
@@ -378,10 +364,10 @@ const EducationATL = () => {
             <div>
               <CardTitle className="text-xl flex items-center gap-2 text-luker-green">
                 <BookOpen className="h-5 w-5 text-luker-teal" />
-                Avance Histórico de Lectura (Grado Primero)
+                Avance Histórico Fluidez Lectura (Grado Primero)
               </CardTitle>
               <p className="text-sm text-muted-foreground mt-1">
-                Porcentaje de Estudiantes de Primero con Nivel Estándar o Avanzado: Entrada vs. Salida - {selectedInstitutionCard4}
+                Porcentaje de Estudiantes de Primero con Nivel Estándar o Avanzado Fluidez: Entrada vs. Salida - {selectedInstitutionCard4}
               </p>
             </div>
             <ChartDownloadButton 
@@ -407,6 +393,7 @@ const EducationATL = () => {
                   axisLine={{ stroke: 'hsl(122 56% 51%)' }}
                 />
                 <YAxis 
+                  domain={[0, 100]}
                   label={{ value: 'Porcentaje (%)', angle: -90, position: 'insideLeft', fill: 'hsl(122 56% 51%)' }}
                   tick={{ fill: 'hsl(122 56% 51%)' }}
                   axisLine={{ stroke: 'hsl(122 56% 51%)' }}
