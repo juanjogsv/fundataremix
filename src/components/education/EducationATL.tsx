@@ -71,8 +71,8 @@ const EducationATL = () => {
         const avg = (arr: number[]) => arr.length ? arr.reduce((a, b) => a + b, 0) / arr.length : 0;
         setComparisonData(grados.map(g => ({
           grado: g,
-          'Línea de Base': Number(avg(acc[g].b).toFixed(2)),
-          'Resultado Final': Number(avg(acc[g].r).toFixed(2)),
+          'Entrada': Number(avg(acc[g].b).toFixed(2)),
+          'Salida': Number(avg(acc[g].r).toFixed(2)),
         })));
 
         // Fetch data for Card 4: Primero histórico (Entrada y Salida)
@@ -285,7 +285,7 @@ const EducationATL = () => {
       {/* KPIs ATAL */}
       <EducationATALKPIs />
 
-      {/* Tarjeta 1: Comparativo Línea de Base (ATAL_01) vs Resultado Final (ATAL_02) */}
+      {/* Tarjeta 1: Comparativo Entrada (ATAL_01) vs Salida (ATAL_02) */}
       <Card className="border-luker-green/20 shadow-lg">
         <CardHeader className="bg-gradient-to-r from-luker-green/5 to-luker-teal/5">
           <div className="flex items-center justify-between flex-wrap gap-4">
@@ -300,12 +300,12 @@ const EducationATL = () => {
             </div>
             <ChartDownloadButton 
               chartRef={chart2024Ref} 
-              title={`ATAL Comparativo Línea de Base vs Resultado Final ${comparisonYear ?? ""}`}
+              title={`ATAL Comparativo Entrada vs Salida ${comparisonYear ?? ""}`}
               excelData={current2024Data}
               excelColumns={[
                 { header: "Grado", key: "grado" },
-                { header: "Línea de Base (%)", key: "Línea de Base" },
-                { header: "Resultado Final (%)", key: "Resultado Final" }
+                { header: "Entrada (%)", key: "Entrada" },
+                { header: "Salida (%)", key: "Salida" }
               ]}
             />
           </div>
@@ -330,8 +330,8 @@ const EducationATL = () => {
                   contentStyle={{ backgroundColor: '#fff', border: '1px solid hsl(122 56% 51%)' }}
                 />
                 <Legend wrapperStyle={{ color: 'hsl(122 56% 51%)' }} />
-                <Bar dataKey="Línea de Base" fill="hsl(37 97% 62%)" name="Línea de Base" radius={[4, 4, 0, 0]} />
-                <Bar dataKey="Resultado Final" fill="hsl(180 100% 34%)" name="Resultado Final" radius={[4, 4, 0, 0]} />
+                <Bar dataKey="Entrada" fill="hsl(37 97% 62%)" name="Entrada" radius={[4, 4, 0, 0]} />
+                <Bar dataKey="Salida" fill="hsl(180 100% 34%)" name="Salida" radius={[4, 4, 0, 0]} />
               </BarChart>
             </ResponsiveContainer>
           ) : (
