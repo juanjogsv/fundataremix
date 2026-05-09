@@ -393,6 +393,7 @@ const EducationATL = () => {
                   axisLine={{ stroke: 'hsl(122 56% 51%)' }}
                 />
                 <YAxis 
+                  domain={[0, 100]}
                   label={{ value: 'Porcentaje (%)', angle: -90, position: 'insideLeft', fill: 'hsl(122 56% 51%)' }}
                   tick={{ fill: 'hsl(122 56% 51%)' }}
                   axisLine={{ stroke: 'hsl(122 56% 51%)' }}
