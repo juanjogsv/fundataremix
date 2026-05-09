@@ -23,7 +23,7 @@ const EducationSocioemotional = () => {
   // Estado para Cards 1 y 2: Fortalecimiento Trabajo en Equipo (CSOC_01 + CSOC_03)
   const [fortalecimientoData, setFortalecimientoData] = useState<any[]>([]);
   const [institutionsFort, setInstitutionsFort] = useState<string[]>([]);
-  const [selectedInstitutionFort1, setSelectedInstitutionFort1] = useState<string>("Total");
+  const [selectedGradeFort1, setSelectedGradeFort1] = useState<string>("Media");
   const [selectedInstitutionFort2, setSelectedInstitutionFort2] = useState<string>("Total");
   
   // Estado para la tercera tarjeta (distribución de niveles - Media)
@@ -47,12 +47,11 @@ const EducationSocioemotional = () => {
       try {
         setIsLoading(true);
         
-        // Fetch CSOC_01 + CSOC_03 (Prosperando + En proceso) - Grado Media - Manizales
+        // Fetch CSOC_01 + CSOC_03 (Prosperando + En proceso) - Manizales
         const { data: fortResult, error: fortError } = await supabase
           .from("dama_data")
-          .select("anio, categoria, valor, cod_indicador")
+          .select("anio, categoria, categoria_2, valor, cod_indicador")
           .in("cod_indicador", ["CSOC_01", "CSOC_03"])
-          .eq("categoria_2", "Media")
           .eq("cod_entidad", "17001")
           .limit(10000);
 
@@ -183,18 +182,36 @@ const EducationSocioemotional = () => {
 
   const avg = (arr: number[]) => arr.length ? arr.reduce((a, b) => a + b, 0) / arr.length : 0;
 
-  // Card 1: año 2024, agrupado por institución -> suma; si Total => promedio entre instituciones
+  // Card 1: 4 barras (EA, No EA, Rural, Total) - suma CSOC_01 + CSOC_03 - año 2024
   const chartData = useMemo(() => {
     if (!fortalecimientoData.length) return [];
-    const sums = sumByInstitutionYear(fortalecimientoData.filter((r: any) => r.anio === 2024));
-    if (selectedInstitutionFort1 === 'Total') {
-      const value = Number(avg(sums.map(s => s.sum)).toFixed(2));
-      return [{ categoría: 'Total', porcentaje: value }];
-    }
-    const filtered = sums.filter(s => s.inst === selectedInstitutionFort1);
-    const value = Number(avg(filtered.map(s => s.sum)).toFixed(2));
-    return [{ categoría: selectedInstitutionFort1, porcentaje: value }];
-  }, [fortalecimientoData, selectedInstitutionFort1]);
+    const rows = fortalecimientoData.filter(
+      (r: any) => r.anio === 2024 && r.categoria_2 === selectedGradeFort1
+    );
+    const buckets: Record<string, { c1: number | null; c3: number | null }> = {
+      EA: { c1: null, c3: null },
+      "No EA": { c1: null, c3: null },
+      Rural: { c1: null, c3: null },
+    };
+    rows.forEach((r: any) => {
+      if (!buckets[r.categoria]) return;
+      const v = parseFloat(r.valor);
+      if (Number.isNaN(v)) return;
+      if (r.cod_indicador === 'CSOC_01') buckets[r.categoria].c1 = v;
+      else if (r.cod_indicador === 'CSOC_03') buckets[r.categoria].c3 = v;
+    });
+    const sumOf = (k: string) => (buckets[k].c1 ?? 0) + (buckets[k].c3 ?? 0);
+    const ea = sumOf('EA');
+    const noea = sumOf('No EA');
+    const rural = sumOf('Rural');
+    const total = Number(((ea + noea + rural) / 3).toFixed(2));
+    return [
+      { categoría: 'Escuela Activa', porcentaje: Number(ea.toFixed(2)) },
+      { categoría: 'No Escuela Activa', porcentaje: Number(noea.toFixed(2)) },
+      { categoría: 'Rural', porcentaje: Number(rural.toFixed(2)) },
+      { categoría: 'Total', porcentaje: total },
+    ];
+  }, [fortalecimientoData, selectedGradeFort1]);
 
   // Card 2: histórico por año, mismo cálculo
   const historicalChartData = useMemo(() => {
@@ -392,7 +409,7 @@ const EducationSocioemotional = () => {
             </CardTitle>
             <ChartDownloadButton
               chartRef={chart1Ref}
-              title={`Fortalecimiento Trabajo en Equipo - ${selectedInstitutionFort1} 2024`}
+              title={`Fortalecimiento Trabajo en Equipo - Grado ${selectedGradeFort1} 2024`}
               excelData={chartData}
               excelColumns={[
                 { header: "Categoría", key: "categoría" },
@@ -402,21 +419,20 @@ const EducationSocioemotional = () => {
           </div>
           <div className="space-y-1">
             <label className="text-xs font-medium text-muted-foreground">
-              Selecciona una institución
+              Selecciona el grado
             </label>
-            <Select value={selectedInstitutionFort1} onValueChange={setSelectedInstitutionFort1}>
+            <Select value={selectedGradeFort1} onValueChange={setSelectedGradeFort1}>
               <SelectTrigger className="w-full md:w-[360px] border-luker-teal/30 bg-background">
-                <SelectValue placeholder="Selecciona una institución" />
+                <SelectValue placeholder="Selecciona un grado" />
               </SelectTrigger>
               <SelectContent>
-                {institutionsFort.map((inst) => (
-                  <SelectItem key={inst} value={inst}>{inst}</SelectItem>
-                ))}
+                <SelectItem value="Media">Media</SelectItem>
+                <SelectItem value="Quinto">Quinto</SelectItem>
               </SelectContent>
             </Select>
           </div>
           <p className="text-sm text-muted-foreground">
-            En proceso + prosperando Grado Media - Año 2024
+            En proceso + prosperando Grado {selectedGradeFort1} - Año 2024
           </p>
         </CardHeader>
         <CardContent className="pt-6">
