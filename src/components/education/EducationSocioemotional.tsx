@@ -62,7 +62,10 @@ const EducationSocioemotional = () => {
           s && s.toLowerCase().trim() === 'escuela activa urbana' ? 'Escuela Activa' : s;
         const instSet = new Set<string>();
         (fortResult || []).forEach((it: any) => {
-          if (it.categoria) instSet.add(normalizeInst(it.categoria));
+          if (it.categoria) {
+            const norm = normalizeInst(it.categoria);
+            if (norm && norm.toLowerCase() !== 'total') instSet.add(norm);
+          }
         });
         setInstitutionsFort(['Total', ...Array.from(instSet).sort()]);
 
