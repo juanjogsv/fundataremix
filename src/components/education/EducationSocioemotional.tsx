@@ -577,6 +577,18 @@ const EducationSocioemotional = () => {
               </Alert>
             )}
           </div>
+          <div className="flex justify-end pt-4">
+            <ChartDownloadButton
+              chartRef={chart2Ref}
+              title={`Evolución Fortalecimiento Trabajo en Equipo - Grado ${selectedGradeFort2} - ${selectedInstitutionFort2}`}
+              excelData={historicalChartData}
+              excelColumns={[
+                { header: "Año", key: "año" },
+                { header: "Escuela Activa (%)", key: "Escuela Activa" },
+                { header: "No Escuela Activa (%)", key: "No Escuela Activa" }
+              ]}
+            />
+          </div>
         </CardContent>
       </Card>
       </div>
