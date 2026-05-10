@@ -500,7 +500,7 @@ const EducationSocioemotional = () => {
       </Card>
 
       {/* Tarjeta 2: Evolución Histórica Fortalecimiento Trabajo en Equipo */}
-      <Card className="border-luker-green/20 shadow-lg">
+      <Card className="border-luker-green/20 shadow-lg h-full flex flex-col">
         <CardHeader className="bg-gradient-to-r from-luker-green/5 to-luker-teal/5 space-y-3">
           <div className="flex items-start justify-between flex-wrap gap-4">
             <CardTitle className="text-xl flex items-center gap-2 text-luker-green">
