@@ -95,15 +95,101 @@ const MCVSubsection = ({
       }
     }
   }, [data, mainIndicator, selectedIndicator]);
+  // Education section: pull from dama_data instead of mcv_indicators
+  const isEducation = sectionName === "Educación";
+  const EDU_CODES = ["COBE_01", "COBE_02", "COBE_03", "COBE_04", "COBE_05", "COBE_06"];
+
+  // Normalize entity names from dama_entities to match ALL_CITIES used in UI
+  const normalizeEntityName = (name: string): string => {
+    if (!name) return name;
+    if (name === "Bogotá") return "Bogotá, D.C.";
+    return name;
+  };
+  const denormalizeEntityName = (name: string): string => {
+    if (name === "Bogotá, D.C.") return "Bogotá";
+    return name;
+  };
+
+  const fetchDamaEducation = async (entityFilter?: string): Promise<MCVIndicator[]> => {
+    // Catalog (codes -> indicador metadata)
+    const { data: catalog, error: catErr } = await supabase
+      .from("dama_catalog")
+      .select("cod_indicador, indicador, unidad_medida, fuente")
+      .in("cod_indicador", EDU_CODES);
+    if (catErr) throw catErr;
+    const catalogMap = new Map(
+      (catalog || []).map((c: any) => [c.cod_indicador, c])
+    );
+
+    // Entities (filter to municipalities, length 5 = city codes)
+    const { data: entities, error: entErr } = await supabase
+      .from("dama_entities")
+      .select("cod_entidad, entidad");
+    if (entErr) throw entErr;
+    const entityMap = new Map(
+      (entities || []).map((e: any) => [e.cod_entidad, e.entidad])
+    );
+
+    // Data with pagination
+    const pageSize = 1000;
+    const maxPages = 100;
+    const allRows: any[] = [];
+
+    let query = supabase
+      .from("dama_data")
+      .select("id, cod_indicador, cod_entidad, anio, valor")
+      .in("cod_indicador", EDU_CODES)
+      .order("anio", { ascending: true });
+
+    if (entityFilter) {
+      const code = [...entityMap.entries()].find(
+        ([, name]) => name === denormalizeEntityName(entityFilter)
+      )?.[0];
+      if (code) query = query.eq("cod_entidad", code);
+    }
+
+    for (let page = 0; page < maxPages; page++) {
+      const from = page * pageSize;
+      const to = from + pageSize - 1;
+      const { data: pageData, error } = await query.range(from, to);
+      if (error) throw error;
+      allRows.push(...(pageData || []));
+      if (!pageData || pageData.length < pageSize) break;
+    }
+
+    // Map to MCVIndicator shape; only city-level (5-digit) entities
+    return allRows
+      .filter((r) => r.cod_entidad && r.cod_entidad.length === 5 && entityMap.has(r.cod_entidad))
+      .map((r) => {
+        const cat = catalogMap.get(r.cod_indicador) as any;
+        return {
+          id: r.id,
+          seccion: "Educación",
+          cod_indicador: r.cod_indicador,
+          indicador: cat?.indicador ?? r.cod_indicador,
+          categoria: "Total",
+          entidad: normalizeEntityName(entityMap.get(r.cod_entidad) as string),
+          dato: r.valor !== null && r.valor !== undefined ? Number(r.valor) : null,
+          year: r.anio,
+          fuente: cat?.fuente ?? null,
+          unidad_medida: cat?.unidad_medida ?? "Porcentaje",
+        } as MCVIndicator;
+      });
+  };
+
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
       try {
-        // Fetch data for all entities in this section using pagination
-        // (the backend caps each request to ~1000 rows)
-        const pageSize = 1000;
-        const maxPages = 100; // safety cap
+        if (isEducation) {
+          const rows = await fetchDamaEducation();
+          setData(rows);
+          return;
+        }
 
+        // Fetch data for all entities in this section using pagination
+        const pageSize = 1000;
+        const maxPages = 100;
         const all: MCVIndicator[] = [];
 
         for (let page = 0; page < maxPages; page++) {
@@ -119,17 +205,13 @@ const MCVSubsection = ({
             .range(from, to);
 
           if (error) throw error;
-
           all.push(...(pageData || []));
-
-          if (!pageData || pageData.length < pageSize) {
-            break;
-          }
+          if (!pageData || pageData.length < pageSize) break;
         }
 
         setData(all);
       } catch (error) {
-        console.error("Error fetching MCV indicators:", error);
+        console.error("Error fetching indicators:", error);
         toast.error("Error al cargar los indicadores");
       } finally {
         setLoading(false);
@@ -146,8 +228,14 @@ const MCVSubsection = ({
         setCompareData([]);
         return;
       }
-      
+
       try {
+        if (isEducation) {
+          const rows = await fetchDamaEducation(compareCity);
+          setCompareData(rows);
+          return;
+        }
+
         const { data: indicators, error } = await supabase
           .from("mcv_indicators")
           .select("*")
