@@ -106,23 +106,10 @@ const EducationUniversityEnrollment = () => {
   return (
     <Card className="border-luker-green/20 shadow-lg h-full flex flex-col">
       <CardHeader className="bg-gradient-to-r from-luker-green/5 to-luker-teal/5">
-        <div className="flex items-center justify-between">
-          <div>
-            <CardTitle className="text-xl flex items-center gap-2 text-luker-green">
-              <GraduationCap className="h-5 w-5 text-luker-teal" />
-              Matrícula Técnica en Universidades / Institutos T. y T.: {selectedInstitution}
-            </CardTitle>
-          </div>
-          <ChartDownloadButton 
-            chartRef={chartRef} 
-            title={`Matrícula Técnica Universidades - ${selectedInstitution}`}
-            excelData={chartData}
-            excelColumns={[
-              { header: "Año", key: "año" },
-              { header: "Estudiantes Matriculados", key: "matrícula" }
-            ]}
-          />
-        </div>
+        <CardTitle className="text-xl flex items-center gap-2 text-luker-green">
+          <GraduationCap className="h-5 w-5 text-luker-teal" />
+          Matrícula Técnica en Universidades / Institutos T. y T.: {selectedInstitution}
+        </CardTitle>
       </CardHeader>
       <CardContent className="pt-6 flex-1 flex flex-col">
         <div className="mb-4">
