@@ -454,12 +454,13 @@ const EducationSocioemotional = () => {
           <div ref={chart1Ref}>
             {chartData.length > 0 ? (
               <ResponsiveContainer width="100%" height={400}>
-                <BarChart data={chartData} margin={{ bottom: 20 }}>
+                <BarChart data={chartData} margin={{ top: 5, right: 20, bottom: 20, left: 10 }}>
                   <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
                   <XAxis
                     dataKey="categoría"
-                    tick={{ fill: 'hsl(122 56% 51%)' }}
+                    tick={{ fill: 'hsl(122 56% 51%)', fontSize: 12 }}
                     axisLine={{ stroke: 'hsl(122 56% 51%)' }}
+                    interval={0}
                   />
                   <YAxis
                     domain={[0, 100]}
@@ -471,7 +472,6 @@ const EducationSocioemotional = () => {
                     formatter={(value: any) => [`${Number(value).toFixed(1)}%`, 'En proceso + Prosperando']}
                     contentStyle={{ backgroundColor: '#fff', border: '1px solid hsl(122 56% 51%)' }}
                   />
-                  <Legend wrapperStyle={{ color: 'hsl(122 56% 51%)' }} />
                   <Bar
                     dataKey="porcentaje"
                     fill="hsl(37 97% 62%)"
