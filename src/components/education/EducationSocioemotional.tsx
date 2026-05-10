@@ -717,6 +717,19 @@ const EducationSocioemotional = () => {
             </Alert>
           )}
           </div>
+          <div className="flex justify-end pt-4">
+            <ChartDownloadButton
+              chartRef={chart3Ref}
+              title={`Distribución Niveles Desempeño Media - ${selectedCategory}`}
+              excelData={distributionChartData}
+              excelColumns={[
+                { header: "Año", key: "año" },
+                { header: "Riesgo (%)", key: "Riesgo" },
+                { header: "Proceso (%)", key: "Proceso" },
+                { header: "Prosperando (%)", key: "Prosperando" }
+              ]}
+            />
+          </div>
         </CardContent>
       </Card>
     </div>
