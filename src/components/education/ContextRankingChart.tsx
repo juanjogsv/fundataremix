@@ -1,16 +1,28 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell } from "recharts";
+import {
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  ResponsiveContainer,
+  Cell,
+  LineChart,
+  Line,
+} from "recharts";
 import { TrendingUp } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { ChartDownloadButton } from "@/components/ui/chart-download-button";
+import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 
 interface Props {
-  code: string;          // COBE_01..COBE_06
+  code: string;
   title: string;
-  accentVar: string;     // e.g. 'luker-orange'
-  year: number | null;   // selected year, or null = latest available
-  ascending?: boolean;   // default desc (mayor a menor)
+  accentVar: string;
+  year: number | null;
+  ascending?: boolean;
 }
 
 interface Row {
@@ -18,9 +30,18 @@ interface Row {
   valor: number;
 }
 
+interface HistRow {
+  anio: number;
+  valor: number;
+}
+
+const MANIZALES_COD = "17001";
+
 const ContextRankingChart = ({ code, title, accentVar, year, ascending = false }: Props) => {
   const chartRef = useRef<HTMLDivElement>(null);
-  const [data, setData] = useState<Row[]>([]);
+  const [mode, setMode] = useState<"comparativo" | "historico">("comparativo");
+  const [allRows, setAllRows] = useState<any[]>([]);
+  const [entityMap, setEntityMap] = useState<Record<string, string>>({});
   const [loading, setLoading] = useState(true);
   const [resolvedYear, setResolvedYear] = useState<number | null>(null);
 
@@ -37,32 +58,16 @@ const ContextRankingChart = ({ code, title, accentVar, year, ascending = false }
         const totals = (rows || []).filter(
           (r: any) => (r.categoria ?? "").toString().trim().toLowerCase() === "total" && r.valor !== null
         );
+        setAllRows(totals);
 
-        let targetYear = year;
-        if (!targetYear) {
-          targetYear = totals.length ? Math.max(...totals.map((r: any) => r.anio)) : null;
-        }
-        setResolvedYear(targetYear);
-
-        const yearRows = totals.filter((r: any) => r.anio === targetYear);
-
-        const codes = Array.from(new Set(yearRows.map((r: any) => r.cod_entidad)));
-        let entityMap: Record<string, string> = {};
+        const codes = Array.from(new Set(totals.map((r: any) => r.cod_entidad)));
         if (codes.length) {
           const { data: ents } = await supabase
             .from("dama_entities")
             .select("cod_entidad, entidad")
             .in("cod_entidad", codes);
-          entityMap = Object.fromEntries((ents || []).map((e: any) => [e.cod_entidad, e.entidad]));
+          setEntityMap(Object.fromEntries((ents || []).map((e: any) => [e.cod_entidad, e.entidad])));
         }
-
-        const mapped: Row[] = yearRows.map((r: any) => ({
-          entidad: entityMap[r.cod_entidad] || r.cod_entidad,
-          valor: Number(r.valor),
-        }));
-
-        mapped.sort((a, b) => (ascending ? a.valor - b.valor : b.valor - a.valor));
-        setData(mapped);
       } catch (e) {
         console.error(e);
       } finally {
@@ -70,9 +75,37 @@ const ContextRankingChart = ({ code, title, accentVar, year, ascending = false }
       }
     };
     load();
-  }, [code, year, ascending]);
+  }, [code]);
 
-  const chartHeight = useMemo(() => Math.max(300, data.length * 32), [data.length]);
+  const compData = useMemo<Row[]>(() => {
+    let targetYear = year;
+    if (!targetYear) {
+      targetYear = allRows.length ? Math.max(...allRows.map((r: any) => r.anio)) : null;
+    }
+    setResolvedYear(targetYear);
+    const yearRows = allRows.filter((r: any) => r.anio === targetYear);
+    const mapped: Row[] = yearRows.map((r: any) => ({
+      entidad: entityMap[r.cod_entidad] || r.cod_entidad,
+      valor: Number(r.valor),
+    }));
+    mapped.sort((a, b) => (ascending ? a.valor - b.valor : b.valor - a.valor));
+    return mapped;
+  }, [allRows, entityMap, year, ascending]);
+
+  const histData = useMemo<HistRow[]>(() => {
+    const rows = allRows.filter((r: any) => r.cod_entidad === MANIZALES_COD);
+    const byYear = new Map<number, number[]>();
+    rows.forEach((r: any) => {
+      const arr = byYear.get(r.anio) || [];
+      arr.push(Number(r.valor));
+      byYear.set(r.anio, arr);
+    });
+    return Array.from(byYear.entries())
+      .map(([anio, vals]) => ({ anio, valor: vals.reduce((a, b) => a + b, 0) / vals.length }))
+      .sort((a, b) => a.anio - b.anio);
+  }, [allRows]);
+
+  const chartHeight = useMemo(() => Math.max(300, compData.length * 32), [compData.length]);
 
   return (
     <Card className="bg-gradient-to-br from-white to-gray-50/50 border-gray-200">
@@ -81,26 +114,77 @@ const ContextRankingChart = ({ code, title, accentVar, year, ascending = false }
           <div className="flex items-center gap-3">
             <TrendingUp className={`h-6 w-6 text-${accentVar}`} />
             <CardTitle className="text-xl text-luker-brown">
-              {title} {resolvedYear ? <span className="text-sm font-normal text-gray-500">({resolvedYear})</span> : null}
+              {title}{" "}
+              {mode === "comparativo" && resolvedYear ? (
+                <span className="text-sm font-normal text-gray-500">({resolvedYear})</span>
+              ) : null}
             </CardTitle>
           </div>
-          <ChartDownloadButton chartRef={chartRef} title={`${title} ${resolvedYear || ""}`} />
+          <div className="flex items-center gap-2">
+            <ToggleGroup
+              type="single"
+              value={mode}
+              onValueChange={(v) => v && setMode(v as any)}
+              size="sm"
+              variant="outline"
+            >
+              <ToggleGroupItem value="historico" className="text-xs px-2 h-7">
+                Histórico
+              </ToggleGroupItem>
+              <ToggleGroupItem value="comparativo" className="text-xs px-2 h-7">
+                Comparativo
+              </ToggleGroupItem>
+            </ToggleGroup>
+            <ChartDownloadButton chartRef={chartRef} title={`${title} ${resolvedYear || ""}`} />
+          </div>
         </div>
       </CardHeader>
       <CardContent ref={chartRef}>
         {loading ? (
           <div className="h-80 bg-gray-100 animate-pulse rounded" />
-        ) : data.length === 0 ? (
+        ) : mode === "historico" ? (
+          histData.length === 0 ? (
+            <div className="p-8 text-center text-gray-500">No hay datos históricos para Manizales.</div>
+          ) : (
+            <ResponsiveContainer width="100%" height={340}>
+              <LineChart data={histData} margin={{ top: 20, right: 30, left: 10, bottom: 5 }}>
+                <CartesianGrid strokeDasharray="3 3" opacity={0.3} />
+                <XAxis dataKey="anio" />
+                <YAxis tickFormatter={(v) => `${Math.round(v)}%`} />
+                <Tooltip
+                  formatter={(value: number) => `${value.toFixed(1)}%`}
+                  contentStyle={{
+                    backgroundColor: "hsl(var(--card))",
+                    border: "1px solid hsl(var(--border))",
+                    borderRadius: 8,
+                  }}
+                />
+                <Line
+                  type="monotone"
+                  dataKey="valor"
+                  stroke="hsl(var(--luker-teal))"
+                  strokeWidth={3}
+                  dot={{ r: 5, fill: "hsl(var(--luker-teal))" }}
+                  activeDot={{ r: 7 }}
+                />
+              </LineChart>
+            </ResponsiveContainer>
+          )
+        ) : compData.length === 0 ? (
           <div className="p-8 text-center text-gray-500">No hay datos disponibles para mostrar.</div>
         ) : (
           <ResponsiveContainer width="100%" height={chartHeight}>
-            <BarChart data={data} layout="vertical" margin={{ top: 5, right: 50, left: 20, bottom: 5 }}>
+            <BarChart data={compData} layout="vertical" margin={{ top: 5, right: 50, left: 20, bottom: 5 }}>
               <CartesianGrid strokeDasharray="3 3" opacity={0.3} />
               <XAxis type="number" tickFormatter={(v) => `${Math.round(v)}%`} domain={[0, "dataMax + 5"]} />
               <YAxis type="category" dataKey="entidad" width={110} style={{ fontSize: "12px" }} interval={0} />
               <Tooltip
                 formatter={(value: number) => `${value.toFixed(1)}%`}
-                contentStyle={{ backgroundColor: "hsl(var(--card))", border: "1px solid hsl(var(--border))", borderRadius: 8 }}
+                contentStyle={{
+                  backgroundColor: "hsl(var(--card))",
+                  border: "1px solid hsl(var(--border))",
+                  borderRadius: 8,
+                }}
               />
               <Bar
                 dataKey="valor"
@@ -112,7 +196,7 @@ const ContextRankingChart = ({ code, title, accentVar, year, ascending = false }
                   fontSize: 11,
                 }}
               >
-                {data.map((entry, i) => (
+                {compData.map((entry, i) => (
                   <Cell
                     key={i}
                     fill={entry.entidad === "Manizales" ? "hsl(var(--luker-red))" : `hsl(var(--${accentVar}))`}
