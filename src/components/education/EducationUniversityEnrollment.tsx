@@ -104,19 +104,31 @@ const EducationUniversityEnrollment = () => {
   }
 
   return (
-    <div className="space-y-6">
-      {/* Filtro de Institución */}
-      <Card className="border-luker-teal/20">
-        <CardHeader>
-          <CardTitle className="text-xl flex items-center gap-2 text-luker-teal">
-            <GraduationCap className="h-5 w-5 text-luker-green" />
-            Filtrar por Institución de Educación Superior
-          </CardTitle>
-          <p className="text-sm text-muted-foreground mt-1">
+    <Card className="border-luker-green/20 shadow-lg h-full flex flex-col">
+      <CardHeader className="bg-gradient-to-r from-luker-green/5 to-luker-teal/5">
+        <div className="flex items-center justify-between">
+          <div>
+            <CardTitle className="text-xl flex items-center gap-2 text-luker-green">
+              <GraduationCap className="h-5 w-5 text-luker-teal" />
+              Matrícula Técnica en Universidades / Institutos T. y T.: {selectedInstitution}
+            </CardTitle>
+          </div>
+          <ChartDownloadButton 
+            chartRef={chartRef} 
+            title={`Matrícula Técnica Universidades - ${selectedInstitution}`}
+            excelData={chartData}
+            excelColumns={[
+              { header: "Año", key: "año" },
+              { header: "Estudiantes Matriculados", key: "matrícula" }
+            ]}
+          />
+        </div>
+      </CardHeader>
+      <CardContent className="pt-6 flex-1 flex flex-col">
+        <div className="mb-4">
+          <p className="text-sm text-muted-foreground mb-2">
             Selecciona una universidad o instituto para ver su evolución de matrícula técnica
           </p>
-        </CardHeader>
-        <CardContent>
           <Select value={selectedInstitution} onValueChange={setSelectedInstitution}>
             <SelectTrigger className="w-full md:w-[400px] border-luker-teal/30">
               <SelectValue placeholder="Selecciona una institución" />
@@ -130,34 +142,50 @@ const EducationUniversityEnrollment = () => {
               ))}
             </SelectContent>
           </Select>
-        </CardContent>
-      </Card>
-
-      {/* Gráfico de Barras */}
-      <Card className="border-luker-green/20 shadow-lg">
-        <CardHeader className="bg-gradient-to-r from-luker-green/5 to-luker-teal/5">
-          <div className="flex items-center justify-between">
-            <div>
-              <CardTitle className="text-xl flex items-center gap-2 text-luker-green">
-                <GraduationCap className="h-5 w-5 text-luker-teal" />
-                Matrícula Técnica en Universidades / Institutos T. y T.: {selectedInstitution}
-              </CardTitle>
-              <p className="text-sm text-muted-foreground mt-1">
-                Evolución histórica de matrícula (2018-2024)
-              </p>
-            </div>
-            <ChartDownloadButton 
-              chartRef={chartRef} 
-              title={`Matrícula Técnica Universidades - ${selectedInstitution}`}
-              excelData={chartData}
-              excelColumns={[
-                { header: "Año", key: "año" },
-                { header: "Estudiantes Matriculados", key: "matrícula" }
-              ]}
-            />
-          </div>
-        </CardHeader>
-        <CardContent className="pt-6">
+        </div>
+        <p className="text-sm text-muted-foreground mb-4">
+          Evolución histórica de matrícula (2018-2024)
+        </p>
+        <div ref={chartRef}>
+          {chartData.length > 0 ? (
+            <ResponsiveContainer width="100%" height={400}>
+              <BarChart data={chartData}>
+                <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
+                <XAxis 
+                  dataKey="año" 
+                  tick={{ fill: 'hsl(122 56% 51%)' }}
+                  axisLine={{ stroke: 'hsl(122 56% 51%)' }}
+                />
+                <YAxis 
+                  label={{ value: 'Estudiantes Matriculados', angle: -90, position: 'insideLeft', dy: 60, fill: 'hsl(122 56% 51%)', style: { textAnchor: 'middle' } }}
+                  tick={{ fill: 'hsl(122 56% 51%)' }}
+                  axisLine={{ stroke: 'hsl(122 56% 51%)' }}
+                />
+                <Tooltip 
+                  formatter={(value: any) => [`${value} estudiantes`, 'Matrícula']}
+                  contentStyle={{ backgroundColor: '#fff', border: '1px solid hsl(122 56% 51%)' }}
+                />
+                <Bar 
+                  dataKey="matrícula" 
+                  fill="hsl(184 59% 40%)" 
+                  name="Estudiantes Matriculados"
+                  radius={[8, 8, 0, 0]}
+                />
+              </BarChart>
+            </ResponsiveContainer>
+          ) : (
+            <Alert>
+              <AlertCircle className="h-4 w-4" />
+              <AlertDescription>
+                No hay datos disponibles para la institución seleccionada.
+              </AlertDescription>
+            </Alert>
+          )}
+        </div>
+      </CardContent>
+    </Card>
+  );
+};
           <div ref={chartRef}>
           {chartData.length > 0 ? (
             <ResponsiveContainer width="100%" height={400}>
