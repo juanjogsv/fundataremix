@@ -498,16 +498,6 @@ const EducationSocioemotional = () => {
               <Brain className="h-5 w-5 text-luker-teal" />
               Estudiantes habilidad en fortalecimiento Trabajo en Equipo
             </CardTitle>
-            <ChartDownloadButton
-              chartRef={chart2Ref}
-              title={`Evolución Fortalecimiento Trabajo en Equipo - Grado ${selectedGradeFort2} - ${selectedInstitutionFort2}`}
-              excelData={historicalChartData}
-              excelColumns={[
-                { header: "Año", key: "año" },
-                { header: "Escuela Activa (%)", key: "Escuela Activa" },
-                { header: "No Escuela Activa (%)", key: "No Escuela Activa" }
-              ]}
-            />
           </div>
           <p className="text-sm text-muted-foreground">
             Comparación EA vs. No EA - Grado {selectedGradeFort2}
