@@ -112,7 +112,7 @@ const EducationUTC = () => {
           <CardHeader className="bg-gradient-to-r from-luker-green/5 to-luker-teal/5">
             <CardTitle className="text-xl flex items-center gap-2 text-luker-green">
               <GraduationCap className="h-5 w-5 text-luker-teal" />
-              Matrícula Técnica en Instituciones Educativas: {selectedInstitution}
+              Matrícula Técnica en Instituciones Educativas{selectedInstitution !== "Total" ? ` - ${selectedInstitution}` : ""}
             </CardTitle>
           </CardHeader>
           <CardContent className="pt-6 flex-1 flex flex-col">
