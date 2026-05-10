@@ -186,46 +186,5 @@ const EducationUniversityEnrollment = () => {
     </Card>
   );
 };
-          <div ref={chartRef}>
-          {chartData.length > 0 ? (
-            <ResponsiveContainer width="100%" height={400}>
-              <BarChart data={chartData}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
-                <XAxis 
-                  dataKey="año" 
-                  tick={{ fill: 'hsl(122 56% 51%)' }}
-                  axisLine={{ stroke: 'hsl(122 56% 51%)' }}
-                />
-                <YAxis 
-                  label={{ value: 'Estudiantes Matriculados', angle: -90, position: 'insideLeft', dy: 60, fill: 'hsl(122 56% 51%)', style: { textAnchor: 'middle' } }}
-                  tick={{ fill: 'hsl(122 56% 51%)' }}
-                  axisLine={{ stroke: 'hsl(122 56% 51%)' }}
-                />
-                <Tooltip 
-                  formatter={(value: any) => [`${value} estudiantes`, 'Matrícula']}
-                  contentStyle={{ backgroundColor: '#fff', border: '1px solid hsl(122 56% 51%)' }}
-                />
-                <Bar 
-                  dataKey="matrícula" 
-                  fill="hsl(184 59% 40%)" 
-                  name="Estudiantes Matriculados"
-                  radius={[8, 8, 0, 0]}
-                />
-              </BarChart>
-            </ResponsiveContainer>
-          ) : (
-            <Alert>
-              <AlertCircle className="h-4 w-4" />
-              <AlertDescription>
-                No hay datos disponibles para la institución seleccionada.
-              </AlertDescription>
-            </Alert>
-          )}
-          </div>
-        </CardContent>
-      </Card>
-    </div>
-  );
-};
 
 export default EducationUniversityEnrollment;
