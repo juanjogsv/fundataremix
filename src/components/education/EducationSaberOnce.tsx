@@ -547,7 +547,7 @@ const EducationSaberOnce = () => {
         <CardContent>
           {isLoadingEvolution ? (
             <Skeleton className="h-96 w-full" />
-          ) : !evolutionData || evolutionData.length === 0 ? (
+          ) : !evolutionRawData || evolutionRawData.length === 0 ? (
             <Alert>
               <AlertCircle className="h-4 w-4" />
               <AlertDescription>
@@ -559,15 +559,15 @@ const EducationSaberOnce = () => {
               {/* Filters */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="space-y-2">
-                  <label className="text-sm font-medium text-gray-700">Área Temática/Indicador</label>
+                  <label className="text-sm font-medium text-gray-700">Área Temática</label>
                   <Select value={selectedEvolutionIndicator} onValueChange={setSelectedEvolutionIndicator}>
                     <SelectTrigger>
                       <SelectValue placeholder="Seleccione indicador" />
                     </SelectTrigger>
                     <SelectContent>
-                      {availableEvolutionIndicators.map((indicator) => (
-                        <SelectItem key={indicator} value={indicator}>
-                          {indicator}
+                      {SABER_OPTIONS.map((opt) => (
+                        <SelectItem key={opt.code} value={opt.code}>
+                          {opt.label}
                         </SelectItem>
                       ))}
                     </SelectContent>
