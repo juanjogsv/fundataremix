@@ -505,7 +505,7 @@ const EducationSocioemotional = () => {
           <div className="flex items-start justify-between flex-wrap gap-4">
             <CardTitle className="text-xl flex items-center gap-2 text-luker-green">
               <Brain className="h-5 w-5 text-luker-teal" />
-              Evolución Histórica de Estudiantes Prosperando en Trabajo en Equipo
+              Estudiantes habilidad en fortalecimiento Trabajo en Equipo
             </CardTitle>
             <ChartDownloadButton
               chartRef={chart2Ref}
