@@ -604,8 +604,7 @@ const EducationSaberOnce = () => {
                       <CartesianGrid strokeDasharray="3 3" />
                       <XAxis dataKey="año" />
                       <YAxis 
-                        domain={[0, 300]}
-                        ticks={[0, 50, 100, 150, 200, 250, 300]}
+                        domain={yAxisDomain}
                         tickFormatter={(value) => Math.round(value).toString()} 
                       />
                       <Tooltip 
