@@ -420,8 +420,11 @@ const EducationSocioemotional = () => {
 
   return (
     <div className="space-y-8">
+      {/* Tarjetas 1 y 2 en grid 2 columnas */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-stretch">
       {/* Tarjeta 1: Fortalecimiento Trabajo en Equipo - Año 2024 */}
-      <Card className="border-luker-green/20 shadow-lg">
+      <Card className="border-luker-green/20 shadow-lg h-full flex flex-col">
+
         <CardHeader className="bg-gradient-to-r from-luker-green/5 to-luker-teal/5 space-y-3">
           <div className="flex items-start justify-between flex-wrap gap-4">
             <CardTitle className="text-xl flex items-center gap-2 text-luker-green">
