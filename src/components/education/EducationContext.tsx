@@ -24,9 +24,6 @@ const KPI_CONFIG: Array<{
   { code: "COBE_06", title: "Tasa de Tránsito",          icon: TrendingUp,    bg: "bg-slate-50",  iconBg: "bg-slate-100",  text: "text-slate-600", accentVar: "luker-teal" },
   { code: "COBE_05", title: "Tasa de Deserción Escolar", icon: LogOut,        bg: "bg-red-50",    iconBg: "bg-red-100",    text: "text-red-600",   accentVar: "luker-red", ascending: false },
 ];
-  { code: "COBE_06", title: "Tasa de Tránsito",          icon: TrendingUp,    bg: "bg-slate-50",  iconBg: "bg-slate-100",  text: "text-slate-600" },
-  { code: "COBE_05", title: "Tasa de Deserción Escolar", icon: LogOut,        bg: "bg-red-50",    iconBg: "bg-red-100",    text: "text-red-600" },
-];
 
 const MANIZALES_COD = "17001";
 
