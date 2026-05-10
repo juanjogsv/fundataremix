@@ -146,7 +146,7 @@ const EducationContext = () => {
           <ContextRankingChart
             key={kpi.code}
             code={kpi.code}
-            title={`Ranking: ${kpi.title}`}
+            title={kpi.title}
             accentVar={kpi.accentVar}
             year={selectedYear === "latest" ? null : Number(selectedYear)}
             ascending={kpi.ascending}
