@@ -598,6 +598,8 @@ const EducationSocioemotional = () => {
           </div>
         </CardContent>
       </Card>
+      </div>
+
 
       {/* Tarjeta 3: Distribución de Niveles de Desempeño - Quinto */}
       <Card className="border-luker-green/20 shadow-lg">
