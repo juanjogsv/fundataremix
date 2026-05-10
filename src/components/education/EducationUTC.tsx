@@ -188,10 +188,10 @@ const EducationUTC = () => {
             </div>
           </CardContent>
         </Card>
-      </div>
 
-      {/* Tarjeta 2: Matrícula Técnica en Universidades */}
-      <EducationUniversityEnrollment />
+        {/* Tarjeta 2: Matrícula Técnica en Universidades */}
+        <EducationUniversityEnrollment />
+      </div>
 
       {/* Tarjeta 3: Matrícula Técnica UTC por Programa */}
       <EducationUTCPrograms />
