@@ -768,6 +768,7 @@ const EducationSocioemotional = () => {
           </div>
         </CardContent>
       </Card>
+      </div>
     </div>
   );
 };
