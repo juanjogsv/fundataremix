@@ -106,9 +106,9 @@ const EducationUTC = () => {
 
   return (
     <div className="space-y-8">
-      {/* Tarjeta 1: Matrícula Técnica en Colegios */}
-      <div className="space-y-6">
-        <Card className="border-luker-green/20 shadow-lg">
+      {/* Fila 1: Tarjeta 1 (Colegios) + Tarjeta 2 (Universidades) */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-stretch">
+        <Card className="border-luker-green/20 shadow-lg h-full flex flex-col">
           <CardHeader className="bg-gradient-to-r from-luker-green/5 to-luker-teal/5">
             <div className="flex items-center justify-between">
               <div>
