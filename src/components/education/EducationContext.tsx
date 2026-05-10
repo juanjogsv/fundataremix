@@ -4,12 +4,7 @@ import { Database, TrendingUp, GraduationCap, School, BookOpen, Users, LogOut } 
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
-import EducationPreschoolRanking from "./EducationPreschoolRanking";
-import EducationPrimaryRanking from "./EducationPrimaryRanking";
-import EducationSecondaryRanking from "./EducationSecondaryRanking";
-import EducationMediaRanking from "./EducationMediaRanking";
-import EducationTransitRanking from "./EducationTransitRanking";
-import EducationDesertionRanking from "./EducationDesertionRanking";
+import ContextRankingChart from "./ContextRankingChart";
 
 // Mapping based on dama_catalog (source of truth)
 const KPI_CONFIG: Array<{
@@ -19,13 +14,15 @@ const KPI_CONFIG: Array<{
   bg: string;
   iconBg: string;
   text: string;
+  accentVar: string;
+  ascending?: boolean;
 }> = [
-  { code: "COBE_01", title: "Cobertura Neta Preescolar", icon: School,        bg: "bg-rose-50",   iconBg: "bg-rose-100",   text: "text-rose-600" },
-  { code: "COBE_02", title: "Cobertura Neta Primaria",   icon: BookOpen,      bg: "bg-amber-50",  iconBg: "bg-amber-100",  text: "text-amber-600" },
-  { code: "COBE_03", title: "Cobertura Neta Secundaria", icon: GraduationCap, bg: "bg-green-50",  iconBg: "bg-green-100",  text: "text-green-600" },
-  { code: "COBE_04", title: "Cobertura Neta Media",      icon: Users,         bg: "bg-sky-50",    iconBg: "bg-sky-100",    text: "text-sky-600" },
-  { code: "COBE_06", title: "Tasa de Tránsito",          icon: TrendingUp,    bg: "bg-slate-50",  iconBg: "bg-slate-100",  text: "text-slate-600" },
-  { code: "COBE_05", title: "Tasa de Deserción Escolar", icon: LogOut,        bg: "bg-red-50",    iconBg: "bg-red-100",    text: "text-red-600" },
+  { code: "COBE_01", title: "Cobertura Neta Preescolar", icon: School,        bg: "bg-rose-50",   iconBg: "bg-rose-100",   text: "text-rose-600",  accentVar: "luker-orange" },
+  { code: "COBE_02", title: "Cobertura Neta Primaria",   icon: BookOpen,      bg: "bg-amber-50",  iconBg: "bg-amber-100",  text: "text-amber-600", accentVar: "luker-orange" },
+  { code: "COBE_03", title: "Cobertura Neta Secundaria", icon: GraduationCap, bg: "bg-green-50",  iconBg: "bg-green-100",  text: "text-green-600", accentVar: "luker-green" },
+  { code: "COBE_04", title: "Cobertura Neta Media",      icon: Users,         bg: "bg-sky-50",    iconBg: "bg-sky-100",    text: "text-sky-600",   accentVar: "luker-teal" },
+  { code: "COBE_06", title: "Tasa de Tránsito",          icon: TrendingUp,    bg: "bg-slate-50",  iconBg: "bg-slate-100",  text: "text-slate-600", accentVar: "luker-teal" },
+  { code: "COBE_05", title: "Tasa de Deserción Escolar", icon: LogOut,        bg: "bg-red-50",    iconBg: "bg-red-100",    text: "text-red-600",   accentVar: "luker-red", ascending: false },
 ];
 
 const MANIZALES_COD = "17001";
@@ -144,12 +141,18 @@ const EducationContext = () => {
         </CardContent>
       </Card>
 
-      <EducationPreschoolRanking />
-      <EducationPrimaryRanking />
-      <EducationSecondaryRanking />
-      <EducationMediaRanking />
-      <EducationTransitRanking />
-      <EducationDesertionRanking />
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        {KPI_CONFIG.map((kpi) => (
+          <ContextRankingChart
+            key={kpi.code}
+            code={kpi.code}
+            title={`Ranking: ${kpi.title}`}
+            accentVar={kpi.accentVar}
+            year={selectedYear === "latest" ? null : Number(selectedYear)}
+            ascending={kpi.ascending}
+          />
+        ))}
+      </div>
     </div>
   );
 };
