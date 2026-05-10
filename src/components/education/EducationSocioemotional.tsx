@@ -590,17 +590,6 @@ const EducationSocioemotional = () => {
               <Brain className="h-5 w-5 text-luker-teal" />
               Distribución de Niveles de Desempeño en Trabajo en Equipo
             </CardTitle>
-            <ChartDownloadButton
-              chartRef={chart4Ref}
-              title={`Distribución Niveles Desempeño Quinto - ${selectedCategoryQuinto}`}
-              excelData={distributionChartDataQuinto}
-              excelColumns={[
-                { header: "Año", key: "año" },
-                { header: "Riesgo (%)", key: "Riesgo" },
-                { header: "Proceso (%)", key: "Proceso" },
-                { header: "Prosperando (%)", key: "Prosperando" }
-              ]}
-            />
           </div>
           <p className="text-sm text-muted-foreground">
             Grado Quinto - {selectedCategoryQuinto === "EA" ? "Escuela Activa" : selectedCategoryQuinto === "No EA" ? "No Escuela Activa" : selectedCategoryQuinto}
