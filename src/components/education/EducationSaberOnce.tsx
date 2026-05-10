@@ -170,11 +170,108 @@ const EducationSaberOnce = () => {
       .sort((a, b) => b.puntaje - a.puntaje);
   }, [rankingData, damaEntities, selectedRankingYear, selectedRankingCategory]);
 
-  // Query and state for Card 3 - Evolution comparison with indicator filter
-  const [selectedEvolutionIndicator, setSelectedEvolutionIndicator] = useState("");
-  const [availableEvolutionIndicators, setAvailableEvolutionIndicators] = useState<string[]>([]);
-  const [availableCities, setAvailableCities] = useState<string[]>([]);
+  // Card 3 - Evolución comparada usando dama_data (SABER_01..SABER_06)
+  const [selectedEvolutionIndicator, setSelectedEvolutionIndicator] = useState<string>("SABER_02");
   const [selectedCities, setSelectedCities] = useState<string[]>(["Manizales"]);
+
+  // Fetch evolution data for selected indicator (paginated to bypass 1000-row default)
+  const { data: evolutionRawData, isLoading: isLoadingEvolution } = useQuery({
+    queryKey: ["dama-saber-evolution", selectedEvolutionIndicator],
+    queryFn: async () => {
+      const pageSize = 1000;
+      let from = 0;
+      const all: any[] = [];
+      while (true) {
+        const { data, error } = await supabase
+          .from("dama_data")
+          .select("anio, categoria, valor, cod_entidad")
+          .eq("cod_indicador", selectedEvolutionIndicator)
+          .range(from, from + pageSize - 1);
+        if (error) throw error;
+        if (!data || data.length === 0) break;
+        all.push(...data);
+        if (data.length < pageSize) break;
+        from += pageSize;
+      }
+      return all;
+    },
+  });
+
+  // City list: capitales (5-digit cod_entidad) presentes en datos del indicador
+  const availableCities = useMemo(() => {
+    if (!evolutionRawData || !damaEntities) return [];
+    const entityMap = new Map(damaEntities.map(e => [e.cod_entidad, e.entidad]));
+    const cityCodes = new Set<string>();
+    evolutionRawData.forEach(d => {
+      const code = String(d.cod_entidad || "");
+      if (code.length === 5) cityCodes.add(code);
+    });
+    const cities = Array.from(cityCodes)
+      .map(code => entityMap.get(code))
+      .filter(Boolean) as string[];
+    return cities.sort((a, b) => {
+      if (a === "Manizales") return -1;
+      if (b === "Manizales") return 1;
+      return a.localeCompare(b);
+    });
+  }, [evolutionRawData, damaEntities]);
+
+  const evolutionChartData = useMemo(() => {
+    if (!evolutionRawData || !damaEntities) return [];
+    const entityMap = new Map(damaEntities.map(e => [e.cod_entidad, e.entidad]));
+
+    const cityYearVals: Record<string, Record<number, number[]>> = {};
+    evolutionRawData
+      .filter(d => normalize(d.categoria) === "total")
+      .forEach(d => {
+        const code = String(d.cod_entidad || "");
+        if (code.length !== 5) return;
+        const city = entityMap.get(code);
+        if (!city || d.anio == null || d.valor == null) return;
+        if (!selectedCities.includes(city)) return;
+        if (!cityYearVals[city]) cityYearVals[city] = {};
+        if (!cityYearVals[city][d.anio]) cityYearVals[city][d.anio] = [];
+        cityYearVals[city][d.anio].push(Number(d.valor));
+      });
+
+    const years: number[] = [];
+    for (let y = 2015; y <= 2024; y++) years.push(y);
+
+    return years.map(year => {
+      const row: any = { año: year };
+      selectedCities.forEach(city => {
+        const vals = cityYearVals[city]?.[year];
+        row[city] = vals && vals.length
+          ? Math.round(vals.reduce((a, b) => a + b, 0) / vals.length)
+          : null;
+      });
+      return row;
+    });
+  }, [evolutionRawData, damaEntities, selectedCities]);
+
+  const toggleCity = (city: string) => {
+    setSelectedCities(prev =>
+      prev.includes(city)
+        ? prev.filter(c => c !== city)
+        : [...prev, city]
+    );
+  };
+
+  // Manizales rojo, demás ciudades en gris/cian tenues
+  const cityColors = useMemo(() => {
+    const muted = ["hsl(180 25% 65%)", "hsl(210 10% 65%)", "hsl(190 30% 55%)", "hsl(200 15% 55%)"];
+    const colors: Record<string, string> = {};
+    let i = 0;
+    availableCities.forEach((city) => {
+      if (city === "Manizales") {
+        colors[city] = "#e11d48";
+      } else {
+        colors[city] = muted[i % muted.length];
+        i++;
+      }
+    });
+    return colors;
+  }, [availableCities]);
 
   // Fetch city list (23 ciudades) for selector (small query)
   const { data: citiesSeedData } = useQuery({
