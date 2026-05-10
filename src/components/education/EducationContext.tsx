@@ -24,8 +24,8 @@ const KPI_CONFIG: Array<{
   { code: "COBE_02", title: "Cobertura Neta Primaria",   icon: BookOpen,      bg: "bg-amber-50",  iconBg: "bg-amber-100",  text: "text-amber-600" },
   { code: "COBE_03", title: "Cobertura Neta Secundaria", icon: GraduationCap, bg: "bg-green-50",  iconBg: "bg-green-100",  text: "text-green-600" },
   { code: "COBE_04", title: "Cobertura Neta Media",      icon: Users,         bg: "bg-sky-50",    iconBg: "bg-sky-100",    text: "text-sky-600" },
-  { code: "COBE_05", title: "Tasa de Tránsito",          icon: TrendingUp,    bg: "bg-slate-50",  iconBg: "bg-slate-100",  text: "text-slate-600" },
-  { code: "COBE_06", title: "Tasa de Deserción Escolar", icon: LogOut,        bg: "bg-red-50",    iconBg: "bg-red-100",    text: "text-red-600" },
+  { code: "COBE_06", title: "Tasa de Tránsito",          icon: TrendingUp,    bg: "bg-slate-50",  iconBg: "bg-slate-100",  text: "text-slate-600" },
+  { code: "COBE_05", title: "Tasa de Deserción Escolar", icon: LogOut,        bg: "bg-red-50",    iconBg: "bg-red-100",    text: "text-red-600" },
 ];
 
 const MANIZALES_COD = "17001";
