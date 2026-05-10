@@ -128,7 +128,7 @@ const EducationUTC = () => {
               />
             </div>
           </CardHeader>
-          <CardContent className="pt-6">
+          <CardContent className="pt-6 flex-1 flex flex-col">
             <div className="mb-4">
               <p className="text-sm text-muted-foreground mb-2">
                 Selecciona una institución para ver su evolución de matrícula técnica
