@@ -141,12 +141,18 @@ const EducationContext = () => {
         </CardContent>
       </Card>
 
-      <EducationPreschoolRanking />
-      <EducationPrimaryRanking />
-      <EducationSecondaryRanking />
-      <EducationMediaRanking />
-      <EducationTransitRanking />
-      <EducationDesertionRanking />
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        {KPI_CONFIG.map((kpi) => (
+          <ContextRankingChart
+            key={kpi.code}
+            code={kpi.code}
+            title={`Ranking: ${kpi.title}`}
+            accentVar={kpi.accentVar}
+            year={selectedYear === "latest" ? null : Number(selectedYear)}
+            ascending={kpi.ascending}
+          />
+        ))}
+      </div>
     </div>
   );
 };
