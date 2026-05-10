@@ -173,6 +173,17 @@ const EducationUTC = () => {
               </Alert>
             )}
             </div>
+            <div className="flex justify-end pt-4 mt-auto">
+              <ChartDownloadButton 
+                chartRef={chartRef} 
+                title={`Matrícula Técnica en Instituciones Educativas - ${selectedInstitution}`}
+                excelData={chartData}
+                excelColumns={[
+                  { header: "Año", key: "año" },
+                  { header: "Estudiantes Matriculados", key: "matrícula" }
+                ]}
+              />
+            </div>
           </CardContent>
         </Card>
 
