@@ -4,12 +4,7 @@ import { Database, TrendingUp, GraduationCap, School, BookOpen, Users, LogOut } 
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
-import EducationPreschoolRanking from "./EducationPreschoolRanking";
-import EducationPrimaryRanking from "./EducationPrimaryRanking";
-import EducationSecondaryRanking from "./EducationSecondaryRanking";
-import EducationMediaRanking from "./EducationMediaRanking";
-import EducationTransitRanking from "./EducationTransitRanking";
-import EducationDesertionRanking from "./EducationDesertionRanking";
+import ContextRankingChart from "./ContextRankingChart";
 
 // Mapping based on dama_catalog (source of truth)
 const KPI_CONFIG: Array<{
