@@ -114,7 +114,7 @@ const EducationUniversityEnrollment = () => {
       <CardContent className="pt-6 flex-1 flex flex-col">
         <div className="mb-4">
           <p className="text-sm text-muted-foreground mb-2">
-            Selecciona una universidad o instituto para ver su evolución de matrícula técnica
+            Selecciona una institución para ver su evolución de matrícula técnica
           </p>
           <Select value={selectedInstitution} onValueChange={setSelectedInstitution}>
             <SelectTrigger className="w-full md:w-[400px] border-luker-teal/30">
