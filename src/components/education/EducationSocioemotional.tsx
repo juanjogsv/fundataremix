@@ -605,8 +605,10 @@ const EducationSocioemotional = () => {
       </div>
 
 
+      {/* Tarjetas 3 y 4 en grid 2 columnas */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-stretch">
       {/* Tarjeta 3: Distribución de Niveles de Desempeño - Quinto */}
-      <Card className="border-luker-green/20 shadow-lg">
+      <Card className="border-luker-green/20 shadow-lg h-full flex flex-col">
         <CardHeader className="bg-gradient-to-r from-luker-green/5 to-luker-teal/5 space-y-3">
           <div className="flex items-center justify-between flex-wrap gap-4">
             <CardTitle className="text-xl flex items-center gap-2 text-luker-green">
@@ -688,7 +690,7 @@ const EducationSocioemotional = () => {
       </Card>
 
       {/* Tarjeta 4: Distribución de Niveles de Desempeño - Media */}
-      <Card className="border-luker-green/20 shadow-lg">
+      <Card className="border-luker-green/20 shadow-lg h-full flex flex-col">
         <CardHeader className="bg-gradient-to-r from-luker-green/5 to-luker-teal/5 space-y-3">
           <div className="flex items-center justify-between flex-wrap gap-4">
             <CardTitle className="text-xl flex items-center gap-2 text-luker-green">
@@ -768,6 +770,7 @@ const EducationSocioemotional = () => {
           </div>
         </CardContent>
       </Card>
+      </div>
     </div>
   );
 };
