@@ -431,15 +431,6 @@ const EducationSocioemotional = () => {
               <Brain className="h-5 w-5 text-luker-teal" />
               Estudiantes habilidad en fortalecimiento Trabajo en Equipo
             </CardTitle>
-            <ChartDownloadButton
-              chartRef={chart1Ref}
-              title={`Fortalecimiento Trabajo en Equipo - Grado ${selectedGradeFort1} 2024`}
-              excelData={chartData}
-              excelColumns={[
-                { header: "Categoría", key: "categoría" },
-                { header: "Porcentaje (%)", key: "porcentaje" }
-              ]}
-            />
           </div>
           <p className="text-sm text-muted-foreground">
             En proceso + prosperando - Año 2024
@@ -496,6 +487,17 @@ const EducationSocioemotional = () => {
               </Alert>
             )}
           </div>
+          <div className="flex justify-end pt-4">
+            <ChartDownloadButton
+              chartRef={chart1Ref}
+              title={`Fortalecimiento Trabajo en Equipo - Grado ${selectedGradeFort1} 2024`}
+              excelData={chartData}
+              excelColumns={[
+                { header: "Categoría", key: "categoría" },
+                { header: "Porcentaje (%)", key: "porcentaje" }
+              ]}
+            />
+          </div>
         </CardContent>
       </Card>
 
@@ -507,16 +509,6 @@ const EducationSocioemotional = () => {
               <Brain className="h-5 w-5 text-luker-teal" />
               Estudiantes habilidad en fortalecimiento Trabajo en Equipo
             </CardTitle>
-            <ChartDownloadButton
-              chartRef={chart2Ref}
-              title={`Evolución Fortalecimiento Trabajo en Equipo - Grado ${selectedGradeFort2} - ${selectedInstitutionFort2}`}
-              excelData={historicalChartData}
-              excelColumns={[
-                { header: "Año", key: "año" },
-                { header: "Escuela Activa (%)", key: "Escuela Activa" },
-                { header: "No Escuela Activa (%)", key: "No Escuela Activa" }
-              ]}
-            />
           </div>
           <p className="text-sm text-muted-foreground">
             Comparación EA vs. No EA - Grado {selectedGradeFort2}
@@ -596,6 +588,18 @@ const EducationSocioemotional = () => {
               </Alert>
             )}
           </div>
+          <div className="flex justify-end pt-4">
+            <ChartDownloadButton
+              chartRef={chart2Ref}
+              title={`Evolución Fortalecimiento Trabajo en Equipo - Grado ${selectedGradeFort2} - ${selectedInstitutionFort2}`}
+              excelData={historicalChartData}
+              excelColumns={[
+                { header: "Año", key: "año" },
+                { header: "Escuela Activa (%)", key: "Escuela Activa" },
+                { header: "No Escuela Activa (%)", key: "No Escuela Activa" }
+              ]}
+            />
+          </div>
         </CardContent>
       </Card>
       </div>
@@ -609,17 +613,6 @@ const EducationSocioemotional = () => {
               <Brain className="h-5 w-5 text-luker-teal" />
               Distribución de Niveles de Desempeño en Trabajo en Equipo
             </CardTitle>
-            <ChartDownloadButton
-              chartRef={chart4Ref}
-              title={`Distribución Niveles Desempeño Quinto - ${selectedCategoryQuinto}`}
-              excelData={distributionChartDataQuinto}
-              excelColumns={[
-                { header: "Año", key: "año" },
-                { header: "Riesgo (%)", key: "Riesgo" },
-                { header: "Proceso (%)", key: "Proceso" },
-                { header: "Prosperando (%)", key: "Prosperando" }
-              ]}
-            />
           </div>
           <p className="text-sm text-muted-foreground">
             Grado Quinto - {selectedCategoryQuinto === "EA" ? "Escuela Activa" : selectedCategoryQuinto === "No EA" ? "No Escuela Activa" : selectedCategoryQuinto}
@@ -678,6 +671,19 @@ const EducationSocioemotional = () => {
             </Alert>
           )}
           </div>
+          <div className="flex justify-end pt-4">
+            <ChartDownloadButton
+              chartRef={chart4Ref}
+              title={`Distribución Niveles Desempeño Quinto - ${selectedCategoryQuinto}`}
+              excelData={distributionChartDataQuinto}
+              excelColumns={[
+                { header: "Año", key: "año" },
+                { header: "Riesgo (%)", key: "Riesgo" },
+                { header: "Proceso (%)", key: "Proceso" },
+                { header: "Prosperando (%)", key: "Prosperando" }
+              ]}
+            />
+          </div>
         </CardContent>
       </Card>
 
@@ -689,17 +695,6 @@ const EducationSocioemotional = () => {
               <Brain className="h-5 w-5 text-luker-teal" />
               Distribución de Niveles de Desempeño en Trabajo en Equipo
             </CardTitle>
-            <ChartDownloadButton
-              chartRef={chart3Ref}
-              title={`Distribución Niveles Desempeño Media - ${selectedCategory}`}
-              excelData={distributionChartData}
-              excelColumns={[
-                { header: "Año", key: "año" },
-                { header: "Riesgo (%)", key: "Riesgo" },
-                { header: "Proceso (%)", key: "Proceso" },
-                { header: "Prosperando (%)", key: "Prosperando" }
-              ]}
-            />
           </div>
           <p className="text-sm text-muted-foreground">
             Grado Media - {selectedCategory === "EA" ? "Escuela Activa" : selectedCategory === "No EA" ? "No Escuela Activa" : selectedCategory}
@@ -757,6 +752,19 @@ const EducationSocioemotional = () => {
               </AlertDescription>
             </Alert>
           )}
+          </div>
+          <div className="flex justify-end pt-4">
+            <ChartDownloadButton
+              chartRef={chart3Ref}
+              title={`Distribución Niveles Desempeño Media - ${selectedCategory}`}
+              excelData={distributionChartData}
+              excelColumns={[
+                { header: "Año", key: "año" },
+                { header: "Riesgo (%)", key: "Riesgo" },
+                { header: "Proceso (%)", key: "Proceso" },
+                { header: "Prosperando (%)", key: "Prosperando" }
+              ]}
+            />
           </div>
         </CardContent>
       </Card>
