@@ -170,148 +170,105 @@ const EducationSaberOnce = () => {
       .sort((a, b) => b.puntaje - a.puntaje);
   }, [rankingData, damaEntities, selectedRankingYear, selectedRankingCategory]);
 
-  // Query and state for Card 3 - Evolution comparison with indicator filter
-  const [selectedEvolutionIndicator, setSelectedEvolutionIndicator] = useState("");
-  const [availableEvolutionIndicators, setAvailableEvolutionIndicators] = useState<string[]>([]);
-  const [availableCities, setAvailableCities] = useState<string[]>([]);
+  // Card 3 - Evolución comparada usando dama_data (SABER_01..SABER_06)
+  const [selectedEvolutionIndicator, setSelectedEvolutionIndicator] = useState<string>("SABER_02");
   const [selectedCities, setSelectedCities] = useState<string[]>(["Manizales"]);
 
-  // Fetch city list (23 ciudades) for selector (small query)
-  const { data: citiesSeedData } = useQuery({
-    queryKey: ["education-saber-once-cities"],
+  // Fetch evolution data for selected indicator (paginated to bypass 1000-row default)
+  const { data: evolutionRawData, isLoading: isLoadingEvolution } = useQuery({
+    queryKey: ["dama-saber-evolution", selectedEvolutionIndicator],
     queryFn: async () => {
-      const { data, error } = await supabase
-        .from("education_indicators")
-        .select("departamento")
-        .eq("seccion", "Resultados pruebas Saber 11")
-        .eq("categoria", "Total")
-        .eq("year", 2024)
-        .eq("indicador", "Puntaje global")
-        .order("departamento", { ascending: true })
-        .limit(1000);
-
-      if (error) throw error;
-      return data;
-    },
-  });
-
-  // Extract available cities from seed data
-  useEffect(() => {
-    if (citiesSeedData && citiesSeedData.length > 0) {
-      const cities = Array.from(
-        new Set(citiesSeedData.map((d) => d.departamento).filter(Boolean))
-      ) as string[];
-
-      // Sort with Manizales first
-      const sortedCities = cities.sort((a, b) => {
-        if (a === "Manizales") return -1;
-        if (b === "Manizales") return 1;
-        return a.localeCompare(b);
-      });
-
-      setAvailableCities(sortedCities);
-    }
-  }, [citiesSeedData]);
-
-  // Evolution indicators can reuse the indicator list already loaded for Manizales
-  useEffect(() => {
-    if (availableIndicators.length > 0) {
-      const sorted = [...availableIndicators].sort();
-      setAvailableEvolutionIndicators(sorted);
-
-      if (!selectedEvolutionIndicator) {
-        const global = sorted.find((i) => i.toLowerCase() === "puntaje global");
-        setSelectedEvolutionIndicator(global || sorted[0]);
+      const pageSize = 1000;
+      let from = 0;
+      const all: any[] = [];
+      while (true) {
+        const { data, error } = await supabase
+          .from("dama_data")
+          .select("anio, categoria, valor, cod_entidad")
+          .eq("cod_indicador", selectedEvolutionIndicator)
+          .range(from, from + pageSize - 1);
+        if (error) throw error;
+        if (!data || data.length === 0) break;
+        all.push(...data);
+        if (data.length < pageSize) break;
+        from += pageSize;
       }
-    }
-  }, [availableIndicators, selectedEvolutionIndicator]);
-
-  // Fetch evolution data ONLY for the selected indicator (<= 23 ciudades × 10 años = 230 filas)
-  const { data: evolutionData, isLoading: isLoadingEvolution } = useQuery({
-    queryKey: ["education-saber-once-evolution-data", selectedEvolutionIndicator],
-    enabled: !!selectedEvolutionIndicator,
-    queryFn: async () => {
-      const { data, error } = await supabase
-        .from("education_indicators")
-        .select("year, departamento, indicador, valor")
-        .eq("seccion", "Resultados pruebas Saber 11")
-        .eq("categoria", "Total")
-        .eq("indicador", selectedEvolutionIndicator)
-        .order("year", { ascending: true })
-        .order("departamento", { ascending: true })
-        .limit(1000);
-
-      if (error) throw error;
-      return data;
+      return all;
     },
   });
+
+  // City list: capitales (5-digit cod_entidad) presentes en datos del indicador
+  const availableCities = useMemo(() => {
+    if (!evolutionRawData || !damaEntities) return [];
+    const entityMap = new Map(damaEntities.map(e => [e.cod_entidad, e.entidad]));
+    const cityCodes = new Set<string>();
+    evolutionRawData.forEach(d => {
+      const code = String(d.cod_entidad || "");
+      if (code.length === 5) cityCodes.add(code);
+    });
+    const cities = Array.from(cityCodes)
+      .map(code => entityMap.get(code))
+      .filter(Boolean) as string[];
+    return cities.sort((a, b) => {
+      if (a === "Manizales") return -1;
+      if (b === "Manizales") return 1;
+      return a.localeCompare(b);
+    });
+  }, [evolutionRawData, damaEntities]);
 
   const evolutionChartData = useMemo(() => {
-    if (!evolutionData || !selectedEvolutionIndicator) return [];
+    if (!evolutionRawData || !damaEntities) return [];
+    const entityMap = new Map(damaEntities.map(e => [e.cod_entidad, e.entidad]));
 
-    // Dynamic year range based on actual data
-    const yearsInData = Array.from(new Set(evolutionData.map((d: any) => d.year).filter(Boolean))) as number[];
-    if (yearsInData.length === 0) return [];
-    const minYear = Math.min(...yearsInData);
-    const maxYear = Math.max(...yearsInData);
-    const years: number[] = [];
-    for (let y = minYear; y <= maxYear; y++) years.push(y);
-
-    const filteredData = evolutionData;
-
-    const chartData = years.map((year) => {
-      const yearData: any = { año: year };
-      selectedCities.forEach((city) => {
-        const cityData = filteredData.find(
-          (d) => d.year === year && d.departamento === city
-        );
-        yearData[city] = cityData ? Math.round(cityData.valor || 0) : null;
+    const cityYearVals: Record<string, Record<number, number[]>> = {};
+    evolutionRawData
+      .filter(d => normalize(d.categoria) === "total")
+      .forEach(d => {
+        const code = String(d.cod_entidad || "");
+        if (code.length !== 5) return;
+        const city = entityMap.get(code);
+        if (!city || d.anio == null || d.valor == null) return;
+        if (!selectedCities.includes(city)) return;
+        if (!cityYearVals[city]) cityYearVals[city] = {};
+        if (!cityYearVals[city][d.anio]) cityYearVals[city][d.anio] = [];
+        cityYearVals[city][d.anio].push(Number(d.valor));
       });
-      return yearData;
-    });
 
-    return chartData;
-  }, [evolutionData, selectedEvolutionIndicator, selectedCities]);
+    const years: number[] = [];
+    for (let y = 2015; y <= 2024; y++) years.push(y);
+
+    return years.map(year => {
+      const row: any = { año: year };
+      selectedCities.forEach(city => {
+        const vals = cityYearVals[city]?.[year];
+        row[city] = vals && vals.length
+          ? Math.round(vals.reduce((a, b) => a + b, 0) / vals.length)
+          : null;
+      });
+      return row;
+    });
+  }, [evolutionRawData, damaEntities, selectedCities]);
 
   const toggleCity = (city: string) => {
-    setSelectedCities(prev => 
-      prev.includes(city) 
+    setSelectedCities(prev =>
+      prev.includes(city)
         ? prev.filter(c => c !== city)
         : [...prev, city]
     );
   };
 
-  // Generate colors for each city dynamically
+  // Manizales rojo, demás ciudades en gris/cian tenues
   const cityColors = useMemo(() => {
-    const baseColors = [
-      "hsl(var(--luker-red))",
-      "hsl(var(--luker-orange))",
-      "hsl(var(--luker-teal))",
-      "hsl(var(--luker-green))",
-      "hsl(25 95% 53%)",    // Orange variant
-      "hsl(280 65% 60%)",   // Purple
-      "hsl(190 80% 45%)",   // Cyan
-      "hsl(340 75% 55%)",   // Pink
-      "hsl(45 90% 50%)",    // Yellow
-      "hsl(160 60% 45%)",   // Teal variant
-      "hsl(220 70% 55%)",   // Blue
-      "hsl(0 70% 50%)",     // Red variant
-      "hsl(120 50% 40%)",   // Green variant
-      "hsl(300 60% 50%)",   // Magenta
-      "hsl(180 60% 45%)",   // Cyan variant
-      "hsl(60 70% 45%)",    // Olive
-      "hsl(200 80% 50%)",   // Sky blue
-      "hsl(330 70% 50%)",   // Rose
-      "hsl(90 60% 45%)",    // Lime
-      "hsl(270 60% 55%)",   // Violet
-      "hsl(15 80% 55%)",    // Coral
-      "hsl(240 60% 55%)",   // Indigo
-      "hsl(150 60% 45%)",   // Emerald
-    ];
-    
+    const muted = ["hsl(180 25% 65%)", "hsl(210 10% 65%)", "hsl(190 30% 55%)", "hsl(200 15% 55%)"];
     const colors: Record<string, string> = {};
-    availableCities.forEach((city, index) => {
-      colors[city] = baseColors[index % baseColors.length];
+    let i = 0;
+    availableCities.forEach((city) => {
+      if (city === "Manizales") {
+        colors[city] = "#e11d48";
+      } else {
+        colors[city] = muted[i % muted.length];
+        i++;
+      }
     });
     return colors;
   }, [availableCities]);
@@ -590,7 +547,7 @@ const EducationSaberOnce = () => {
         <CardContent>
           {isLoadingEvolution ? (
             <Skeleton className="h-96 w-full" />
-          ) : !evolutionData || evolutionData.length === 0 ? (
+          ) : !evolutionRawData || evolutionRawData.length === 0 ? (
             <Alert>
               <AlertCircle className="h-4 w-4" />
               <AlertDescription>
@@ -602,15 +559,15 @@ const EducationSaberOnce = () => {
               {/* Filters */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="space-y-2">
-                  <label className="text-sm font-medium text-gray-700">Área Temática/Indicador</label>
+                  <label className="text-sm font-medium text-gray-700">Área Temática</label>
                   <Select value={selectedEvolutionIndicator} onValueChange={setSelectedEvolutionIndicator}>
                     <SelectTrigger>
                       <SelectValue placeholder="Seleccione indicador" />
                     </SelectTrigger>
                     <SelectContent>
-                      {availableEvolutionIndicators.map((indicator) => (
-                        <SelectItem key={indicator} value={indicator}>
-                          {indicator}
+                      {SABER_OPTIONS.map((opt) => (
+                        <SelectItem key={opt.code} value={opt.code}>
+                          {opt.label}
                         </SelectItem>
                       ))}
                     </SelectContent>
