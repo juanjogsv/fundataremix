@@ -372,22 +372,47 @@ const MCVSubsection = ({
     return selectedIndicatorData[selectedIndicatorData.length - 1];
   }, [selectedIndicatorData]);
 
+  // Per-section KPI overrides: explicit codes + display labels
+  const kpiOverrides: Record<string, { code: string; label: string }[]> = {
+    "Mercado laboral comparativo": [
+      { code: "ML_01", label: "No. de ocupados" },
+      { code: "ML_03", label: "Tasa de desempleo en Mujeres" },
+      { code: "MLJ_07", label: "Tasa de desempleo juvenil (15 - 28 años)" },
+      { code: "ML_02", label: "Tasa de desempleo" },
+    ],
+  };
+
   // Get KPI cards data (top indicators)
   const kpiData = useMemo(() => {
     const kpis: { indicator: MCVIndicator; trend: MCVIndicator[] }[] = [];
-    
-    uniqueIndicators.forEach((items, codIndicator) => {
+
+    const override = kpiOverrides[sectionName];
+    if (override) {
+      override.forEach(({ code, label }) => {
+        const items = uniqueIndicators.get(code);
+        if (items && items.length > 0) {
+          const sortedDesc = [...items].sort((a, b) => b.year - a.year);
+          kpis.push({
+            indicator: { ...sortedDesc[0], indicador: label },
+            trend: [...items].sort((a, b) => a.year - b.year),
+          });
+        }
+      });
+      return kpis;
+    }
+
+    uniqueIndicators.forEach((items) => {
       if (items.length > 0) {
         const sortedItems = [...items].sort((a, b) => b.year - a.year);
         kpis.push({
           indicator: sortedItems[0],
-          trend: items.sort((a, b) => a.year - b.year)
+          trend: items.sort((a, b) => a.year - b.year),
         });
       }
     });
 
     return kpis.slice(0, 4); // Show only top 4 indicators
-  }, [uniqueIndicators]);
+  }, [uniqueIndicators, sectionName]);
 
   const formatValue = (value: number | null, unit?: string | null) => {
     if (value === null) return "N/A";
