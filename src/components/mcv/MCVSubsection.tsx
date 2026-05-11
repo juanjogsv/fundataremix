@@ -166,7 +166,7 @@ const MCVSubsection = ({
           id: r.id,
           seccion: "Educación",
           cod_indicador: r.cod_indicador,
-          indicador: cat?.indicador ?? r.cod_indicador,
+          indicador: (cat?.indicador ?? r.cod_indicador).replace(/Tasa de cobertura/gi, "Cobertura"),
           categoria: "Total",
           entidad: normalizeEntityName(entityMap.get(r.cod_entidad) as string),
           dato: r.valor !== null && r.valor !== undefined ? Number(r.valor) : null,
