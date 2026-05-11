@@ -70,15 +70,6 @@ const subsections = [
     mainIndicator: "COM.1",
     description: "Índices de competitividad"
   },
-  {
-    id: "seguridad",
-    label: "Seguridad",
-    mobileLabel: "Seguridad",
-    icon: Shield,
-    sectionName: "Seguridad",
-    mainIndicator: "SEG.1",
-    description: "Seguridad ciudadana"
-  },
 ];
 
 
