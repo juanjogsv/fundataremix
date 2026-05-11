@@ -382,7 +382,7 @@ const MCVSubsection = ({
   const kpiOverrides: Record<string, { code: string; label: string }[]> = {
     "Mercado laboral comparativo": [
       { code: "ML_01", label: "No. de ocupados" },
-      { code: "ML_03", label: "Tasa de desempleo en Mujeres" },
+      { code: "MLJ_10", label: "% de jóvenes que no estudian ni trabajan" },
       { code: "MLJ_07", label: "Tasa de desempleo juvenil (15 - 28 años)" },
       { code: "ML_02", label: "Tasa de desempleo" },
     ],
