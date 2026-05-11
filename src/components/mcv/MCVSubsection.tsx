@@ -271,16 +271,22 @@ const MCVSubsection = ({
     return indicatorMap;
   }, [entityData]);
 
+  // Per-section indicator exclusions for the chart selector
+  const excludedIndicatorCodes: Record<string, string[]> = {
+    "Mercado laboral comparativo": ["MLJ_02"], // Condición de actividad de egresados
+  };
+
   // Get list of available indicators for selector
   const availableIndicators = useMemo(() => {
+    const excluded = new Set(excludedIndicatorCodes[sectionName] ?? []);
     const indicators: { code: string; name: string }[] = [];
     uniqueIndicators.forEach((items, code) => {
-      if (items.length > 0) {
+      if (items.length > 0 && !excluded.has(code)) {
         indicators.push({ code, name: items[0].indicador });
       }
     });
     return indicators;
-  }, [uniqueIndicators]);
+  }, [uniqueIndicators, sectionName]);
 
   // Get selected indicator data for the chart
   const selectedIndicatorData = useMemo(() => {
