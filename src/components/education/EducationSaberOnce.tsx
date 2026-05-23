@@ -164,7 +164,7 @@ const EducationSaberOnce = () => {
     const entityMap = new Map(damaEntities.map(e => [e.cod_entidad, e.entidad]));
     const grouped: Record<string, number[]> = {};
     rankingData
-      .filter(d => d.anio === selectedRankingYear && normalize(d.categoria) === normalize(selectedRankingCategory) && d.cod_entidad)
+      .filter(d => d.anio === selectedRankingYear && normalize(d.categoria) === normalize(selectedRankingCategory) && normalize((d as any).categoria_2) === normalize(selectedRankingSexo) && d.cod_entidad)
       .forEach(d => {
         const code = String(d.cod_entidad);
         // Solo ciudades capitales (códigos de 5 dígitos)
@@ -179,7 +179,7 @@ const EducationSaberOnce = () => {
         puntaje: Math.round(vals.reduce((a, b) => a + b, 0) / vals.length),
       }))
       .sort((a, b) => b.puntaje - a.puntaje);
-  }, [rankingData, damaEntities, selectedRankingYear, selectedRankingCategory]);
+  }, [rankingData, damaEntities, selectedRankingYear, selectedRankingCategory, selectedRankingSexo]);
 
   // Card 3 - Evolución comparada usando dama_data (SABER_01..SABER_06)
   const [selectedEvolutionIndicator, setSelectedEvolutionIndicator] = useState<string>("SABER_02");
