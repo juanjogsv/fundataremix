@@ -793,7 +793,7 @@ const EducationSaberOnce = () => {
                             const diffColor = diff == null ? '#6b7280' : diff > 0 ? '#0d9488' : diff < 0 ? '#e11d48' : '#6b7280';
                             const diffLabel = diff == null
                               ? 'N/A'
-                              : `${diff > 0 ? '+' : ''}${Math.round(diff)} pts ${diff > 0 ? '(a favor No oficial)' : diff < 0 ? '(a favor Oficial)' : '(paridad)'}`;
+                              : `${diff > 0 ? '+' : ''}${Math.round(diff)} pts ${diff > 0 ? '(a favor Oficial)' : diff < 0 ? '(a favor No oficial)' : '(paridad)'}`;
                             return (
                               <div className="bg-white border border-gray-200 rounded-md shadow-md px-3 py-2 text-sm">
                                 <div className="font-semibold text-gray-900 mb-1">{label}</div>
