@@ -707,7 +707,7 @@ const EducationSaberOnce = () => {
             <Skeleton className="h-96 w-full" />
           ) : (
             <div className="space-y-4">
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="space-y-2">
                   <label className="text-sm font-medium text-gray-700">Ciudad</label>
                   <Select value={selectedCompCity} onValueChange={setSelectedCompCity}>
@@ -731,34 +731,6 @@ const EducationSaberOnce = () => {
                     <SelectContent>
                       {SABER_OPTIONS.map((opt) => (
                         <SelectItem key={opt.code} value={opt.code}>{opt.label}</SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div>
-
-                <div className="space-y-2">
-                  <label className="text-sm font-medium text-gray-700">Sexo</label>
-                  <Select value={selectedCompSexo} onValueChange={handleCompSexoChange}>
-                    <SelectTrigger>
-                      <SelectValue placeholder="Seleccione sexo" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {SEXO_OPTIONS.map((s) => (
-                        <SelectItem key={s} value={s}>{s}</SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div>
-
-                <div className="space-y-2">
-                  <label className="text-sm font-medium text-gray-700">Sector</label>
-                  <Select value={selectedCompZona} onValueChange={handleCompZonaChange}>
-                    <SelectTrigger>
-                      <SelectValue placeholder="Seleccione sector" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {ZONA_OPTIONS.map((s) => (
-                        <SelectItem key={s} value={s}>{s}</SelectItem>
                       ))}
                     </SelectContent>
                   </Select>
