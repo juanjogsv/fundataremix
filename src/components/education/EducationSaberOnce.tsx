@@ -129,7 +129,7 @@ const EducationSaberOnce = () => {
       while (true) {
         const { data, error } = await supabase
           .from("dama_data")
-          .select("anio, categoria, valor, cod_entidad")
+          .select("anio, categoria, categoria_2, valor, cod_entidad")
           .eq("cod_indicador", selectedRankingIndicator)
           .range(from, from + pageSize - 1);
         if (error) throw error;
