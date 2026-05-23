@@ -108,8 +108,8 @@ const EducationSaberOnce = () => {
 
   const chartData = useMemo(() => {
     const target = normalize(selectedCategory);
-    const targetSexo = normalize(selectedSexo);
-    const filtered = (damaSaberData || []).filter(d => normalize(d.categoria) === target && normalize((d as any).categoria_2) === targetSexo);
+    const targetCat2 = normalize(getEffectiveCat2(selectedSexo, selectedNaturaleza, selectedZona));
+    const filtered = (damaSaberData || []).filter(d => normalize(d.categoria) === target && normalize((d as any).categoria_2) === targetCat2);
     const grouped: Record<number, number[]> = {};
     filtered.forEach(d => {
       if (d.anio == null || d.valor == null) return;
@@ -124,7 +124,7 @@ const EducationSaberOnce = () => {
       const avg = vals.length ? vals.reduce((a, b) => a + b, 0) / vals.length : 0;
       return { año: year.toString(), puntaje: Math.round(avg) };
     });
-  }, [damaSaberData, selectedCategory]);
+  }, [damaSaberData, selectedCategory, selectedSexo, selectedNaturaleza, selectedZona]);
 
 
   // Card 2 - Ranking de ciudades (dama_data + dama_entities)
