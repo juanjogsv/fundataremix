@@ -819,7 +819,7 @@ const EducationSaberOnce = () => {
                   {/* Gráfico de diferencia (brecha) */}
                   <div className="border-t pt-6">
                     <h4 className="text-sm font-semibold text-gray-700 mb-3">
-                      Magnitud de la brecha: No oficial − Oficial (puntos)
+                      Magnitud de la brecha: Oficial − No oficial (puntos)
                     </h4>
                     <div className="h-48">
                       <ResponsiveContainer width="100%" height="100%">
