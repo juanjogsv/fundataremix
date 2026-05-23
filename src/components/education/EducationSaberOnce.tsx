@@ -772,7 +772,7 @@ const EducationSaberOnce = () => {
                           {gapStats.positiveYears} <span className="text-base font-normal text-gray-400">de {gapStats.totalYears} años</span>
                         </p>
                         <p className="text-xs text-gray-400 mt-1">
-                          favorecen a No oficial
+                          favorecen a Oficial
                         </p>
                       </div>
                     </div>
