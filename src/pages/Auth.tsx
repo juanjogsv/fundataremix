@@ -87,7 +87,7 @@ const Auth = () => {
       <Card className="w-full max-w-md">
         <CardHeader className="text-center">
           <CardTitle className="text-3xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
-            Fundación Transformar
+            Fundación Luker
           </CardTitle>
           <CardDescription>
             Accede a la plataforma de gestión
