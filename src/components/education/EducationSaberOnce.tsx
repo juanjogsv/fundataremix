@@ -619,6 +619,21 @@ const EducationSaberOnce = () => {
                 </div>
 
                 <div className="space-y-2">
+                  <label className="text-sm font-medium text-gray-700">Sexo</label>
+                  <Select value={selectedEvolutionSexo} onValueChange={setSelectedEvolutionSexo}>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Seleccione sexo" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {SEXO_OPTIONS.map((s) => (
+                        <SelectItem key={s} value={s}>{s}</SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+
+
+                <div className="space-y-2">
                   <label className="text-sm font-medium text-gray-700">Ciudades a comparar ({selectedCities.length} seleccionadas)</label>
                   <div className="flex flex-wrap gap-2 max-h-32 overflow-y-auto p-2 border rounded-md bg-gray-50">
                     {availableCities.map((city) => (
