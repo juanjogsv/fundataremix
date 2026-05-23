@@ -460,7 +460,7 @@ const EducationSaberOnce = () => {
           ) : (
             <div className="space-y-4">
               {/* Filters */}
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                 <div className="space-y-2">
                   <label className="text-sm font-medium text-gray-700">Año</label>
                   <Select value={selectedRankingYear.toString()} onValueChange={(value) => setSelectedRankingYear(Number(value))}>
