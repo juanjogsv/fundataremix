@@ -339,11 +339,16 @@ const EducationSaberOnce = () => {
     return ordered.filter(c => cats.includes(c)).concat(cats.filter(c => !ordered.includes(c)));
   }, [rankingData]);
 
+  // Mantener seleccionado el último año disponible automáticamente
+  const [userPickedRankingYear, setUserPickedRankingYear] = useState(false);
   useEffect(() => {
-    if (availableRankingYears.length > 0 && !availableRankingYears.includes(selectedRankingYear)) {
+    if (availableRankingYears.length === 0) return;
+    if (!userPickedRankingYear && availableRankingYears[0] !== selectedRankingYear) {
+      setSelectedRankingYear(availableRankingYears[0]);
+    } else if (!availableRankingYears.includes(selectedRankingYear)) {
       setSelectedRankingYear(availableRankingYears[0]);
     }
-  }, [availableRankingYears, selectedRankingYear]);
+  }, [availableRankingYears, selectedRankingYear, userPickedRankingYear]);
 
   const rankingChartData = useMemo(() => {
     if (!rankingData || !damaEntities) return [];
@@ -940,7 +945,7 @@ const EducationSaberOnce = () => {
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4">
                 <div className="space-y-2">
                   <label className="text-sm font-medium text-gray-700">Año</label>
-                  <Select value={selectedRankingYear.toString()} onValueChange={(value) => setSelectedRankingYear(Number(value))}>
+                  <Select value={selectedRankingYear.toString()} onValueChange={(value) => { setUserPickedRankingYear(true); setSelectedRankingYear(Number(value)); }}>
                     <SelectTrigger>
                       <SelectValue placeholder="Seleccione año" />
                     </SelectTrigger>
