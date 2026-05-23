@@ -754,7 +754,7 @@ const EducationSaberOnce = () => {
                           {gapStats.avgDiff > 1 ? '+' : ''}{gapStats.avgDiff} pts
                         </p>
                         <p className="text-xs text-gray-400 mt-1">
-                          {gapStats.avgDiff >= 0 ? 'A favor de No oficial' : 'A favor de Oficial'}
+                          {gapStats.avgDiff >= 1 ? 'A favor de Oficial' : gapStats.avgDiff <= -1 ? 'A favor de No oficial' : 'Paridad'}
                         </p>
                       </div>
                       <div className="bg-white border rounded-lg p-4 shadow-sm">
