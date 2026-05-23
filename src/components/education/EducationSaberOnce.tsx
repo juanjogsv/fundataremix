@@ -210,13 +210,37 @@ const EducationSaberOnce = () => {
     return years.map(year => {
       const g = grouped[year];
       const avg = (arr: number[]) => arr.length ? Math.round(arr.reduce((a, b) => a + b, 0) / arr.length) : null;
+      const oficialVal = avg(g.oficial);
+      const noOficialVal = avg(g.no_oficial);
+      const diff = (noOficialVal != null && oficialVal != null) ? noOficialVal - oficialVal : null;
       return {
         año: year.toString(),
-        Oficial: avg(g.oficial),
-        "No oficial": avg(g.no_oficial),
+        Oficial: oficialVal,
+        "No oficial": noOficialVal,
+        Diferencia: diff,
       };
     }).filter(r => r.Oficial !== null || r["No oficial"] !== null);
   }, [compRawData, selectedCompSexo, selectedCompZona]);
+
+  // Estadísticas de brecha para el resumen
+  const gapStats = useMemo(() => {
+    const diffs = compChartData.map(d => d.Diferencia).filter((v): v is number => v !== null);
+    if (diffs.length === 0) return null;
+    const latest = compChartData[compChartData.length - 1];
+    const avgDiff = Math.round(diffs.reduce((a, b) => a + b, 0) / diffs.length);
+    const maxDiff = Math.max(...diffs);
+    const minDiff = Math.min(...diffs);
+    const positiveYears = diffs.filter(d => d > 1).length;
+    return {
+      avgDiff,
+      latestDiff: latest.Diferencia,
+      latestYear: latest.año,
+      maxDiff,
+      minDiff,
+      positiveYears,
+      totalYears: diffs.length,
+    };
+  }, [compChartData]);
 
   // Card 2 - Ranking de ciudades (dama_data + dama_entities)
 
@@ -691,18 +715,101 @@ const EducationSaberOnce = () => {
               </div>
 
               {compChartData.length > 0 ? (
-                <div ref={chartCompRef} className="h-96 mt-6">
-                  <ResponsiveContainer width="100%" height="100%">
-                    <BarChart data={compChartData}>
-                      <CartesianGrid strokeDasharray="3 3" />
-                      <XAxis dataKey="año" />
-                      <YAxis domain={[0, 500]} ticks={[0, 100, 200, 300, 400, 500]} />
-                      <Tooltip formatter={(v: number) => (v == null ? 'N/A' : Math.round(v))} />
-                      <Legend />
-                      <Bar dataKey="Oficial" fill="#0d9488" name="Oficial" />
-                      <Bar dataKey="No oficial" fill="#e11d48" name="No oficial" />
-                    </BarChart>
-                  </ResponsiveContainer>
+                <div className="space-y-6">
+                  {/* KPIs de brecha */}
+                  {gapStats && (
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
+                      <div className="bg-white border rounded-lg p-4 shadow-sm">
+                        <p className="text-xs text-gray-500 uppercase tracking-wide">Brecha promedio</p>
+                        <p className={`text-2xl font-bold mt-1 ${gapStats.avgDiff >= 0 ? 'text-emerald-600' : 'text-luker-red'}`}>
+                          {gapStats.avgDiff > 1 ? '+' : ''}{gapStats.avgDiff} pts
+                        </p>
+                        <p className="text-xs text-gray-400 mt-1">
+                          {gapStats.avgDiff >= 0 ? 'A favor de No oficial' : 'A favor de Oficial'}
+                        </p>
+                      </div>
+                      <div className="bg-white border rounded-lg p-4 shadow-sm">
+                        <p className="text-xs text-gray-500 uppercase tracking-wide">Brecha {gapStats.latestYear}</p>
+                        <p className={`text-2xl font-bold mt-1 ${(gapStats.latestDiff ?? 1) >= 0 ? 'text-emerald-600' : 'text-luker-red'}`}>
+                          {(gapStats.latestDiff ?? 0) > 1 ? '+' : ''}{gapStats.latestDiff} pts
+                        </p>
+                        <p className="text-xs text-gray-400 mt-1">
+                          {(gapStats.latestDiff ?? 0) >= 0 ? 'A favor de No oficial' : 'A favor de Oficial'}
+                        </p>
+                      </div>
+                      <div className="bg-white border rounded-lg p-4 shadow-sm">
+                        <p className="text-xs text-gray-500 uppercase tracking-wide">Tendencia histórica</p>
+                        <p className="text-2xl font-bold mt-1 text-luker-brown">
+                          {gapStats.positiveYears} <span className="text-base font-normal text-gray-400">de {gapStats.totalYears} años</span>
+                        </p>
+                        <p className="text-xs text-gray-400 mt-1">
+                          favorecen a No oficial
+                        </p>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Gráfico principal */}
+                  <div ref={chartCompRef} className="h-96">
+                    <ResponsiveContainer width="100%" height="100%">
+                      <BarChart data={compChartData}>
+                        <CartesianGrid strokeDasharray="3 3" />
+                        <XAxis dataKey="año" />
+                        <YAxis domain={[0, 500]} ticks={[0, 100, 200, 300, 400, 500]} />
+                        <Tooltip formatter={(v: number) => (v == null ? 'N/A' : Math.round(v))} />
+                        <Legend />
+                        <Bar dataKey="Oficial" fill="#0d9488" name="Oficial" />
+                        <Bar dataKey="No oficial" fill="#e11d48" name="No oficial" />
+                      </BarChart>
+                    </ResponsiveContainer>
+                  </div>
+
+                  {/* Gráfico de diferencia (brecha) */}
+                  <div className="border-t pt-6">
+                    <h4 className="text-sm font-semibold text-gray-700 mb-3">
+                      Magnitud de la brecha: No oficial − Oficial (puntos)
+                    </h4>
+                    <div className="h-48">
+                      <ResponsiveContainer width="100%" height="100%">
+                        <BarChart data={compChartData}>
+                          <CartesianGrid strokeDasharray="3 3" />
+                          <XAxis dataKey="año" tick={{ fontSize: 12 }} />
+                          <YAxis
+                            tickFormatter={(v) => `${v > 1 ? '+' : ''}${v}`}
+                            tick={{ fontSize: 12 }}
+                          />
+                          <Tooltip
+                            formatter={(v: number) => [
+                              `${v > 1 ? '+' : ''}${v} pts`,
+                              'Diferencia (No oficial − Oficial)'
+                            ]}
+                          />
+                          <Bar dataKey="Diferencia" name="Diferencia">
+                            {compChartData.map((entry, index) => (
+                              <Cell
+                                key={`cell-${index}`}
+                                fill={(entry.Diferencia ?? 0) > 1 ? '#10b981' : (entry.Diferencia ?? 0) < -1 ? '#e11d48' : '#9ca3af'}
+                              />
+                            ))}
+                          </Bar>
+                        </BarChart>
+                      </ResponsiveContainer>
+                    </div>
+                    <div className="flex items-center justify-center gap-6 mt-2 text-xs text-gray-500">
+                      <span className="flex items-center gap-1">
+                        <span className="inline-block w-3 h-3 rounded-sm bg-emerald-500" />
+                        No oficial mejor
+                      </span>
+                      <span className="flex items-center gap-1">
+                        <span className="inline-block w-3 h-3 rounded-sm bg-gray-400" />
+                        Paridad
+                      </span>
+                      <span className="flex items-center gap-1">
+                        <span className="inline-block w-3 h-3 rounded-sm bg-luker-red" />
+                        Oficial mejor
+                      </span>
+                    </div>
+                  </div>
                 </div>
               ) : (
                 <Alert>
