@@ -128,7 +128,86 @@ const EducationSaberOnce = () => {
   }, [damaSaberData, selectedCategory, selectedSexo, selectedNaturaleza, selectedZona]);
 
 
+  // ===== Card 2 (NUEVA): Comparativo histórico Oficial vs No oficial =====
+  const [selectedCompCity, setSelectedCompCity] = useState<string>("17001");
+  const [selectedCompIndicator, setSelectedCompIndicator] = useState<string>("SABER_02");
+  const [selectedCompSexo, setSelectedCompSexo] = useState("Total");
+  const [selectedCompZona, setSelectedCompZona] = useState("Total");
+
+  const handleCompSexoChange = (v: string) => {
+    setSelectedCompSexo(v);
+    if (v !== "Total") setSelectedCompZona("Total");
+  };
+  const handleCompZonaChange = (v: string) => {
+    setSelectedCompZona(v);
+    if (v !== "Total") setSelectedCompSexo("Total");
+  };
+
+  const { data: compRawData, isLoading: isLoadingComp } = useQuery({
+    queryKey: ["dama-saber-comp-naturaleza", selectedCompIndicator, selectedCompCity],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("dama_data")
+        .select("anio, categoria, categoria_2, valor, cod_entidad")
+        .eq("cod_indicador", selectedCompIndicator)
+        .eq("cod_entidad", selectedCompCity)
+        .order("anio", { ascending: true });
+      if (error) throw error;
+      return data;
+    },
+  });
+
+  // Lista de ciudades capitales (códigos de 5 dígitos)
+  const availableCompCities = useMemo(() => {
+    if (!damaEntities) return [] as { code: string; name: string }[];
+    return damaEntities
+      .filter(e => String(e.cod_entidad).length === 5)
+      .map(e => ({ code: String(e.cod_entidad), name: e.entidad }))
+      .sort((a, b) => {
+        if (a.name === "Manizales") return -1;
+        if (b.name === "Manizales") return 1;
+        return a.name.localeCompare(b.name);
+      });
+  }, [damaEntities]);
+
+  const compChartData = useMemo(() => {
+    if (!compRawData) return [];
+    // Si hay filtro de sexo o zona, se aplica como filtro adicional sobre cat2
+    // En ese caso los datos por Naturaleza no existen y el gráfico saldrá vacío.
+    const extraCat2 = selectedCompSexo !== "Total"
+      ? selectedCompSexo
+      : selectedCompZona !== "Total"
+        ? selectedCompZona
+        : null;
+
+    const grouped: Record<number, { oficial: number[]; no_oficial: number[] }> = {};
+    compRawData.forEach(d => {
+      if (d.anio == null || d.valor == null) return;
+      if (normalize(d.categoria) !== "total") return;
+      const cat2 = normalize((d as any).categoria_2);
+      if (extraCat2) {
+        if (cat2 !== normalize(extraCat2)) return;
+        // no podemos a la vez ser Oficial/No oficial — sin datos
+        return;
+      }
+      if (!grouped[d.anio]) grouped[d.anio] = { oficial: [], no_oficial: [] };
+      if (cat2 === "oficial") grouped[d.anio].oficial.push(Number(d.valor));
+      else if (cat2 === "no oficial") grouped[d.anio].no_oficial.push(Number(d.valor));
+    });
+    const years = Object.keys(grouped).map(Number).sort((a, b) => a - b);
+    return years.map(year => {
+      const g = grouped[year];
+      const avg = (arr: number[]) => arr.length ? Math.round(arr.reduce((a, b) => a + b, 0) / arr.length) : null;
+      return {
+        año: year.toString(),
+        Oficial: avg(g.oficial),
+        "No oficial": avg(g.no_oficial),
+      };
+    }).filter(r => r.Oficial !== null || r["No oficial"] !== null);
+  }, [compRawData, selectedCompSexo, selectedCompZona]);
+
   // Card 2 - Ranking de ciudades (dama_data + dama_entities)
+
   const [selectedRankingIndicator, setSelectedRankingIndicator] = useState<string>("SABER_02");
   const [selectedRankingCategory, setSelectedRankingCategory] = useState("Total");
   const [selectedRankingSexo, setSelectedRankingSexo] = useState("Total");
