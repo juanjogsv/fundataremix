@@ -609,7 +609,116 @@ const EducationSaberOnce = () => {
         </CardContent>
       </Card>
 
-      {/* Card 2: Ranking de Entidades 2024 */}
+      {/* Card 2 (NUEVA): Comparativo histórico Oficial vs No oficial */}
+      <Card>
+        <CardHeader className="flex flex-row items-center justify-between">
+          <CardTitle className="flex items-center gap-2 text-luker-brown">
+            <Award className="h-5 w-5 text-luker-red" />
+            Comparativo histórico Saber Once: Oficial vs No oficial
+          </CardTitle>
+          <ChartDownloadButton
+            chartRef={chartCompRef}
+            title="Comparativo Oficial vs No oficial - Saber Once"
+            excelData={compChartData}
+            excelColumns={[
+              { header: "Año", key: "año" },
+              { header: "Oficial", key: "Oficial" },
+              { header: "No oficial", key: "No oficial" },
+            ]}
+          />
+        </CardHeader>
+        <CardContent>
+          {isLoadingComp ? (
+            <Skeleton className="h-96 w-full" />
+          ) : (
+            <div className="space-y-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                <div className="space-y-2">
+                  <label className="text-sm font-medium text-gray-700">Ciudad</label>
+                  <Select value={selectedCompCity} onValueChange={setSelectedCompCity}>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Seleccione ciudad" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {availableCompCities.map((c) => (
+                        <SelectItem key={c.code} value={c.code}>{c.name}</SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                <div className="space-y-2">
+                  <label className="text-sm font-medium text-gray-700">Área Temática</label>
+                  <Select value={selectedCompIndicator} onValueChange={setSelectedCompIndicator}>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Seleccione indicador" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {SABER_OPTIONS.map((opt) => (
+                        <SelectItem key={opt.code} value={opt.code}>{opt.label}</SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                <div className="space-y-2">
+                  <label className="text-sm font-medium text-gray-700">Sexo</label>
+                  <Select value={selectedCompSexo} onValueChange={handleCompSexoChange}>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Seleccione sexo" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {SEXO_OPTIONS.map((s) => (
+                        <SelectItem key={s} value={s}>{s}</SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                <div className="space-y-2">
+                  <label className="text-sm font-medium text-gray-700">Sector</label>
+                  <Select value={selectedCompZona} onValueChange={handleCompZonaChange}>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Seleccione sector" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {ZONA_OPTIONS.map((s) => (
+                        <SelectItem key={s} value={s}>{s}</SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+              </div>
+
+              {compChartData.length > 0 ? (
+                <div ref={chartCompRef} className="h-96 mt-6">
+                  <ResponsiveContainer width="100%" height="100%">
+                    <BarChart data={compChartData}>
+                      <CartesianGrid strokeDasharray="3 3" />
+                      <XAxis dataKey="año" />
+                      <YAxis domain={[0, 500]} ticks={[0, 100, 200, 300, 400, 500]} />
+                      <Tooltip formatter={(v: number) => (v == null ? 'N/A' : Math.round(v))} />
+                      <Legend />
+                      <Bar dataKey="Oficial" fill="#0d9488" name="Oficial" />
+                      <Bar dataKey="No oficial" fill="#e11d48" name="No oficial" />
+                    </BarChart>
+                  </ResponsiveContainer>
+                </div>
+              ) : (
+                <Alert>
+                  <AlertCircle className="h-4 w-4" />
+                  <AlertDescription>
+                    No hay datos disponibles para los filtros seleccionados. Nota: los filtros de Sexo y Sector son excluyentes con la comparación Oficial/No oficial.
+                  </AlertDescription>
+                </Alert>
+              )}
+            </div>
+          )}
+        </CardContent>
+      </Card>
+
+      {/* Card 3: Ranking de Entidades 2024 */}
+
       <Card>
         <CardHeader className="flex flex-row items-center justify-between">
           <CardTitle className="flex items-center gap-2 text-luker-brown">
