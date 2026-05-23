@@ -107,6 +107,21 @@ const EducationSaberOnce = () => {
 
   const normalize = (v: any) => (v ?? "").toString().trim().toLowerCase();
 
+  // Ciudades sin datos que se deben excluir de todos los filtros
+  const EXCLUDED_CITIES = [
+    "algeciras", "agrado", "campoalegre", "garzon", "gigante",
+    "hobo", "montelibano", "pital", "puerto libertador",
+    "rivera", "tumaco", "villanueva",
+  ];
+  const isExcludedCity = (name: string) => {
+    const normalized = name
+      .toLowerCase()
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .trim();
+    return EXCLUDED_CITIES.includes(normalized);
+  };
+
   const chartData = useMemo(() => {
     const target = normalize(selectedCategory);
     const targetCat2 = normalize(getEffectiveCat2(selectedSexo, selectedNaturaleza, selectedZona));
@@ -172,7 +187,7 @@ const EducationSaberOnce = () => {
   const availableCompCities = useMemo(() => {
     if (!damaEntitiesForComp) return [] as { code: string; name: string }[];
     return damaEntitiesForComp
-      .filter(e => String(e.cod_entidad).length === 5)
+      .filter(e => String(e.cod_entidad).length === 5 && !isExcludedCity(e.entidad || ""))
       .map(e => ({ code: String(e.cod_entidad), name: e.entidad }))
       .sort((a, b) => {
         if (a.name === "Manizales") return -1;
@@ -336,6 +351,7 @@ const EducationSaberOnce = () => {
         entidad: entityMap.get(code) || code,
         puntaje: Math.round(vals.reduce((a, b) => a + b, 0) / vals.length),
       }))
+      .filter(item => !isExcludedCity(item.entidad))
       .sort((a, b) => b.puntaje - a.puntaje);
   }, [rankingData, damaEntities, selectedRankingYear, selectedRankingCategory, selectedRankingSexo, selectedRankingNaturaleza, selectedRankingZona]);
 
@@ -395,11 +411,13 @@ const EducationSaberOnce = () => {
     const cities = Array.from(cityCodes)
       .map(code => entityMap.get(code))
       .filter(Boolean) as string[];
-    return cities.sort((a, b) => {
-      if (a === "Manizales") return -1;
-      if (b === "Manizales") return 1;
-      return a.localeCompare(b);
-    });
+    return cities
+      .filter(city => !isExcludedCity(city))
+      .sort((a, b) => {
+        if (a === "Manizales") return -1;
+        if (b === "Manizales") return 1;
+        return a.localeCompare(b);
+      });
   }, [evolutionRawData, damaEntities]);
 
   const evolutionChartData = useMemo(() => {
