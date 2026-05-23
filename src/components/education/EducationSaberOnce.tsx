@@ -301,8 +301,11 @@ const EducationSaberOnce = () => {
     },
   });
 
+  const isBrechaRanking = selectedRankingIndicator === "BRECHA";
+  const effectiveRankingIndicator = isBrechaRanking ? "SABER_02" : selectedRankingIndicator;
+
   const { data: rankingData, isLoading: isLoadingRanking } = useQuery({
-    queryKey: ["dama-saber-ranking", selectedRankingIndicator],
+    queryKey: ["dama-saber-ranking", effectiveRankingIndicator],
     queryFn: async () => {
       // Paginar para superar el límite por defecto de Supabase (1000 filas)
       // y asegurarnos de leer TODAS las categorías (Oficial, No oficial, etc.)
@@ -313,7 +316,7 @@ const EducationSaberOnce = () => {
         const { data, error } = await supabase
           .from("dama_data")
           .select("anio, categoria, categoria_2, valor, cod_entidad")
-          .eq("cod_indicador", selectedRankingIndicator)
+          .eq("cod_indicador", effectiveRankingIndicator)
           .range(from, from + pageSize - 1);
         if (error) throw error;
         if (!data || data.length === 0) break;
