@@ -11,6 +11,7 @@ import { ChartDownloadButton } from "@/components/ui/chart-download-button";
 
 const EducationSaberOnce = () => {
   const chart1Ref = useRef<HTMLDivElement>(null);
+  const chartCompRef = useRef<HTMLDivElement>(null);
   const chart2Ref = useRef<HTMLDivElement>(null);
   const chart3Ref = useRef<HTMLDivElement>(null);
 
