@@ -238,7 +238,7 @@ const EducationSaberOnce = () => {
       const avg = (arr: number[]) => arr.length ? Math.round(arr.reduce((a, b) => a + b, 0) / arr.length) : null;
       const oficialVal = avg(g.oficial);
       const noOficialVal = avg(g.no_oficial);
-      const diff = (noOficialVal != null && oficialVal != null) ? noOficialVal - oficialVal : null;
+      const diff = (noOficialVal != null && oficialVal != null) ? oficialVal - noOficialVal : null;
       return {
         año: year.toString(),
         Oficial: oficialVal,
@@ -754,7 +754,7 @@ const EducationSaberOnce = () => {
                           {gapStats.avgDiff > 1 ? '+' : ''}{gapStats.avgDiff} pts
                         </p>
                         <p className="text-xs text-gray-400 mt-1">
-                          {gapStats.avgDiff >= 0 ? 'A favor de No oficial' : 'A favor de Oficial'}
+                          {gapStats.avgDiff >= 1 ? 'A favor de Oficial' : gapStats.avgDiff <= -1 ? 'A favor de No oficial' : 'Paridad'}
                         </p>
                       </div>
                       <div className="bg-white border rounded-lg p-4 shadow-sm">
@@ -763,7 +763,7 @@ const EducationSaberOnce = () => {
                           {(gapStats.latestDiff ?? 0) > 1 ? '+' : ''}{gapStats.latestDiff} pts
                         </p>
                         <p className="text-xs text-gray-400 mt-1">
-                          {(gapStats.latestDiff ?? 0) >= 0 ? 'A favor de No oficial' : 'A favor de Oficial'}
+                          {(gapStats.latestDiff ?? 0) >= 1 ? 'A favor de Oficial' : (gapStats.latestDiff ?? 0) <= -1 ? 'A favor de No oficial' : 'Paridad'}
                         </p>
                       </div>
                       <div className="bg-white border rounded-lg p-4 shadow-sm">
@@ -772,7 +772,7 @@ const EducationSaberOnce = () => {
                           {gapStats.positiveYears} <span className="text-base font-normal text-gray-400">de {gapStats.totalYears} años</span>
                         </p>
                         <p className="text-xs text-gray-400 mt-1">
-                          favorecen a No oficial
+                          favorecen a Oficial
                         </p>
                       </div>
                     </div>
@@ -793,7 +793,7 @@ const EducationSaberOnce = () => {
                             const diffColor = diff == null ? '#6b7280' : diff > 0 ? '#0d9488' : diff < 0 ? '#e11d48' : '#6b7280';
                             const diffLabel = diff == null
                               ? 'N/A'
-                              : `${diff > 0 ? '+' : ''}${Math.round(diff)} pts ${diff > 0 ? '(a favor No oficial)' : diff < 0 ? '(a favor Oficial)' : '(paridad)'}`;
+                              : `${diff > 0 ? '+' : ''}${Math.round(diff)} pts ${diff > 0 ? '(a favor Oficial)' : diff < 0 ? '(a favor No oficial)' : '(paridad)'}`;
                             return (
                               <div className="bg-white border border-gray-200 rounded-md shadow-md px-3 py-2 text-sm">
                                 <div className="font-semibold text-gray-900 mb-1">{label}</div>
@@ -819,7 +819,7 @@ const EducationSaberOnce = () => {
                   {/* Gráfico de diferencia (brecha) */}
                   <div className="border-t pt-6">
                     <h4 className="text-sm font-semibold text-gray-700 mb-3">
-                      Magnitud de la brecha: No oficial − Oficial (puntos)
+                      Magnitud de la brecha: Oficial − No oficial (puntos)
                     </h4>
                     <div className="h-48">
                       <ResponsiveContainer width="100%" height="100%">
@@ -833,7 +833,7 @@ const EducationSaberOnce = () => {
                           <Tooltip
                             formatter={(v: number) => [
                               `${v > 1 ? '+' : ''}${v} pts`,
-                              'Diferencia (No oficial − Oficial)'
+                              'Diferencia (Oficial − No oficial)'
                             ]}
                           />
                           <Bar dataKey="Diferencia" name="Diferencia">
@@ -850,7 +850,7 @@ const EducationSaberOnce = () => {
                     <div className="flex items-center justify-center gap-6 mt-2 text-xs text-gray-500">
                       <span className="flex items-center gap-1">
                         <span className="inline-block w-3 h-3 rounded-sm bg-emerald-500" />
-                        No oficial mejor
+                        Oficial mejor
                       </span>
                       <span className="flex items-center gap-1">
                         <span className="inline-block w-3 h-3 rounded-sm bg-gray-400" />
@@ -858,7 +858,7 @@ const EducationSaberOnce = () => {
                       </span>
                       <span className="flex items-center gap-1">
                         <span className="inline-block w-3 h-3 rounded-sm bg-luker-red" />
-                        Oficial mejor
+                        No oficial mejor
                       </span>
                     </div>
                   </div>
