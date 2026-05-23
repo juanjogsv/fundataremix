@@ -82,7 +82,8 @@ const EducationSaberOnce = () => {
 
   const chartData = useMemo(() => {
     const target = normalize(selectedCategory);
-    const filtered = (damaSaberData || []).filter(d => normalize(d.categoria) === target);
+    const targetSexo = normalize(selectedSexo);
+    const filtered = (damaSaberData || []).filter(d => normalize(d.categoria) === target && normalize((d as any).categoria_2) === targetSexo);
     const grouped: Record<number, number[]> = {};
     filtered.forEach(d => {
       if (d.anio == null || d.valor == null) return;
