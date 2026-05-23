@@ -412,7 +412,7 @@ const EducationSaberOnce = () => {
           ) : (
             <div className="space-y-4">
               {/* Filters */}
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
                 <div className="space-y-2">
                   <label className="text-sm font-medium text-gray-700">Área Temática</label>
                   <Select value={selectedIndicator} onValueChange={setSelectedIndicator}>
@@ -447,12 +447,40 @@ const EducationSaberOnce = () => {
 
                 <div className="space-y-2">
                   <label className="text-sm font-medium text-gray-700">Sexo</label>
-                  <Select value={selectedSexo} onValueChange={setSelectedSexo}>
+                  <Select value={selectedSexo} onValueChange={handleSexoChange}>
                     <SelectTrigger>
                       <SelectValue placeholder="Seleccione sexo" />
                     </SelectTrigger>
                     <SelectContent>
                       {SEXO_OPTIONS.map((s) => (
+                        <SelectItem key={s} value={s}>{s}</SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                <div className="space-y-2">
+                  <label className="text-sm font-medium text-gray-700">Naturaleza</label>
+                  <Select value={selectedNaturaleza} onValueChange={handleNaturalezaChange}>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Seleccione naturaleza" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {NATURALEZA_OPTIONS.map((s) => (
+                        <SelectItem key={s} value={s}>{s}</SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                <div className="space-y-2">
+                  <label className="text-sm font-medium text-gray-700">Zona</label>
+                  <Select value={selectedZona} onValueChange={handleZonaChange}>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Seleccione zona" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {ZONA_OPTIONS.map((s) => (
                         <SelectItem key={s} value={s}>{s}</SelectItem>
                       ))}
                     </SelectContent>
