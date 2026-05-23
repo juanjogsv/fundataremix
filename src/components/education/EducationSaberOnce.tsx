@@ -24,6 +24,11 @@ const EducationSaberOnce = () => {
     { code: "SABER_03", label: "Inglés" },
   ];
 
+  const getCategoryLabel = (category: string) => {
+    if (category === "Solo once") return "Sin ciclos";
+    return category;
+  };
+
   const [selectedIndicator, setSelectedIndicator] = useState<string>("SABER_02");
   const [selectedCategory, setSelectedCategory] = useState("Total");
   const [availableIndicators, setAvailableIndicators] = useState<string[]>([]);
@@ -368,7 +373,7 @@ const EducationSaberOnce = () => {
                     <SelectContent>
                       {availableCategoriesCard1.map((category) => (
                         <SelectItem key={category} value={category}>
-                          {category}
+                          {getCategoryLabel(category)}
                         </SelectItem>
                       ))}
                     </SelectContent>
@@ -477,7 +482,7 @@ const EducationSaberOnce = () => {
                     <SelectContent>
                       {availableRankingCategories.map((category) => (
                         <SelectItem key={category} value={category}>
-                          {category}
+                          {getCategoryLabel(category)}
                         </SelectItem>
                       ))}
                     </SelectContent>
