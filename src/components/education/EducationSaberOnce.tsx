@@ -104,6 +104,7 @@ const EducationSaberOnce = () => {
   // Card 2 - Ranking de ciudades (dama_data + dama_entities)
   const [selectedRankingIndicator, setSelectedRankingIndicator] = useState<string>("SABER_02");
   const [selectedRankingCategory, setSelectedRankingCategory] = useState("Total");
+  const [selectedRankingSexo, setSelectedRankingSexo] = useState("Total");
   const [selectedRankingYear, setSelectedRankingYear] = useState<number>(2024);
 
   const { data: damaEntities } = useQuery({
