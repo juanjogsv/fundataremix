@@ -199,7 +199,7 @@ const EducationSaberOnce = () => {
     if (!damaEntitiesForComp) return [] as { code: string; name: string }[];
     return damaEntitiesForComp
       .filter(e => String(e.cod_entidad).length === 5 && !isExcludedCity(e.entidad || ""))
-      .map(e => ({ code: String(e.cod_entidad), name: e.entidad }))
+      .map(e => ({ code: String(e.cod_entidad), name: formatCityName(e.entidad || "") }))
       .sort((a, b) => {
         if (a.name === "Manizales") return -1;
         if (b.name === "Manizales") return 1;
@@ -344,7 +344,7 @@ const EducationSaberOnce = () => {
 
   const rankingChartData = useMemo(() => {
     if (!rankingData || !damaEntities) return [];
-    const entityMap = new Map(damaEntities.map(e => [e.cod_entidad, e.entidad]));
+    const entityMap = new Map(damaEntities.map(e => [e.cod_entidad, formatCityName(e.entidad || "")]));
     const targetCat2 = normalize(getEffectiveCat2(selectedRankingSexo, selectedRankingNaturaleza, selectedRankingZona));
     const grouped: Record<string, number[]> = {};
     rankingData
@@ -413,7 +413,7 @@ const EducationSaberOnce = () => {
   // City list: capitales (5-digit cod_entidad) presentes en datos del indicador
   const availableCities = useMemo(() => {
     if (!evolutionRawData || !damaEntities) return [];
-    const entityMap = new Map(damaEntities.map(e => [e.cod_entidad, e.entidad]));
+    const entityMap = new Map(damaEntities.map(e => [e.cod_entidad, formatCityName(e.entidad || "")]));
     const cityCodes = new Set<string>();
     evolutionRawData.forEach(d => {
       const code = String(d.cod_entidad || "");
@@ -433,7 +433,7 @@ const EducationSaberOnce = () => {
 
   const evolutionChartData = useMemo(() => {
     if (!evolutionRawData || !damaEntities) return [];
-    const entityMap = new Map(damaEntities.map(e => [e.cod_entidad, e.entidad]));
+    const entityMap = new Map(damaEntities.map(e => [e.cod_entidad, formatCityName(e.entidad || "")]));
 
     const cityYearVals: Record<string, Record<number, number[]>> = {};
     const targetCat2 = normalize(getEffectiveCat2(selectedEvolutionSexo, selectedEvolutionNaturaleza, selectedEvolutionZona));
