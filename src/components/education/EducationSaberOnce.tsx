@@ -850,7 +850,7 @@ const EducationSaberOnce = () => {
                     <div className="flex items-center justify-center gap-6 mt-2 text-xs text-gray-500">
                       <span className="flex items-center gap-1">
                         <span className="inline-block w-3 h-3 rounded-sm bg-emerald-500" />
-                        No oficial mejor
+                        Oficial mejor
                       </span>
                       <span className="flex items-center gap-1">
                         <span className="inline-block w-3 h-3 rounded-sm bg-gray-400" />
@@ -858,7 +858,7 @@ const EducationSaberOnce = () => {
                       </span>
                       <span className="flex items-center gap-1">
                         <span className="inline-block w-3 h-3 rounded-sm bg-luker-red" />
-                        Oficial mejor
+                        No oficial mejor
                       </span>
                     </div>
                   </div>
