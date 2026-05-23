@@ -351,18 +351,18 @@ const EducationSaberOnce = () => {
     const targetCat2 = normalize(getEffectiveCat2(selectedRankingSexo, selectedRankingNaturaleza, selectedRankingZona));
 
     if (isBrechaRanking) {
-      // Brecha = Oficial - No oficial por ciudad (último año disponible seleccionado)
+      // Brecha = Oficial - No oficial por ciudad. Oficial/No oficial vienen en categoria_2.
       const perCity: Record<string, { oficial: number[]; noOficial: number[] }> = {};
       rankingData
-        .filter(d => d.anio === selectedRankingYear && normalize((d as any).categoria_2) === targetCat2 && d.cod_entidad)
+        .filter(d => d.anio === selectedRankingYear && d.cod_entidad)
         .forEach(d => {
           const code = String(d.cod_entidad);
           if (code.length !== 5) return;
           if (d.valor == null) return;
-          const cat = normalize(d.categoria);
-          if (cat !== "oficial" && cat !== "no oficial") return;
+          const cat2 = normalize((d as any).categoria_2);
+          if (cat2 !== "oficial" && cat2 !== "no oficial") return;
           if (!perCity[code]) perCity[code] = { oficial: [], noOficial: [] };
-          if (cat === "oficial") perCity[code].oficial.push(Number(d.valor));
+          if (cat2 === "oficial") perCity[code].oficial.push(Number(d.valor));
           else perCity[code].noOficial.push(Number(d.valor));
         });
       const avg = (arr: number[]) => arr.reduce((a, b) => a + b, 0) / arr.length;
