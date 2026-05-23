@@ -29,8 +29,11 @@ const EducationSaberOnce = () => {
     return category;
   };
 
+  const SEXO_OPTIONS = ["Total", "Hombre", "Mujer"];
+
   const [selectedIndicator, setSelectedIndicator] = useState<string>("SABER_02");
   const [selectedCategory, setSelectedCategory] = useState("Total");
+  const [selectedSexo, setSelectedSexo] = useState("Total");
   const [availableIndicators, setAvailableIndicators] = useState<string[]>([]);
 
   const { data: damaSaberData, isLoading, error } = useQuery({
@@ -38,7 +41,7 @@ const EducationSaberOnce = () => {
     queryFn: async () => {
       const { data, error } = await supabase
         .from("dama_data")
-        .select("anio, categoria, valor, cod_indicador")
+        .select("anio, categoria, categoria_2, valor, cod_indicador")
         .eq("cod_indicador", selectedIndicator)
         .eq("cod_entidad", "17001")
         .order("anio", { ascending: true });
@@ -79,7 +82,8 @@ const EducationSaberOnce = () => {
 
   const chartData = useMemo(() => {
     const target = normalize(selectedCategory);
-    const filtered = (damaSaberData || []).filter(d => normalize(d.categoria) === target);
+    const targetSexo = normalize(selectedSexo);
+    const filtered = (damaSaberData || []).filter(d => normalize(d.categoria) === target && normalize((d as any).categoria_2) === targetSexo);
     const grouped: Record<number, number[]> = {};
     filtered.forEach(d => {
       if (d.anio == null || d.valor == null) return;
@@ -100,6 +104,7 @@ const EducationSaberOnce = () => {
   // Card 2 - Ranking de ciudades (dama_data + dama_entities)
   const [selectedRankingIndicator, setSelectedRankingIndicator] = useState<string>("SABER_02");
   const [selectedRankingCategory, setSelectedRankingCategory] = useState("Total");
+  const [selectedRankingSexo, setSelectedRankingSexo] = useState("Total");
   const [selectedRankingYear, setSelectedRankingYear] = useState<number>(2024);
 
   const { data: damaEntities } = useQuery({
@@ -124,7 +129,7 @@ const EducationSaberOnce = () => {
       while (true) {
         const { data, error } = await supabase
           .from("dama_data")
-          .select("anio, categoria, valor, cod_entidad")
+          .select("anio, categoria, categoria_2, valor, cod_entidad")
           .eq("cod_indicador", selectedRankingIndicator)
           .range(from, from + pageSize - 1);
         if (error) throw error;
@@ -159,7 +164,7 @@ const EducationSaberOnce = () => {
     const entityMap = new Map(damaEntities.map(e => [e.cod_entidad, e.entidad]));
     const grouped: Record<string, number[]> = {};
     rankingData
-      .filter(d => d.anio === selectedRankingYear && normalize(d.categoria) === normalize(selectedRankingCategory) && d.cod_entidad)
+      .filter(d => d.anio === selectedRankingYear && normalize(d.categoria) === normalize(selectedRankingCategory) && normalize((d as any).categoria_2) === normalize(selectedRankingSexo) && d.cod_entidad)
       .forEach(d => {
         const code = String(d.cod_entidad);
         // Solo ciudades capitales (códigos de 5 dígitos)
@@ -174,10 +179,11 @@ const EducationSaberOnce = () => {
         puntaje: Math.round(vals.reduce((a, b) => a + b, 0) / vals.length),
       }))
       .sort((a, b) => b.puntaje - a.puntaje);
-  }, [rankingData, damaEntities, selectedRankingYear, selectedRankingCategory]);
+  }, [rankingData, damaEntities, selectedRankingYear, selectedRankingCategory, selectedRankingSexo]);
 
   // Card 3 - Evolución comparada usando dama_data (SABER_01..SABER_06)
   const [selectedEvolutionIndicator, setSelectedEvolutionIndicator] = useState<string>("SABER_02");
+  const [selectedEvolutionSexo, setSelectedEvolutionSexo] = useState("Total");
   const [selectedCities, setSelectedCities] = useState<string[]>(["Manizales"]);
 
   // Fetch evolution data for selected indicator (paginated to bypass 1000-row default)
@@ -190,7 +196,7 @@ const EducationSaberOnce = () => {
       while (true) {
         const { data, error } = await supabase
           .from("dama_data")
-          .select("anio, categoria, valor, cod_entidad")
+          .select("anio, categoria, categoria_2, valor, cod_entidad")
           .eq("cod_indicador", selectedEvolutionIndicator)
           .range(from, from + pageSize - 1);
         if (error) throw error;
@@ -228,7 +234,7 @@ const EducationSaberOnce = () => {
 
     const cityYearVals: Record<string, Record<number, number[]>> = {};
     evolutionRawData
-      .filter(d => normalize(d.categoria) === "total")
+      .filter(d => normalize(d.categoria) === "total" && normalize((d as any).categoria_2) === normalize(selectedEvolutionSexo))
       .forEach(d => {
         const code = String(d.cod_entidad || "");
         if (code.length !== 5) return;
@@ -257,7 +263,7 @@ const EducationSaberOnce = () => {
       });
       return row;
     });
-  }, [evolutionRawData, damaEntities, selectedCities]);
+  }, [evolutionRawData, damaEntities, selectedCities, selectedEvolutionSexo]);
 
   const toggleCity = (city: string) => {
     setSelectedCities(prev =>
@@ -347,7 +353,7 @@ const EducationSaberOnce = () => {
           ) : (
             <div className="space-y-4">
               {/* Filters */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div className="space-y-2">
                   <label className="text-sm font-medium text-gray-700">Área Temática</label>
                   <Select value={selectedIndicator} onValueChange={setSelectedIndicator}>
@@ -375,6 +381,20 @@ const EducationSaberOnce = () => {
                         <SelectItem key={category} value={category}>
                           {getCategoryLabel(category)}
                         </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                <div className="space-y-2">
+                  <label className="text-sm font-medium text-gray-700">Sexo</label>
+                  <Select value={selectedSexo} onValueChange={setSelectedSexo}>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Seleccione sexo" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {SEXO_OPTIONS.map((s) => (
+                        <SelectItem key={s} value={s}>{s}</SelectItem>
                       ))}
                     </SelectContent>
                   </Select>
@@ -440,7 +460,7 @@ const EducationSaberOnce = () => {
           ) : (
             <div className="space-y-4">
               {/* Filters */}
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                 <div className="space-y-2">
                   <label className="text-sm font-medium text-gray-700">Año</label>
                   <Select value={selectedRankingYear.toString()} onValueChange={(value) => setSelectedRankingYear(Number(value))}>
@@ -484,6 +504,20 @@ const EducationSaberOnce = () => {
                         <SelectItem key={category} value={category}>
                           {getCategoryLabel(category)}
                         </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                <div className="space-y-2">
+                  <label className="text-sm font-medium text-gray-700">Sexo</label>
+                  <Select value={selectedRankingSexo} onValueChange={setSelectedRankingSexo}>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Seleccione sexo" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {SEXO_OPTIONS.map((s) => (
+                        <SelectItem key={s} value={s}>{s}</SelectItem>
                       ))}
                     </SelectContent>
                   </Select>
@@ -583,6 +617,21 @@ const EducationSaberOnce = () => {
                     </SelectContent>
                   </Select>
                 </div>
+
+                <div className="space-y-2">
+                  <label className="text-sm font-medium text-gray-700">Sexo</label>
+                  <Select value={selectedEvolutionSexo} onValueChange={setSelectedEvolutionSexo}>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Seleccione sexo" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {SEXO_OPTIONS.map((s) => (
+                        <SelectItem key={s} value={s}>{s}</SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+
 
                 <div className="space-y-2">
                   <label className="text-sm font-medium text-gray-700">Ciudades a comparar ({selectedCities.length} seleccionadas)</label>
