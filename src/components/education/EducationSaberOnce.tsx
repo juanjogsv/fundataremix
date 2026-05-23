@@ -199,24 +199,12 @@ const EducationSaberOnce = () => {
 
   const compChartData = useMemo(() => {
     if (!compRawData) return [];
-    // Si hay filtro de sexo o zona, se aplica como filtro adicional sobre cat2
-    // En ese caso los datos por Naturaleza no existen y el gráfico saldrá vacío.
-    const extraCat2 = selectedCompSexo !== "Total"
-      ? selectedCompSexo
-      : selectedCompZona !== "Total"
-        ? selectedCompZona
-        : null;
 
     const grouped: Record<number, { oficial: number[]; no_oficial: number[] }> = {};
     compRawData.forEach(d => {
       if (d.anio == null || d.valor == null) return;
       if (normalize(d.categoria) !== "total") return;
       const cat2 = normalize((d as any).categoria_2);
-      if (extraCat2) {
-        if (cat2 !== normalize(extraCat2)) return;
-        // no podemos a la vez ser Oficial/No oficial — sin datos
-        return;
-      }
       if (!grouped[d.anio]) grouped[d.anio] = { oficial: [], no_oficial: [] };
       if (cat2 === "oficial") grouped[d.anio].oficial.push(Number(d.valor));
       else if (cat2 === "no oficial") grouped[d.anio].no_oficial.push(Number(d.valor));
@@ -235,7 +223,7 @@ const EducationSaberOnce = () => {
         Diferencia: diff,
       };
     }).filter(r => r.Oficial !== null || r["No oficial"] !== null);
-  }, [compRawData, selectedCompSexo, selectedCompZona]);
+  }, [compRawData]);
 
   // Estadísticas de brecha para el resumen
   const gapStats = useMemo(() => {
