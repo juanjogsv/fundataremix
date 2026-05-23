@@ -29,8 +29,11 @@ const EducationSaberOnce = () => {
     return category;
   };
 
+  const SEXO_OPTIONS = ["Total", "Hombre", "Mujer"];
+
   const [selectedIndicator, setSelectedIndicator] = useState<string>("SABER_02");
   const [selectedCategory, setSelectedCategory] = useState("Total");
+  const [selectedSexo, setSelectedSexo] = useState("Total");
   const [availableIndicators, setAvailableIndicators] = useState<string[]>([]);
 
   const { data: damaSaberData, isLoading, error } = useQuery({
@@ -38,7 +41,7 @@ const EducationSaberOnce = () => {
     queryFn: async () => {
       const { data, error } = await supabase
         .from("dama_data")
-        .select("anio, categoria, valor, cod_indicador")
+        .select("anio, categoria, categoria_2, valor, cod_indicador")
         .eq("cod_indicador", selectedIndicator)
         .eq("cod_entidad", "17001")
         .order("anio", { ascending: true });
