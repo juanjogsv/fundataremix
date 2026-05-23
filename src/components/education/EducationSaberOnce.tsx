@@ -131,7 +131,22 @@ const EducationSaberOnce = () => {
   const [selectedRankingIndicator, setSelectedRankingIndicator] = useState<string>("SABER_02");
   const [selectedRankingCategory, setSelectedRankingCategory] = useState("Total");
   const [selectedRankingSexo, setSelectedRankingSexo] = useState("Total");
+  const [selectedRankingNaturaleza, setSelectedRankingNaturaleza] = useState("Total");
+  const [selectedRankingZona, setSelectedRankingZona] = useState("Total");
   const [selectedRankingYear, setSelectedRankingYear] = useState<number>(2024);
+
+  const handleRankingSexoChange = (v: string) => {
+    setSelectedRankingSexo(v);
+    if (v !== "Total") { setSelectedRankingNaturaleza("Total"); setSelectedRankingZona("Total"); }
+  };
+  const handleRankingNaturalezaChange = (v: string) => {
+    setSelectedRankingNaturaleza(v);
+    if (v !== "Total") { setSelectedRankingSexo("Total"); setSelectedRankingZona("Total"); }
+  };
+  const handleRankingZonaChange = (v: string) => {
+    setSelectedRankingZona(v);
+    if (v !== "Total") { setSelectedRankingSexo("Total"); setSelectedRankingNaturaleza("Total"); }
+  };
 
   const { data: damaEntities } = useQuery({
     queryKey: ["dama-entities-cities"],
