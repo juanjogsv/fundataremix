@@ -82,7 +82,8 @@ const EducationSaberOnce = () => {
       grouped[d.anio].push(Number(d.valor));
     });
     const years: number[] = [];
-    for (let y = 2015; y <= 2024; y++) years.push(y);
+    const maxYear = Math.max(2024, ...Object.keys(grouped).map(Number));
+    for (let y = 2015; y <= maxYear; y++) years.push(y);
     return years.map(year => {
       const vals = grouped[year] || [];
       const avg = vals.length ? vals.reduce((a, b) => a + b, 0) / vals.length : 0;
