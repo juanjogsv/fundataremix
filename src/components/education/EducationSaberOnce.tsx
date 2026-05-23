@@ -238,7 +238,7 @@ const EducationSaberOnce = () => {
       const avg = (arr: number[]) => arr.length ? Math.round(arr.reduce((a, b) => a + b, 0) / arr.length) : null;
       const oficialVal = avg(g.oficial);
       const noOficialVal = avg(g.no_oficial);
-      const diff = (noOficialVal != null && oficialVal != null) ? noOficialVal - oficialVal : null;
+      const diff = (noOficialVal != null && oficialVal != null) ? oficialVal - noOficialVal : null;
       return {
         año: year.toString(),
         Oficial: oficialVal,
