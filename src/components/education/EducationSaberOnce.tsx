@@ -301,8 +301,11 @@ const EducationSaberOnce = () => {
     },
   });
 
+  const isBrechaRanking = selectedRankingIndicator === "BRECHA";
+  const effectiveRankingIndicator = isBrechaRanking ? "SABER_02" : selectedRankingIndicator;
+
   const { data: rankingData, isLoading: isLoadingRanking } = useQuery({
-    queryKey: ["dama-saber-ranking", selectedRankingIndicator],
+    queryKey: ["dama-saber-ranking", effectiveRankingIndicator],
     queryFn: async () => {
       // Paginar para superar el límite por defecto de Supabase (1000 filas)
       // y asegurarnos de leer TODAS las categorías (Oficial, No oficial, etc.)
@@ -313,7 +316,7 @@ const EducationSaberOnce = () => {
         const { data, error } = await supabase
           .from("dama_data")
           .select("anio, categoria, categoria_2, valor, cod_entidad")
-          .eq("cod_indicador", selectedRankingIndicator)
+          .eq("cod_indicador", effectiveRankingIndicator)
           .range(from, from + pageSize - 1);
         if (error) throw error;
         if (!data || data.length === 0) break;
@@ -346,6 +349,33 @@ const EducationSaberOnce = () => {
     if (!rankingData || !damaEntities) return [];
     const entityMap = new Map(damaEntities.map(e => [e.cod_entidad, formatCityName(e.entidad || "")]));
     const targetCat2 = normalize(getEffectiveCat2(selectedRankingSexo, selectedRankingNaturaleza, selectedRankingZona));
+
+    if (isBrechaRanking) {
+      // Brecha = Oficial - No oficial por ciudad (último año disponible seleccionado)
+      const perCity: Record<string, { oficial: number[]; noOficial: number[] }> = {};
+      rankingData
+        .filter(d => d.anio === selectedRankingYear && normalize((d as any).categoria_2) === targetCat2 && d.cod_entidad)
+        .forEach(d => {
+          const code = String(d.cod_entidad);
+          if (code.length !== 5) return;
+          if (d.valor == null) return;
+          const cat = normalize(d.categoria);
+          if (cat !== "oficial" && cat !== "no oficial") return;
+          if (!perCity[code]) perCity[code] = { oficial: [], noOficial: [] };
+          if (cat === "oficial") perCity[code].oficial.push(Number(d.valor));
+          else perCity[code].noOficial.push(Number(d.valor));
+        });
+      const avg = (arr: number[]) => arr.reduce((a, b) => a + b, 0) / arr.length;
+      return Object.entries(perCity)
+        .filter(([, v]) => v.oficial.length > 0 && v.noOficial.length > 0)
+        .map(([code, v]) => ({
+          entidad: entityMap.get(code) || code,
+          puntaje: Math.round(avg(v.oficial) - avg(v.noOficial)),
+        }))
+        .filter(item => !isExcludedCity(item.entidad))
+        .sort((a, b) => b.puntaje - a.puntaje);
+    }
+
     const grouped: Record<string, number[]> = {};
     rankingData
       .filter(d => d.anio === selectedRankingYear && normalize(d.categoria) === normalize(selectedRankingCategory) && normalize((d as any).categoria_2) === targetCat2 && d.cod_entidad)
@@ -364,7 +394,7 @@ const EducationSaberOnce = () => {
       }))
       .filter(item => !isExcludedCity(item.entidad))
       .sort((a, b) => b.puntaje - a.puntaje);
-  }, [rankingData, damaEntities, selectedRankingYear, selectedRankingCategory, selectedRankingSexo, selectedRankingNaturaleza, selectedRankingZona]);
+  }, [rankingData, damaEntities, selectedRankingYear, selectedRankingCategory, selectedRankingSexo, selectedRankingNaturaleza, selectedRankingZona, isBrechaRanking]);
 
   // Card 3 - Evolución comparada usando dama_data (SABER_01..SABER_06)
   const [selectedEvolutionIndicator, setSelectedEvolutionIndicator] = useState<string>("SABER_02");
@@ -936,6 +966,7 @@ const EducationSaberOnce = () => {
                           {opt.label}
                         </SelectItem>
                       ))}
+                      <SelectItem value="BRECHA">Brecha (Oficial − No oficial)</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
@@ -1014,7 +1045,7 @@ const EducationSaberOnce = () => {
                       />
                       <Tooltip />
                       <Legend />
-                      <Bar dataKey="puntaje" name="Puntaje">
+                      <Bar dataKey="puntaje" name={isBrechaRanking ? "Brecha (Oficial − No oficial)" : "Puntaje"}>
                         {rankingChartData.map((entry, index) => (
                           <Cell 
                             key={`cell-${index}`} 
