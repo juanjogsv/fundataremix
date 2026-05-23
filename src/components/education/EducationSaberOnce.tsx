@@ -966,6 +966,7 @@ const EducationSaberOnce = () => {
                           {opt.label}
                         </SelectItem>
                       ))}
+                      <SelectItem value="BRECHA">Brecha (Oficial − No oficial)</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
