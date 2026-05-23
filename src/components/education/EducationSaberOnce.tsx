@@ -107,6 +107,21 @@ const EducationSaberOnce = () => {
 
   const normalize = (v: any) => (v ?? "").toString().trim().toLowerCase();
 
+  // Ciudades sin datos que se deben excluir de todos los filtros
+  const EXCLUDED_CITIES = [
+    "algeciras", "agrado", "campoalegre", "garzon", "gigante",
+    "hobo", "montelibano", "pital", "puerto libertador",
+    "rivera", "tumaco", "villanueva",
+  ];
+  const isExcludedCity = (name: string) => {
+    const normalized = name
+      .toLowerCase()
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .trim();
+    return EXCLUDED_CITIES.includes(normalized);
+  };
+
   const chartData = useMemo(() => {
     const target = normalize(selectedCategory);
     const targetCat2 = normalize(getEffectiveCat2(selectedSexo, selectedNaturaleza, selectedZona));
