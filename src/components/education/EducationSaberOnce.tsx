@@ -234,7 +234,7 @@ const EducationSaberOnce = () => {
 
     const cityYearVals: Record<string, Record<number, number[]>> = {};
     evolutionRawData
-      .filter(d => normalize(d.categoria) === "total")
+      .filter(d => normalize(d.categoria) === "total" && normalize((d as any).categoria_2) === normalize(selectedEvolutionSexo))
       .forEach(d => {
         const code = String(d.cod_entidad || "");
         if (code.length !== 5) return;
@@ -263,7 +263,7 @@ const EducationSaberOnce = () => {
       });
       return row;
     });
-  }, [evolutionRawData, damaEntities, selectedCities]);
+  }, [evolutionRawData, damaEntities, selectedCities, selectedEvolutionSexo]);
 
   const toggleCity = (city: string) => {
     setSelectedCities(prev =>
