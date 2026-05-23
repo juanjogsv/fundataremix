@@ -157,10 +157,21 @@ const EducationSaberOnce = () => {
     },
   });
 
-  // Lista de ciudades capitales (códigos de 5 dígitos)
+  // Lista de ciudades capitales (códigos de 5 dígitos) — depende de damaEntities (declarada más abajo)
+  const { data: damaEntitiesForComp } = useQuery({
+    queryKey: ["dama-entities-cities-comp"],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("dama_entities")
+        .select("cod_entidad, entidad");
+      if (error) throw error;
+      return data;
+    },
+  });
+
   const availableCompCities = useMemo(() => {
-    if (!damaEntities) return [] as { code: string; name: string }[];
-    return damaEntities
+    if (!damaEntitiesForComp) return [] as { code: string; name: string }[];
+    return damaEntitiesForComp
       .filter(e => String(e.cod_entidad).length === 5)
       .map(e => ({ code: String(e.cod_entidad), name: e.entidad }))
       .sort((a, b) => {
@@ -168,7 +179,8 @@ const EducationSaberOnce = () => {
         if (b.name === "Manizales") return 1;
         return a.name.localeCompare(b.name);
       });
-  }, [damaEntities]);
+  }, [damaEntitiesForComp]);
+
 
   const compChartData = useMemo(() => {
     if (!compRawData) return [];
