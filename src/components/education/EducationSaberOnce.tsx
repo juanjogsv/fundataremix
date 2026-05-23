@@ -30,11 +30,37 @@ const EducationSaberOnce = () => {
   };
 
   const SEXO_OPTIONS = ["Total", "Hombre", "Mujer"];
+  const NATURALEZA_OPTIONS = ["Total", "Oficial", "No oficial"];
+  const ZONA_OPTIONS = ["Total", "Urbano", "Rural"];
+
+  // Helper: solo un filtro de categoria_2 puede ser distinto de "Total" a la vez
+  const getEffectiveCat2 = (sexo: string, naturaleza: string, zona: string) => {
+    if (sexo && sexo !== "Total") return sexo;
+    if (naturaleza && naturaleza !== "Total") return naturaleza;
+    if (zona && zona !== "Total") return zona;
+    return "Total";
+  };
 
   const [selectedIndicator, setSelectedIndicator] = useState<string>("SABER_02");
   const [selectedCategory, setSelectedCategory] = useState("Total");
   const [selectedSexo, setSelectedSexo] = useState("Total");
+  const [selectedNaturaleza, setSelectedNaturaleza] = useState("Total");
+  const [selectedZona, setSelectedZona] = useState("Total");
   const [availableIndicators, setAvailableIndicators] = useState<string[]>([]);
+
+  // Handlers que resetean los otros filtros al cambiar uno a no-Total (Card 1)
+  const handleSexoChange = (v: string) => {
+    setSelectedSexo(v);
+    if (v !== "Total") { setSelectedNaturaleza("Total"); setSelectedZona("Total"); }
+  };
+  const handleNaturalezaChange = (v: string) => {
+    setSelectedNaturaleza(v);
+    if (v !== "Total") { setSelectedSexo("Total"); setSelectedZona("Total"); }
+  };
+  const handleZonaChange = (v: string) => {
+    setSelectedZona(v);
+    if (v !== "Total") { setSelectedSexo("Total"); setSelectedNaturaleza("Total"); }
+  };
 
   const { data: damaSaberData, isLoading, error } = useQuery({
     queryKey: ["dama-saber-manizales", selectedIndicator],
@@ -82,8 +108,8 @@ const EducationSaberOnce = () => {
 
   const chartData = useMemo(() => {
     const target = normalize(selectedCategory);
-    const targetSexo = normalize(selectedSexo);
-    const filtered = (damaSaberData || []).filter(d => normalize(d.categoria) === target && normalize((d as any).categoria_2) === targetSexo);
+    const targetCat2 = normalize(getEffectiveCat2(selectedSexo, selectedNaturaleza, selectedZona));
+    const filtered = (damaSaberData || []).filter(d => normalize(d.categoria) === target && normalize((d as any).categoria_2) === targetCat2);
     const grouped: Record<number, number[]> = {};
     filtered.forEach(d => {
       if (d.anio == null || d.valor == null) return;
@@ -98,14 +124,29 @@ const EducationSaberOnce = () => {
       const avg = vals.length ? vals.reduce((a, b) => a + b, 0) / vals.length : 0;
       return { año: year.toString(), puntaje: Math.round(avg) };
     });
-  }, [damaSaberData, selectedCategory]);
+  }, [damaSaberData, selectedCategory, selectedSexo, selectedNaturaleza, selectedZona]);
 
 
   // Card 2 - Ranking de ciudades (dama_data + dama_entities)
   const [selectedRankingIndicator, setSelectedRankingIndicator] = useState<string>("SABER_02");
   const [selectedRankingCategory, setSelectedRankingCategory] = useState("Total");
   const [selectedRankingSexo, setSelectedRankingSexo] = useState("Total");
+  const [selectedRankingNaturaleza, setSelectedRankingNaturaleza] = useState("Total");
+  const [selectedRankingZona, setSelectedRankingZona] = useState("Total");
   const [selectedRankingYear, setSelectedRankingYear] = useState<number>(2024);
+
+  const handleRankingSexoChange = (v: string) => {
+    setSelectedRankingSexo(v);
+    if (v !== "Total") { setSelectedRankingNaturaleza("Total"); setSelectedRankingZona("Total"); }
+  };
+  const handleRankingNaturalezaChange = (v: string) => {
+    setSelectedRankingNaturaleza(v);
+    if (v !== "Total") { setSelectedRankingSexo("Total"); setSelectedRankingZona("Total"); }
+  };
+  const handleRankingZonaChange = (v: string) => {
+    setSelectedRankingZona(v);
+    if (v !== "Total") { setSelectedRankingSexo("Total"); setSelectedRankingNaturaleza("Total"); }
+  };
 
   const { data: damaEntities } = useQuery({
     queryKey: ["dama-entities-cities"],
@@ -162,9 +203,10 @@ const EducationSaberOnce = () => {
   const rankingChartData = useMemo(() => {
     if (!rankingData || !damaEntities) return [];
     const entityMap = new Map(damaEntities.map(e => [e.cod_entidad, e.entidad]));
+    const targetCat2 = normalize(getEffectiveCat2(selectedRankingSexo, selectedRankingNaturaleza, selectedRankingZona));
     const grouped: Record<string, number[]> = {};
     rankingData
-      .filter(d => d.anio === selectedRankingYear && normalize(d.categoria) === normalize(selectedRankingCategory) && normalize((d as any).categoria_2) === normalize(selectedRankingSexo) && d.cod_entidad)
+      .filter(d => d.anio === selectedRankingYear && normalize(d.categoria) === normalize(selectedRankingCategory) && normalize((d as any).categoria_2) === targetCat2 && d.cod_entidad)
       .forEach(d => {
         const code = String(d.cod_entidad);
         // Solo ciudades capitales (códigos de 5 dígitos)
@@ -179,12 +221,28 @@ const EducationSaberOnce = () => {
         puntaje: Math.round(vals.reduce((a, b) => a + b, 0) / vals.length),
       }))
       .sort((a, b) => b.puntaje - a.puntaje);
-  }, [rankingData, damaEntities, selectedRankingYear, selectedRankingCategory, selectedRankingSexo]);
+  }, [rankingData, damaEntities, selectedRankingYear, selectedRankingCategory, selectedRankingSexo, selectedRankingNaturaleza, selectedRankingZona]);
 
   // Card 3 - Evolución comparada usando dama_data (SABER_01..SABER_06)
   const [selectedEvolutionIndicator, setSelectedEvolutionIndicator] = useState<string>("SABER_02");
   const [selectedEvolutionSexo, setSelectedEvolutionSexo] = useState("Total");
+  const [selectedEvolutionNaturaleza, setSelectedEvolutionNaturaleza] = useState("Total");
+  const [selectedEvolutionZona, setSelectedEvolutionZona] = useState("Total");
   const [selectedCities, setSelectedCities] = useState<string[]>(["Manizales"]);
+
+  const handleEvolutionSexoChange = (v: string) => {
+    setSelectedEvolutionSexo(v);
+    if (v !== "Total") { setSelectedEvolutionNaturaleza("Total"); setSelectedEvolutionZona("Total"); }
+  };
+  const handleEvolutionNaturalezaChange = (v: string) => {
+    setSelectedEvolutionNaturaleza(v);
+    if (v !== "Total") { setSelectedEvolutionSexo("Total"); setSelectedEvolutionZona("Total"); }
+  };
+  const handleEvolutionZonaChange = (v: string) => {
+    setSelectedEvolutionZona(v);
+    if (v !== "Total") { setSelectedEvolutionSexo("Total"); setSelectedEvolutionNaturaleza("Total"); }
+  };
+
 
   // Fetch evolution data for selected indicator (paginated to bypass 1000-row default)
   const { data: evolutionRawData, isLoading: isLoadingEvolution } = useQuery({
@@ -233,8 +291,9 @@ const EducationSaberOnce = () => {
     const entityMap = new Map(damaEntities.map(e => [e.cod_entidad, e.entidad]));
 
     const cityYearVals: Record<string, Record<number, number[]>> = {};
+    const targetCat2 = normalize(getEffectiveCat2(selectedEvolutionSexo, selectedEvolutionNaturaleza, selectedEvolutionZona));
     evolutionRawData
-      .filter(d => normalize(d.categoria) === "total" && normalize((d as any).categoria_2) === normalize(selectedEvolutionSexo))
+      .filter(d => normalize(d.categoria) === "total" && normalize((d as any).categoria_2) === targetCat2)
       .forEach(d => {
         const code = String(d.cod_entidad || "");
         if (code.length !== 5) return;
@@ -263,7 +322,7 @@ const EducationSaberOnce = () => {
       });
       return row;
     });
-  }, [evolutionRawData, damaEntities, selectedCities, selectedEvolutionSexo]);
+  }, [evolutionRawData, damaEntities, selectedCities, selectedEvolutionSexo, selectedEvolutionNaturaleza, selectedEvolutionZona]);
 
   const toggleCity = (city: string) => {
     setSelectedCities(prev =>
@@ -353,7 +412,7 @@ const EducationSaberOnce = () => {
           ) : (
             <div className="space-y-4">
               {/* Filters */}
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
                 <div className="space-y-2">
                   <label className="text-sm font-medium text-gray-700">Área Temática</label>
                   <Select value={selectedIndicator} onValueChange={setSelectedIndicator}>
@@ -388,12 +447,40 @@ const EducationSaberOnce = () => {
 
                 <div className="space-y-2">
                   <label className="text-sm font-medium text-gray-700">Sexo</label>
-                  <Select value={selectedSexo} onValueChange={setSelectedSexo}>
+                  <Select value={selectedSexo} onValueChange={handleSexoChange}>
                     <SelectTrigger>
                       <SelectValue placeholder="Seleccione sexo" />
                     </SelectTrigger>
                     <SelectContent>
                       {SEXO_OPTIONS.map((s) => (
+                        <SelectItem key={s} value={s}>{s}</SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                <div className="space-y-2">
+                  <label className="text-sm font-medium text-gray-700">Naturaleza</label>
+                  <Select value={selectedNaturaleza} onValueChange={handleNaturalezaChange}>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Seleccione naturaleza" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {NATURALEZA_OPTIONS.map((s) => (
+                        <SelectItem key={s} value={s}>{s}</SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                <div className="space-y-2">
+                  <label className="text-sm font-medium text-gray-700">Zona</label>
+                  <Select value={selectedZona} onValueChange={handleZonaChange}>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Seleccione zona" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {ZONA_OPTIONS.map((s) => (
                         <SelectItem key={s} value={s}>{s}</SelectItem>
                       ))}
                     </SelectContent>
@@ -460,7 +547,7 @@ const EducationSaberOnce = () => {
           ) : (
             <div className="space-y-4">
               {/* Filters */}
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4">
                 <div className="space-y-2">
                   <label className="text-sm font-medium text-gray-700">Año</label>
                   <Select value={selectedRankingYear.toString()} onValueChange={(value) => setSelectedRankingYear(Number(value))}>
@@ -511,12 +598,40 @@ const EducationSaberOnce = () => {
 
                 <div className="space-y-2">
                   <label className="text-sm font-medium text-gray-700">Sexo</label>
-                  <Select value={selectedRankingSexo} onValueChange={setSelectedRankingSexo}>
+                  <Select value={selectedRankingSexo} onValueChange={handleRankingSexoChange}>
                     <SelectTrigger>
                       <SelectValue placeholder="Seleccione sexo" />
                     </SelectTrigger>
                     <SelectContent>
                       {SEXO_OPTIONS.map((s) => (
+                        <SelectItem key={s} value={s}>{s}</SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                <div className="space-y-2">
+                  <label className="text-sm font-medium text-gray-700">Naturaleza</label>
+                  <Select value={selectedRankingNaturaleza} onValueChange={handleRankingNaturalezaChange}>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Seleccione naturaleza" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {NATURALEZA_OPTIONS.map((s) => (
+                        <SelectItem key={s} value={s}>{s}</SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                <div className="space-y-2">
+                  <label className="text-sm font-medium text-gray-700">Zona</label>
+                  <Select value={selectedRankingZona} onValueChange={handleRankingZonaChange}>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Seleccione zona" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {ZONA_OPTIONS.map((s) => (
                         <SelectItem key={s} value={s}>{s}</SelectItem>
                       ))}
                     </SelectContent>
@@ -601,7 +716,7 @@ const EducationSaberOnce = () => {
           ) : (
             <div className="space-y-4">
               {/* Filters */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                 <div className="space-y-2">
                   <label className="text-sm font-medium text-gray-700">Área Temática</label>
                   <Select value={selectedEvolutionIndicator} onValueChange={setSelectedEvolutionIndicator}>
@@ -620,12 +735,40 @@ const EducationSaberOnce = () => {
 
                 <div className="space-y-2">
                   <label className="text-sm font-medium text-gray-700">Sexo</label>
-                  <Select value={selectedEvolutionSexo} onValueChange={setSelectedEvolutionSexo}>
+                  <Select value={selectedEvolutionSexo} onValueChange={handleEvolutionSexoChange}>
                     <SelectTrigger>
                       <SelectValue placeholder="Seleccione sexo" />
                     </SelectTrigger>
                     <SelectContent>
                       {SEXO_OPTIONS.map((s) => (
+                        <SelectItem key={s} value={s}>{s}</SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                <div className="space-y-2">
+                  <label className="text-sm font-medium text-gray-700">Naturaleza</label>
+                  <Select value={selectedEvolutionNaturaleza} onValueChange={handleEvolutionNaturalezaChange}>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Seleccione naturaleza" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {NATURALEZA_OPTIONS.map((s) => (
+                        <SelectItem key={s} value={s}>{s}</SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                <div className="space-y-2">
+                  <label className="text-sm font-medium text-gray-700">Zona</label>
+                  <Select value={selectedEvolutionZona} onValueChange={handleEvolutionZonaChange}>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Seleccione zona" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {ZONA_OPTIONS.map((s) => (
                         <SelectItem key={s} value={s}>{s}</SelectItem>
                       ))}
                     </SelectContent>
