@@ -107,6 +107,17 @@ const EducationSaberOnce = () => {
 
   const normalize = (v: any) => (v ?? "").toString().trim().toLowerCase();
 
+  // Formatea nombres de ciudades para mostrar (ej: San José de Cúcuta → Cúcuta)
+  const formatCityName = (name: string) => {
+    if (!name) return name;
+    const normalized = name
+      .toLowerCase()
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "");
+    if (normalized.includes("san jose de cucuta") || normalized.includes("cucuta")) return "Cúcuta";
+    return name;
+  };
+
   // Ciudades sin datos que se deben excluir de todos los filtros
   const EXCLUDED_CITIES = [
     "algeciras", "agrado", "campoalegre", "garzon", "gigante",
