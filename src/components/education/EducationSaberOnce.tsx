@@ -373,7 +373,7 @@ const EducationSaberOnce = () => {
                     <SelectContent>
                       {availableCategoriesCard1.map((category) => (
                         <SelectItem key={category} value={category}>
-                          {category}
+                          {getCategoryLabel(category)}
                         </SelectItem>
                       ))}
                     </SelectContent>
@@ -482,7 +482,7 @@ const EducationSaberOnce = () => {
                     <SelectContent>
                       {availableRankingCategories.map((category) => (
                         <SelectItem key={category} value={category}>
-                          {category}
+                          {getCategoryLabel(category)}
                         </SelectItem>
                       ))}
                     </SelectContent>
