@@ -183,6 +183,7 @@ const EducationSaberOnce = () => {
 
   // Card 3 - Evolución comparada usando dama_data (SABER_01..SABER_06)
   const [selectedEvolutionIndicator, setSelectedEvolutionIndicator] = useState<string>("SABER_02");
+  const [selectedEvolutionSexo, setSelectedEvolutionSexo] = useState("Total");
   const [selectedCities, setSelectedCities] = useState<string[]>(["Manizales"]);
 
   // Fetch evolution data for selected indicator (paginated to bypass 1000-row default)
