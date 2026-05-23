@@ -203,9 +203,10 @@ const EducationSaberOnce = () => {
   const rankingChartData = useMemo(() => {
     if (!rankingData || !damaEntities) return [];
     const entityMap = new Map(damaEntities.map(e => [e.cod_entidad, e.entidad]));
+    const targetCat2 = normalize(getEffectiveCat2(selectedRankingSexo, selectedRankingNaturaleza, selectedRankingZona));
     const grouped: Record<string, number[]> = {};
     rankingData
-      .filter(d => d.anio === selectedRankingYear && normalize(d.categoria) === normalize(selectedRankingCategory) && normalize((d as any).categoria_2) === normalize(selectedRankingSexo) && d.cod_entidad)
+      .filter(d => d.anio === selectedRankingYear && normalize(d.categoria) === normalize(selectedRankingCategory) && normalize((d as any).categoria_2) === targetCat2 && d.cod_entidad)
       .forEach(d => {
         const code = String(d.cod_entidad);
         // Solo ciudades capitales (códigos de 5 dígitos)
@@ -220,12 +221,28 @@ const EducationSaberOnce = () => {
         puntaje: Math.round(vals.reduce((a, b) => a + b, 0) / vals.length),
       }))
       .sort((a, b) => b.puntaje - a.puntaje);
-  }, [rankingData, damaEntities, selectedRankingYear, selectedRankingCategory, selectedRankingSexo]);
+  }, [rankingData, damaEntities, selectedRankingYear, selectedRankingCategory, selectedRankingSexo, selectedRankingNaturaleza, selectedRankingZona]);
 
   // Card 3 - Evolución comparada usando dama_data (SABER_01..SABER_06)
   const [selectedEvolutionIndicator, setSelectedEvolutionIndicator] = useState<string>("SABER_02");
   const [selectedEvolutionSexo, setSelectedEvolutionSexo] = useState("Total");
+  const [selectedEvolutionNaturaleza, setSelectedEvolutionNaturaleza] = useState("Total");
+  const [selectedEvolutionZona, setSelectedEvolutionZona] = useState("Total");
   const [selectedCities, setSelectedCities] = useState<string[]>(["Manizales"]);
+
+  const handleEvolutionSexoChange = (v: string) => {
+    setSelectedEvolutionSexo(v);
+    if (v !== "Total") { setSelectedEvolutionNaturaleza("Total"); setSelectedEvolutionZona("Total"); }
+  };
+  const handleEvolutionNaturalezaChange = (v: string) => {
+    setSelectedEvolutionNaturaleza(v);
+    if (v !== "Total") { setSelectedEvolutionSexo("Total"); setSelectedEvolutionZona("Total"); }
+  };
+  const handleEvolutionZonaChange = (v: string) => {
+    setSelectedEvolutionZona(v);
+    if (v !== "Total") { setSelectedEvolutionSexo("Total"); setSelectedEvolutionNaturaleza("Total"); }
+  };
+
 
   // Fetch evolution data for selected indicator (paginated to bypass 1000-row default)
   const { data: evolutionRawData, isLoading: isLoadingEvolution } = useQuery({
