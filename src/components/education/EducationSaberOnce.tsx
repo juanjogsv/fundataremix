@@ -210,13 +210,37 @@ const EducationSaberOnce = () => {
     return years.map(year => {
       const g = grouped[year];
       const avg = (arr: number[]) => arr.length ? Math.round(arr.reduce((a, b) => a + b, 0) / arr.length) : null;
+      const oficialVal = avg(g.oficial);
+      const noOficialVal = avg(g.no_oficial);
+      const diff = (noOficialVal != null && oficialVal != null) ? noOficialVal - oficialVal : null;
       return {
         año: year.toString(),
-        Oficial: avg(g.oficial),
-        "No oficial": avg(g.no_oficial),
+        Oficial: oficialVal,
+        "No oficial": noOficialVal,
+        Diferencia: diff,
       };
     }).filter(r => r.Oficial !== null || r["No oficial"] !== null);
   }, [compRawData, selectedCompSexo, selectedCompZona]);
+
+  // Estadísticas de brecha para el resumen
+  const gapStats = useMemo(() => {
+    const diffs = compChartData.map(d => d.Diferencia).filter((v): v is number => v !== null);
+    if (diffs.length === 0) return null;
+    const latest = compChartData[compChartData.length - 1];
+    const avgDiff = Math.round(diffs.reduce((a, b) => a + b, 0) / diffs.length);
+    const maxDiff = Math.max(...diffs);
+    const minDiff = Math.min(...diffs);
+    const positiveYears = diffs.filter(d => d > 1).length;
+    return {
+      avgDiff,
+      latestDiff: latest.Diferencia,
+      latestYear: latest.año,
+      maxDiff,
+      minDiff,
+      positiveYears,
+      totalYears: diffs.length,
+    };
+  }, [compChartData]);
 
   // Card 2 - Ranking de ciudades (dama_data + dama_entities)
 
