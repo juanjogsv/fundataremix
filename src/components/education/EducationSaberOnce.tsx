@@ -833,7 +833,7 @@ const EducationSaberOnce = () => {
                           <Tooltip
                             formatter={(v: number) => [
                               `${v > 1 ? '+' : ''}${v} pts`,
-                              'Diferencia (No oficial − Oficial)'
+                              'Diferencia (Oficial − No oficial)'
                             ]}
                           />
                           <Bar dataKey="Diferencia" name="Diferencia">
