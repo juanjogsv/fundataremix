@@ -385,6 +385,20 @@ const EducationSaberOnce = () => {
                     </SelectContent>
                   </Select>
                 </div>
+
+                <div className="space-y-2">
+                  <label className="text-sm font-medium text-gray-700">Sexo</label>
+                  <Select value={selectedSexo} onValueChange={setSelectedSexo}>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Seleccione sexo" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {SEXO_OPTIONS.map((s) => (
+                        <SelectItem key={s} value={s}>{s}</SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
               </div>
 
               {/* Chart */}
