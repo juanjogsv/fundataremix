@@ -1045,7 +1045,7 @@ const EducationSaberOnce = () => {
                       />
                       <Tooltip />
                       <Legend />
-                      <Bar dataKey="puntaje" name="Puntaje">
+                      <Bar dataKey="puntaje" name={isBrechaRanking ? "Brecha (Oficial − No oficial)" : "Puntaje"}>
                         {rankingChartData.map((entry, index) => (
                           <Cell 
                             key={`cell-${index}`} 
