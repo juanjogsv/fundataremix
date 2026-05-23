@@ -30,11 +30,37 @@ const EducationSaberOnce = () => {
   };
 
   const SEXO_OPTIONS = ["Total", "Hombre", "Mujer"];
+  const NATURALEZA_OPTIONS = ["Total", "Oficial", "No oficial"];
+  const ZONA_OPTIONS = ["Total", "Urbano", "Rural"];
+
+  // Helper: solo un filtro de categoria_2 puede ser distinto de "Total" a la vez
+  const getEffectiveCat2 = (sexo: string, naturaleza: string, zona: string) => {
+    if (sexo && sexo !== "Total") return sexo;
+    if (naturaleza && naturaleza !== "Total") return naturaleza;
+    if (zona && zona !== "Total") return zona;
+    return "Total";
+  };
 
   const [selectedIndicator, setSelectedIndicator] = useState<string>("SABER_02");
   const [selectedCategory, setSelectedCategory] = useState("Total");
   const [selectedSexo, setSelectedSexo] = useState("Total");
+  const [selectedNaturaleza, setSelectedNaturaleza] = useState("Total");
+  const [selectedZona, setSelectedZona] = useState("Total");
   const [availableIndicators, setAvailableIndicators] = useState<string[]>([]);
+
+  // Handlers que resetean los otros filtros al cambiar uno a no-Total (Card 1)
+  const handleSexoChange = (v: string) => {
+    setSelectedSexo(v);
+    if (v !== "Total") { setSelectedNaturaleza("Total"); setSelectedZona("Total"); }
+  };
+  const handleNaturalezaChange = (v: string) => {
+    setSelectedNaturaleza(v);
+    if (v !== "Total") { setSelectedSexo("Total"); setSelectedZona("Total"); }
+  };
+  const handleZonaChange = (v: string) => {
+    setSelectedZona(v);
+    if (v !== "Total") { setSelectedSexo("Total"); setSelectedNaturaleza("Total"); }
+  };
 
   const { data: damaSaberData, isLoading, error } = useQuery({
     queryKey: ["dama-saber-manizales", selectedIndicator],
