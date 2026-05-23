@@ -157,17 +157,6 @@ const EducationSaberOnce = () => {
   // ===== Card 2 (NUEVA): Comparativo histórico Oficial vs No oficial =====
   const [selectedCompCity, setSelectedCompCity] = useState<string>("17001");
   const [selectedCompIndicator, setSelectedCompIndicator] = useState<string>("SABER_02");
-  const [selectedCompSexo, setSelectedCompSexo] = useState("Total");
-  const [selectedCompZona, setSelectedCompZona] = useState("Total");
-
-  const handleCompSexoChange = (v: string) => {
-    setSelectedCompSexo(v);
-    if (v !== "Total") setSelectedCompZona("Total");
-  };
-  const handleCompZonaChange = (v: string) => {
-    setSelectedCompZona(v);
-    if (v !== "Total") setSelectedCompSexo("Total");
-  };
 
   const { data: compRawData, isLoading: isLoadingComp } = useQuery({
     queryKey: ["dama-saber-comp-naturaleza", selectedCompIndicator, selectedCompCity],
@@ -210,24 +199,12 @@ const EducationSaberOnce = () => {
 
   const compChartData = useMemo(() => {
     if (!compRawData) return [];
-    // Si hay filtro de sexo o zona, se aplica como filtro adicional sobre cat2
-    // En ese caso los datos por Naturaleza no existen y el gráfico saldrá vacío.
-    const extraCat2 = selectedCompSexo !== "Total"
-      ? selectedCompSexo
-      : selectedCompZona !== "Total"
-        ? selectedCompZona
-        : null;
 
     const grouped: Record<number, { oficial: number[]; no_oficial: number[] }> = {};
     compRawData.forEach(d => {
       if (d.anio == null || d.valor == null) return;
       if (normalize(d.categoria) !== "total") return;
       const cat2 = normalize((d as any).categoria_2);
-      if (extraCat2) {
-        if (cat2 !== normalize(extraCat2)) return;
-        // no podemos a la vez ser Oficial/No oficial — sin datos
-        return;
-      }
       if (!grouped[d.anio]) grouped[d.anio] = { oficial: [], no_oficial: [] };
       if (cat2 === "oficial") grouped[d.anio].oficial.push(Number(d.valor));
       else if (cat2 === "no oficial") grouped[d.anio].no_oficial.push(Number(d.valor));
@@ -246,7 +223,7 @@ const EducationSaberOnce = () => {
         Diferencia: diff,
       };
     }).filter(r => r.Oficial !== null || r["No oficial"] !== null);
-  }, [compRawData, selectedCompSexo, selectedCompZona]);
+  }, [compRawData]);
 
   // Estadísticas de brecha para el resumen
   const gapStats = useMemo(() => {
@@ -730,7 +707,7 @@ const EducationSaberOnce = () => {
             <Skeleton className="h-96 w-full" />
           ) : (
             <div className="space-y-4">
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="space-y-2">
                   <label className="text-sm font-medium text-gray-700">Ciudad</label>
                   <Select value={selectedCompCity} onValueChange={setSelectedCompCity}>
@@ -754,34 +731,6 @@ const EducationSaberOnce = () => {
                     <SelectContent>
                       {SABER_OPTIONS.map((opt) => (
                         <SelectItem key={opt.code} value={opt.code}>{opt.label}</SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div>
-
-                <div className="space-y-2">
-                  <label className="text-sm font-medium text-gray-700">Sexo</label>
-                  <Select value={selectedCompSexo} onValueChange={handleCompSexoChange}>
-                    <SelectTrigger>
-                      <SelectValue placeholder="Seleccione sexo" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {SEXO_OPTIONS.map((s) => (
-                        <SelectItem key={s} value={s}>{s}</SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div>
-
-                <div className="space-y-2">
-                  <label className="text-sm font-medium text-gray-700">Sector</label>
-                  <Select value={selectedCompZona} onValueChange={handleCompZonaChange}>
-                    <SelectTrigger>
-                      <SelectValue placeholder="Seleccione sector" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {ZONA_OPTIONS.map((s) => (
-                        <SelectItem key={s} value={s}>{s}</SelectItem>
                       ))}
                     </SelectContent>
                   </Select>
