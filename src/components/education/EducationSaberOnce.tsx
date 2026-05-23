@@ -514,7 +514,17 @@ const EducationSaberOnce = () => {
 
   // Manizales rojo, demás ciudades en gris/cian tenues
   const cityColors = useMemo(() => {
-    const muted = ["hsl(180 25% 65%)", "hsl(210 10% 65%)", "hsl(190 30% 55%)", "hsl(200 15% 55%)"];
+    // Paleta de marca con alto contraste entre ciudades
+    const muted = [
+      "#00A0AF", // Turquesa
+      "#FBB040", // Naranja
+      "#7AC143", // Verde
+      "#572700", // Café
+      "#6B5B95", // Púrpura complementario
+      "#2E5C8A", // Azul profundo
+      "#C84B31", // Terracota
+      "#1F7A5A", // Verde bosque
+    ];
     const colors: Record<string, string> = {};
     let i = 0;
     availableCities.forEach((city) => {
