@@ -662,7 +662,14 @@ const EducationSaberOnce = () => {
                     <BarChart data={chartData}>
                       <CartesianGrid strokeDasharray="3 3" />
                       <XAxis dataKey="año" />
-                      <YAxis domain={[0, 500]} ticks={[0, 100, 200, 300, 400, 500]} tickFormatter={(value) => Math.round(value).toString()} />
+                      <YAxis
+                        domain={[
+                          (dataMin: number) => Math.max(0, Math.floor((dataMin - 10) / 10) * 10),
+                          (dataMax: number) => Math.ceil((dataMax + 10) / 10) * 10,
+                        ]}
+                        allowDecimals={false}
+                        tickFormatter={(value) => Math.round(value).toString()}
+                      />
                       <Tooltip 
                         formatter={(value: number) => [Math.round(value), 'Puntaje']}
                       />
