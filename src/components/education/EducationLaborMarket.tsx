@@ -47,7 +47,7 @@ const EducationLaborMarket = () => {
     },
   });
 
-  // Query para KPI de Ocupación Total (último año)
+  // Query para KPI de Ocupación Total (último año disponible, dinámico)
   const { data: totalOccupationData, isLoading: isLoadingTotal, error: errorTotal } = useQuery({
     queryKey: ["education-labor-market-total"],
     queryFn: async () => {
@@ -56,11 +56,14 @@ const EducationLaborMarket = () => {
         .select("*")
         .eq("cod_indicador", "MLJ_02")
         .eq("entidad", "Manizales")
-        .eq("year", 2024)
-        .in("categoria", ["Estudiando y trabajando", "Solo trabajando", "Solo estudiando"]);
+        .in("categoria", ["Estudiando y trabajando", "Solo trabajando", "Solo estudiando"])
+        .order("year", { ascending: false });
 
       if (error) throw error;
-      return (data || []).map((d: any) => ({ ...d, valor: d.dato }));
+      const rows = (data || []).map((d: any) => ({ ...d, valor: d.dato }));
+      if (rows.length === 0) return rows;
+      const latestYear = Math.max(...rows.map((r: any) => r.year));
+      return rows.filter((r: any) => r.year === latestYear);
     },
   });
 
