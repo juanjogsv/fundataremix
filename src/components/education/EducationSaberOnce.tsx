@@ -756,7 +756,30 @@ const EducationSaberOnce = () => {
                         <CartesianGrid strokeDasharray="3 3" />
                         <XAxis dataKey="año" />
                         <YAxis domain={[0, 500]} ticks={[0, 100, 200, 300, 400, 500]} />
-                        <Tooltip formatter={(v: number) => (v == null ? 'N/A' : Math.round(v))} />
+                        <Tooltip
+                          content={({ active, payload, label }) => {
+                            if (!active || !payload || payload.length === 0) return null;
+                            const row: any = payload[0]?.payload ?? {};
+                            const diff = row.Diferencia;
+                            const diffColor = diff == null ? '#6b7280' : diff > 0 ? '#0d9488' : diff < 0 ? '#e11d48' : '#6b7280';
+                            const diffLabel = diff == null
+                              ? 'N/A'
+                              : `${diff > 0 ? '+' : ''}${Math.round(diff)} pts ${diff > 0 ? '(a favor No oficial)' : diff < 0 ? '(a favor Oficial)' : '(paridad)'}`;
+                            return (
+                              <div className="bg-white border border-gray-200 rounded-md shadow-md px-3 py-2 text-sm">
+                                <div className="font-semibold text-gray-900 mb-1">{label}</div>
+                                {payload.map((p: any) => (
+                                  <div key={p.dataKey} style={{ color: p.color }}>
+                                    {p.dataKey} : {p.value == null ? 'N/A' : Math.round(p.value)}
+                                  </div>
+                                ))}
+                                <div className="mt-1 pt-1 border-t border-gray-100" style={{ color: diffColor }}>
+                                  Brecha: {diffLabel}
+                                </div>
+                              </div>
+                            );
+                          }}
+                        />
                         <Legend />
                         <Bar dataKey="Oficial" fill="#0d9488" name="Oficial" />
                         <Bar dataKey="No oficial" fill="#e11d48" name="No oficial" />
