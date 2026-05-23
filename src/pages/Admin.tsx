@@ -232,7 +232,7 @@ const Admin = () => {
               Panel de Administración
             </h1>
             <p className="text-muted-foreground mt-2 text-sm md:text-base">
-              Sistema de carga modular de datos - Fundación Transformar
+              Sistema de carga modular de datos - Fundación Luker
             </p>
           </div>
           <div className="flex flex-wrap gap-2">
