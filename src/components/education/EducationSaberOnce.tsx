@@ -349,6 +349,33 @@ const EducationSaberOnce = () => {
     if (!rankingData || !damaEntities) return [];
     const entityMap = new Map(damaEntities.map(e => [e.cod_entidad, formatCityName(e.entidad || "")]));
     const targetCat2 = normalize(getEffectiveCat2(selectedRankingSexo, selectedRankingNaturaleza, selectedRankingZona));
+
+    if (isBrechaRanking) {
+      // Brecha = Oficial - No oficial por ciudad (último año disponible seleccionado)
+      const perCity: Record<string, { oficial: number[]; noOficial: number[] }> = {};
+      rankingData
+        .filter(d => d.anio === selectedRankingYear && normalize((d as any).categoria_2) === targetCat2 && d.cod_entidad)
+        .forEach(d => {
+          const code = String(d.cod_entidad);
+          if (code.length !== 5) return;
+          if (d.valor == null) return;
+          const cat = normalize(d.categoria);
+          if (cat !== "oficial" && cat !== "no oficial") return;
+          if (!perCity[code]) perCity[code] = { oficial: [], noOficial: [] };
+          if (cat === "oficial") perCity[code].oficial.push(Number(d.valor));
+          else perCity[code].noOficial.push(Number(d.valor));
+        });
+      const avg = (arr: number[]) => arr.reduce((a, b) => a + b, 0) / arr.length;
+      return Object.entries(perCity)
+        .filter(([, v]) => v.oficial.length > 0 && v.noOficial.length > 0)
+        .map(([code, v]) => ({
+          entidad: entityMap.get(code) || code,
+          puntaje: Math.round(avg(v.oficial) - avg(v.noOficial)),
+        }))
+        .filter(item => !isExcludedCity(item.entidad))
+        .sort((a, b) => b.puntaje - a.puntaje);
+    }
+
     const grouped: Record<string, number[]> = {};
     rankingData
       .filter(d => d.anio === selectedRankingYear && normalize(d.categoria) === normalize(selectedRankingCategory) && normalize((d as any).categoria_2) === targetCat2 && d.cod_entidad)
@@ -367,7 +394,7 @@ const EducationSaberOnce = () => {
       }))
       .filter(item => !isExcludedCity(item.entidad))
       .sort((a, b) => b.puntaje - a.puntaje);
-  }, [rankingData, damaEntities, selectedRankingYear, selectedRankingCategory, selectedRankingSexo, selectedRankingNaturaleza, selectedRankingZona]);
+  }, [rankingData, damaEntities, selectedRankingYear, selectedRankingCategory, selectedRankingSexo, selectedRankingNaturaleza, selectedRankingZona, isBrechaRanking]);
 
   // Card 3 - Evolución comparada usando dama_data (SABER_01..SABER_06)
   const [selectedEvolutionIndicator, setSelectedEvolutionIndicator] = useState<string>("SABER_02");
