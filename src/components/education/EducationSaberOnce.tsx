@@ -157,17 +157,6 @@ const EducationSaberOnce = () => {
   // ===== Card 2 (NUEVA): Comparativo histórico Oficial vs No oficial =====
   const [selectedCompCity, setSelectedCompCity] = useState<string>("17001");
   const [selectedCompIndicator, setSelectedCompIndicator] = useState<string>("SABER_02");
-  const [selectedCompSexo, setSelectedCompSexo] = useState("Total");
-  const [selectedCompZona, setSelectedCompZona] = useState("Total");
-
-  const handleCompSexoChange = (v: string) => {
-    setSelectedCompSexo(v);
-    if (v !== "Total") setSelectedCompZona("Total");
-  };
-  const handleCompZonaChange = (v: string) => {
-    setSelectedCompZona(v);
-    if (v !== "Total") setSelectedCompSexo("Total");
-  };
 
   const { data: compRawData, isLoading: isLoadingComp } = useQuery({
     queryKey: ["dama-saber-comp-naturaleza", selectedCompIndicator, selectedCompCity],
