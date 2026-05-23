@@ -322,7 +322,7 @@ const EducationSaberOnce = () => {
       });
       return row;
     });
-  }, [evolutionRawData, damaEntities, selectedCities, selectedEvolutionSexo]);
+  }, [evolutionRawData, damaEntities, selectedCities, selectedEvolutionSexo, selectedEvolutionNaturaleza, selectedEvolutionZona]);
 
   const toggleCity = (city: string) => {
     setSelectedCities(prev =>
