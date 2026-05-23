@@ -11,6 +11,7 @@ import { ChartDownloadButton } from "@/components/ui/chart-download-button";
 
 const EducationSaberOnce = () => {
   const chart1Ref = useRef<HTMLDivElement>(null);
+  const chartCompRef = useRef<HTMLDivElement>(null);
   const chart2Ref = useRef<HTMLDivElement>(null);
   const chart3Ref = useRef<HTMLDivElement>(null);
 
@@ -127,7 +128,98 @@ const EducationSaberOnce = () => {
   }, [damaSaberData, selectedCategory, selectedSexo, selectedNaturaleza, selectedZona]);
 
 
+  // ===== Card 2 (NUEVA): Comparativo histórico Oficial vs No oficial =====
+  const [selectedCompCity, setSelectedCompCity] = useState<string>("17001");
+  const [selectedCompIndicator, setSelectedCompIndicator] = useState<string>("SABER_02");
+  const [selectedCompSexo, setSelectedCompSexo] = useState("Total");
+  const [selectedCompZona, setSelectedCompZona] = useState("Total");
+
+  const handleCompSexoChange = (v: string) => {
+    setSelectedCompSexo(v);
+    if (v !== "Total") setSelectedCompZona("Total");
+  };
+  const handleCompZonaChange = (v: string) => {
+    setSelectedCompZona(v);
+    if (v !== "Total") setSelectedCompSexo("Total");
+  };
+
+  const { data: compRawData, isLoading: isLoadingComp } = useQuery({
+    queryKey: ["dama-saber-comp-naturaleza", selectedCompIndicator, selectedCompCity],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("dama_data")
+        .select("anio, categoria, categoria_2, valor, cod_entidad")
+        .eq("cod_indicador", selectedCompIndicator)
+        .eq("cod_entidad", selectedCompCity)
+        .order("anio", { ascending: true });
+      if (error) throw error;
+      return data;
+    },
+  });
+
+  // Lista de ciudades capitales (códigos de 5 dígitos) — depende de damaEntities (declarada más abajo)
+  const { data: damaEntitiesForComp } = useQuery({
+    queryKey: ["dama-entities-cities-comp"],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("dama_entities")
+        .select("cod_entidad, entidad");
+      if (error) throw error;
+      return data;
+    },
+  });
+
+  const availableCompCities = useMemo(() => {
+    if (!damaEntitiesForComp) return [] as { code: string; name: string }[];
+    return damaEntitiesForComp
+      .filter(e => String(e.cod_entidad).length === 5)
+      .map(e => ({ code: String(e.cod_entidad), name: e.entidad }))
+      .sort((a, b) => {
+        if (a.name === "Manizales") return -1;
+        if (b.name === "Manizales") return 1;
+        return a.name.localeCompare(b.name);
+      });
+  }, [damaEntitiesForComp]);
+
+
+  const compChartData = useMemo(() => {
+    if (!compRawData) return [];
+    // Si hay filtro de sexo o zona, se aplica como filtro adicional sobre cat2
+    // En ese caso los datos por Naturaleza no existen y el gráfico saldrá vacío.
+    const extraCat2 = selectedCompSexo !== "Total"
+      ? selectedCompSexo
+      : selectedCompZona !== "Total"
+        ? selectedCompZona
+        : null;
+
+    const grouped: Record<number, { oficial: number[]; no_oficial: number[] }> = {};
+    compRawData.forEach(d => {
+      if (d.anio == null || d.valor == null) return;
+      if (normalize(d.categoria) !== "total") return;
+      const cat2 = normalize((d as any).categoria_2);
+      if (extraCat2) {
+        if (cat2 !== normalize(extraCat2)) return;
+        // no podemos a la vez ser Oficial/No oficial — sin datos
+        return;
+      }
+      if (!grouped[d.anio]) grouped[d.anio] = { oficial: [], no_oficial: [] };
+      if (cat2 === "oficial") grouped[d.anio].oficial.push(Number(d.valor));
+      else if (cat2 === "no oficial") grouped[d.anio].no_oficial.push(Number(d.valor));
+    });
+    const years = Object.keys(grouped).map(Number).sort((a, b) => a - b);
+    return years.map(year => {
+      const g = grouped[year];
+      const avg = (arr: number[]) => arr.length ? Math.round(arr.reduce((a, b) => a + b, 0) / arr.length) : null;
+      return {
+        año: year.toString(),
+        Oficial: avg(g.oficial),
+        "No oficial": avg(g.no_oficial),
+      };
+    }).filter(r => r.Oficial !== null || r["No oficial"] !== null);
+  }, [compRawData, selectedCompSexo, selectedCompZona]);
+
   // Card 2 - Ranking de ciudades (dama_data + dama_entities)
+
   const [selectedRankingIndicator, setSelectedRankingIndicator] = useState<string>("SABER_02");
   const [selectedRankingCategory, setSelectedRankingCategory] = useState("Total");
   const [selectedRankingSexo, setSelectedRankingSexo] = useState("Total");
@@ -517,7 +609,116 @@ const EducationSaberOnce = () => {
         </CardContent>
       </Card>
 
-      {/* Card 2: Ranking de Entidades 2024 */}
+      {/* Card 2 (NUEVA): Comparativo histórico Oficial vs No oficial */}
+      <Card>
+        <CardHeader className="flex flex-row items-center justify-between">
+          <CardTitle className="flex items-center gap-2 text-luker-brown">
+            <Award className="h-5 w-5 text-luker-red" />
+            Comparativo histórico Saber Once: Oficial vs No oficial
+          </CardTitle>
+          <ChartDownloadButton
+            chartRef={chartCompRef}
+            title="Comparativo Oficial vs No oficial - Saber Once"
+            excelData={compChartData}
+            excelColumns={[
+              { header: "Año", key: "año" },
+              { header: "Oficial", key: "Oficial" },
+              { header: "No oficial", key: "No oficial" },
+            ]}
+          />
+        </CardHeader>
+        <CardContent>
+          {isLoadingComp ? (
+            <Skeleton className="h-96 w-full" />
+          ) : (
+            <div className="space-y-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                <div className="space-y-2">
+                  <label className="text-sm font-medium text-gray-700">Ciudad</label>
+                  <Select value={selectedCompCity} onValueChange={setSelectedCompCity}>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Seleccione ciudad" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {availableCompCities.map((c) => (
+                        <SelectItem key={c.code} value={c.code}>{c.name}</SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                <div className="space-y-2">
+                  <label className="text-sm font-medium text-gray-700">Área Temática</label>
+                  <Select value={selectedCompIndicator} onValueChange={setSelectedCompIndicator}>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Seleccione indicador" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {SABER_OPTIONS.map((opt) => (
+                        <SelectItem key={opt.code} value={opt.code}>{opt.label}</SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                <div className="space-y-2">
+                  <label className="text-sm font-medium text-gray-700">Sexo</label>
+                  <Select value={selectedCompSexo} onValueChange={handleCompSexoChange}>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Seleccione sexo" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {SEXO_OPTIONS.map((s) => (
+                        <SelectItem key={s} value={s}>{s}</SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                <div className="space-y-2">
+                  <label className="text-sm font-medium text-gray-700">Sector</label>
+                  <Select value={selectedCompZona} onValueChange={handleCompZonaChange}>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Seleccione sector" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {ZONA_OPTIONS.map((s) => (
+                        <SelectItem key={s} value={s}>{s}</SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+              </div>
+
+              {compChartData.length > 0 ? (
+                <div ref={chartCompRef} className="h-96 mt-6">
+                  <ResponsiveContainer width="100%" height="100%">
+                    <BarChart data={compChartData}>
+                      <CartesianGrid strokeDasharray="3 3" />
+                      <XAxis dataKey="año" />
+                      <YAxis domain={[0, 500]} ticks={[0, 100, 200, 300, 400, 500]} />
+                      <Tooltip formatter={(v: number) => (v == null ? 'N/A' : Math.round(v))} />
+                      <Legend />
+                      <Bar dataKey="Oficial" fill="#0d9488" name="Oficial" />
+                      <Bar dataKey="No oficial" fill="#e11d48" name="No oficial" />
+                    </BarChart>
+                  </ResponsiveContainer>
+                </div>
+              ) : (
+                <Alert>
+                  <AlertCircle className="h-4 w-4" />
+                  <AlertDescription>
+                    No hay datos disponibles para los filtros seleccionados. Nota: los filtros de Sexo y Sector son excluyentes con la comparación Oficial/No oficial.
+                  </AlertDescription>
+                </Alert>
+              )}
+            </div>
+          )}
+        </CardContent>
+      </Card>
+
+      {/* Card 3: Ranking de Entidades 2024 */}
+
       <Card>
         <CardHeader className="flex flex-row items-center justify-between">
           <CardTitle className="flex items-center gap-2 text-luker-brown">
