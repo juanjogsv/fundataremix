@@ -1,5 +1,6 @@
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import SeoHead from "@/components/SeoHead";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
 import { 
@@ -165,6 +166,7 @@ const Index = () => {
         </div>
       </header>
 
+      <main>
       {/* Hero Section - Storytelling */}
       <section className="relative overflow-hidden">
         {/* Background decorative elements */}
@@ -256,6 +258,7 @@ const Index = () => {
           </div>
         </Card>
       </section>
+      </main>
 
       {/* Footer */}
       <footer className="border-t border-gray-200/80 bg-white/95 py-8">
