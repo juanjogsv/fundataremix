@@ -25,7 +25,7 @@ const EducationUTCPrograms = () => {
         const rows = await fetchLegacyIndicators({
           codes: ["UTC_03"],
         });
-        const result = rows.map(r => ({ categoria: r.categoria_2 ?? r.categoria, valor: r.valor, year: r.year }));
+        const result = rows.map(r => ({ categoria: r.categoria, valor: r.valor, year: r.year }));
         const fetchError = null;
 
         if (fetchError) throw fetchError;
