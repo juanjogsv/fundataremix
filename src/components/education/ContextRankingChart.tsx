@@ -51,7 +51,7 @@ const ContextRankingChart = ({ code, title, accentVar, year, ascending = false }
       setLoading(true);
       try {
         const { data: rows, error } = await supabase
-          .from("dama_data")
+          .from("datos_maestros")
           .select("cod_entidad, anio, valor, categoria")
           .eq("cod_indicador", code);
         if (error) throw error;
@@ -64,7 +64,7 @@ const ContextRankingChart = ({ code, title, accentVar, year, ascending = false }
         const codes = Array.from(new Set(totals.map((r: any) => r.cod_entidad)));
         if (codes.length) {
           const { data: ents } = await supabase
-            .from("dama_entities")
+            .from("catalogo_entidades")
             .select("cod_entidad, entidad")
             .in("cod_entidad", codes);
           setEntityMap(Object.fromEntries((ents || []).map((e: any) => [e.cod_entidad, e.entidad])));

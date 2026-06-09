@@ -39,7 +39,7 @@ const EducationContext = () => {
       try {
         const codes = KPI_CONFIG.map((k) => k.code);
         const { data, error } = await supabase
-          .from("dama_data")
+          .from("datos_maestros")
           .select("cod_indicador, anio, valor, categoria, cod_entidad")
           .in("cod_indicador", codes)
           .eq("cod_entidad", MANIZALES_COD);

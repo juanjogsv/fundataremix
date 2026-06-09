@@ -56,7 +56,7 @@ const EducationBeneficiaries = () => {
     queryKey: ["dama-schools-gp03"],
     queryFn: async () => {
       const { data, error } = await supabase
-        .from("dama_data")
+        .from("datos_maestros")
         .select("anio, cod_entidad, categoria_2, valor")
         .eq("cod_indicador", "GP_03")
         .eq("cod_entidad", "17001")

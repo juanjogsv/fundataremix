@@ -78,7 +78,7 @@ const EducationATL = () => {
 
         // Fetch data for Card 4: Primero histórico (Entrada ATAL_01 vs Salida ATAL_02) desde dama_data
         const { data: dataPrimero, error: errorPrimero } = await supabase
-          .from('dama_data')
+          .from('datos_maestros')
           .select('anio, categoria, valor, cod_indicador')
           .in('cod_indicador', ['ATAL_01', 'ATAL_02'])
           .eq('categoria_2', 'Primero')
@@ -92,7 +92,7 @@ const EducationATL = () => {
 
         // Fetch data for Card 5: Quinto histórico (Entrada ATAL_01 vs Salida ATAL_02) desde dama_data
         const { data: dataQuinto, error: errorQuinto } = await supabase
-          .from('dama_data')
+          .from('datos_maestros')
           .select('anio, categoria, valor, cod_indicador')
           .in('cod_indicador', ['ATAL_01', 'ATAL_02'])
           .eq('categoria_2', 'Quinto')

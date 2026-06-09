@@ -114,7 +114,7 @@ const MCVSubsection = ({
   const fetchDamaEducation = async (entityFilter?: string): Promise<MCVIndicator[]> => {
     // Catalog (codes -> indicador metadata)
     const { data: catalog, error: catErr } = await supabase
-      .from("dama_catalog")
+      .from("catalogo_indicadores")
       .select("cod_indicador, indicador, unidad_medida, fuente")
       .in("cod_indicador", EDU_CODES);
     if (catErr) throw catErr;
@@ -124,7 +124,7 @@ const MCVSubsection = ({
 
     // Entities (filter to municipalities, length 5 = city codes)
     const { data: entities, error: entErr } = await supabase
-      .from("dama_entities")
+      .from("catalogo_entidades")
       .select("cod_entidad, entidad");
     if (entErr) throw entErr;
     const entityMap = new Map(
@@ -137,7 +137,7 @@ const MCVSubsection = ({
     const allRows: any[] = [];
 
     let query = supabase
-      .from("dama_data")
+      .from("datos_maestros")
       .select("id, cod_indicador, cod_entidad, anio, valor")
       .in("cod_indicador", EDU_CODES)
       .order("anio", { ascending: true });
