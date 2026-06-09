@@ -3,7 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell } from "recharts";
 import { TrendingDown } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
-import { supabase } from "@/integrations/supabase/client";
+import { fetchLegacyIndicators } from "@/integrations/ecosistema/legacy";
 import { normalizeCityName } from "@/lib/city-name-normalizer";
 import {
   Select,
@@ -30,12 +30,13 @@ const EducationDesertionRanking = () => {
   useEffect(() => {
     const loadYears = async () => {
       try {
-        const { data: yearsData, error: yearsError } = await supabase
-          .from('education_indicators')
-          .select('year')
-          .or('indicador.ilike.%deserción%,indicador.ilike.%desercion%')
-          .eq('categoria', 'Total')
-          .order('year', { ascending: false });
+        const rowsAll = await fetchLegacyIndicators({
+          codes: ["COBE_05"],
+          categoria: 'Total',
+          onlyMunicipalities: true,
+        });
+        const yearsData = rowsAll.map(r => ({ year: r.year }));
+        const yearsError = null;
 
         if (yearsError) throw yearsError;
 
