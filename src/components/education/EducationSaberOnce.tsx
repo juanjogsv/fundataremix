@@ -88,6 +88,11 @@ const EducationSaberOnce = () => {
   }, [damaSaberData]);
 
   const normalize = (v: any) => (v ?? "").toString().trim().toLowerCase();
+  // categoria_2 en datos_maestros viene como "" cuando no aplica; tratarlo como "total"
+  const normCat2 = (v: any) => {
+    const s = (v ?? "").toString().trim().toLowerCase();
+    return s === "" ? "total" : s;
+  };
 
   // Formatea nombres de ciudades para mostrar (ej: San José de Cúcuta → Cúcuta)
   const formatCityName = (name: string) => {
