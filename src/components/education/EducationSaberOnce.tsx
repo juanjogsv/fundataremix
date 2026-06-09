@@ -123,7 +123,7 @@ const EducationSaberOnce = () => {
   const chartData = useMemo(() => {
     const target = normalize(selectedCategory);
     const targetCat2 = normalize(getEffectiveCat2(selectedSexo, selectedNaturaleza, selectedZona));
-    const filtered = (damaSaberData || []).filter(d => normalize(d.categoria) === target && normalize((d as any).categoria_2) === targetCat2);
+    const filtered = (damaSaberData || []).filter(d => normalize(d.categoria) === target && normCat2((d as any).categoria_2) === targetCat2);
     const grouped: Record<number, number[]> = {};
     filtered.forEach(d => {
       if (d.anio == null || d.valor == null) return;
@@ -191,7 +191,7 @@ const EducationSaberOnce = () => {
     compRawData.forEach(d => {
       if (d.anio == null || d.valor == null) return;
       if (normalize(d.categoria) !== "total") return;
-      const cat2 = normalize((d as any).categoria_2);
+      const cat2 = normCat2((d as any).categoria_2);
       if (!grouped[d.anio]) grouped[d.anio] = { oficial: [], no_oficial: [] };
       if (cat2 === "oficial") grouped[d.anio].oficial.push(Number(d.valor));
       else if (cat2 === "no oficial") grouped[d.anio].no_oficial.push(Number(d.valor));
@@ -328,7 +328,7 @@ const EducationSaberOnce = () => {
           const code = String(d.cod_entidad);
           if (code.length !== 5) return;
           if (d.valor == null) return;
-          const cat2 = normalize((d as any).categoria_2);
+          const cat2 = normCat2((d as any).categoria_2);
           if (cat2 !== "oficial" && cat2 !== "no oficial") return;
           if (!perCity[code]) perCity[code] = { oficial: [], noOficial: [] };
           if (cat2 === "oficial") perCity[code].oficial.push(Number(d.valor));
@@ -347,7 +347,7 @@ const EducationSaberOnce = () => {
 
     const grouped: Record<string, number[]> = {};
     rankingData
-      .filter(d => d.anio === selectedRankingYear && normalize(d.categoria) === normalize(selectedRankingCategory) && normalize((d as any).categoria_2) === targetCat2 && d.cod_entidad)
+      .filter(d => d.anio === selectedRankingYear && normalize(d.categoria) === normalize(selectedRankingCategory) && normCat2((d as any).categoria_2) === targetCat2 && d.cod_entidad)
       .forEach(d => {
         const code = String(d.cod_entidad);
         // Solo ciudades capitales (códigos de 5 dígitos)
@@ -437,7 +437,7 @@ const EducationSaberOnce = () => {
     const cityYearVals: Record<string, Record<number, number[]>> = {};
     const targetCat2 = normalize(getEffectiveCat2(selectedEvolutionSexo, selectedEvolutionNaturaleza, selectedEvolutionZona));
     evolutionRawData
-      .filter(d => normalize(d.categoria) === "total" && normalize((d as any).categoria_2) === targetCat2)
+      .filter(d => normalize(d.categoria) === "total" && normCat2((d as any).categoria_2) === targetCat2)
       .forEach(d => {
         const code = String(d.cod_entidad || "");
         if (code.length !== 5) return;
