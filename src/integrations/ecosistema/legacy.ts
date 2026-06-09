@@ -176,8 +176,12 @@ export async function fetchLegacyIndicators(opts: FetchLegacyOpts): Promise<Lega
         descripcion: cat?.fuente ?? null,
         valor: r.valor != null ? Number(r.valor) : null,
         unidad: cat?.unidad_medida ?? null,
-        departamento: dptoName,
+        // Legacy components display `departamento || municipio` — populate
+        // `departamento` with the entity's own name so ranking labels match
+        // expectations (e.g. "Manizales" not "Caldas").
+        departamento: entName,
         municipio: isMunicipio ? entName : null,
+        _parentDpto: isMunicipio ? (entities.parentByCode.get(codStr) ?? null) : null,
         year: Number(r.anio),
         categoria: norm(r.categoria) || "Total",
         categoria_2: r.categoria_2 ?? null,
