@@ -3,7 +3,6 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Database, TrendingUp, GraduationCap, School, BookOpen, Users, LogOut } from "lucide-react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
-import { supabase } from "@/integrations/supabase/client";
 import { ecosistema } from "@/integrations/ecosistema/client";
 import ContextRankingChart from "./ContextRankingChart";
 
