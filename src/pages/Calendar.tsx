@@ -336,8 +336,9 @@ const Calendar = () => {
                         size="sm"
                         className="h-6 w-6 p-0 flex-shrink-0"
                         onClick={() => handleDownload(doc)}
+                        aria-label={`Descargar ${doc.name}`}
                       >
-                        <Download className="h-3.5 w-3.5" />
+                        <Download className="h-3.5 w-3.5" aria-hidden="true" />
                       </Button>
                     </div>
                   ))}
