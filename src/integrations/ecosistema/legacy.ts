@@ -166,9 +166,6 @@ export async function fetchLegacyIndicators(opts: FetchLegacyOpts): Promise<Lega
       const codStr = String(r.cod_entidad);
       const entName = entities.byCode.get(codStr) ?? codStr;
       const isMunicipio = codStr.length === 5;
-      const dptoName = isMunicipio
-        ? entities.parentByCode.get(codStr) ?? entName
-        : entName;
       return {
         seccion: cat?.seccion ?? null,
         indicador: cat?.indicador ?? r.cod_indicador,
