@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { supabase } from "@/integrations/supabase/client";
+import { ecosistema } from "@/integrations/ecosistema/client";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Award, AlertCircle, Check } from "lucide-react";
@@ -66,38 +66,20 @@ const EducationSaberOnce = () => {
   const { data: damaSaberData, isLoading, error } = useQuery({
     queryKey: ["dama-saber-manizales", selectedIndicator],
     queryFn: async () => {
-      const { data, error } = await supabase
-        .from("dama_data")
+      const { data, error } = await ecosistema
+        .from("datos_maestros")
         .select("anio, categoria, categoria_2, valor, cod_indicador")
         .eq("cod_indicador", selectedIndicator)
         .eq("cod_entidad", "17001")
         .order("anio", { ascending: true });
       if (error) throw error;
-      return data;
+      return (data ?? []) as any[];
     },
   });
 
-  // For legacy code below (Card 2 ranking uses indicators list from education_indicators)
-  const { data: indicators } = useQuery({
-    queryKey: ["education-saber-once-legacy"],
-    queryFn: async () => {
-      const { data, error } = await supabase
-        .from("education_indicators")
-        .select("*")
-        .eq("seccion", "Resultados pruebas Saber 11")
-        .eq("departamento", "Manizales")
-        .order("year", { ascending: true });
-      if (error) throw error;
-      return data;
-    },
-  });
+  // (Legacy education_indicators query removed — UI uses SABER_OPTIONS hardcoded list)
+  const indicators: any[] | null = null;
 
-  useEffect(() => {
-    if (indicators && indicators.length > 0) {
-      const indicatorsList = Array.from(new Set(indicators.map(i => i.indicador).filter(Boolean))) as string[];
-      setAvailableIndicators(indicatorsList.sort());
-    }
-  }, [indicators]);
 
   const availableCategoriesCard1 = useMemo(() => {
     const cats = Array.from(new Set((damaSaberData || []).map(d => d.categoria).filter(Boolean))) as string[];
@@ -161,14 +143,14 @@ const EducationSaberOnce = () => {
   const { data: compRawData, isLoading: isLoadingComp } = useQuery({
     queryKey: ["dama-saber-comp-naturaleza", selectedCompIndicator, selectedCompCity],
     queryFn: async () => {
-      const { data, error } = await supabase
-        .from("dama_data")
+      const { data, error } = await ecosistema
+        .from("datos_maestros")
         .select("anio, categoria, categoria_2, valor, cod_entidad")
         .eq("cod_indicador", selectedCompIndicator)
         .eq("cod_entidad", selectedCompCity)
         .order("anio", { ascending: true });
       if (error) throw error;
-      return data;
+      return (data ?? []) as any[];
     },
   });
 
@@ -176,11 +158,11 @@ const EducationSaberOnce = () => {
   const { data: damaEntitiesForComp } = useQuery({
     queryKey: ["dama-entities-cities-comp"],
     queryFn: async () => {
-      const { data, error } = await supabase
-        .from("dama_entities")
+      const { data, error } = await ecosistema
+        .from("catalogo_entidades")
         .select("cod_entidad, entidad");
       if (error) throw error;
-      return data;
+      return (data ?? []) as any[];
     },
   });
 
@@ -270,11 +252,11 @@ const EducationSaberOnce = () => {
   const { data: damaEntities } = useQuery({
     queryKey: ["dama-entities-cities"],
     queryFn: async () => {
-      const { data, error } = await supabase
-        .from("dama_entities")
+      const { data, error } = await ecosistema
+        .from("catalogo_entidades")
         .select("cod_entidad, entidad");
       if (error) throw error;
-      return data;
+      return (data ?? []) as any[];
     },
   });
 
@@ -290,8 +272,8 @@ const EducationSaberOnce = () => {
       let from = 0;
       const all: any[] = [];
       while (true) {
-        const { data, error } = await supabase
-          .from("dama_data")
+        const { data, error } = await ecosistema
+          .from("datos_maestros")
           .select("anio, categoria, categoria_2, valor, cod_entidad")
           .eq("cod_indicador", effectiveRankingIndicator)
           .range(from, from + pageSize - 1);
@@ -301,7 +283,7 @@ const EducationSaberOnce = () => {
         if (data.length < pageSize) break;
         from += pageSize;
       }
-      return all;
+      return all as any[];
     },
   });
 
@@ -407,8 +389,8 @@ const EducationSaberOnce = () => {
       let from = 0;
       const all: any[] = [];
       while (true) {
-        const { data, error } = await supabase
-          .from("dama_data")
+        const { data, error } = await ecosistema
+          .from("datos_maestros")
           .select("anio, categoria, categoria_2, valor, cod_entidad")
           .eq("cod_indicador", selectedEvolutionIndicator)
           .range(from, from + pageSize - 1);
@@ -418,7 +400,7 @@ const EducationSaberOnce = () => {
         if (data.length < pageSize) break;
         from += pageSize;
       }
-      return all;
+      return all as any[];
     },
   });
 
