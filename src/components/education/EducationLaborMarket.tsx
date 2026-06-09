@@ -1,6 +1,6 @@
 import { useMemo, useRef } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { supabase } from "@/integrations/supabase/client";
+import { fetchLegacyMCVBySection } from "@/integrations/ecosistema/legacy";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Briefcase, AlertCircle } from "lucide-react";
@@ -14,19 +14,20 @@ const EducationLaborMarket = () => {
   const chartRef2 = useRef<HTMLDivElement>(null);
   const chartRef3 = useRef<HTMLDivElement>(null);
 
+  // Common fetcher: all MLJ_02 rows for Manizales from ecosistema
+  const mljManizalesQuery = async () => {
+    const rows = await fetchLegacyMCVBySection("Mercado laboral comparativo", "Manizales");
+    return rows.filter(r => r.cod_indicador === "MLJ_02");
+  };
+
   // Query para obtener datos de ocupación de egresados (MLJ_02 - Condición de actividad de egresados)
   const { data: occupationData, isLoading: isLoadingOccupation, error: errorOccupation } = useQuery({
     queryKey: ["education-labor-market-occupation"],
     queryFn: async () => {
-      const { data, error } = await supabase
-        .from("mcv_indicators")
-        .select("*")
-        .eq("cod_indicador", "MLJ_02")
-        .eq("entidad", "Manizales")
-        .order("year", { ascending: false });
-
-      if (error) throw error;
-      return (data || []).map((d: any) => ({ ...d, valor: d.dato, departamento: d.entidad }));
+      const rows = await mljManizalesQuery();
+      return rows
+        .sort((a, b) => b.year - a.year)
+        .map((d: any) => ({ ...d, valor: d.dato, departamento: d.entidad }));
     },
   });
 
@@ -34,16 +35,12 @@ const EducationLaborMarket = () => {
   const { data: occupationalData, isLoading: isLoadingOccupational, error: errorOccupational } = useQuery({
     queryKey: ["education-labor-market-occupational"],
     queryFn: async () => {
-      const { data, error } = await supabase
-        .from("mcv_indicators")
-        .select("*")
-        .eq("cod_indicador", "MLJ_02")
-        .eq("entidad", "Manizales")
-        .in("categoria", ["Estudiando y trabajando", "Solo trabajando", "Solo estudiando", "Buscando trabajo", "NOES"])
-        .order("year", { ascending: true });
-
-      if (error) throw error;
-      return (data || []).map((d: any) => ({ ...d, valor: d.dato }));
+      const rows = await mljManizalesQuery();
+      const cats = ["Estudiando y trabajando", "Solo trabajando", "Solo estudiando", "Buscando trabajo", "NOES"];
+      return rows
+        .filter(r => cats.includes(r.categoria))
+        .sort((a, b) => a.year - b.year)
+        .map((d: any) => ({ ...d, valor: d.dato }));
     },
   });
 
@@ -51,19 +48,15 @@ const EducationLaborMarket = () => {
   const { data: totalOccupationData, isLoading: isLoadingTotal, error: errorTotal } = useQuery({
     queryKey: ["education-labor-market-total"],
     queryFn: async () => {
-      const { data, error } = await supabase
-        .from("mcv_indicators")
-        .select("*")
-        .eq("cod_indicador", "MLJ_02")
-        .eq("entidad", "Manizales")
-        .in("categoria", ["Estudiando y trabajando", "Solo trabajando", "Solo estudiando"])
-        .order("year", { ascending: false });
-
-      if (error) throw error;
-      const rows = (data || []).map((d: any) => ({ ...d, valor: d.dato }));
-      if (rows.length === 0) return rows;
-      const latestYear = Math.max(...rows.map((r: any) => r.year));
-      return rows.filter((r: any) => r.year === latestYear);
+      const rows = await mljManizalesQuery();
+      const cats = ["Estudiando y trabajando", "Solo trabajando", "Solo estudiando"];
+      const mapped = rows
+        .filter(r => cats.includes(r.categoria))
+        .sort((a, b) => b.year - a.year)
+        .map((d: any) => ({ ...d, valor: d.dato }));
+      if (mapped.length === 0) return mapped;
+      const latestYear = Math.max(...mapped.map((r: any) => r.year));
+      return mapped.filter((r: any) => r.year === latestYear);
     },
   });
 
@@ -71,16 +64,12 @@ const EducationLaborMarket = () => {
   const { data: historicalOccupationData, isLoading: isLoadingHistorical, error: errorHistorical } = useQuery({
     queryKey: ["education-labor-market-historical"],
     queryFn: async () => {
-      const { data, error } = await supabase
-        .from("mcv_indicators")
-        .select("*")
-        .eq("cod_indicador", "MLJ_02")
-        .eq("entidad", "Manizales")
-        .in("categoria", ["Estudiando y trabajando", "Solo trabajando", "Solo estudiando"])
-        .order("year", { ascending: true });
-
-      if (error) throw error;
-      return (data || []).map((d: any) => ({ ...d, valor: d.dato }));
+      const rows = await mljManizalesQuery();
+      const cats = ["Estudiando y trabajando", "Solo trabajando", "Solo estudiando"];
+      return rows
+        .filter(r => cats.includes(r.categoria))
+        .sort((a, b) => a.year - b.year)
+        .map((d: any) => ({ ...d, valor: d.dato }));
     },
   });
 

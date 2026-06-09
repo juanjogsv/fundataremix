@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Users, Building2, TrendingUp, Award } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
-import { supabase } from "@/integrations/supabase/client";
+import { ecosistema } from "@/integrations/ecosistema/client";
 
 interface KPI {
   title: string;
@@ -36,14 +36,14 @@ const EducationATALKPIs = () => {
       try {
         // Pull rows in two queries to avoid 1000-row default limit
         const [gpRes, atalRes] = await Promise.all([
-          supabase
-            .from("dama_data")
+          ecosistema
+            .from("datos_maestros")
             .select("cod_indicador, anio, categoria_2, valor")
             .in("cod_indicador", ["GP_02", "GP_03"])
             .eq("cod_entidad", COD_ENTIDAD)
             .ilike("categoria_2", "%aprendamos todos a leer%"),
-          supabase
-            .from("dama_data")
+          ecosistema
+            .from("datos_maestros")
             .select("cod_indicador, anio, categoria_2, valor")
             .eq("cod_indicador", "ATAL_02")
             .eq("cod_entidad", COD_ENTIDAD)
