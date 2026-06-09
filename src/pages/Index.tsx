@@ -211,9 +211,9 @@ const Index = () => {
                   </div>
                   
                   <div className="text-center space-y-1">
-                    <h3 className="font-semibold text-sm md:text-base text-luker-brown leading-tight font-heading">
+                    <h2 className="font-semibold text-sm md:text-base text-luker-brown leading-tight font-heading">
                       {section.title}
-                    </h3>
+                    </h2>
                     <p className="text-xs text-gray-600 hidden md:block">
                       {section.description}
                     </p>
