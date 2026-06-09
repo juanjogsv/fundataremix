@@ -55,7 +55,7 @@ const EducationBeneficiaries = () => {
   const { data: damaSchools } = useQuery({
     queryKey: ["dama-schools-gp03"],
     queryFn: async () => {
-      const { data, error } = await supabase
+      const { data, error } = await ecosistema
         .from("datos_maestros")
         .select("anio, cod_entidad, categoria_2, valor")
         .eq("cod_indicador", "GP_03")

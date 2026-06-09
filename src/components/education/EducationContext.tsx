@@ -38,7 +38,7 @@ const EducationContext = () => {
     const load = async () => {
       try {
         const codes = KPI_CONFIG.map((k) => k.code);
-        const { data, error } = await supabase
+        const { data, error } = await ecosistema
           .from("datos_maestros")
           .select("cod_indicador, anio, valor, categoria, cod_entidad")
           .in("cod_indicador", codes)

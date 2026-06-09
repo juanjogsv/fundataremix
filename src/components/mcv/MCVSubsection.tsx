@@ -113,7 +113,7 @@ const MCVSubsection = ({
 
   const fetchDamaEducation = async (entityFilter?: string): Promise<MCVIndicator[]> => {
     // Catalog (codes -> indicador metadata)
-    const { data: catalog, error: catErr } = await supabase
+    const { data: catalog, error: catErr } = await ecosistema
       .from("catalogo_indicadores")
       .select("cod_indicador, indicador, unidad_medida, fuente")
       .in("cod_indicador", EDU_CODES);
@@ -123,7 +123,7 @@ const MCVSubsection = ({
     );
 
     // Entities (filter to municipalities, length 5 = city codes)
-    const { data: entities, error: entErr } = await supabase
+    const { data: entities, error: entErr } = await ecosistema
       .from("catalogo_entidades")
       .select("cod_entidad, entidad");
     if (entErr) throw entErr;
@@ -136,7 +136,7 @@ const MCVSubsection = ({
     const maxPages = 100;
     const allRows: any[] = [];
 
-    let query = supabase
+    let query = ecosistema
       .from("datos_maestros")
       .select("id, cod_indicador, cod_entidad, anio, valor")
       .in("cod_indicador", EDU_CODES)

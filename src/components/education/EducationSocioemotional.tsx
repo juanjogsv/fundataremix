@@ -50,7 +50,7 @@ const EducationSocioemotional = () => {
         setIsLoading(true);
         
         // Fetch CSOC_01 + CSOC_03 (Prosperando + En proceso) - Manizales
-        const { data: fortResult, error: fortError } = await supabase
+        const { data: fortResult, error: fortError } = await ecosistema
           .from("datos_maestros")
           .select("anio, categoria, categoria_2, valor, cod_indicador")
           .in("cod_indicador", ["CSOC_01", "CSOC_03"])

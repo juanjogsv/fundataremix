@@ -50,7 +50,7 @@ const ContextRankingChart = ({ code, title, accentVar, year, ascending = false }
     const load = async () => {
       setLoading(true);
       try {
-        const { data: rows, error } = await supabase
+        const { data: rows, error } = await ecosistema
           .from("datos_maestros")
           .select("cod_entidad, anio, valor, categoria")
           .eq("cod_indicador", code);
@@ -63,7 +63,7 @@ const ContextRankingChart = ({ code, title, accentVar, year, ascending = false }
 
         const codes = Array.from(new Set(totals.map((r: any) => r.cod_entidad)));
         if (codes.length) {
-          const { data: ents } = await supabase
+          const { data: ents } = await ecosistema
             .from("catalogo_entidades")
             .select("cod_entidad, entidad")
             .in("cod_entidad", codes);
