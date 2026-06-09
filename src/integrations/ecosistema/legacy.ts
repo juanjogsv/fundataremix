@@ -21,6 +21,7 @@ export type LegacyEducationRow = {
   unidad: string | null;
   departamento: string | null;
   municipio: string | null;
+  _parentDpto?: string | null;
   year: number;
   categoria: string;
   categoria_2: string | null;
