@@ -14,6 +14,7 @@ import {
 } from "recharts";
 import { TrendingUp } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
+import { ecosistema } from "@/integrations/ecosistema/client";
 import { ChartDownloadButton } from "@/components/ui/chart-download-button";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 

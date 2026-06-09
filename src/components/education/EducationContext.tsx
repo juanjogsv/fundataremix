@@ -4,6 +4,7 @@ import { Database, TrendingUp, GraduationCap, School, BookOpen, Users, LogOut } 
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
+import { ecosistema } from "@/integrations/ecosistema/client";
 import ContextRankingChart from "./ContextRankingChart";
 
 // Mapping based on dama_catalog (source of truth)

@@ -4,6 +4,7 @@ import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Skeleton } from "@/components/ui/skeleton";
 import { BookOpen } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
+import { ecosistema } from "@/integrations/ecosistema/client";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, LabelList } from 'recharts';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import EducationATALKPIs from "./EducationATALKPIs";
@@ -39,8 +40,8 @@ const EducationATL = () => {
         
         // Determine latest year for ATAL_01 / ATAL_02 (Manizales)
         const [{ data: y1 }, { data: y2 }] = await Promise.all([
-          supabase.from('dama_data').select('anio').eq('cod_indicador', 'ATAL_01').eq('cod_entidad', '17001').order('anio', { ascending: false }).limit(1),
-          supabase.from('dama_data').select('anio').eq('cod_indicador', 'ATAL_02').eq('cod_entidad', '17001').order('anio', { ascending: false }).limit(1),
+          ecosistema.from('datos_maestros').select('anio').eq('cod_indicador', 'ATAL_01').eq('cod_entidad', '17001').order('anio', { ascending: false }).limit(1),
+          ecosistema.from('datos_maestros').select('anio').eq('cod_indicador', 'ATAL_02').eq('cod_entidad', '17001').order('anio', { ascending: false }).limit(1),
         ]);
         const latestYear = Math.max(y1?.[0]?.anio ?? 0, y2?.[0]?.anio ?? 0) || null;
         setComparisonYear(latestYear);
@@ -51,8 +52,8 @@ const EducationATL = () => {
 
         if (latestYear) {
           const [{ data: a1, error: e1 }, { data: a2, error: e2 }] = await Promise.all([
-            supabase.from('dama_data').select('categoria_2, valor').eq('cod_indicador', 'ATAL_01').eq('cod_entidad', '17001').eq('anio', latestYear).limit(5000),
-            supabase.from('dama_data').select('categoria_2, valor').eq('cod_indicador', 'ATAL_02').eq('cod_entidad', '17001').eq('anio', latestYear).limit(5000),
+            ecosistema.from('datos_maestros').select('categoria_2, valor').eq('cod_indicador', 'ATAL_01').eq('cod_entidad', '17001').eq('anio', latestYear).limit(5000),
+            ecosistema.from('datos_maestros').select('categoria_2, valor').eq('cod_indicador', 'ATAL_02').eq('cod_entidad', '17001').eq('anio', latestYear).limit(5000),
           ]);
           if (e1) throw e1;
           if (e2) throw e2;
