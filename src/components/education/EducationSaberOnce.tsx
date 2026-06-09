@@ -66,8 +66,8 @@ const EducationSaberOnce = () => {
   const { data: damaSaberData, isLoading, error } = useQuery({
     queryKey: ["dama-saber-manizales", selectedIndicator],
     queryFn: async () => {
-      const { data, error } = await supabase
-        .from("dama_data")
+      const { data, error } = await ecosistema
+        .from("datos_maestros")
         .select("anio, categoria, categoria_2, valor, cod_indicador")
         .eq("cod_indicador", selectedIndicator)
         .eq("cod_entidad", "17001")
@@ -81,7 +81,7 @@ const EducationSaberOnce = () => {
   const { data: indicators } = useQuery({
     queryKey: ["education-saber-once-legacy"],
     queryFn: async () => {
-      const { data, error } = await supabase
+      const { data, error } = await ecosistema
         .from("education_indicators")
         .select("*")
         .eq("seccion", "Resultados pruebas Saber 11")
@@ -161,8 +161,8 @@ const EducationSaberOnce = () => {
   const { data: compRawData, isLoading: isLoadingComp } = useQuery({
     queryKey: ["dama-saber-comp-naturaleza", selectedCompIndicator, selectedCompCity],
     queryFn: async () => {
-      const { data, error } = await supabase
-        .from("dama_data")
+      const { data, error } = await ecosistema
+        .from("datos_maestros")
         .select("anio, categoria, categoria_2, valor, cod_entidad")
         .eq("cod_indicador", selectedCompIndicator)
         .eq("cod_entidad", selectedCompCity)
@@ -176,8 +176,8 @@ const EducationSaberOnce = () => {
   const { data: damaEntitiesForComp } = useQuery({
     queryKey: ["dama-entities-cities-comp"],
     queryFn: async () => {
-      const { data, error } = await supabase
-        .from("dama_entities")
+      const { data, error } = await ecosistema
+        .from("catalogo_entidades")
         .select("cod_entidad, entidad");
       if (error) throw error;
       return data;
@@ -270,8 +270,8 @@ const EducationSaberOnce = () => {
   const { data: damaEntities } = useQuery({
     queryKey: ["dama-entities-cities"],
     queryFn: async () => {
-      const { data, error } = await supabase
-        .from("dama_entities")
+      const { data, error } = await ecosistema
+        .from("catalogo_entidades")
         .select("cod_entidad, entidad");
       if (error) throw error;
       return data;
@@ -290,8 +290,8 @@ const EducationSaberOnce = () => {
       let from = 0;
       const all: any[] = [];
       while (true) {
-        const { data, error } = await supabase
-          .from("dama_data")
+        const { data, error } = await ecosistema
+          .from("datos_maestros")
           .select("anio, categoria, categoria_2, valor, cod_entidad")
           .eq("cod_indicador", effectiveRankingIndicator)
           .range(from, from + pageSize - 1);
@@ -407,8 +407,8 @@ const EducationSaberOnce = () => {
       let from = 0;
       const all: any[] = [];
       while (true) {
-        const { data, error } = await supabase
-          .from("dama_data")
+        const { data, error } = await ecosistema
+          .from("datos_maestros")
           .select("anio, categoria, categoria_2, valor, cod_entidad")
           .eq("cod_indicador", selectedEvolutionIndicator)
           .range(from, from + pageSize - 1);
