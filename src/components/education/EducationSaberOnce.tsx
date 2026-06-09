@@ -412,7 +412,7 @@ const EducationSaberOnce = () => {
   // City list: capitales (5-digit cod_entidad) presentes en datos del indicador
   const availableCities = useMemo(() => {
     if (!evolutionRawData || !damaEntities) return [];
-    const entityMap = new Map(damaEntities.map(e => [e.cod_entidad, formatCityName(e.entidad || "")]));
+    const entityMap = new Map(damaEntities.map(e => [String(e.cod_entidad), formatCityName(e.entidad || "")]));
     const cityCodes = new Set<string>();
     evolutionRawData.forEach(d => {
       const code = String(d.cod_entidad || "");
@@ -432,7 +432,7 @@ const EducationSaberOnce = () => {
 
   const evolutionChartData = useMemo(() => {
     if (!evolutionRawData || !damaEntities) return [];
-    const entityMap = new Map(damaEntities.map(e => [e.cod_entidad, formatCityName(e.entidad || "")]));
+    const entityMap = new Map(damaEntities.map(e => [String(e.cod_entidad), formatCityName(e.entidad || "")]));
 
     const cityYearVals: Record<string, Record<number, number[]>> = {};
     const targetCat2 = normalize(getEffectiveCat2(selectedEvolutionSexo, selectedEvolutionNaturaleza, selectedEvolutionZona));
