@@ -65,14 +65,16 @@ const EducationDesertionRanking = () => {
     const loadData = async () => {
       setLoading(true);
       try {
-        const { data: indicators, error } = await supabase
-          .from('education_indicators')
-          .select('*')
-          .or('indicador.ilike.%deserción%,indicador.ilike.%desercion%')
-          .eq('year', selectedYear)
-          .eq('categoria', 'Total')
-          .not('departamento', 'is', null)
-          .order('valor', { ascending: true });
+        const rows = await fetchLegacyIndicators({
+          codes: ["COBE_05"],
+          year: selectedYear,
+          categoria: 'Total',
+          onlyMunicipalities: true,
+        });
+        const indicators = rows
+          .filter(r => r.valor != null)
+          .sort((a, b) => (a.valor ?? 0) - (b.valor ?? 0));
+        const error = null;
 
         if (error) throw error;
 
