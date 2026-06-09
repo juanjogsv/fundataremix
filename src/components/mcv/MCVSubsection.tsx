@@ -3,7 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { supabase } from "@/integrations/supabase/client";
+import { fetchLegacyMCVBySection } from "@/integrations/ecosistema/legacy";
 import { ecosistema } from "@/integrations/ecosistema/client";
 import { toast } from "sonner";
 import { LucideIcon, ChevronDown, ChevronUp } from "lucide-react";
@@ -188,27 +188,10 @@ const MCVSubsection = ({
           return;
         }
 
-        // Fetch data for all entities in this section using pagination
-        const pageSize = 1000;
-        const maxPages = 100;
-        const all: MCVIndicator[] = [];
-
-        for (let page = 0; page < maxPages; page++) {
-          const from = page * pageSize;
-          const to = from + pageSize - 1;
-
-          const { data: pageData, error } = await supabase
-            .from("mcv_indicators")
-            .select("*")
-            .eq("seccion", sectionName)
-            .order("year", { ascending: true })
-            .order("id", { ascending: true })
-            .range(from, to);
-
-          if (error) throw error;
-          all.push(...(pageData || []));
-          if (!pageData || pageData.length < pageSize) break;
-        }
+        // Fetch all rows for this section from ecosistema (no entity filter
+        // so the page can show comparisons across cities)
+        const all = (await fetchLegacyMCVBySection(sectionName)) as unknown as MCVIndicator[];
+        all.sort((a, b) => a.year - b.year);
 
         setData(all);
       } catch (error) {
@@ -237,14 +220,8 @@ const MCVSubsection = ({
           return;
         }
 
-        const { data: indicators, error } = await supabase
-          .from("mcv_indicators")
-          .select("*")
-          .eq("seccion", sectionName)
-          .eq("entidad", compareCity)
-          .order("year", { ascending: true });
-
-        if (error) throw error;
+        const indicators = (await fetchLegacyMCVBySection(sectionName, compareCity))
+          .sort((a, b) => a.year - b.year) as unknown as MCVIndicator[];
         setCompareData(indicators || []);
       } catch (error) {
         console.error("Error fetching comparison data:", error);
