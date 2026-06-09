@@ -77,27 +77,9 @@ const EducationSaberOnce = () => {
     },
   });
 
-  // For legacy code below (Card 2 ranking uses indicators list from education_indicators)
-  const { data: indicators } = useQuery({
-    queryKey: ["education-saber-once-legacy"],
-    queryFn: async () => {
-      const { data, error } = await ecosistema
-        .from("education_indicators")
-        .select("*")
-        .eq("seccion", "Resultados pruebas Saber 11")
-        .eq("departamento", "Manizales")
-        .order("year", { ascending: true });
-      if (error) throw error;
-      return data;
-    },
-  });
+  // (Legacy education_indicators query removed — UI uses SABER_OPTIONS hardcoded list)
+  const indicators: any[] | null = null;
 
-  useEffect(() => {
-    if (indicators && indicators.length > 0) {
-      const indicatorsList = Array.from(new Set(indicators.map(i => i.indicador).filter(Boolean))) as string[];
-      setAvailableIndicators(indicatorsList.sort());
-    }
-  }, [indicators]);
 
   const availableCategoriesCard1 = useMemo(() => {
     const cats = Array.from(new Set((damaSaberData || []).map(d => d.categoria).filter(Boolean))) as string[];
