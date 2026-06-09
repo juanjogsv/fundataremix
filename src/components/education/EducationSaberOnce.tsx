@@ -316,7 +316,7 @@ const EducationSaberOnce = () => {
 
   const rankingChartData = useMemo(() => {
     if (!rankingData || !damaEntities) return [];
-    const entityMap = new Map(damaEntities.map(e => [e.cod_entidad, formatCityName(e.entidad || "")]));
+    const entityMap = new Map(damaEntities.map(e => [String(e.cod_entidad), formatCityName(e.entidad || "")]));
     const targetCat2 = normalize(getEffectiveCat2(selectedRankingSexo, selectedRankingNaturaleza, selectedRankingZona));
 
     if (isBrechaRanking) {
