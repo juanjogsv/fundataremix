@@ -1,5 +1,6 @@
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import SeoHead from "@/components/SeoHead";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
 import { 
@@ -127,6 +128,11 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-white via-gray-50/30 to-white">
+      <SeoHead
+        title="Fundata — Plataforma de Gestión Estratégica | Fundación Luker"
+        description="Plataforma de gestión estratégica de Fundación Luker: indicadores, programas educativos, emprendimiento, desarrollo rural y contexto socioeconómico."
+        path="/"
+      />
       {/* Header */}
       <header className="border-b border-gray-200/80 bg-white/95 backdrop-blur-sm sticky top-0 z-50">
         <div className="container mx-auto px-6 py-4">
@@ -165,6 +171,7 @@ const Index = () => {
         </div>
       </header>
 
+      <main>
       {/* Hero Section - Storytelling */}
       <section className="relative overflow-hidden">
         {/* Background decorative elements */}
@@ -211,9 +218,9 @@ const Index = () => {
                   </div>
                   
                   <div className="text-center space-y-1">
-                    <h3 className="font-semibold text-sm md:text-base text-luker-brown leading-tight font-heading">
+                    <h2 className="font-semibold text-sm md:text-base text-luker-brown leading-tight font-heading">
                       {section.title}
-                    </h3>
+                    </h2>
                     <p className="text-xs text-gray-600 hidden md:block">
                       {section.description}
                     </p>
@@ -256,6 +263,7 @@ const Index = () => {
           </div>
         </Card>
       </section>
+      </main>
 
       {/* Footer */}
       <footer className="border-t border-gray-200/80 bg-white/95 py-8">

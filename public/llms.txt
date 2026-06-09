@@ -1,0 +1,24 @@
+# Fundata — Fundación Luker
+
+> Plataforma de gestión estratégica de Fundación Luker. Reúne indicadores, programas, calendario, documentos y contexto socioeconómico que orientan la inversión social de la fundación en Manizales y Caldas (Colombia).
+
+Fundata centraliza la información estratégica de los programas sociales de Fundación Luker: educación (Aprendamos Todos a Leer, UTC, pruebas Saber y socioemocionales), emprendimiento, desarrollo rural (El Efecto Cacao), proyectos especiales, inversión financiera y contexto socioeconómico de la ciudad.
+
+## Pages
+
+- [Inicio](/): Acceso a los 10 módulos de la plataforma.
+- [Indicadores estratégicos](/indicadores): KPIs y avances de los programas de Fundación Luker.
+- [Calendario](/calendario): Eventos, sesiones de junta y actividades programadas.
+- [Documentos](/documentos): Repositorio documental y biblioteca de publicaciones.
+- [Financiero](/financiero): Inversión social y gastos operativos.
+- [Educación](/educacion): Programas educativos, beneficiarios, ATAL, UTC y pruebas Saber 11.
+- [Emprendimiento](/emprendimiento): Ecosistema y empresas de alto potencial.
+- [Desarrollo rural](/desarrollo-rural): El Efecto Cacao y proyectos en territorios rurales.
+- [Proyectos especiales](/especiales): Iniciativas estratégicas adicionales.
+- [Mapa](/mapa): Georreferenciación de intervenciones.
+- [Contexto socioeconómico](/socioeconomico): Indicadores de calidad de vida y comparativos de ciudad.
+
+## Optional
+
+- [Acerca de](/about): Información sobre la plataforma.
+- [Ayuda](/help): Guía de uso de Fundata.
