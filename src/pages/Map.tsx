@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState, useMemo } from 'react';
+import SeoHead from "@/components/SeoHead";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, MapPin, Loader2, Filter } from "lucide-react";
 import { useNavigate } from "react-router-dom";
@@ -402,6 +403,11 @@ const Map = () => {
 
   return (
     <div className="min-h-screen bg-background p-6">
+      <SeoHead
+        title="Mapa — Fundata | Fundación Luker"
+        description="Georreferenciación de las intervenciones y proyectos de Fundación Luker en el territorio."
+        path="/mapa"
+      />
       <div className="max-w-7xl mx-auto space-y-6">
         <div className="flex items-center gap-4">
           <Button 

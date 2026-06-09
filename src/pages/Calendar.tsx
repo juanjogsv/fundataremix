@@ -1,4 +1,5 @@
 import { useState, useEffect, useMemo } from "react";
+import SeoHead from "@/components/SeoHead";
 import { format, startOfDay } from "date-fns";
 import { Calendar as CalendarComponent } from "@/components/ui/calendar";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -353,6 +354,11 @@ const Calendar = () => {
 
   return (
     <div className="min-h-screen bg-background p-6">
+      <SeoHead
+        title="Calendario — Fundata | Fundación Luker"
+        description="Eventos, juntas y actividades programadas de Fundación Luker con documentos asociados."
+        path="/calendario"
+      />
       <div className="max-w-7xl mx-auto space-y-6">
         <div className="flex items-center gap-4">
           <Button

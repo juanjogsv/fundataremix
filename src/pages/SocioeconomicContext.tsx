@@ -1,4 +1,5 @@
 import { useState, useEffect, useMemo } from "react";
+import SeoHead from "@/components/SeoHead";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { 
   Users, 
@@ -107,6 +108,11 @@ const SocioeconomicContext = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-white via-gray-50/30 to-white">
+      <SeoHead
+        title="Contexto Socioeconómico — Fundata | Fundación Luker"
+        description="Indicadores de calidad de vida y contexto socioeconómico de Manizales y ciudades comparables."
+        path="/socioeconomico"
+      />
       {/* Header */}
       <PageHeader
         title="Contexto Socioeconómico"

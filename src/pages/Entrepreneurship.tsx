@@ -1,4 +1,5 @@
 import { useState } from "react";
+import SeoHead from "@/components/SeoHead";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { BarChart3, TrendingUp } from "lucide-react";
 import { PageHeader } from "@/components/PageHeader";
@@ -19,6 +20,11 @@ const Entrepreneurship = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-white via-gray-50/30 to-white">
+      <SeoHead
+        title="Emprendimiento — Fundata | Fundación Luker"
+        description="Ecosistema de emprendimiento y empresas de alto potencial impulsadas por Fundación Luker."
+        path="/emprendimiento"
+      />
       {/* Header */}
       <PageHeader
         title="Emprendimiento"

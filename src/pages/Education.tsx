@@ -1,4 +1,5 @@
 import { useState } from "react";
+import SeoHead from "@/components/SeoHead";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { GraduationCap, Users, BookOpen, Brain, Award, TrendingUp, Briefcase } from "lucide-react";
@@ -68,6 +69,11 @@ const Education = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-white via-gray-50/30 to-white">
+      <SeoHead
+        title="Educación — Fundata | Fundación Luker"
+        description="Programas educativos de Fundación Luker: beneficiarios, ATAL, UTC, pruebas Saber 11 y desarrollo socioemocional."
+        path="/educacion"
+      />
       {/* Header */}
       <PageHeader
         title="Educación"
