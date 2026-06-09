@@ -73,7 +73,7 @@ const EducationSaberOnce = () => {
         .eq("cod_entidad", "17001")
         .order("anio", { ascending: true });
       if (error) throw error;
-      return data;
+      return (data ?? []) as any[];
     },
   });
 
@@ -150,7 +150,7 @@ const EducationSaberOnce = () => {
         .eq("cod_entidad", selectedCompCity)
         .order("anio", { ascending: true });
       if (error) throw error;
-      return data;
+      return (data ?? []) as any[];
     },
   });
 
@@ -162,7 +162,7 @@ const EducationSaberOnce = () => {
         .from("catalogo_entidades")
         .select("cod_entidad, entidad");
       if (error) throw error;
-      return data;
+      return (data ?? []) as any[];
     },
   });
 
@@ -256,7 +256,7 @@ const EducationSaberOnce = () => {
         .from("catalogo_entidades")
         .select("cod_entidad, entidad");
       if (error) throw error;
-      return data;
+      return (data ?? []) as any[];
     },
   });
 
@@ -283,7 +283,7 @@ const EducationSaberOnce = () => {
         if (data.length < pageSize) break;
         from += pageSize;
       }
-      return all;
+      return all as any[];
     },
   });
 
@@ -400,7 +400,7 @@ const EducationSaberOnce = () => {
         if (data.length < pageSize) break;
         from += pageSize;
       }
-      return all;
+      return all as any[];
     },
   });
 
