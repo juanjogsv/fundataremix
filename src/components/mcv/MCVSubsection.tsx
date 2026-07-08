@@ -3,13 +3,40 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { supabase } from "@/integrations/supabase/client";
+import { ecosistema } from "@/integrations/ecosistema/client";
+import { CATALOG, CATALOG_BY_CODE } from "@/integrations/ecosistema/catalog";
 import { toast } from "sonner";
 import { LucideIcon, ChevronDown, ChevronUp } from "lucide-react";
 import { AreaChart, Area, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend, Cell } from "recharts";
 import MCVKPICard from "./MCVKPICard";
 import MCVIndicatorsTable from "./MCVIndicatorsTable";
 import { ChartDownloadButton } from "@/components/ui/chart-download-button";
+
+// Map UI subsection names → catalog dimension + list of DAMA sections that belong to it.
+// (SocioeconomicContext page uses UI labels that don't 1:1 match dama_catalog.seccion values.)
+const SECTION_MAP: Record<string, { dimension: string; sections: string[] }> = {
+  "Demografía": { dimension: "Contexto socioeconómico", sections: ["Población"] },
+  "Pobreza": { dimension: "Contexto socioeconómico", sections: ["Condiciones de vida"] }, // filtered to CV_01..CV_03 below
+  "Salud": { dimension: "Contexto socioeconómico", sections: ["Condiciones de vida"] },   // filtered to CV_04..CV_05 below
+  "Educación": { dimension: "Educación", sections: ["Cobertura educativa"] },
+  "Mercado laboral comparativo": { dimension: "Contexto socioeconómico", sections: ["Mercado laboral", "Mercado laboral juvenil"] },
+  "Competitividad": { dimension: "Contexto socioeconómico", sections: ["Economía"] },
+};
+
+// Explicit overrides for sections that split by prefix rather than by catalog.seccion.
+const SECTION_CODE_OVERRIDES: Record<string, string[]> = {
+  "Pobreza": ["CV_01", "CV_02", "CV_03"],
+  "Salud": ["CV_04", "CV_05"],
+};
+
+const getSectionCodes = (sectionName: string): string[] => {
+  if (SECTION_CODE_OVERRIDES[sectionName]) return SECTION_CODE_OVERRIDES[sectionName];
+  const cfg = SECTION_MAP[sectionName];
+  if (!cfg) return [];
+  return CATALOG
+    .filter((c) => c.dimension === cfg.dimension && cfg.sections.includes(c.seccion))
+    .map((c) => c.cod_indicador);
+};
 
 // List of all 23 cities
 const ALL_CITIES = [
