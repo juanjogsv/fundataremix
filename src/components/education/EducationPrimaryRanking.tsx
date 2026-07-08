@@ -3,7 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell } from "recharts";
 import { TrendingUp } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
-import { supabase } from "@/integrations/supabase/client";
+import { ecosistema as supabase } from "@/integrations/ecosistema/client";
 import { normalizeCityName } from "@/lib/city-name-normalizer";
 import {
   Select,
@@ -30,16 +30,16 @@ const EducationPrimaryRanking = () => {
   useEffect(() => {
     const loadYears = async () => {
       try {
-        const { data: yearsData, error: yearsError } = await supabase
-          .from('education_indicators')
-          .select('year')
-          .ilike('indicador', '%cobertura neta%primaria%')
+                const { data: yearsData, error: yearsError } = await supabase
+          .from('datos_maestros')
+          .select('anio')
+          .eq('cod_indicador', 'COBE_02')
           .eq('categoria', 'Total')
-          .order('year', { ascending: false });
+          .order('anio', { ascending: false });
 
         if (yearsError) throw yearsError;
 
-        const years = [...new Set(yearsData?.map(item => item.year) || [])];
+        const years = [...new Set(((yearsData as any[]) || []).map((item: any) => item.anio as number))];
         setAvailableYears(years);
         
         if (years.length > 0) {
@@ -64,23 +64,34 @@ const EducationPrimaryRanking = () => {
     const loadData = async () => {
       setLoading(true);
       try {
-        const { data: indicators, error } = await supabase
-          .from('education_indicators')
-          .select('*')
-          .ilike('indicador', '%cobertura neta%primaria%')
-          .eq('year', selectedYear)
+                const { data: rowsRaw, error } = await supabase
+          .from('datos_maestros')
+          .select('cod_entidad, valor')
+          .eq('cod_indicador', 'COBE_02')
+          .eq('anio', selectedYear)
           .eq('categoria', 'Total')
-          .not('departamento', 'is', null)
+          .not('valor', 'is', null)
           .order('valor', { ascending: false });
 
         if (error) throw error;
 
-        const rankingData: RankingData[] = indicators
-          ?.filter((row: any) => row.valor !== null)
+        const rows = (rowsRaw as any[]) || [];
+        const codes = Array.from(new Set(rows.map((r: any) => r.cod_entidad)));
+        let entMap: Record<string, string> = {};
+        if (codes.length) {
+          const { data: ents } = await supabase
+            .from('catalogo_entidades')
+            .select('cod_entidad, entidad')
+            .in('cod_entidad', codes as any);
+          entMap = Object.fromEntries(((ents as any[]) || []).map((e: any) => [String(e.cod_entidad), e.entidad]));
+        }
+
+        const rankingData: RankingData[] = rows
+          .filter((row: any) => row.valor !== null)
           .map((row: any) => ({
-            entidad: normalizeCityName(row.departamento || row.municipio || 'Sin nombre'),
-            valor: row.valor,
-          })) || [];
+            entidad: normalizeCityName(entMap[String(row.cod_entidad)] || String(row.cod_entidad)),
+            valor: Number(row.valor),
+          }));
 
         setData(rankingData);
         setLoading(false);
