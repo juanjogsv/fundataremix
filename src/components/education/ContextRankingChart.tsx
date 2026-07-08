@@ -65,8 +65,8 @@ const ContextRankingChart = ({ code, title, accentVar, year, ascending = false }
           const { data: ents } = await supabase
             .from("catalogo_entidades")
             .select("cod_entidad, entidad")
-            .in("cod_entidad", codes);
-          setEntityMap(Object.fromEntries((ents || []).map((e: any) => [e.cod_entidad, e.entidad])));
+            .in("cod_entidad", codes as any);
+          setEntityMap(Object.fromEntries((ents || []).map((e: any) => [String(e.cod_entidad), e.entidad])));
         }
       } catch (e) {
         console.error(e);
