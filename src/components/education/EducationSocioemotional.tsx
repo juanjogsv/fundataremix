@@ -1,5 +1,5 @@
 import { useState, useMemo, useEffect, useRef } from "react";
-import { supabase } from "@/integrations/supabase/client";
+import { ecosistema as supabase } from "@/integrations/ecosistema/client";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Brain, AlertCircle } from "lucide-react";
@@ -7,6 +7,13 @@ import { Alert, AlertDescription } from "@/components/ui/alert";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { ChartDownloadButton } from "@/components/ui/chart-download-button";
+
+// Mapping from CSOC cod_indicador to display "indicador" text used by downstream memo filters
+const CSOC_INDICATOR_MAP: Record<string, string> = {
+  CSOC_01: "Porcentaje de estudiantes prosperando - trabajo en equipo",
+  CSOC_02: "Porcentaje de estudiantes en riesgo - trabajo en equipo",
+  CSOC_03: "Porcentaje de estudiantes en proceso - trabajo en equipo",
+};
 
 const EducationSocioemotional = () => {
   const [isLoading, setIsLoading] = useState(true);
