@@ -85,7 +85,7 @@ const ContextRankingChart = ({ code, title, accentVar, year, ascending = false }
     setResolvedYear(targetYear);
     const yearRows = allRows.filter((r: any) => r.anio === targetYear);
     const mapped: Row[] = yearRows.map((r: any) => ({
-      entidad: entityMap[r.cod_entidad] || r.cod_entidad,
+      entidad: entityMap[String(r.cod_entidad)] || String(r.cod_entidad),
       valor: Number(r.valor),
     }));
     mapped.sort((a, b) => (ascending ? a.valor - b.valor : b.valor - a.valor));
