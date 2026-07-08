@@ -3,7 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Database, TrendingUp, GraduationCap, School, BookOpen, Users, LogOut } from "lucide-react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
-import { supabase } from "@/integrations/supabase/client";
+import { ecosistema as supabase } from "@/integrations/ecosistema/client";
 import ContextRankingChart from "./ContextRankingChart";
 
 // Mapping based on dama_catalog (source of truth)
@@ -38,7 +38,7 @@ const EducationContext = () => {
       try {
         const codes = KPI_CONFIG.map((k) => k.code);
         const { data, error } = await supabase
-          .from("dama_data")
+          .from("datos_maestros")
           .select("cod_indicador, anio, valor, categoria, cod_entidad")
           .in("cod_indicador", codes)
           .eq("cod_entidad", MANIZALES_COD);
