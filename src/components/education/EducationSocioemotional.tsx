@@ -78,63 +78,36 @@ const EducationSocioemotional = () => {
         setInstitutionsFort(['Total', ...Array.from(instSet).sort()]);
 
 
-        // Fetch distribution data for third card
-        const { data: distributionResult, error: distributionError } = await supabase
-          .from("education_indicators")
-          .select("*")
-          .eq("seccion", "Competencias socioemocionales")
-          .eq("categoria_2", "Media")
-          .in("indicador", [
-            "Porcentaje de estudiantes en riesgo - trabajo en equipo",
-            "Porcentaje de estudiantes en proceso - trabajo en equipo",
-            "Porcentaje de estudiantes prosperando - trabajo en equipo"
-          ])
-          .order("year", { ascending: true })
-          .order("indicador", { ascending: true });
+        // Fetch all CSOC data (01=Prosperando, 02=Riesgo, 03=En proceso) for Manizales
+        // and adapt shape to match legacy education_indicators consumers (indicador text + year).
+        const { data: csocAllRaw, error: csocAllError } = await supabase
+          .from("datos_maestros")
+          .select("anio, categoria, categoria_2, valor, cod_indicador")
+          .in("cod_indicador", ["CSOC_01", "CSOC_02", "CSOC_03"])
+          .eq("cod_entidad", 17001)
+          .limit(20000);
 
-        if (distributionError) throw distributionError;
-        
-        setDistributionData(distributionResult || []);
+        if (csocAllError) throw csocAllError;
 
-        // Fetch distribution data for fourth card (Quinto)
-        const { data: distributionResultQuinto, error: distributionErrorQuinto } = await supabase
-          .from("education_indicators")
-          .select("*")
-          .eq("seccion", "Competencias socioemocionales")
-          .eq("categoria_2", "Quinto")
-          .in("indicador", [
-            "Porcentaje de estudiantes en riesgo - trabajo en equipo",
-            "Porcentaje de estudiantes en proceso - trabajo en equipo",
-            "Porcentaje de estudiantes prosperando - trabajo en equipo"
-          ])
-          .order("year", { ascending: true })
-          .order("indicador", { ascending: true });
+        const csocAll = ((csocAllRaw as any[]) || []).map((r: any) => ({
+          ...r,
+          year: r.anio,
+          indicador: CSOC_INDICATOR_MAP[r.cod_indicador] || r.cod_indicador,
+        }));
 
-        if (distributionErrorQuinto) throw distributionErrorQuinto;
-        
-        setDistributionDataQuinto(distributionResultQuinto || []);
+        // Card 3: distribution Media
+        setDistributionData(csocAll.filter((r: any) => r.categoria_2 === "Media"));
 
-        // Fetch data for fifth card (column chart)
-        const { data: columnResult, error: columnError } = await supabase
-          .from("education_indicators")
-          .select("*")
-          .eq("seccion", "Competencias socioemocionales")
-          .in("indicador", [
-            "Porcentaje de estudiantes en riesgo - trabajo en equipo",
-            "Porcentaje de estudiantes en proceso - trabajo en equipo",
-            "Porcentaje de estudiantes prosperando - trabajo en equipo"
-          ])
-          .order("year", { ascending: true })
-          .order("indicador", { ascending: true });
+        // Card 4: distribution Quinto
+        setDistributionDataQuinto(csocAll.filter((r: any) => r.categoria_2 === "Quinto"));
 
-        if (columnError) throw columnError;
-        
-        setColumnData(columnResult || []);
+        // Card 5: column chart (all grades)
+        setColumnData(csocAll);
 
         // Extract unique years and categories for filters
         const uniqueYears = new Set<string>();
         const uniqueCategories = new Set<string>();
-        (columnResult || []).forEach((item) => {
+        csocAll.forEach((item: any) => {
           if (item.year) {
             uniqueYears.add(item.year.toString());
           }
