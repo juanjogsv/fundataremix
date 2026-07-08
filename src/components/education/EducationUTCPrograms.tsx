@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { supabase } from "@/integrations/supabase/client";
+import { ecosistema as supabase } from "@/integrations/ecosistema/client";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { BookOpen, AlertCircle } from "lucide-react";
@@ -23,18 +23,18 @@ const EducationUTCPrograms = () => {
         setIsLoading(true);
         
         const { data: result, error: fetchError } = await supabase
-          .from("education_indicators")
-          .select("categoria, valor, year")
-          .eq("indicador", "Matrícula técnica UTC por programa");
+          .from("datos_maestros")
+          .select("categoria, valor, anio")
+          .eq("cod_indicador", "UTC_03");
 
         if (fetchError) throw fetchError;
         
         // Group by programa (categoria) and calculate totals
         const programMap = new Map<string, { total2024: number; totalHistorico: number }>();
         
-        (result || []).forEach((item) => {
+        ((result as any[]) || []).forEach((item: any) => {
           // Filter for years 2018-2025
-          const year = Number(item.year);
+          const year = Number(item.anio);
           if (year < 2018 || year > 2025) return;
           
           const programa = item.categoria || "Sin categoría";
