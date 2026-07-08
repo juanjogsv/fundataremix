@@ -1,12 +1,14 @@
 import { useMemo, useRef } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { supabase } from "@/integrations/supabase/client";
+import { ecosistema as supabase } from "@/integrations/ecosistema/client";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Briefcase, AlertCircle } from "lucide-react";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { BarChart, Bar, LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import { ChartDownloadButton } from "@/components/ui/chart-download-button";
+
+const MANIZALES_COD = 17001;
 
 const EducationLaborMarket = () => {
   // Refs para las gráficas
@@ -19,14 +21,14 @@ const EducationLaborMarket = () => {
     queryKey: ["education-labor-market-occupation"],
     queryFn: async () => {
       const { data, error } = await supabase
-        .from("mcv_indicators")
-        .select("*")
+        .from("datos_maestros")
+        .select("anio, categoria, valor")
         .eq("cod_indicador", "MLJ_02")
-        .eq("entidad", "Manizales")
-        .order("year", { ascending: false });
+        .eq("cod_entidad", MANIZALES_COD)
+        .order("anio", { ascending: false });
 
       if (error) throw error;
-      return (data || []).map((d: any) => ({ ...d, valor: d.dato, departamento: d.entidad }));
+      return ((data as any[]) || []).map((d: any) => ({ ...d, year: d.anio }));
     },
   });
 
@@ -35,15 +37,15 @@ const EducationLaborMarket = () => {
     queryKey: ["education-labor-market-occupational"],
     queryFn: async () => {
       const { data, error } = await supabase
-        .from("mcv_indicators")
-        .select("*")
+        .from("datos_maestros")
+        .select("anio, categoria, valor")
         .eq("cod_indicador", "MLJ_02")
-        .eq("entidad", "Manizales")
+        .eq("cod_entidad", MANIZALES_COD)
         .in("categoria", ["Estudiando y trabajando", "Solo trabajando", "Solo estudiando", "Buscando trabajo", "NOES"])
-        .order("year", { ascending: true });
+        .order("anio", { ascending: true });
 
       if (error) throw error;
-      return (data || []).map((d: any) => ({ ...d, valor: d.dato }));
+      return ((data as any[]) || []).map((d: any) => ({ ...d, year: d.anio }));
     },
   });
 
@@ -52,15 +54,15 @@ const EducationLaborMarket = () => {
     queryKey: ["education-labor-market-total"],
     queryFn: async () => {
       const { data, error } = await supabase
-        .from("mcv_indicators")
-        .select("*")
+        .from("datos_maestros")
+        .select("anio, categoria, valor")
         .eq("cod_indicador", "MLJ_02")
-        .eq("entidad", "Manizales")
+        .eq("cod_entidad", MANIZALES_COD)
         .in("categoria", ["Estudiando y trabajando", "Solo trabajando", "Solo estudiando"])
-        .order("year", { ascending: false });
+        .order("anio", { ascending: false });
 
       if (error) throw error;
-      const rows = (data || []).map((d: any) => ({ ...d, valor: d.dato }));
+      const rows = ((data as any[]) || []).map((d: any) => ({ ...d, year: d.anio }));
       if (rows.length === 0) return rows;
       const latestYear = Math.max(...rows.map((r: any) => r.year));
       return rows.filter((r: any) => r.year === latestYear);
@@ -72,15 +74,15 @@ const EducationLaborMarket = () => {
     queryKey: ["education-labor-market-historical"],
     queryFn: async () => {
       const { data, error } = await supabase
-        .from("mcv_indicators")
-        .select("*")
+        .from("datos_maestros")
+        .select("anio, categoria, valor")
         .eq("cod_indicador", "MLJ_02")
-        .eq("entidad", "Manizales")
+        .eq("cod_entidad", MANIZALES_COD)
         .in("categoria", ["Estudiando y trabajando", "Solo trabajando", "Solo estudiando"])
-        .order("year", { ascending: true });
+        .order("anio", { ascending: true });
 
       if (error) throw error;
-      return (data || []).map((d: any) => ({ ...d, valor: d.dato }));
+      return ((data as any[]) || []).map((d: any) => ({ ...d, year: d.anio }));
     },
   });
 
