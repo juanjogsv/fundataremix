@@ -93,7 +93,7 @@ const ContextRankingChart = ({ code, title, accentVar, year, ascending = false }
   }, [allRows, entityMap, year, ascending]);
 
   const histData = useMemo<HistRow[]>(() => {
-    const rows = allRows.filter((r: any) => r.cod_entidad === MANIZALES_COD);
+    const rows = allRows.filter((r: any) => String(r.cod_entidad) === MANIZALES_COD);
     const byYear = new Map<number, number[]>();
     rows.forEach((r: any) => {
       const arr = byYear.get(r.anio) || [];
