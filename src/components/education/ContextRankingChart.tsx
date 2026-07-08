@@ -13,7 +13,7 @@ import {
   Line,
 } from "recharts";
 import { TrendingUp } from "lucide-react";
-import { supabase } from "@/integrations/supabase/client";
+import { ecosistema as supabase } from "@/integrations/ecosistema/client";
 import { ChartDownloadButton } from "@/components/ui/chart-download-button";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 
@@ -50,7 +50,7 @@ const ContextRankingChart = ({ code, title, accentVar, year, ascending = false }
       setLoading(true);
       try {
         const { data: rows, error } = await supabase
-          .from("dama_data")
+          .from("datos_maestros")
           .select("cod_entidad, anio, valor, categoria")
           .eq("cod_indicador", code);
         if (error) throw error;
@@ -63,10 +63,10 @@ const ContextRankingChart = ({ code, title, accentVar, year, ascending = false }
         const codes = Array.from(new Set(totals.map((r: any) => r.cod_entidad)));
         if (codes.length) {
           const { data: ents } = await supabase
-            .from("dama_entities")
+            .from("catalogo_entidades")
             .select("cod_entidad, entidad")
-            .in("cod_entidad", codes);
-          setEntityMap(Object.fromEntries((ents || []).map((e: any) => [e.cod_entidad, e.entidad])));
+            .in("cod_entidad", codes as any);
+          setEntityMap(Object.fromEntries((ents || []).map((e: any) => [String(e.cod_entidad), e.entidad])));
         }
       } catch (e) {
         console.error(e);
@@ -85,7 +85,7 @@ const ContextRankingChart = ({ code, title, accentVar, year, ascending = false }
     setResolvedYear(targetYear);
     const yearRows = allRows.filter((r: any) => r.anio === targetYear);
     const mapped: Row[] = yearRows.map((r: any) => ({
-      entidad: entityMap[r.cod_entidad] || r.cod_entidad,
+      entidad: entityMap[String(r.cod_entidad)] || String(r.cod_entidad),
       valor: Number(r.valor),
     }));
     mapped.sort((a, b) => (ascending ? a.valor - b.valor : b.valor - a.valor));
@@ -93,7 +93,7 @@ const ContextRankingChart = ({ code, title, accentVar, year, ascending = false }
   }, [allRows, entityMap, year, ascending]);
 
   const histData = useMemo<HistRow[]>(() => {
-    const rows = allRows.filter((r: any) => r.cod_entidad === MANIZALES_COD);
+    const rows = allRows.filter((r: any) => String(r.cod_entidad) === MANIZALES_COD);
     const byYear = new Map<number, number[]>();
     rows.forEach((r: any) => {
       const arr = byYear.get(r.anio) || [];

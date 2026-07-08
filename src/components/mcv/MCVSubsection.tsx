@@ -3,13 +3,40 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { supabase } from "@/integrations/supabase/client";
+import { ecosistema } from "@/integrations/ecosistema/client";
+import { CATALOG, CATALOG_BY_CODE } from "@/integrations/ecosistema/catalog";
 import { toast } from "sonner";
 import { LucideIcon, ChevronDown, ChevronUp } from "lucide-react";
 import { AreaChart, Area, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend, Cell } from "recharts";
 import MCVKPICard from "./MCVKPICard";
 import MCVIndicatorsTable from "./MCVIndicatorsTable";
 import { ChartDownloadButton } from "@/components/ui/chart-download-button";
+
+// Map UI subsection names → catalog dimension + list of DAMA sections that belong to it.
+// (SocioeconomicContext page uses UI labels that don't 1:1 match dama_catalog.seccion values.)
+const SECTION_MAP: Record<string, { dimension: string; sections: string[] }> = {
+  "Demografía": { dimension: "Contexto socioeconómico", sections: ["Población"] },
+  "Pobreza": { dimension: "Contexto socioeconómico", sections: ["Condiciones de vida"] }, // filtered to CV_01..CV_03 below
+  "Salud": { dimension: "Contexto socioeconómico", sections: ["Condiciones de vida"] },   // filtered to CV_04..CV_05 below
+  "Educación": { dimension: "Educación", sections: ["Cobertura educativa"] },
+  "Mercado laboral comparativo": { dimension: "Contexto socioeconómico", sections: ["Mercado laboral", "Mercado laboral juvenil"] },
+  "Competitividad": { dimension: "Contexto socioeconómico", sections: ["Economía"] },
+};
+
+// Explicit overrides for sections that split by prefix rather than by catalog.seccion.
+const SECTION_CODE_OVERRIDES: Record<string, string[]> = {
+  "Pobreza": ["CV_01", "CV_02", "CV_03"],
+  "Salud": ["CV_04", "CV_05"],
+};
+
+const getSectionCodes = (sectionName: string): string[] => {
+  if (SECTION_CODE_OVERRIDES[sectionName]) return SECTION_CODE_OVERRIDES[sectionName];
+  const cfg = SECTION_MAP[sectionName];
+  if (!cfg) return [];
+  return CATALOG
+    .filter((c) => c.dimension === cfg.dimension && cfg.sections.includes(c.seccion))
+    .map((c) => c.cod_indicador);
+};
 
 // List of all 23 cities
 const ALL_CITIES = [
@@ -95,59 +122,54 @@ const MCVSubsection = ({
       }
     }
   }, [data, mainIndicator, selectedIndicator]);
-  // Education section: pull from dama_data instead of mcv_indicators
-  const isEducation = sectionName === "Educación";
-  const EDU_CODES = ["COBE_01", "COBE_02", "COBE_03", "COBE_04", "COBE_05", "COBE_06"];
-
-  // Normalize entity names from dama_entities to match ALL_CITIES used in UI
+  // Normalize entity names from catalogo_entidades to match ALL_CITIES used in UI
   const normalizeEntityName = (name: string): string => {
     if (!name) return name;
     if (name === "Bogotá") return "Bogotá, D.C.";
+    if (name === "Cúcuta") return "San José de Cúcuta";
+    if (name === "Cartagena") return "Cartagena de Indias";
     return name;
   };
   const denormalizeEntityName = (name: string): string => {
     if (name === "Bogotá, D.C.") return "Bogotá";
+    if (name === "San José de Cúcuta") return "Cúcuta";
+    if (name === "Cartagena de Indias") return "Cartagena";
     return name;
   };
 
-  const fetchDamaEducation = async (entityFilter?: string): Promise<MCVIndicator[]> => {
-    // Catalog (codes -> indicador metadata)
-    const { data: catalog, error: catErr } = await supabase
-      .from("dama_catalog")
-      .select("cod_indicador, indicador, unidad_medida, fuente")
-      .in("cod_indicador", EDU_CODES);
-    if (catErr) throw catErr;
-    const catalogMap = new Map(
-      (catalog || []).map((c: any) => [c.cod_indicador, c])
-    );
+  // Fetch all rows for the current section from the Ecosistema.
+  // Resolves indicador/unidad/fuente from the static CATALOG and entidad name
+  // via catalogo_entidades (municipality-level, 5-digit codes only).
+  const fetchSectionRows = async (entityFilter?: string): Promise<MCVIndicator[]> => {
+    const codes = getSectionCodes(sectionName);
+    if (codes.length === 0) return [];
 
-    // Entities (filter to municipalities, length 5 = city codes)
-    const { data: entities, error: entErr } = await supabase
-      .from("dama_entities")
+    // Entities: municipal (5-digit) codes only. Table has ~53 rows total.
+    const { data: entities, error: entErr } = await ecosistema
+      .from("catalogo_entidades")
       .select("cod_entidad, entidad");
     if (entErr) throw entErr;
-    const entityMap = new Map(
-      (entities || []).map((e: any) => [e.cod_entidad, e.entidad])
+    const entityMap = new Map<string, string>(
+      ((entities as any[]) || []).map((e: any) => [String(e.cod_entidad), e.entidad as string])
     );
 
-    // Data with pagination
-    const pageSize = 1000;
-    const maxPages = 100;
-    const allRows: any[] = [];
-
-    let query = supabase
-      .from("dama_data")
-      .select("id, cod_indicador, cod_entidad, anio, valor")
-      .in("cod_indicador", EDU_CODES)
+    // Build query
+    let query = ecosistema
+      .from("datos_maestros")
+      .select("cod_indicador, cod_entidad, anio, valor, categoria, categoria_2")
+      .in("cod_indicador", codes)
       .order("anio", { ascending: true });
 
     if (entityFilter) {
-      const code = [...entityMap.entries()].find(
-        ([, name]) => name === denormalizeEntityName(entityFilter)
-      )?.[0];
-      if (code) query = query.eq("cod_entidad", code);
+      const target = denormalizeEntityName(entityFilter);
+      const codeEntry = [...entityMap.entries()].find(([, name]) => name === target);
+      if (codeEntry) query = query.eq("cod_entidad", Number(codeEntry[0]));
     }
 
+    // Pagination
+    const pageSize = 1000;
+    const maxPages = 100;
+    const allRows: any[] = [];
     for (let page = 0; page < maxPages; page++) {
       const from = page * pageSize;
       const to = from + pageSize - 1;
@@ -157,22 +179,31 @@ const MCVSubsection = ({
       if (!pageData || pageData.length < pageSize) break;
     }
 
-    // Map to MCVIndicator shape; only city-level (5-digit) entities
     return allRows
-      .filter((r) => r.cod_entidad && r.cod_entidad.length === 5 && entityMap.has(r.cod_entidad))
-      .map((r) => {
-        const cat = catalogMap.get(r.cod_indicador) as any;
+      .filter((r) => {
+        const codeStr = String(r.cod_entidad);
+        // Municipality-level only (5-digit DIVIPOLA codes) so charts don't mix depts with cities.
+        return codeStr.length === 5 && entityMap.has(codeStr);
+      })
+      .filter((r) => {
+        // Only "Total" category for aggregate views; treat empty categoria as Total too.
+        const cat = (r.categoria ?? "").toString().trim().toLowerCase();
+        return cat === "" || cat === "total";
+      })
+      .map((r, idx) => {
+        const cat = CATALOG_BY_CODE[r.cod_indicador];
+        const rawName = cat?.indicador ?? r.cod_indicador;
         return {
-          id: r.id,
-          seccion: "Educación",
+          id: `${r.cod_indicador}-${r.cod_entidad}-${r.anio}-${idx}`,
+          seccion: sectionName,
           cod_indicador: r.cod_indicador,
-          indicador: (cat?.indicador ?? r.cod_indicador).replace(/Tasa de cobertura/gi, "Cobertura"),
+          indicador: rawName.replace(/Tasa de cobertura/gi, "Cobertura"),
           categoria: "Total",
-          entidad: normalizeEntityName(entityMap.get(r.cod_entidad) as string),
+          entidad: normalizeEntityName(entityMap.get(String(r.cod_entidad)) as string),
           dato: r.valor !== null && r.valor !== undefined ? Number(r.valor) : null,
-          year: r.anio,
+          year: Number(r.anio),
           fuente: cat?.fuente ?? null,
-          unidad_medida: cat?.unidad_medida ?? "Porcentaje",
+          unidad_medida: cat?.unidad_medida ?? null,
         } as MCVIndicator;
       });
   };
@@ -181,35 +212,8 @@ const MCVSubsection = ({
     const fetchData = async () => {
       setLoading(true);
       try {
-        if (isEducation) {
-          const rows = await fetchDamaEducation();
-          setData(rows);
-          return;
-        }
-
-        // Fetch data for all entities in this section using pagination
-        const pageSize = 1000;
-        const maxPages = 100;
-        const all: MCVIndicator[] = [];
-
-        for (let page = 0; page < maxPages; page++) {
-          const from = page * pageSize;
-          const to = from + pageSize - 1;
-
-          const { data: pageData, error } = await supabase
-            .from("mcv_indicators")
-            .select("*")
-            .eq("seccion", sectionName)
-            .order("year", { ascending: true })
-            .order("id", { ascending: true })
-            .range(from, to);
-
-          if (error) throw error;
-          all.push(...(pageData || []));
-          if (!pageData || pageData.length < pageSize) break;
-        }
-
-        setData(all);
+        const rows = await fetchSectionRows();
+        setData(rows);
       } catch (error) {
         console.error("Error fetching indicators:", error);
         toast.error("Error al cargar los indicadores");
@@ -224,27 +228,14 @@ const MCVSubsection = ({
   // Fetch comparison city data
   useEffect(() => {
     const fetchCompareData = async () => {
-      if (compareCity === "none" || compareCity === selectedEntity) {
+      if (compareCity === "none" || compareCity === "all" || compareCity === selectedEntity) {
         setCompareData([]);
         return;
       }
 
       try {
-        if (isEducation) {
-          const rows = await fetchDamaEducation(compareCity);
-          setCompareData(rows);
-          return;
-        }
-
-        const { data: indicators, error } = await supabase
-          .from("mcv_indicators")
-          .select("*")
-          .eq("seccion", sectionName)
-          .eq("entidad", compareCity)
-          .order("year", { ascending: true });
-
-        if (error) throw error;
-        setCompareData(indicators || []);
+        const rows = await fetchSectionRows(compareCity);
+        setCompareData(rows);
       } catch (error) {
         console.error("Error fetching comparison data:", error);
       }

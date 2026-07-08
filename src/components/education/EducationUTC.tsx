@@ -1,5 +1,5 @@
 import { useState, useMemo, useEffect, useRef } from "react";
-import { supabase } from "@/integrations/supabase/client";
+import { ecosistema as supabase } from "@/integrations/ecosistema/client";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { GraduationCap, AlertCircle } from "lucide-react";
@@ -23,20 +23,21 @@ const EducationUTC = () => {
         setIsLoading(true);
         
         const { data: result, error: fetchError } = await supabase
-          .from("education_indicators")
-          .select("year, categoria, valor")
-          .eq("indicador", "Matrícula técnica UTC por institución educativa")
+          .from("datos_maestros")
+          .select("anio, categoria, valor")
+          .eq("cod_indicador", "UTC_02")
           .eq("categoria_2", "Colegio")
-          .gte("year", 2018)
-          .order("year", { ascending: true });
+          .gte("anio", 2018)
+          .order("anio", { ascending: true });
 
         if (fetchError) throw fetchError;
         
-        setData(result || []);
+        const mapped = (result as any[] || []).map((r: any) => ({ ...r, year: r.anio }));
+        setData(mapped);
 
         // Get unique institutions
         const uniqueInstitutions = new Set<string>();
-        (result || []).forEach((item) => {
+        mapped.forEach((item: any) => {
           if (item.categoria) {
             uniqueInstitutions.add(item.categoria);
           }
