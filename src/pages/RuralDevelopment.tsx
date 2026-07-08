@@ -1,5 +1,4 @@
 import { useState } from "react";
-import SeoHead from "@/components/SeoHead";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Sprout, GraduationCap, Users, Heart, Wallet, Bean, UserCheck } from "lucide-react";
 import { PageHeader } from "@/components/PageHeader";
@@ -68,11 +67,6 @@ const RuralDevelopment = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-white via-gray-50/30 to-white">
-      <SeoHead
-        title="Desarrollo Rural — Fundata | Fundación Luker"
-        description="El Efecto Cacao: productividad, asociatividad y beneficiarios del programa rural de Fundación Luker."
-        path="/desarrollo-rural"
-      />
       {/* Header */}
       <PageHeader
         title="Desarrollo Rural"

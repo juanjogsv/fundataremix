@@ -1,7 +1,6 @@
 import { useState, useMemo } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
-import { ecosistema } from "@/integrations/ecosistema/client";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -55,8 +54,8 @@ const EducationBeneficiaries = () => {
   const { data: damaSchools } = useQuery({
     queryKey: ["dama-schools-gp03"],
     queryFn: async () => {
-      const { data, error } = await ecosistema
-        .from("datos_maestros")
+      const { data, error } = await supabase
+        .from("dama_data")
         .select("anio, cod_entidad, categoria_2, valor")
         .eq("cod_indicador", "GP_03")
         .eq("cod_entidad", "17001")

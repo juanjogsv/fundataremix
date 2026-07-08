@@ -1,5 +1,4 @@
 import { useState } from "react";
-import SeoHead from "@/components/SeoHead";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Star, Users, Wallet } from "lucide-react";
 import { PageHeader } from "@/components/PageHeader";
@@ -28,11 +27,6 @@ const SpecialProjects = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-white via-slate-50/30 to-white">
-      <SeoHead
-        title="Proyectos Especiales — Fundata | Fundación Luker"
-        description="Iniciativas estratégicas adicionales de Fundación Luker con seguimiento de beneficiarios e inversión."
-        path="/especiales"
-      />
       {/* Header */}
       <PageHeader
         title="Proyectos Especiales"

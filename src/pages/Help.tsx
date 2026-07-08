@@ -1,5 +1,4 @@
 import { Button } from "@/components/ui/button";
-import SeoHead from "@/components/SeoHead";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { ArrowLeft, HelpCircle, BookOpen, Video, Mail } from "lucide-react";
@@ -10,11 +9,6 @@ const Help = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-white via-gray-50/30 to-white">
-      <SeoHead
-        title="Ayuda — Fundata | Fundación Luker"
-        description="Guía de uso de Fundata para navegar los módulos y reportes de Fundación Luker."
-        path="/help"
-      />
       <div className="container mx-auto px-6 py-8 max-w-5xl">
         {/* Header */}
         <div className="flex items-center gap-4 mb-8">

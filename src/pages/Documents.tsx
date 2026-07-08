@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import SeoHead from "@/components/SeoHead";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, FolderOpen, FileText, Download, BookOpen } from "lucide-react";
@@ -152,11 +151,6 @@ const Documents = () => {
 
   return (
     <div className="min-h-screen bg-background p-6">
-      <SeoHead
-        title="Documentos — Fundata | Fundación Luker"
-        description="Repositorio documental y biblioteca de publicaciones de Fundación Luker."
-        path="/documentos"
-      />
       <div className="max-w-7xl mx-auto space-y-6">
         <div className="flex items-center gap-4">
           <Button 

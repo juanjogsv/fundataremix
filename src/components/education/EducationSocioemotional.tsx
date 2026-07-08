@@ -1,6 +1,5 @@
 import { useState, useMemo, useEffect, useRef } from "react";
-import { fetchLegacyIndicators } from "@/integrations/ecosistema/legacy";
-import { ecosistema } from "@/integrations/ecosistema/client";
+import { supabase } from "@/integrations/supabase/client";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Brain, AlertCircle } from "lucide-react";
@@ -50,8 +49,8 @@ const EducationSocioemotional = () => {
         setIsLoading(true);
         
         // Fetch CSOC_01 + CSOC_03 (Prosperando + En proceso) - Manizales
-        const { data: fortResult, error: fortError } = await ecosistema
-          .from("datos_maestros")
+        const { data: fortResult, error: fortError } = await supabase
+          .from("dama_data")
           .select("anio, categoria, categoria_2, valor, cod_indicador")
           .in("cod_indicador", ["CSOC_01", "CSOC_03"])
           .eq("cod_entidad", "17001")
@@ -72,37 +71,58 @@ const EducationSocioemotional = () => {
         setInstitutionsFort(['Total', ...Array.from(instSet).sort()]);
 
 
-        // Fetch distribution data for third card (Media)
-        const distributionResult = await fetchLegacyIndicators({
-          codes: ["CSOC_01", "CSOC_02", "CSOC_03"],
-          categoria2: "Media",
-        });
-        setDistributionData(
-          distributionResult.sort((a, b) =>
-            a.year - b.year || (a.indicador || "").localeCompare(b.indicador || "")
-          )
-        );
+        // Fetch distribution data for third card
+        const { data: distributionResult, error: distributionError } = await supabase
+          .from("education_indicators")
+          .select("*")
+          .eq("seccion", "Competencias socioemocionales")
+          .eq("categoria_2", "Media")
+          .in("indicador", [
+            "Porcentaje de estudiantes en riesgo - trabajo en equipo",
+            "Porcentaje de estudiantes en proceso - trabajo en equipo",
+            "Porcentaje de estudiantes prosperando - trabajo en equipo"
+          ])
+          .order("year", { ascending: true })
+          .order("indicador", { ascending: true });
+
+        if (distributionError) throw distributionError;
+        
+        setDistributionData(distributionResult || []);
 
         // Fetch distribution data for fourth card (Quinto)
-        const distributionResultQuinto = await fetchLegacyIndicators({
-          codes: ["CSOC_01", "CSOC_02", "CSOC_03"],
-          categoria2: "Quinto",
-        });
-        setDistributionDataQuinto(
-          distributionResultQuinto.sort((a, b) =>
-            a.year - b.year || (a.indicador || "").localeCompare(b.indicador || "")
-          )
-        );
+        const { data: distributionResultQuinto, error: distributionErrorQuinto } = await supabase
+          .from("education_indicators")
+          .select("*")
+          .eq("seccion", "Competencias socioemocionales")
+          .eq("categoria_2", "Quinto")
+          .in("indicador", [
+            "Porcentaje de estudiantes en riesgo - trabajo en equipo",
+            "Porcentaje de estudiantes en proceso - trabajo en equipo",
+            "Porcentaje de estudiantes prosperando - trabajo en equipo"
+          ])
+          .order("year", { ascending: true })
+          .order("indicador", { ascending: true });
+
+        if (distributionErrorQuinto) throw distributionErrorQuinto;
+        
+        setDistributionDataQuinto(distributionResultQuinto || []);
 
         // Fetch data for fifth card (column chart)
-        const columnResult = await fetchLegacyIndicators({
-          codes: ["CSOC_01", "CSOC_02", "CSOC_03"],
-        });
-        setColumnData(
-          columnResult.sort((a, b) =>
-            a.year - b.year || (a.indicador || "").localeCompare(b.indicador || "")
-          )
-        );
+        const { data: columnResult, error: columnError } = await supabase
+          .from("education_indicators")
+          .select("*")
+          .eq("seccion", "Competencias socioemocionales")
+          .in("indicador", [
+            "Porcentaje de estudiantes en riesgo - trabajo en equipo",
+            "Porcentaje de estudiantes en proceso - trabajo en equipo",
+            "Porcentaje de estudiantes prosperando - trabajo en equipo"
+          ])
+          .order("year", { ascending: true })
+          .order("indicador", { ascending: true });
+
+        if (columnError) throw columnError;
+        
+        setColumnData(columnResult || []);
 
         // Extract unique years and categories for filters
         const uniqueYears = new Set<string>();

@@ -33,22 +33,25 @@ export const PageHeader = ({
               size="icon"
               onClick={() => navigate("/")}
               className="hover:bg-gray-100 transition-colors shrink-0"
-              aria-label="Volver al inicio"
             >
-              <ArrowLeft className="h-5 w-5" aria-hidden="true" />
+              <ArrowLeft className="h-5 w-5" />
             </Button>
             
             <div className="flex items-center gap-2 sm:gap-3 min-w-0">
               {/* Icon Circle */}
-              <div className={`${iconBgColor} w-10 h-10 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl flex items-center justify-center shadow-sm shrink-0`} aria-hidden="true">
+              <div className={`${iconBgColor} w-10 h-10 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl flex items-center justify-center shadow-sm shrink-0`}>
                 <Icon className="h-5 w-5 sm:h-6 sm:w-6 text-white" strokeWidth={2.5} />
               </div>
               
-              {/* Title — single h1 with responsive sizing */}
+              {/* Title */}
               <div className="min-w-0">
-                <h1 className={`text-xl sm:text-2xl lg:text-3xl font-bold bg-gradient-to-r ${gradientColors} bg-clip-text text-transparent truncate sm:whitespace-normal`}>
-                  <span className="sm:hidden">{mobileTitle || title}</span>
-                  <span className="hidden sm:inline">{title}</span>
+                {/* Mobile title (shorter) */}
+                <h1 className={`sm:hidden text-xl font-bold bg-gradient-to-r ${gradientColors} bg-clip-text text-transparent truncate`}>
+                  {mobileTitle || title}
+                </h1>
+                {/* Desktop title (full) */}
+                <h1 className={`hidden sm:block text-2xl lg:text-3xl font-bold bg-gradient-to-r ${gradientColors} bg-clip-text text-transparent`}>
+                  {title}
                 </h1>
                 {subtitle && (
                   <p className="text-xs sm:text-sm text-gray-600 mt-0.5 truncate">

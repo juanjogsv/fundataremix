@@ -1,5 +1,5 @@
 import { useState, useMemo, useEffect, useRef } from "react";
-import { fetchLegacyIndicators } from "@/integrations/ecosistema/legacy";
+import { supabase } from "@/integrations/supabase/client";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { GraduationCap, AlertCircle } from "lucide-react";
@@ -21,13 +21,13 @@ const EducationUniversityEnrollment = () => {
       try {
         setIsLoading(true);
         
-        const rows = await fetchLegacyIndicators({
-          codes: ["UTC_02"],
-          categoria2: "Universidad / Instituto técnico o tecnológico",
-          yearGte: 2018,
-        });
-        const result = rows.sort((a, b) => a.year - b.year);
-        const fetchError = null;
+        const { data: result, error: fetchError } = await supabase
+          .from("education_indicators")
+          .select("year, categoria, valor")
+          .eq("indicador", "Matrícula técnica UTC por institución educativa")
+          .eq("categoria_2", "Universidad / Instituto técnico o tecnológico")
+          .gte("year", 2018)
+          .order("year", { ascending: true });
 
         if (fetchError) throw fetchError;
         

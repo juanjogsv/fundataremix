@@ -3,7 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell } from "recharts";
 import { TrendingUp } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
-import { fetchLegacyIndicators } from "@/integrations/ecosistema/legacy";
+import { supabase } from "@/integrations/supabase/client";
 import { normalizeCityName } from "@/lib/city-name-normalizer";
 import {
   Select,
@@ -30,13 +30,12 @@ const EducationMediaRanking = () => {
   useEffect(() => {
     const loadYears = async () => {
       try {
-        const rowsAll = await fetchLegacyIndicators({
-          codes: ["COBE_01"],
-          categoria: 'Total',
-          onlyMunicipalities: true,
-        });
-        const yearsData = rowsAll.map(r => ({ year: r.year }));
-        const yearsError = null;
+        const { data: yearsData, error: yearsError } = await supabase
+          .from('education_indicators')
+          .select('year')
+          .ilike('indicador', '%cobertura neta%media%')
+          .eq('categoria', 'Total')
+          .order('year', { ascending: false });
 
         if (yearsError) throw yearsError;
 
@@ -65,16 +64,14 @@ const EducationMediaRanking = () => {
     const loadData = async () => {
       setLoading(true);
       try {
-        const rows = await fetchLegacyIndicators({
-          codes: ["COBE_01"],
-          year: selectedYear,
-          categoria: 'Total',
-          onlyMunicipalities: true,
-        });
-        const indicators = rows
-          .filter(r => r.valor != null)
-          .sort((a, b) => (b.valor ?? 0) - (a.valor ?? 0));
-        const error = null;
+        const { data: indicators, error } = await supabase
+          .from('education_indicators')
+          .select('*')
+          .ilike('indicador', '%cobertura neta%media%')
+          .eq('year', selectedYear)
+          .eq('categoria', 'Total')
+          .not('departamento', 'is', null)
+          .order('valor', { ascending: false });
 
         if (error) throw error;
 

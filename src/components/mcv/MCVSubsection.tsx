@@ -3,8 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { fetchLegacyMCVBySection } from "@/integrations/ecosistema/legacy";
-import { ecosistema } from "@/integrations/ecosistema/client";
+import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { LucideIcon, ChevronDown, ChevronUp } from "lucide-react";
 import { AreaChart, Area, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend, Cell } from "recharts";
@@ -113,8 +112,8 @@ const MCVSubsection = ({
 
   const fetchDamaEducation = async (entityFilter?: string): Promise<MCVIndicator[]> => {
     // Catalog (codes -> indicador metadata)
-    const { data: catalog, error: catErr } = await ecosistema
-      .from("catalogo_indicadores")
+    const { data: catalog, error: catErr } = await supabase
+      .from("dama_catalog")
       .select("cod_indicador, indicador, unidad_medida, fuente")
       .in("cod_indicador", EDU_CODES);
     if (catErr) throw catErr;
@@ -123,8 +122,8 @@ const MCVSubsection = ({
     );
 
     // Entities (filter to municipalities, length 5 = city codes)
-    const { data: entities, error: entErr } = await ecosistema
-      .from("catalogo_entidades")
+    const { data: entities, error: entErr } = await supabase
+      .from("dama_entities")
       .select("cod_entidad, entidad");
     if (entErr) throw entErr;
     const entityMap = new Map(
@@ -136,8 +135,8 @@ const MCVSubsection = ({
     const maxPages = 100;
     const allRows: any[] = [];
 
-    let query = ecosistema
-      .from("datos_maestros")
+    let query = supabase
+      .from("dama_data")
       .select("id, cod_indicador, cod_entidad, anio, valor")
       .in("cod_indicador", EDU_CODES)
       .order("anio", { ascending: true });
@@ -188,10 +187,27 @@ const MCVSubsection = ({
           return;
         }
 
-        // Fetch all rows for this section from ecosistema (no entity filter
-        // so the page can show comparisons across cities)
-        const all = (await fetchLegacyMCVBySection(sectionName)) as unknown as MCVIndicator[];
-        all.sort((a, b) => a.year - b.year);
+        // Fetch data for all entities in this section using pagination
+        const pageSize = 1000;
+        const maxPages = 100;
+        const all: MCVIndicator[] = [];
+
+        for (let page = 0; page < maxPages; page++) {
+          const from = page * pageSize;
+          const to = from + pageSize - 1;
+
+          const { data: pageData, error } = await supabase
+            .from("mcv_indicators")
+            .select("*")
+            .eq("seccion", sectionName)
+            .order("year", { ascending: true })
+            .order("id", { ascending: true })
+            .range(from, to);
+
+          if (error) throw error;
+          all.push(...(pageData || []));
+          if (!pageData || pageData.length < pageSize) break;
+        }
 
         setData(all);
       } catch (error) {
@@ -220,8 +236,14 @@ const MCVSubsection = ({
           return;
         }
 
-        const indicators = (await fetchLegacyMCVBySection(sectionName, compareCity))
-          .sort((a, b) => a.year - b.year) as unknown as MCVIndicator[];
+        const { data: indicators, error } = await supabase
+          .from("mcv_indicators")
+          .select("*")
+          .eq("seccion", sectionName)
+          .eq("entidad", compareCity)
+          .order("year", { ascending: true });
+
+        if (error) throw error;
         setCompareData(indicators || []);
       } catch (error) {
         console.error("Error fetching comparison data:", error);

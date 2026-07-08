@@ -1,5 +1,4 @@
 import { useEffect, useState, useMemo } from "react";
-import SeoHead from "@/components/SeoHead";
 import { supabase } from "@/integrations/supabase/client";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -138,11 +137,6 @@ const StrategicIndicators = () => {
 
   return (
     <div className="min-h-screen relative overflow-hidden bg-gradient-to-br from-white via-gray-50/30 to-white">
-      <SeoHead
-        title="Indicadores Estratégicos — Fundata | Fundación Luker"
-        description="KPIs y avances de los programas estratégicos de Fundación Luker en Manizales y Caldas."
-        path="/indicadores"
-      />
       {/* Background decorative elements - matching home style */}
       <div className="absolute inset-0 bg-gradient-to-br from-luker-green/5 via-luker-orange/5 to-luker-teal/10" />
       <div className="absolute top-0 right-0 w-96 h-96 bg-luker-green/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />

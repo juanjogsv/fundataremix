@@ -1,5 +1,4 @@
 import { useState } from "react";
-import SeoHead from "@/components/SeoHead";
 import { DollarSign, Wallet, Building2 } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { PageHeader } from "@/components/PageHeader";
@@ -26,11 +25,6 @@ const Financial = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-white via-gray-50/30 to-white">
-      <SeoHead
-        title="Financiero — Fundata | Fundación Luker"
-        description="Inversión social y gastos operativos de Fundación Luker con seguimiento mensual y anual."
-        path="/financiero"
-      />
       {/* Header */}
       <PageHeader
         title="Financiero"

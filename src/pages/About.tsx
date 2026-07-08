@@ -1,5 +1,4 @@
 import { Button } from "@/components/ui/button";
-import SeoHead from "@/components/SeoHead";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ArrowLeft, Target, Lightbulb, Users, TrendingUp, Shield, Zap } from "lucide-react";
 import { useNavigate } from "react-router-dom";
@@ -10,11 +9,6 @@ const About = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-white via-gray-50/30 to-white">
-      <SeoHead
-        title="Acerca de — Fundata | Fundación Luker"
-        description="Conoce Fundata, la plataforma de gestión estratégica de Fundación Luker."
-        path="/about"
-      />
       <div className="container mx-auto px-6 py-8 max-w-7xl">
         {/* Header */}
         <div className="flex items-center gap-4 mb-8">

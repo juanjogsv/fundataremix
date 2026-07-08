@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { fetchLegacyIndicators } from "@/integrations/ecosistema/legacy";
+import { supabase } from "@/integrations/supabase/client";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { BookOpen, AlertCircle } from "lucide-react";
@@ -22,11 +22,10 @@ const EducationUTCPrograms = () => {
       try {
         setIsLoading(true);
         
-        const rows = await fetchLegacyIndicators({
-          codes: ["UTC_03"],
-        });
-        const result = rows.map(r => ({ categoria: r.categoria, valor: r.valor, year: r.year }));
-        const fetchError = null;
+        const { data: result, error: fetchError } = await supabase
+          .from("education_indicators")
+          .select("categoria, valor, year")
+          .eq("indicador", "Matrícula técnica UTC por programa");
 
         if (fetchError) throw fetchError;
         
