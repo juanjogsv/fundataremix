@@ -1082,7 +1082,81 @@ export type Database = {
       }
     }
     Views: {
-      [_ in never]: never
+      catalogo_entidades: {
+        Row: {
+          cod_entidad: string | null
+          entidad: string | null
+        }
+        Insert: {
+          cod_entidad?: string | null
+          entidad?: string | null
+        }
+        Update: {
+          cod_entidad?: string | null
+          entidad?: string | null
+        }
+        Relationships: []
+      }
+      catalogo_indicadores: {
+        Row: {
+          cod_indicador: string | null
+          dimension: string | null
+          fuente: string | null
+          indicador: string | null
+          periodicidad: string | null
+          seccion: string | null
+          unidad_medida: string | null
+        }
+        Insert: {
+          cod_indicador?: string | null
+          dimension?: string | null
+          fuente?: string | null
+          indicador?: string | null
+          periodicidad?: string | null
+          seccion?: string | null
+          unidad_medida?: string | null
+        }
+        Update: {
+          cod_indicador?: string | null
+          dimension?: string | null
+          fuente?: string | null
+          indicador?: string | null
+          periodicidad?: string | null
+          seccion?: string | null
+          unidad_medida?: string | null
+        }
+        Relationships: []
+      }
+      datos_maestros: {
+        Row: {
+          anio: number | null
+          categoria: string | null
+          categoria_2: string | null
+          cod_entidad: string | null
+          cod_indicador: string | null
+          fecha_actualizacion: string | null
+          valor: number | null
+        }
+        Insert: {
+          anio?: number | null
+          categoria?: string | null
+          categoria_2?: string | null
+          cod_entidad?: string | null
+          cod_indicador?: string | null
+          fecha_actualizacion?: string | null
+          valor?: number | null
+        }
+        Update: {
+          anio?: number | null
+          categoria?: string | null
+          categoria_2?: string | null
+          cod_entidad?: string | null
+          cod_indicador?: string | null
+          fecha_actualizacion?: string | null
+          valor?: number | null
+        }
+        Relationships: []
+      }
     }
     Functions: {
       has_role: {
