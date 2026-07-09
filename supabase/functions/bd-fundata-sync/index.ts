@@ -96,7 +96,6 @@ async function fetchWithRetry(url: string, init: RequestInit, label: string): Pr
   for (let attempt = 1; attempt <= 6; attempt++) {
     const res = await fetch(url, init);
     if (res.status !== 429 && res.status < 500) return res;
-    if (res.status !== 429 && res.status < 500) return res;
     const retryAfter = Number(res.headers.get("retry-after"));
     const wait = Number.isFinite(retryAfter) && retryAfter > 0 ? retryAfter * 1000 : delay;
     console.warn(`[sync] ${label} ${res.status}, retry ${attempt}/6 in ${wait}ms`);
@@ -164,10 +163,14 @@ Deno.serve(async (req) => {
     });
   }
 
-  const permissive = url.searchParams.get("permissive") === "1";
+  // Por defecto no bloqueamos la carga completa por catálogos incompletos:
+  // cargamos las filas válidas, registramos el detalle de huérfanos y dejamos
+  // el modo estricto solo para validación explícita con ?strict=1.
+  const strict = url.searchParams.get("strict") === "1";
+  const permissive = !strict || url.searchParams.get("permissive") === "1";
   let tempSheetId: string | null = null;
   try {
-    await updateMeta({ status: "running", error_message: null });
+    await updateMeta({ status: "running", error_message: null, diagnostics: null });
 
     // 1. Ubicar último xlsx
     const file = await findLatestFile();
@@ -259,7 +262,10 @@ Deno.serve(async (req) => {
         await updateMeta({
           status: "error_rollback",
           error_message: msg,
+          last_file_id: file.id,
+          last_file_name: file.name,
           last_sync_at: new Date().toISOString(),
+          rows_ingested: 0,
           diagnostics: {
             file_rows: datos.length,
             ingested: 0,
@@ -269,8 +275,14 @@ Deno.serve(async (req) => {
           },
         });
         await deleteFile(tempSheetId);
-        return new Response(JSON.stringify({ ok: false, error: msg }), {
-          status: 422,
+        return new Response(JSON.stringify({ ok: false, error: msg, diagnostics: {
+          file_rows: datos.length,
+          ingested: 0,
+          filtered: datos.length,
+          orphans_indicadores: orphIndArr,
+          orphans_entidades: orphEntArr,
+        } }), {
+          status: 200,
           headers: { ...corsHeaders, "Content-Type": "application/json" },
         });
       }
@@ -352,6 +364,7 @@ Deno.serve(async (req) => {
       status: "error",
       error_message: msg,
       last_sync_at: new Date().toISOString(),
+      diagnostics: null,
     });
     return new Response(JSON.stringify({ ok: false, error: msg }), {
       status: 500,
