@@ -1,54 +1,59 @@
-## Diagnóstico: por qué solo se ingieren 53.722 de ~108.852 filas
+## Objetivo
 
-El archivo tiene ~108.852 filas normalizadas, pero en modo permissive solo se cargan **53.722**. La diferencia (~55.000) son filas cuyos `cod_entidad` (y/o `cod_indicador`) **no existen en los catálogos maestros**. Aunque el resumen del panel solo muestra 20 códigos por brevedad, en realidad hay **93 entidades huérfanas** (según el último log). Cada huérfano puede aparecer en cientos o miles de filas, por eso se pierde tanto volumen.
+Agregar una ruta pública `/datosabiertos` que muestre una versión reducida del dashboard, reutilizando los componentes ya existentes. Sin tocar auth, rutas actuales, ni componentes.
 
-Para poder arreglarlo necesitas ver **todos** los códigos huérfanos y **cuántas filas** representa cada uno, así sabes cuáles agregar al catálogo primero (mayor impacto).
+## Cambios
 
-## Qué construir
+### 1. Nueva página `src/pages/DatosAbiertos.tsx`
 
-### 1. Ampliar el edge function `bd-fundata-sync`
-Guardar en `bd_sync_meta` (o en un nuevo campo JSON `diagnostics`) el detalle completo:
+Estructura tipo "landing + secciones", inspirada en `Index.tsx` para mantener identidad de marca (Montserrat, paleta Luker, `PageHeader`, gradientes suaves, contenedor `container mx-auto`).
 
-- Lista completa de `cod_indicador` huérfanos con conteo de filas.
-- Lista completa de `cod_entidad` huérfanos con conteo de filas.
-- Total de filas en el archivo, filas filtradas, filas ingeridas.
-- Top 20 huérfanos por impacto (filas descartadas).
+Layout:
 
-Actualmente `error_message` es texto truncado a 20 códigos y sin conteo — hay que reemplazarlo por un JSON estructurado.
-
-### 2. Migración: agregar columna `diagnostics jsonb` en `bd_sync_meta`
-
-```sql
-ALTER TABLE public.bd_sync_meta ADD COLUMN diagnostics jsonb;
+```text
+[Header simple con logo Fundación Luker + título "Datos Abiertos"]
+[Hero corto: 1 frase + subtítulo]
+[Grid de 7 tarjetas de acceso rápido -> anchors a cada sección]
+  - Financiero, Educación, Emprendimiento,
+    Desarrollo Rural, Especiales, Contexto Socioeconómico, Mapa
+[Sección #financiero]           -> reutiliza SocialInvestmentSection + OperatingExpensesSection (dentro de Tabs, igual que Financial.tsx)
+[Sección #educacion]            -> reutiliza los sub-componentes tal cual los usa Education.tsx
+[Sección #emprendimiento]       -> reutiliza EAPHistoricalCharts
+[Sección #desarrollo-rural]     -> reutiliza los componentes de RuralDevelopment.tsx
+[Sección #especiales]           -> reutiliza SpecialProjectsBeneficiaries + SpecialProjectsInvestment
+[Sección #socioeconomico]       -> reutiliza el contenido de SocioeconomicContext.tsx
+[Sección #mapa]                 -> reutiliza el componente que hoy usa /mapa (Map.tsx)
+[Footer con crédito Fundación Luker]
 ```
 
-### 3. Ampliar `BdFundataSyncPanel.tsx` con una sección "Detalle de problemas"
+Reglas:
+- Importa componentes hijos ya existentes (`SocialInvestmentSection`, `EAPHistoricalCharts`, `SpecialProjectsBeneficiaries`, etc.) — nada nuevo, nada duplicado.
+- Cada sección se envuelve en un `<section id="...">` con un título uniforme para permitir anchors desde las tarjetas.
+- Consumo de datos idéntico: los componentes reutilizados ya llaman a `supabase` / conector Google Drive existente — no se toca fuente de datos.
+- Mismo `PageHeader` visual del proyecto o un header propio con `bg-white/95 backdrop-blur` como en `Index.tsx`.
+- No incluye botones de "Admin", "Salir" ni referencias a `useAuth`.
 
-Nueva tarjeta colapsable debajo del estado que muestra:
+### 2. `src/App.tsx`
 
-- **Resumen numérico**: filas en archivo · ingeridas · descartadas · % pérdida.
-- **Tabla de entidades huérfanas** (ordenada por filas descartadas desc):
-  - `cod_entidad` | filas descartadas | acción
-  - Botón "Copiar códigos" para pegarlos en el Google Sheet del catálogo.
-- **Tabla de indicadores huérfanos** con el mismo formato.
-- **Botón "Descargar CSV de huérfanos"** para trabajar offline.
+Agregar UNA sola línea antes del catch-all `*`:
 
-### 4. Flujo de corrección sugerido al usuario
+```tsx
+<Route path="/datosabiertos" element={<DatosAbiertos />} />
+```
 
-1. Ejecutar sync permissive (ya funciona).
-2. Abrir la sección "Detalle de problemas".
-3. Copiar los `cod_entidad` huérfanos con más filas.
-4. Agregarlos al `catalogo_entidades` en Drive con su nombre correspondiente.
-5. Repetir el sync — cada iteración recupera más filas hasta llegar al 100%.
+Más el `import DatosAbiertos from "./pages/DatosAbiertos";`. Ningún otro cambio.
 
-## Detalles técnicos
+### 3. Navegación
 
-- El conteo se hace en memoria durante el paso de normalización (paso 6 del edge function). Ya recorremos cada fila; solo hay que sumar en dos `Map<string, number>`.
-- El JSON `diagnostics` se serializa entero (posiblemente varios KB por 93 entidades). Postgres jsonb lo maneja sin problema.
-- Se mantiene el campo `error_message` como resumen legible para retrocompatibilidad.
-- El panel usa `Collapsible` de shadcn para no saturar la vista inicial.
+No se agrega `/datosabiertos` a `Index.tsx` ni a ningún menú. Acceso sólo por URL directa, como pediste.
 
-## Fuera de alcance
+## Lo que NO se toca
 
-- No se auto-completa el catálogo: agregar entidades sigue siendo manual en Drive (evita duplicados y nombres incorrectos).
-- No cambia la lógica de modo estricto vs. permissive.
+- `useAuth`, `RequireJunta`, `Auth.tsx`, `Admin.tsx`.
+- Rutas `/`, `/indicadores`, `/financiero`, `/educacion`, `/emprendimiento`, `/desarrollo-rural`, `/especiales`, `/socioeconomico`, `/mapa`, `/admin`, `/auth`.
+- Ningún componente de visualización existente: se importan tal cual.
+- `supabase/client`, `types`, edge functions, migraciones.
+
+## Nota técnica
+
+Las páginas ampliadas actuales (`Financial`, `Education`, etc.) ya son accesibles sin `RequireJunta` a nivel de router — la restricción real está en el flujo de login y en el acceso a `/admin`. Esta nueva página simplemente omite cualquier UI de autenticación y no depende de `useAuth`, por lo que un usuario anónimo puede consumirla directamente. No se cambia la postura de auth del resto del sitio.
