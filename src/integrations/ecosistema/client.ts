@@ -1,21 +1,23 @@
-// External "Ecosistema de Datos" Supabase project — read-only.
-// Tables: catalogo_indicadores, catalogo_entidades, datos_maestros.
-// Shape mirrors the internal dama_catalog / dama_entities / dama_data.
+// "Ecosistema de Datos" client — ahora apunta al backend interno (Lovable Cloud)
+// donde una edge function (bd-fundata-sync) mantiene un caché sincronizado
+// desde Google Drive (bd_fundata/) según el protocolo TEC_PROTOCOLO-BD-002.
+//
+// Los nombres de tablas (`catalogo_indicadores`, `catalogo_entidades`,
+// `datos_maestros`) son vistas que hacen alias a las tablas caché
+// `bd_catalogo_*` y `bd_datos_cache`, por lo que el resto del frontend
+// no requiere cambios.
 import { createClient } from "@supabase/supabase-js";
 
-const ECOSISTEMA_URL = "https://vbyrqktymwuuzdtvjruz.supabase.co";
-const ECOSISTEMA_ANON_KEY =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZieXJxa3R5bXd1dXpkdHZqcnV6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzkzNzA4NzcsImV4cCI6MjA5NDk0Njg3N30.W67WXmYO8f6Dy5AmbhDdOZYpltLhk0RfMqKHrYNH7uc";
+const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL;
+const SUPABASE_KEY = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY;
 
-// Use untyped client — schema lives in another project, no generated Database type.
-export const ecosistema = createClient<any>(ECOSISTEMA_URL, ECOSISTEMA_ANON_KEY, {
+export const ecosistema = createClient<any>(SUPABASE_URL, SUPABASE_KEY, {
   auth: {
     persistSession: false,
     autoRefreshToken: false,
   },
 });
 
-// Table name constants for clarity at call sites.
 export const ECO_TABLES = {
   indicadores: "catalogo_indicadores",
   entidades: "catalogo_entidades",
