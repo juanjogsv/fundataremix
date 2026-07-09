@@ -17,6 +17,7 @@ import { UploadFinancialData } from "@/components/admin/UploadFinancialData";
 import { UploadOperatingExpenses } from "@/components/admin/UploadOperatingExpenses";
 import CalendarEventManager from "@/components/admin/CalendarEventManager";
 import { ManageLibraryPublications } from "@/components/admin/ManageLibraryPublications";
+import BdFundataSyncPanel from "@/components/admin/BdFundataSyncPanel";
 
 interface UploadModule {
   id: string;
@@ -262,6 +263,11 @@ const Admin = () => {
             </Button>
           </div>
         </div>
+
+        {/* 🔄 Sincronización desde Google Drive (protocolo TEC_PROTOCOLO-BD-002) */}
+        <section className="space-y-3">
+          <BdFundataSyncPanel />
+        </section>
 
         {/* ⭐ DAMA Master Base — single source of truth (default & featured) */}
         <section id="dama-panel" className="space-y-3 scroll-mt-24">

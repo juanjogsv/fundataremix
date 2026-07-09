@@ -14,6 +14,126 @@ export type Database = {
   }
   public: {
     Tables: {
+      bd_catalogo_entidades: {
+        Row: {
+          cod_entidad: string
+          entidad: string | null
+          updated_at: string
+        }
+        Insert: {
+          cod_entidad: string
+          entidad?: string | null
+          updated_at?: string
+        }
+        Update: {
+          cod_entidad?: string
+          entidad?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      bd_catalogo_indicadores: {
+        Row: {
+          cod_indicador: string
+          dimension: string | null
+          fuente: string | null
+          indicador: string | null
+          periodicidad: string | null
+          seccion: string | null
+          unidad_medida: string | null
+          updated_at: string
+        }
+        Insert: {
+          cod_indicador: string
+          dimension?: string | null
+          fuente?: string | null
+          indicador?: string | null
+          periodicidad?: string | null
+          seccion?: string | null
+          unidad_medida?: string | null
+          updated_at?: string
+        }
+        Update: {
+          cod_indicador?: string
+          dimension?: string | null
+          fuente?: string | null
+          indicador?: string | null
+          periodicidad?: string | null
+          seccion?: string | null
+          unidad_medida?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      bd_datos_cache: {
+        Row: {
+          anio: number | null
+          categoria: string | null
+          categoria_2: string | null
+          cod_entidad: string
+          cod_indicador: string
+          created_at: string
+          fecha_actualizacion: string | null
+          id: number
+          valor: number | null
+        }
+        Insert: {
+          anio?: number | null
+          categoria?: string | null
+          categoria_2?: string | null
+          cod_entidad: string
+          cod_indicador: string
+          created_at?: string
+          fecha_actualizacion?: string | null
+          id?: number
+          valor?: number | null
+        }
+        Update: {
+          anio?: number | null
+          categoria?: string | null
+          categoria_2?: string | null
+          cod_entidad?: string
+          cod_indicador?: string
+          created_at?: string
+          fecha_actualizacion?: string | null
+          id?: number
+          valor?: number | null
+        }
+        Relationships: []
+      }
+      bd_sync_meta: {
+        Row: {
+          error_message: string | null
+          id: number
+          last_file_id: string | null
+          last_file_name: string | null
+          last_sync_at: string | null
+          rows_ingested: number | null
+          status: string | null
+          updated_at: string
+        }
+        Insert: {
+          error_message?: string | null
+          id?: number
+          last_file_id?: string | null
+          last_file_name?: string | null
+          last_sync_at?: string | null
+          rows_ingested?: number | null
+          status?: string | null
+          updated_at?: string
+        }
+        Update: {
+          error_message?: string | null
+          id?: number
+          last_file_id?: string | null
+          last_file_name?: string | null
+          last_sync_at?: string | null
+          rows_ingested?: number | null
+          status?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
       calendar_events: {
         Row: {
           categoria: string | null
@@ -962,7 +1082,81 @@ export type Database = {
       }
     }
     Views: {
-      [_ in never]: never
+      catalogo_entidades: {
+        Row: {
+          cod_entidad: string | null
+          entidad: string | null
+        }
+        Insert: {
+          cod_entidad?: string | null
+          entidad?: string | null
+        }
+        Update: {
+          cod_entidad?: string | null
+          entidad?: string | null
+        }
+        Relationships: []
+      }
+      catalogo_indicadores: {
+        Row: {
+          cod_indicador: string | null
+          dimension: string | null
+          fuente: string | null
+          indicador: string | null
+          periodicidad: string | null
+          seccion: string | null
+          unidad_medida: string | null
+        }
+        Insert: {
+          cod_indicador?: string | null
+          dimension?: string | null
+          fuente?: string | null
+          indicador?: string | null
+          periodicidad?: string | null
+          seccion?: string | null
+          unidad_medida?: string | null
+        }
+        Update: {
+          cod_indicador?: string | null
+          dimension?: string | null
+          fuente?: string | null
+          indicador?: string | null
+          periodicidad?: string | null
+          seccion?: string | null
+          unidad_medida?: string | null
+        }
+        Relationships: []
+      }
+      datos_maestros: {
+        Row: {
+          anio: number | null
+          categoria: string | null
+          categoria_2: string | null
+          cod_entidad: string | null
+          cod_indicador: string | null
+          fecha_actualizacion: string | null
+          valor: number | null
+        }
+        Insert: {
+          anio?: number | null
+          categoria?: string | null
+          categoria_2?: string | null
+          cod_entidad?: string | null
+          cod_indicador?: string | null
+          fecha_actualizacion?: string | null
+          valor?: number | null
+        }
+        Update: {
+          anio?: number | null
+          categoria?: string | null
+          categoria_2?: string | null
+          cod_entidad?: string | null
+          cod_indicador?: string | null
+          fecha_actualizacion?: string | null
+          valor?: number | null
+        }
+        Relationships: []
+      }
     }
     Functions: {
       has_role: {
