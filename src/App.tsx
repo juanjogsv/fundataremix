@@ -2,7 +2,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 import StrategicIndicators from "./pages/StrategicIndicators";
@@ -27,6 +27,13 @@ import DatosAbiertos from "./pages/DatosAbiertos";
 
 const queryClient = new QueryClient();
 
+const HomeRoute = () => {
+  if (window.location.hostname === "datosabiertos.fundacionluker.org.co") {
+    return <Navigate to="/datosabiertos" replace />;
+  }
+  return <Index />;
+};
+
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
@@ -34,7 +41,7 @@ const App = () => (
       <Sonner />
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Index />} />
+          <Route path="/" element={<HomeRoute />} />
           <Route path="/indicadores" element={<StrategicIndicators />} />
           <Route path="/calendario" element={<Calendar />} />
           <Route path="/documentos" element={<Documents />} />
