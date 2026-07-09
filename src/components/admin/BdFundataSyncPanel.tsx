@@ -41,11 +41,11 @@ export default function BdFundataSyncPanel() {
 
   useEffect(() => { fetchStatus(); }, []);
 
-  const runSync = async (permissive: boolean) => {
+  const runSync = async (strict: boolean) => {
     setSyncing(true);
     try {
-      if (permissive) {
-        const url = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/bd-fundata-sync?permissive=1`;
+      if (!strict) {
+        const url = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/bd-fundata-sync`;
         const { data: { session } } = await supabase.auth.getSession();
         const res = await fetch(url, {
           method: "POST",
@@ -58,10 +58,24 @@ export default function BdFundataSyncPanel() {
         });
         if (!res.ok) throw new Error(await res.text());
       } else {
-        const { error } = await supabase.functions.invoke("bd-fundata-sync", { body: {} });
-        if (error) throw error;
+        const url = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/bd-fundata-sync?strict=1`;
+        const { data: { session } } = await supabase.auth.getSession();
+        const res = await fetch(url, {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${session?.access_token ?? import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY}`,
+            apikey: import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY,
+            "Content-Type": "application/json",
+          },
+          body: "{}",
+        });
+        if (!res.ok) throw new Error(await res.text());
+        const payload = await res.json().catch(() => null);
+        if (payload && payload.ok === false) {
+          toast({ title: "Validación con problemas", description: payload.error, variant: "destructive" });
+        }
       }
-      toast({ title: "Sincronización disparada", description: "Puede tardar 1–2 minutos. Refresca el estado." });
+      toast({ title: "Sincronización finalizada", description: "El estado y el detalle de problemas ya quedaron actualizados." });
     } catch (e: any) {
       toast({ title: "Error", description: e?.message ?? String(e), variant: "destructive" });
     } finally {
@@ -140,10 +154,10 @@ export default function BdFundataSyncPanel() {
         <div className="flex flex-wrap gap-2">
           <Button onClick={() => runSync(false)} disabled={syncing} className="bg-luker-teal hover:bg-luker-teal/90">
             {syncing ? <Loader2 className="h-4 w-4 animate-spin mr-2" /> : <RefreshCw className="h-4 w-4 mr-2" />}
-            Sincronizar (estricto)
+            Sincronizar datos válidos
           </Button>
           <Button onClick={() => runSync(true)} disabled={syncing} variant="outline">
-            Sincronizar (permissive, filtra huérfanos)
+            Validar estricto
           </Button>
           <Button onClick={fetchStatus} variant="ghost" size="sm">Refrescar estado</Button>
         </div>
