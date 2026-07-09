@@ -191,8 +191,8 @@ Deno.serve(async (req) => {
 
     const indSet = new Set(indicadores.map((i) => String(i.cod_indicador).trim()));
     const entSet = new Set(entidades.map((e) => String(e.cod_entidad).trim()));
-    const orphansInd = new Set<string>();
-    const orphansEnt = new Set<string>();
+    const orphansInd = new Map<string, number>();
+    const orphansEnt = new Map<string, number>();
     const datos: any[] = [];
 
     // 6. Paginar y normalizar
@@ -205,8 +205,8 @@ Deno.serve(async (req) => {
         if (codInd == null || codEnt == null || codInd === "" || codEnt === "") continue;
         const ci = String(codInd).trim();
         const ce = String(codEnt).trim();
-        if (!indSet.has(ci)) orphansInd.add(ci);
-        if (!entSet.has(ce)) orphansEnt.add(ce);
+        if (!indSet.has(ci)) orphansInd.set(ci, (orphansInd.get(ci) ?? 0) + 1);
+        if (!entSet.has(ce)) orphansEnt.set(ce, (orphansEnt.get(ce) ?? 0) + 1);
         datos.push({
           cod_indicador: ci,
           categoria: iCat >= 0 && r[iCat] != null ? String(r[iCat]).trim() : null,
@@ -220,16 +220,33 @@ Deno.serve(async (req) => {
     }
     console.log(`[sync] datos normalizados: ${datos.length}`);
 
+    // Diagnóstico completo ordenado por impacto
+    const orphIndArr = [...orphansInd.entries()]
+      .map(([code, rows]) => ({ code, rows }))
+      .sort((a, b) => b.rows - a.rows);
+    const orphEntArr = [...orphansEnt.entries()]
+      .map(([code, rows]) => ({ code, rows }))
+      .sort((a, b) => b.rows - a.rows);
+    const rowsOrphanInd = orphIndArr.reduce((s, x) => s + x.rows, 0);
+    const rowsOrphanEnt = orphEntArr.reduce((s, x) => s + x.rows, 0);
+
     // 7. Validación referencial DAMA §6
     let orphanWarning: string | null = null;
     if (orphansInd.size || orphansEnt.size) {
-      const summary = `Orphan cod_indicador: [${[...orphansInd].slice(0, 20).join(", ")}]. Orphan cod_entidad: [${[...orphansEnt].slice(0, 20).join(", ")}]`;
+      const summary = `Orphan cod_indicador: ${orphansInd.size} códigos (${rowsOrphanInd} filas). Orphan cod_entidad: ${orphansEnt.size} códigos (${rowsOrphanEnt} filas).`;
       if (!permissive) {
         const msg = `Referential integrity failed. ${summary}`;
         await updateMeta({
           status: "error_rollback",
           error_message: msg,
           last_sync_at: new Date().toISOString(),
+          diagnostics: {
+            file_rows: datos.length,
+            ingested: 0,
+            filtered: datos.length,
+            orphans_indicadores: orphIndArr,
+            orphans_entidades: orphEntArr,
+          },
         });
         await deleteFile(tempSheetId);
         return new Response(JSON.stringify({ ok: false, error: msg }), {
@@ -237,7 +254,6 @@ Deno.serve(async (req) => {
           headers: { ...corsHeaders, "Content-Type": "application/json" },
         });
       }
-      // modo permissive: filtrar huérfanos
       orphanWarning = `Permissive mode: filtered ${orphansInd.size} orphan indicators and ${orphansEnt.size} orphan entities. ${summary}`;
       console.warn(`[sync] ${orphanWarning}`);
     }
@@ -245,6 +261,7 @@ Deno.serve(async (req) => {
     const datosValidos = permissive
       ? datos.filter((d) => indSet.has(d.cod_indicador) && entSet.has(d.cod_entidad))
       : datos;
+
 
 
     // 8. Volcado: TRUNCATE + INSERT
