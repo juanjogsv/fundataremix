@@ -9,7 +9,8 @@ import { createClient } from "npm:@supabase/supabase-js@2";
 const DATA_FOLDER_ID = "188QWfU3Eqjg1QVmZQn7TmWcK979Fz9EJ";
 const CAT_INDICADORES_ID = "1BxMNkQByvuGFFNcKMUHddh--9lD4mIg26DcfLUd89VQ";
 const CAT_ENTIDADES_ID = "116kMxwBo3m3mtEoPyQ2AQiL8tkxM_A_SHBeCIdkLZhU";
-const FILE_REGEX = /^[0-9]{8}_datos_fundata\.xlsx$/;
+// AAAAMMDD al inicio; el resto del nombre es libre. Debe ser .xlsx.
+const FILE_REGEX = /^(\d{8})(?:[_-].*)?\.xlsx$/i;
 const GW = "https://connector-gateway.lovable.dev";
 const PAGE_ROWS = 20000; // filas por lectura de Sheets
 
@@ -38,16 +39,29 @@ async function updateMeta(patch: Record<string, unknown>) {
 }
 
 async function findLatestFile() {
-  const q = `'${DATA_FOLDER_ID}' in parents and trashed=false`;
+  // Solo .xlsx en la carpeta, no papelera. Ordenamos por nombre desc
+  // porque el prefijo AAAAMMDD hace que el nombre alfabéticamente mayor
+  // sea siempre el más reciente.
+  const q = `'${DATA_FOLDER_ID}' in parents and trashed=false and mimeType='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'`;
   const url = `${GW}/google_drive/drive/v3/files?fields=${encodeURIComponent(
-    "files(id,name,modifiedTime,size)"
-  )}&orderBy=name%20desc&pageSize=50&q=${encodeURIComponent(q)}`;
+    "files(id,name,modifiedTime,size,mimeType)"
+  )}&orderBy=name%20desc&pageSize=100&q=${encodeURIComponent(q)}`;
   const res = await fetch(url, { headers: driveH() });
   if (!res.ok) throw new Error(`Drive list [${res.status}]: ${await res.text()}`);
   const { files } = await res.json();
-  const match = (files || []).find((f: any) => FILE_REGEX.test(f.name));
-  if (!match) throw new Error("No file matching ^AAAAMMDD_datos_fundata.xlsx$ in data/");
-  return match as { id: string; name: string; modifiedTime: string; size: string };
+  const candidates = (files || []).filter((f: any) => FILE_REGEX.test(f.name));
+  if (!candidates.length) {
+    const seen = (files || []).slice(0, 5).map((f: any) => f.name).join(", ");
+    throw new Error(`No .xlsx starting with AAAAMMDD in folder. Seen: [${seen}]`);
+  }
+  // Desempate: por AAAAMMDD numérico desc, luego modifiedTime desc
+  candidates.sort((a: any, b: any) => {
+    const da = Number(a.name.match(FILE_REGEX)![1]);
+    const db = Number(b.name.match(FILE_REGEX)![1]);
+    if (db !== da) return db - da;
+    return String(b.modifiedTime).localeCompare(String(a.modifiedTime));
+  });
+  return candidates[0] as { id: string; name: string; modifiedTime: string; size: string };
 }
 
 // Copia el xlsx convirtiéndolo a Google Sheet (Google hace el parseo).
