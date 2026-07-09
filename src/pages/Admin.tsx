@@ -264,6 +264,11 @@ const Admin = () => {
           </div>
         </div>
 
+        {/* 🔄 Sincronización desde Google Drive (protocolo TEC_PROTOCOLO-BD-002) */}
+        <section className="space-y-3">
+          <BdFundataSyncPanel />
+        </section>
+
         {/* ⭐ DAMA Master Base — single source of truth (default & featured) */}
         <section id="dama-panel" className="space-y-3 scroll-mt-24">
           <div className="flex items-center gap-2">
