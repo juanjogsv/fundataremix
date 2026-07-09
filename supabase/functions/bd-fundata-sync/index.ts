@@ -302,7 +302,15 @@ Deno.serve(async (req) => {
       last_sync_at: new Date().toISOString(),
       rows_ingested: datosValidos.length,
       error_message: orphanWarning,
+      diagnostics: {
+        file_rows: datos.length,
+        ingested: datosValidos.length,
+        filtered: datos.length - datosValidos.length,
+        orphans_indicadores: orphIndArr,
+        orphans_entidades: orphEntArr,
+      },
     });
+
 
     return new Response(
       JSON.stringify({
