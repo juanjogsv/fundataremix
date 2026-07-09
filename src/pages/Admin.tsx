@@ -17,6 +17,7 @@ import { UploadFinancialData } from "@/components/admin/UploadFinancialData";
 import { UploadOperatingExpenses } from "@/components/admin/UploadOperatingExpenses";
 import CalendarEventManager from "@/components/admin/CalendarEventManager";
 import { ManageLibraryPublications } from "@/components/admin/ManageLibraryPublications";
+import BdFundataSyncPanel from "@/components/admin/BdFundataSyncPanel";
 
 interface UploadModule {
   id: string;
