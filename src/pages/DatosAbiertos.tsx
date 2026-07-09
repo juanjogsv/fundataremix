@@ -361,21 +361,6 @@ const DatosAbiertos = () => {
         </Tabs>
       </SectionShell>
 
-      {/* Mapa */}
-      <SectionShell id="mapa" title="Mapa de Participantes" icon={MapPin} iconColor="bg-luker-teal">
-        <Card className="p-8 text-center bg-white">
-          <MapPin className="h-12 w-12 text-luker-teal mx-auto mb-4" />
-          <p className="text-gray-700 mb-6 max-w-2xl mx-auto">
-            Explora la visualización georreferenciada de participantes por municipio en el mapa interactivo.
-          </p>
-          <a
-            href="/mapa"
-            className="inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-luker-teal text-white font-semibold shadow-md hover:opacity-90 transition-opacity"
-          >
-            Abrir mapa interactivo
-          </a>
-        </Card>
-      </SectionShell>
 
       {/* Footer */}
       <footer className="border-t border-gray-200/80 bg-white/95 py-8 mt-8">
