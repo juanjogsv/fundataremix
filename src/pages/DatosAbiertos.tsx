@@ -8,7 +8,6 @@ import {
   Lightbulb,
   Sprout,
   Sparkles,
-  MapPin,
   TrendingUp,
   Wallet,
   Building2,
