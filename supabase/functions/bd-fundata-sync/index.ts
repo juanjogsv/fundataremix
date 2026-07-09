@@ -213,8 +213,10 @@ Deno.serve(async (req) => {
     const orphansEnt = new Map<string, number>();
     const datos: any[] = [];
 
-    // 6. Paginar y normalizar
+    // 6. Paginar y normalizar (con throttle para respetar cuota de Sheets)
     for (let start = 2; start <= totalRows; start += PAGE_ROWS) {
+      if (start > 2) await new Promise((r) => setTimeout(r, 400));
+
       const end = Math.min(start + PAGE_ROWS - 1, totalRows);
       const page = await readRange(tempSheetId, `'${sheetTitle}'!A${start}:Z${end}`);
       for (const r of page) {
