@@ -199,24 +199,18 @@ const DatosAbiertos = () => {
           <div className="flex flex-nowrap gap-2 overflow-x-auto max-w-7xl mx-auto">
             {sections.map((s) => {
               const Icon = s.icon;
-              const isMapa = s.id === "mapa";
-              const chipClasses =
-                "group flex items-center gap-2 px-3 md:px-4 py-2 rounded-full border border-gray-200 bg-white hover:border-luker-green/40 hover:shadow-md transition-all duration-200 whitespace-nowrap cursor-pointer shrink-0";
-              const inner = (
-                <>
+              return (
+                <button
+                  key={s.id}
+                  onClick={() => scrollToSection(s.id)}
+                  className="group flex items-center gap-2 px-3 md:px-4 py-2 rounded-full border border-gray-200 bg-white hover:border-luker-green/40 hover:shadow-md transition-all duration-200 whitespace-nowrap cursor-pointer shrink-0"
+                >
                   <div className={`p-1.5 rounded-full ${s.iconColor} shadow-sm transform group-hover:scale-110 transition-transform duration-200`}>
                     <Icon className="h-3.5 w-3.5 text-white" />
                   </div>
                   <span className="text-xs md:text-sm font-semibold text-luker-brown font-heading">
                     {s.title}
                   </span>
-                </>
-              );
-              return isMapa ? (
-                <a key={s.id} href="/mapa" className={chipClasses}>{inner}</a>
-              ) : (
-                <button key={s.id} onClick={() => scrollToSection(s.id)} className={chipClasses}>
-                  {inner}
                 </button>
               );
             })}
