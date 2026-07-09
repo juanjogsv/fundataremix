@@ -46,7 +46,7 @@ async function findLatestFile() {
   const url = `${GW}/google_drive/drive/v3/files?fields=${encodeURIComponent(
     "files(id,name,modifiedTime,size,mimeType)"
   )}&orderBy=name%20desc&pageSize=100&q=${encodeURIComponent(q)}`;
-  const res = await fetch(url, { headers: driveH() });
+  const res = await fetchWithRetry(url, { headers: driveH() }, "drive list");
   if (!res.ok) throw new Error(`Drive list [${res.status}]: ${await res.text()}`);
   const { files } = await res.json();
   const candidates = (files || []).filter((f: any) => FILE_REGEX.test(f.name));
