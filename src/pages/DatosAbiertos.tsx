@@ -65,7 +65,6 @@ const sections = [
   { id: "desarrollo-rural", title: "Desarrollo Rural", icon: Sprout, iconColor: "bg-luker-green", color: "from-luker-green/20 to-luker-brown/20" },
   { id: "especiales", title: "Especiales", icon: Sparkles, iconColor: "bg-luker-red", color: "from-luker-red/20 to-luker-teal/20" },
   { id: "socioeconomico", title: "Contexto Socioeconómico", icon: TrendingUp, iconColor: "bg-luker-orange", color: "from-luker-orange/20 to-luker-green/20" },
-  { id: "mapa", title: "Mapa", icon: MapPin, iconColor: "bg-luker-teal", color: "from-luker-teal/20 to-luker-brown/20" },
 ];
 
 // Configuración reusada de las páginas ampliadas
