@@ -91,22 +91,40 @@ async function deleteFile(fileId: string) {
   }
 }
 
+async function fetchWithRetry(url: string, init: RequestInit, label: string): Promise<Response> {
+  let delay = 2000;
+  for (let attempt = 1; attempt <= 6; attempt++) {
+    const res = await fetch(url, init);
+    if (res.status !== 429 && res.status < 500) return res;
+    if (res.status !== 429 && res.status < 500) return res;
+    const retryAfter = Number(res.headers.get("retry-after"));
+    const wait = Number.isFinite(retryAfter) && retryAfter > 0 ? retryAfter * 1000 : delay;
+    console.warn(`[sync] ${label} ${res.status}, retry ${attempt}/6 in ${wait}ms`);
+    await res.body?.cancel();
+    if (attempt === 6) return res;
+    await new Promise((r) => setTimeout(r, wait));
+    delay = Math.min(delay * 2, 30000);
+  }
+  throw new Error("unreachable");
+}
+
 async function sheetMeta(spreadsheetId: string) {
   const url = `${GW}/google_sheets/v4/spreadsheets/${spreadsheetId}?fields=${encodeURIComponent(
     "sheets.properties(title,gridProperties(rowCount,columnCount))"
   )}`;
-  const res = await fetch(url, { headers: sheetsH() });
+  const res = await fetchWithRetry(url, { headers: sheetsH() }, "sheets meta");
   if (!res.ok) throw new Error(`Sheets meta [${res.status}]: ${await res.text()}`);
   return res.json();
 }
 
 async function readRange(spreadsheetId: string, range: string): Promise<any[][]> {
   const url = `${GW}/google_sheets/v4/spreadsheets/${spreadsheetId}/values/${range}?valueRenderOption=UNFORMATTED_VALUE`;
-  const res = await fetch(url, { headers: sheetsH() });
+  const res = await fetchWithRetry(url, { headers: sheetsH() }, `sheets read ${range}`);
   if (!res.ok) throw new Error(`Sheets read [${res.status}]: ${await res.text()}`);
   const j = await res.json();
   return (j.values || []) as any[][];
 }
+
 
 function rowsToObjects(rows: any[][]): Record<string, any>[] {
   if (!rows.length) return [];
@@ -195,8 +213,10 @@ Deno.serve(async (req) => {
     const orphansEnt = new Map<string, number>();
     const datos: any[] = [];
 
-    // 6. Paginar y normalizar
+    // 6. Paginar y normalizar (con throttle para respetar cuota de Sheets)
     for (let start = 2; start <= totalRows; start += PAGE_ROWS) {
+      if (start > 2) await new Promise((r) => setTimeout(r, 400));
+
       const end = Math.min(start + PAGE_ROWS - 1, totalRows);
       const page = await readRange(tempSheetId, `'${sheetTitle}'!A${start}:Z${end}`);
       for (const r of page) {
