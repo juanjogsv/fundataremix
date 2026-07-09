@@ -9,7 +9,8 @@ import { createClient } from "npm:@supabase/supabase-js@2";
 const DATA_FOLDER_ID = "188QWfU3Eqjg1QVmZQn7TmWcK979Fz9EJ";
 const CAT_INDICADORES_ID = "1BxMNkQByvuGFFNcKMUHddh--9lD4mIg26DcfLUd89VQ";
 const CAT_ENTIDADES_ID = "116kMxwBo3m3mtEoPyQ2AQiL8tkxM_A_SHBeCIdkLZhU";
-const FILE_REGEX = /^[0-9]{8}_datos_fundata\.xlsx$/;
+// AAAAMMDD al inicio; el resto del nombre es libre. Debe ser .xlsx.
+const FILE_REGEX = /^(\d{8})(?:[_-].*)?\.xlsx$/i;
 const GW = "https://connector-gateway.lovable.dev";
 const PAGE_ROWS = 20000; // filas por lectura de Sheets
 
