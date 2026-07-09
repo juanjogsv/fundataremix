@@ -195,40 +195,37 @@ const DatosAbiertos = () => {
         </div>
       </section>
 
-      {/* Grid de accesos rápidos */}
-      <section className="container mx-auto px-6 pb-6">
-        <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-4 max-w-7xl mx-auto">
-          {sections.map((s) => {
-            const Icon = s.icon;
-            const isMapa = s.id === "mapa";
-            const commonClasses =
-              "group relative overflow-hidden cursor-pointer transition-all duration-300 hover:scale-[1.02] bg-white border-gray-200/80 aspect-square hover:shadow-lg";
-            const inner = (
-              <>
-                <div className={`absolute inset-0 bg-gradient-to-br ${s.color} opacity-0 group-hover:opacity-100 transition-opacity duration-300`} />
-                <div className="h-full flex flex-col items-center justify-center p-3 space-y-2 relative z-10">
-                  <div className={`p-2.5 md:p-3 rounded-2xl ${s.iconColor} shadow-md transform group-hover:scale-110 transition-transform duration-300`}>
-                    <Icon className="h-5 w-5 md:h-6 md:w-6 text-white" />
+      {/* Barra sticky de accesos rápidos */}
+      <div className="sticky top-[65px] z-40 bg-white/95 backdrop-blur-sm border-y border-gray-200/80 shadow-sm">
+        <div className="container mx-auto px-4 md:px-6 py-3">
+          <div className="flex flex-nowrap gap-2 overflow-x-auto max-w-7xl mx-auto">
+            {sections.map((s) => {
+              const Icon = s.icon;
+              const isMapa = s.id === "mapa";
+              const chipClasses =
+                "group flex items-center gap-2 px-3 md:px-4 py-2 rounded-full border border-gray-200 bg-white hover:border-luker-green/40 hover:shadow-md transition-all duration-200 whitespace-nowrap cursor-pointer shrink-0";
+              const inner = (
+                <>
+                  <div className={`p-1.5 rounded-full ${s.iconColor} shadow-sm transform group-hover:scale-110 transition-transform duration-200`}>
+                    <Icon className="h-3.5 w-3.5 text-white" />
                   </div>
-                  <h3 className="text-center font-semibold text-xs md:text-sm text-luker-brown leading-tight font-heading">
+                  <span className="text-xs md:text-sm font-semibold text-luker-brown font-heading">
                     {s.title}
-                  </h3>
-                </div>
-                <div className="absolute inset-0 border-2 border-transparent group-hover:border-luker-green/30 rounded-lg transition-colors duration-300" />
-              </>
-            );
-            return isMapa ? (
-              <a key={s.id} href="/mapa" className="block">
-                <Card className={commonClasses}>{inner}</Card>
-              </a>
-            ) : (
-              <Card key={s.id} onClick={() => scrollToSection(s.id)} className={commonClasses}>
-                {inner}
-              </Card>
-            );
-          })}
+                  </span>
+                </>
+              );
+              return isMapa ? (
+                <a key={s.id} href="/mapa" className={chipClasses}>{inner}</a>
+              ) : (
+                <button key={s.id} onClick={() => scrollToSection(s.id)} className={chipClasses}>
+                  {inner}
+                </button>
+              );
+            })}
+          </div>
         </div>
-      </section>
+      </div>
+
 
       {/* Financiero */}
       <SectionShell id="financiero" title="Financiero" icon={DollarSign} iconColor="bg-luker-green">
