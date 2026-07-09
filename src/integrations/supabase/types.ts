@@ -103,6 +103,7 @@ export type Database = {
       }
       bd_sync_meta: {
         Row: {
+          diagnostics: Json | null
           error_message: string | null
           id: number
           last_file_id: string | null
@@ -113,6 +114,7 @@ export type Database = {
           updated_at: string
         }
         Insert: {
+          diagnostics?: Json | null
           error_message?: string | null
           id?: number
           last_file_id?: string | null
@@ -123,6 +125,7 @@ export type Database = {
           updated_at?: string
         }
         Update: {
+          diagnostics?: Json | null
           error_message?: string | null
           id?: number
           last_file_id?: string | null
