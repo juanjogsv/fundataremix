@@ -36,25 +36,23 @@ export default function BdFundataSyncPanel() {
   const runSync = async (permissive: boolean) => {
     setSyncing(true);
     try {
-      const { data, error } = await supabase.functions.invoke("bd-fundata-sync", {
-        body: {},
-        method: "POST",
-        headers: {},
-        // pasar permissive como query param no es soportado por invoke,
-        // por eso construimos la URL directamente cuando aplique.
-      } as any);
       if (permissive) {
-        // fallback: fetch directo con query param
         const url = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/bd-fundata-sync?permissive=1`;
-        await fetch(url, {
+        const { data: { session } } = await supabase.auth.getSession();
+        const res = await fetch(url, {
           method: "POST",
           headers: {
-            Authorization: `Bearer ${import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY}`,
+            Authorization: `Bearer ${session?.access_token ?? import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY}`,
+            apikey: import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY,
             "Content-Type": "application/json",
           },
+          body: "{}",
         });
+        if (!res.ok) throw new Error(await res.text());
+      } else {
+        const { error } = await supabase.functions.invoke("bd-fundata-sync", { body: {} });
+        if (error) throw error;
       }
-      if (error) throw error;
       toast({ title: "Sincronización disparada", description: "Puede tardar 1–2 minutos. Refresca el estado." });
     } catch (e: any) {
       toast({ title: "Error", description: e?.message ?? String(e), variant: "destructive" });
