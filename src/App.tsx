@@ -22,6 +22,7 @@ import Entrepreneurship from "./pages/Entrepreneurship";
 import RuralDevelopment from "./pages/RuralDevelopment";
 import SpecialProjects from "./pages/SpecialProjects";
 import SocioeconomicContext from "./pages/SocioeconomicContext";
+import DatosAbiertos from "./pages/DatosAbiertos";
 
 
 const queryClient = new QueryClient();
@@ -45,6 +46,7 @@ const App = () => (
           <Route path="/especiales" element={<SpecialProjects />} />
           <Route path="/contexto" element={<AreaIndicators />} />
           <Route path="/socioeconomico" element={<SocioeconomicContext />} />
+          <Route path="/datosabiertos" element={<DatosAbiertos />} />
           
           <Route path="/auth" element={<Auth />} />
           <Route path="/admin" element={<Admin />} />
