@@ -46,7 +46,7 @@ async function findLatestFile() {
   const url = `${GW}/google_drive/drive/v3/files?fields=${encodeURIComponent(
     "files(id,name,modifiedTime,size,mimeType)"
   )}&orderBy=name%20desc&pageSize=100&q=${encodeURIComponent(q)}`;
-  const res = await fetch(url, { headers: driveH() });
+  const res = await fetchWithRetry(url, { headers: driveH() }, "drive list");
   if (!res.ok) throw new Error(`Drive list [${res.status}]: ${await res.text()}`);
   const { files } = await res.json();
   const candidates = (files || []).filter((f: any) => FILE_REGEX.test(f.name));
@@ -67,14 +67,14 @@ async function findLatestFile() {
 // Copia el xlsx convirtiéndolo a Google Sheet (Google hace el parseo).
 async function convertXlsxToSheet(fileId: string, name: string): Promise<string> {
   const url = `${GW}/google_drive/drive/v3/files/${fileId}/copy?fields=id,name,mimeType`;
-  const res = await fetch(url, {
+  const res = await fetchWithRetry(url, {
     method: "POST",
     headers: { ...driveH(), "Content-Type": "application/json" },
     body: JSON.stringify({
       name: `__tmp_sync_${name.replace(/\.xlsx$/i, "")}`,
       mimeType: "application/vnd.google-apps.spreadsheet",
     }),
-  });
+  }, "drive copy");
   if (!res.ok) throw new Error(`Drive copy [${res.status}]: ${await res.text()}`);
   const j = await res.json();
   return j.id as string;
