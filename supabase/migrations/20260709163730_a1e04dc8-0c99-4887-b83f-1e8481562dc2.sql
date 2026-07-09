@@ -1,0 +1,1 @@
+ALTER TABLE public.bd_sync_meta ADD COLUMN IF NOT EXISTS diagnostics jsonb;
