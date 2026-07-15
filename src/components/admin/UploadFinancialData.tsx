@@ -162,33 +162,54 @@ export const UploadFinancialData = () => {
         headerRow = tableStartRow + 2; // Fallback
       }
 
+      // Detect the column where the header "PROYECTO" starts (some files have an
+      // empty leading column). Values are read starting from that column.
+      const headerCells = jsonData[headerRow] || [];
+      let nameCol = 0;
+      for (let c = 0; c < headerCells.length; c++) {
+        const cell = String(headerCells[c] || "").toUpperCase().trim();
+        if (cell.startsWith("PROYECTO")) {
+          nameCol = c;
+          break;
+        }
+      }
+
       // Parse projects
       const projects: ParsedProject[] = [];
       let currentParent: string | null = null;
+      let emptyStreak = 0;
 
       for (let i = headerRow + 1; i < jsonData.length; i++) {
         const row = jsonData[i];
-        if (!row || row.length === 0) continue;
-        
-        const projectName = String(row[0] || "").trim();
-        if (!projectName || projectName === "" || projectName.toUpperCase().includes("TOTAL GENERAL")) {
-          if (projectName.toUpperCase().includes("TOTAL")) continue;
-          break;
+        if (!row || row.length === 0) {
+          emptyStreak++;
+          if (emptyStreak >= 2) break;
+          continue;
         }
 
+        const projectName = String(row[nameCol] || "").trim();
+        if (!projectName) {
+          emptyStreak++;
+          if (emptyStreak >= 2) break;
+          continue;
+        }
+        emptyStreak = 0;
+
+        if (projectName.toUpperCase().includes("TOTAL GENERAL")) continue;
+
         // Determine if it's a parent category
-        const isParent = projectName === projectName.toUpperCase() && 
-                         !projectName.includes("UTC") && 
+        const isParent = projectName === projectName.toUpperCase() &&
+                         !projectName.includes("UTC") &&
                          projectName.length > 3;
 
         if (isParent) {
           currentParent = projectName;
         }
 
-        const saldoInicial = parseNumber(row[1]);
-        const executed = parseNumber(row[2]);
-        const pending = parseNumber(row[3]);
-        const executionPercentage = parsePercentage(row[4]);
+        const saldoInicial = parseNumber(row[nameCol + 1]);
+        const executed = parseNumber(row[nameCol + 2]);
+        const pending = parseNumber(row[nameCol + 3]);
+        const executionPercentage = parsePercentage(row[nameCol + 4]);
 
         projects.push({
           project_name: projectName,
