@@ -405,7 +405,7 @@ export const SocialInvestmentSection = () => {
               <CardHeader className="border-b border-gray-100">
                 <CardTitle className="text-xl text-luker-brown font-heading flex items-center gap-2">
                   <div className="w-1 h-6 bg-luker-teal rounded-full"></div>
-                  Ejecución presupuestal por mes
+                  Ejecución presupuestal por mes {selectedMonth?.year ? `- ${selectedMonth.year}` : ""}
                 </CardTitle>
               </CardHeader>
               <CardContent className="pt-4">
