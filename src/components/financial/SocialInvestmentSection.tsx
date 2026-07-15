@@ -411,13 +411,16 @@ export const SocialInvestmentSection = () => {
               <CardContent className="pt-4">
                 <div className="bg-gradient-to-br from-gray-50/50 to-white rounded-xl p-2">
                   {(() => {
-                    const chartData = historicalExecution.map(item => ({
-                      ...item,
-                      calculated_percentage: item.saldo_inicial > 0 
-                        ? Number(((item.executed / item.saldo_inicial) * 100).toFixed(1))
-                        : 0,
-                      short_month: item.month_name.substring(0, 3),
-                    }));
+                    const chartYear = selectedMonth?.year ?? (historicalExecution[historicalExecution.length - 1]?.year);
+                    const chartData = historicalExecution
+                      .filter(item => item.year === chartYear)
+                      .map(item => ({
+                        ...item,
+                        calculated_percentage: item.saldo_inicial > 0 
+                          ? Number(((item.executed / item.saldo_inicial) * 100).toFixed(1))
+                          : 0,
+                        short_month: item.month_name.substring(0, 3),
+                      }));
                     return (
                       <ResponsiveContainer width="100%" height={350}>
                         <BarChart
