@@ -192,6 +192,7 @@ export const SocialInvestmentSection = () => {
 
   // Map long category names to short labels for pie chart
   const categoryLabels: Record<string, string> = {
+    // 2025 y previos
     "EDUCACION PARA EL DESARROLLO": "Educación",
     "EMPRENDIMIENTO DE ALTO IMPACTO": "Emprendimiento",
     "PROYECTOS ESPECIALES": "Especiales",
@@ -200,6 +201,11 @@ export const SocialInvestmentSection = () => {
     "EMPRENDIMIENTO": "Emprendimiento",
     "EDUCACION": "Educación",
     "TRANSFORMACION DIGITAL": "Transf. Digital",
+    // 2026
+    "PROGRAMAS": "Programas",
+    "EXPLORACION Y EXPERIMENTACION": "Exploración y Exp.",
+    "PROYECTOS ESPECIALES NO MISIONAL": "Especiales",
+    "CONOCIMIENTO E INCIDENCIA": "Conocimiento e Incidencia",
   };
 
   // Preparar datos para el gráfico de torta (solo proyectos principales, excluyendo TOTAL)
