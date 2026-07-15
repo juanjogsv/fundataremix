@@ -405,19 +405,22 @@ export const SocialInvestmentSection = () => {
               <CardHeader className="border-b border-gray-100">
                 <CardTitle className="text-xl text-luker-brown font-heading flex items-center gap-2">
                   <div className="w-1 h-6 bg-luker-teal rounded-full"></div>
-                  Ejecución presupuestal por mes
+                  Ejecución presupuestal por mes {selectedMonth?.year ? `- ${selectedMonth.year}` : ""}
                 </CardTitle>
               </CardHeader>
               <CardContent className="pt-4">
                 <div className="bg-gradient-to-br from-gray-50/50 to-white rounded-xl p-2">
                   {(() => {
-                    const chartData = historicalExecution.map(item => ({
-                      ...item,
-                      calculated_percentage: item.saldo_inicial > 0 
-                        ? Number(((item.executed / item.saldo_inicial) * 100).toFixed(1))
-                        : 0,
-                      short_month: item.month_name.substring(0, 3),
-                    }));
+                    const chartYear = selectedMonth?.year ?? (historicalExecution[historicalExecution.length - 1]?.year);
+                    const chartData = historicalExecution
+                      .filter(item => item.year === chartYear)
+                      .map(item => ({
+                        ...item,
+                        calculated_percentage: item.saldo_inicial > 0 
+                          ? Number(((item.executed / item.saldo_inicial) * 100).toFixed(1))
+                          : 0,
+                        short_month: item.month_name.substring(0, 3),
+                      }));
                     return (
                       <ResponsiveContainer width="100%" height={350}>
                         <BarChart
