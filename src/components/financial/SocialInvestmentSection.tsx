@@ -156,10 +156,32 @@ export const SocialInvestmentSection = () => {
     "TRANSFORMACION DIGITAL",
   ];
 
+  // Orden explícito de sub-rubros dentro de una categoría (según Excel)
+  const PROJECT_ORDER_BY_CATEGORY: Record<string, string[]> = {
+    "CONOCIMIENTO E INCIDENCIA": [
+      "COOPERACIÓN Y ALIANZAS",
+      "GESTIÓN DEL CONOCIMIENTO",
+      "INCIDENCIA",
+      "COMUNICACIONES",
+      "MONITOREO Y EVALUACIÓN",
+      "4*1000",
+    ],
+  };
+
+  const normalize = (s: string) =>
+    s.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toUpperCase().trim();
+
   const sortByCategoryOrder = (rows: SocialInvestment[]): SocialInvestment[] => {
     const rank = (cat: string) => {
       const idx = CATEGORY_ORDER.indexOf(cat.toUpperCase());
       return idx === -1 ? CATEGORY_ORDER.length : idx;
+    };
+    const projectRank = (category: string, name: string) => {
+      const list = PROJECT_ORDER_BY_CATEGORY[category.toUpperCase()];
+      if (!list) return -1;
+      const n = normalize(name);
+      const idx = list.findIndex((p) => normalize(p) === n);
+      return idx === -1 ? list.length : idx;
     };
     return [...rows].sort((a, b) => {
       // TOTAL siempre al final
@@ -170,6 +192,9 @@ export const SocialInvestmentSection = () => {
       if (catDiff !== 0) return catDiff;
       // Dentro de la categoría, primero el padre
       if (a.is_parent !== b.is_parent) return a.is_parent ? -1 : 1;
+      // Orden explícito por sub-rubro si aplica
+      const pr = projectRank(a.category, a.project_name) - projectRank(b.category, b.project_name);
+      if (pr !== 0) return pr;
       return a.project_name.localeCompare(b.project_name, "es");
     });
   };
