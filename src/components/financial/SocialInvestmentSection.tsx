@@ -138,14 +138,51 @@ export const SocialInvestmentSection = () => {
     return legacyInvestments;
   };
 
+  // Orden explícito de categorías según el archivo Excel (2026 primero, se
+  // completa con las categorías previas y desconocidas al final)
+  const CATEGORY_ORDER: string[] = [
+    "EMPRENDIMIENTO",
+    "PROGRAMAS",
+    "EXPLORACION Y EXPERIMENTACION",
+    "PROYECTO ALIANZA LUKER",
+    "PROYECTOS ESPECIALES NO MISIONAL",
+    "CONOCIMIENTO E INCIDENCIA",
+    // Categorías 2025 y previos
+    "EMPRENDIMIENTO DE ALTO IMPACTO",
+    "EDUCACION PARA EL DESARROLLO",
+    "PROYECTOS ESPECIALES",
+    "INCIDENCIA",
+    "EDUCACION",
+    "TRANSFORMACION DIGITAL",
+  ];
+
+  const sortByCategoryOrder = (rows: SocialInvestment[]): SocialInvestment[] => {
+    const rank = (cat: string) => {
+      const idx = CATEGORY_ORDER.indexOf(cat.toUpperCase());
+      return idx === -1 ? CATEGORY_ORDER.length : idx;
+    };
+    return [...rows].sort((a, b) => {
+      // TOTAL siempre al final
+      const aTotal = a.project_name.toUpperCase() === "TOTAL";
+      const bTotal = b.project_name.toUpperCase() === "TOTAL";
+      if (aTotal !== bTotal) return aTotal ? 1 : -1;
+      const catDiff = rank(a.category) - rank(b.category);
+      if (catDiff !== 0) return catDiff;
+      // Dentro de la categoría, primero el padre
+      if (a.is_parent !== b.is_parent) return a.is_parent ? -1 : 1;
+      return a.project_name.localeCompare(b.project_name, "es");
+    });
+  };
+
   const filterInvestments = () => {
     const displayData = getDisplayData();
+    const sorted = sortByCategoryOrder(displayData);
     if (!searchTerm.trim()) {
-      setFilteredInvestments(displayData);
+      setFilteredInvestments(sorted);
       return;
     }
 
-    const filtered = displayData.filter((inv) =>
+    const filtered = sorted.filter((inv) =>
       inv.project_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
       inv.category.toLowerCase().includes(searchTerm.toLowerCase())
     );

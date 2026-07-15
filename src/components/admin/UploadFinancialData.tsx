@@ -223,6 +223,72 @@ export const UploadFinancialData = () => {
         });
       }
 
+      // === Sub-cuadro "CONOCIMIENTO E INCIDENCIA" (aparece más abajo en la hoja) ===
+      // Busca un encabezado que contenga "CONOCIMIENTO E INCIDENCIA" e "INVERSION SOCIAL"
+      let ciHeaderRow = -1;
+      for (let i = headerRow + 1; i < jsonData.length; i++) {
+        const rowText = (jsonData[i] || []).join(" ").toUpperCase();
+        if (rowText.includes("CONOCIMIENTO E INCIDENCIA") && rowText.includes("INVERSION SOCIAL")) {
+          ciHeaderRow = i;
+          break;
+        }
+      }
+
+      if (ciHeaderRow !== -1) {
+        // Detectar la columna donde arranca el nombre del rubro
+        const ciHeader = jsonData[ciHeaderRow] || [];
+        let ciNameCol = 0;
+        for (let c = 0; c < ciHeader.length; c++) {
+          const cell = String(ciHeader[c] || "").toUpperCase().trim();
+          if (cell.includes("CONOCIMIENTO E INCIDENCIA")) {
+            ciNameCol = c;
+            break;
+          }
+        }
+
+        // Remover el rubro padre general "Conocimiento e Incidencia" no-padre
+        // que pudiera haber quedado desde la tabla principal, para no duplicar.
+        const idxDup = projects.findIndex(
+          (p) => !p.is_parent && p.project_name.toUpperCase() === "CONOCIMIENTO E INCIDENCIA"
+        );
+        if (idxDup !== -1) projects.splice(idxDup, 1);
+
+        let ciEmpty = 0;
+        for (let i = ciHeaderRow + 1; i < jsonData.length; i++) {
+          const row = jsonData[i];
+          if (!row || row.length === 0) {
+            ciEmpty++;
+            if (ciEmpty >= 2) break;
+            continue;
+          }
+          const name = String(row[ciNameCol] || "").trim();
+          if (!name) {
+            ciEmpty++;
+            if (ciEmpty >= 2) break;
+            continue;
+          }
+          ciEmpty = 0;
+          if (name.toUpperCase() === "TOTAL") break;
+
+          const saldo = parseNumber(row[ciNameCol + 1]);
+          const ejec = parseNumber(row[ciNameCol + 2]);
+          const pend = parseNumber(row[ciNameCol + 3]);
+          const pct = parsePercentage(row[ciNameCol + 4]);
+          if (saldo === 0 && ejec === 0 && pend === 0) continue;
+
+          projects.push({
+            project_name: name,
+            category: "CONOCIMIENTO E INCIDENCIA",
+            saldo_inicial: saldo,
+            executed: ejec,
+            pending: pend,
+            execution_percentage: pct,
+            is_parent: false,
+            parent_category: "CONOCIMIENTO E INCIDENCIA",
+          });
+        }
+      }
+
       if (projects.length === 0) {
         toast.error("No se encontraron proyectos en la tabla");
         return;
