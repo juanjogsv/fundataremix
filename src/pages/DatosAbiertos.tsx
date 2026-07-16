@@ -138,7 +138,7 @@ const SectionShell = ({
 );
 
 const DatosAbiertos = () => {
-  const [financialTab, setFinancialTab] = useState("inversion-social");
+  
   const [educationTab, setEducationTab] = useState("beneficiarios");
   const [ruralTab, setRuralTab] = useState("participantes");
   const [specialTab, setSpecialTab] = useState("beneficiarios");
