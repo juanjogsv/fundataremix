@@ -272,8 +272,23 @@ export const SocialInvestmentSection = () => {
 
   // Preparar datos para el gráfico de torta (solo proyectos principales, excluyendo TOTAL)
   const displayData = getDisplayData();
+  // Orden explícito de la leyenda del gráfico de torta
+  const PIE_LEGEND_ORDER = [
+    "PROGRAMAS",
+    "EXPLORACION Y EXPERIMENTACION",
+    "CONOCIMIENTO E INCIDENCIA",
+    "EMPRENDIMIENTO",
+    "PROYECTO ALIANZA LUKER",
+    "PROYECTOS ESPECIALES NO MISIONAL",
+  ];
   const pieChartData = displayData
     .filter((inv) => inv.is_parent && inv.project_name.toUpperCase() !== "TOTAL")
+    .slice()
+    .sort((a, b) => {
+      const ra = PIE_LEGEND_ORDER.indexOf(a.category.toUpperCase());
+      const rb = PIE_LEGEND_ORDER.indexOf(b.category.toUpperCase());
+      return (ra === -1 ? 999 : ra) - (rb === -1 ? 999 : rb);
+    })
     .map((inv) => ({
       name: categoryLabels[inv.category] || inv.category,
       value: inv.budget_2025,
