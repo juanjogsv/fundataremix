@@ -179,6 +179,30 @@ export type Database = {
         }
         Relationships: []
       }
+      codigos_acceso: {
+        Row: {
+          activo: boolean
+          codigo_hash: string
+          created_at: string
+          descripcion: string | null
+          id: string
+        }
+        Insert: {
+          activo?: boolean
+          codigo_hash: string
+          created_at?: string
+          descripcion?: string | null
+          id?: string
+        }
+        Update: {
+          activo?: boolean
+          codigo_hash?: string
+          created_at?: string
+          descripcion?: string | null
+          id?: string
+        }
+        Relationships: []
+      }
       dama_catalog: {
         Row: {
           cod_indicador: string
