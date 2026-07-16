@@ -24,9 +24,6 @@ import {
 } from "lucide-react";
 import lukerLogo from "@/assets/fundacion-luker-logo.jpeg";
 
-// Financiero
-import { SocialInvestmentSection } from "@/components/financial/SocialInvestmentSection";
-import { OperatingExpensesSection } from "@/components/financial/OperatingExpensesSection";
 
 // Educación
 import EducationBeneficiaries from "@/components/education/EducationBeneficiaries";
