@@ -35,36 +35,48 @@ const HomeRoute = () => {
   return <Index />;
 };
 
+/** Aplica AccessGate en todas las rutas EXCEPTO /datosabiertos/* y /auth */
+const GateWrapper = ({ children }: { children: React.ReactNode }) => {
+  const location = useLocation();
+  const isPublic =
+    location.pathname.startsWith("/datosabiertos") ||
+    location.pathname.startsWith("/auth");
+  if (isPublic) return <>{children}</>;
+  return <AccessGate>{children}</AccessGate>;
+};
+
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
       <Toaster />
       <Sonner />
       <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<HomeRoute />} />
-          <Route path="/indicadores" element={<StrategicIndicators />} />
-          <Route path="/calendario" element={<Calendar />} />
-          <Route path="/documentos" element={<Documents />} />
-          <Route path="/mapa" element={<Map />} />
-          <Route path="/financiero" element={<Financial />} />
-          <Route path="/educacion" element={<Education />} />
-          <Route path="/emprendimiento" element={<Entrepreneurship />} />
-          <Route path="/desarrollo-rural" element={<RuralDevelopment />} />
-          <Route path="/especiales" element={<SpecialProjects />} />
-          <Route path="/contexto" element={<AreaIndicators />} />
-          <Route path="/socioeconomico" element={<SocioeconomicContext />} />
-          <Route path="/datosabiertos" element={<DatosAbiertos />} />
-          
-          <Route path="/auth" element={<Auth />} />
-          <Route path="/admin" element={<Admin />} />
-          <Route path="/admin/documentos" element={<AdminDocuments />} />
-          <Route path="/admin/biblioteca" element={<AdminBiblioteca />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/help" element={<Help />} />
-          {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-          <Route path="*" element={<NotFound />} />
-        </Routes>
+        <GateWrapper>
+          <Routes>
+            <Route path="/" element={<HomeRoute />} />
+            <Route path="/indicadores" element={<StrategicIndicators />} />
+            <Route path="/calendario" element={<Calendar />} />
+            <Route path="/documentos" element={<Documents />} />
+            <Route path="/mapa" element={<Map />} />
+            <Route path="/financiero" element={<Financial />} />
+            <Route path="/educacion" element={<Education />} />
+            <Route path="/emprendimiento" element={<Entrepreneurship />} />
+            <Route path="/desarrollo-rural" element={<RuralDevelopment />} />
+            <Route path="/especiales" element={<SpecialProjects />} />
+            <Route path="/contexto" element={<AreaIndicators />} />
+            <Route path="/socioeconomico" element={<SocioeconomicContext />} />
+            <Route path="/datosabiertos" element={<DatosAbiertos />} />
+
+            <Route path="/auth" element={<Auth />} />
+            <Route path="/admin" element={<Admin />} />
+            <Route path="/admin/documentos" element={<AdminDocuments />} />
+            <Route path="/admin/biblioteca" element={<AdminBiblioteca />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/help" element={<Help />} />
+            {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </GateWrapper>
       </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>
