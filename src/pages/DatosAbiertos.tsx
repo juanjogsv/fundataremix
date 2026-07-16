@@ -24,9 +24,6 @@ import {
 } from "lucide-react";
 import lukerLogo from "@/assets/fundacion-luker-logo.jpeg";
 
-// Financiero
-import { SocialInvestmentSection } from "@/components/financial/SocialInvestmentSection";
-import { OperatingExpensesSection } from "@/components/financial/OperatingExpensesSection";
 
 // Educación
 import EducationBeneficiaries from "@/components/education/EducationBeneficiaries";
@@ -59,7 +56,7 @@ import MCVSubsection from "@/components/mcv/MCVSubsection";
 // Mapa — se enlaza a /mapa (componente completo con su propio layout)
 
 const sections = [
-  { id: "financiero", title: "Financiero", icon: DollarSign, iconColor: "bg-luker-green", color: "from-luker-green/20 to-luker-teal/20" },
+
   { id: "educacion", title: "Educación", icon: GraduationCap, iconColor: "bg-luker-red", color: "from-luker-red/20 to-luker-orange/20" },
   { id: "emprendimiento", title: "Emprendimiento", icon: Lightbulb, iconColor: "bg-luker-orange", color: "from-luker-orange/20 to-luker-green/20" },
   { id: "desarrollo-rural", title: "Desarrollo Rural", icon: Sprout, iconColor: "bg-luker-green", color: "from-luker-green/20 to-luker-brown/20" },
@@ -68,10 +65,6 @@ const sections = [
 ];
 
 // Configuración reusada de las páginas ampliadas
-const financialTabs = [
-  { id: "inversion-social", label: "Inversión Social", mobile: "Inv. Social", icon: Wallet },
-  { id: "funcionamiento", label: "Funcionamiento", mobile: "Func.", icon: Building2 },
-];
 
 const educationTabs = [
   { id: "beneficiarios", label: "Participantes", mobile: "Participantes", icon: Users, Component: EducationBeneficiaries },
@@ -145,7 +138,7 @@ const SectionShell = ({
 );
 
 const DatosAbiertos = () => {
-  const [financialTab, setFinancialTab] = useState("inversion-social");
+  
   const [educationTab, setEducationTab] = useState("beneficiarios");
   const [ruralTab, setRuralTab] = useState("participantes");
   const [specialTab, setSpecialTab] = useState("beneficiarios");
@@ -218,26 +211,6 @@ const DatosAbiertos = () => {
         </div>
       </div>
 
-
-      {/* Financiero */}
-      <SectionShell id="financiero" title="Financiero" icon={DollarSign} iconColor="bg-luker-green">
-        <Tabs value={financialTab} onValueChange={setFinancialTab} className="w-full">
-          <TabsList className="w-full h-auto flex-wrap justify-start gap-2 bg-white border border-gray-200 p-2 mb-6">
-            {financialTabs.map((t) => {
-              const Icon = t.icon;
-              return (
-                <TabsTrigger key={t.id} value={t.id} className="flex items-center gap-2 data-[state=active]:bg-luker-green data-[state=active]:text-white">
-                  <Icon className="h-4 w-4" />
-                  <span className="hidden md:inline">{t.label}</span>
-                  <span className="md:hidden">{t.mobile}</span>
-                </TabsTrigger>
-              );
-            })}
-          </TabsList>
-          <TabsContent value="inversion-social" className="mt-0"><SocialInvestmentSection /></TabsContent>
-          <TabsContent value="funcionamiento" className="mt-0"><OperatingExpensesSection /></TabsContent>
-        </Tabs>
-      </SectionShell>
 
       {/* Educación */}
       <SectionShell id="educacion" title="Educación" icon={GraduationCap} iconColor="bg-luker-red">
