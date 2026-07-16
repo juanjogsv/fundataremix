@@ -56,7 +56,7 @@ import MCVSubsection from "@/components/mcv/MCVSubsection";
 // Mapa — se enlaza a /mapa (componente completo con su propio layout)
 
 const sections = [
-  { id: "financiero", title: "Financiero", icon: DollarSign, iconColor: "bg-luker-green", color: "from-luker-green/20 to-luker-teal/20" },
+
   { id: "educacion", title: "Educación", icon: GraduationCap, iconColor: "bg-luker-red", color: "from-luker-red/20 to-luker-orange/20" },
   { id: "emprendimiento", title: "Emprendimiento", icon: Lightbulb, iconColor: "bg-luker-orange", color: "from-luker-orange/20 to-luker-green/20" },
   { id: "desarrollo-rural", title: "Desarrollo Rural", icon: Sprout, iconColor: "bg-luker-green", color: "from-luker-green/20 to-luker-brown/20" },
