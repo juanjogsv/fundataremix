@@ -65,10 +65,6 @@ const sections = [
 ];
 
 // Configuración reusada de las páginas ampliadas
-const financialTabs = [
-  { id: "inversion-social", label: "Inversión Social", mobile: "Inv. Social", icon: Wallet },
-  { id: "funcionamiento", label: "Funcionamiento", mobile: "Func.", icon: Building2 },
-];
 
 const educationTabs = [
   { id: "beneficiarios", label: "Participantes", mobile: "Participantes", icon: Users, Component: EducationBeneficiaries },
