@@ -282,14 +282,12 @@ const Map = () => {
         const clusterId = features[0].properties?.cluster_id;
         const source = map.current!.getSource('municipalities') as maplibregl.GeoJSONSource;
         
-        source.getClusterExpansionZoom(clusterId, (err, zoom) => {
-          if (err) return;
-          
+        source.getClusterExpansionZoom(clusterId).then((zoom) => {
           map.current!.easeTo({
             center: (features[0].geometry as Point).coordinates as [number, number],
             zoom: zoom
           });
-        });
+        }).catch(() => {});
       });
 
       // Click on unclustered point to show popup
