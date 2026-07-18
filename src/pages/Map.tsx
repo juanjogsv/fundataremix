@@ -7,10 +7,12 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { getCoordinatesByDaneCode, normalizeDaneCode } from '@/lib/colombia-municipalities';
-import mapboxgl from 'mapbox-gl';
-import 'mapbox-gl/dist/mapbox-gl.css';
+import maplibregl from 'maplibre-gl';
+import 'maplibre-gl/dist/maplibre-gl.css';
+import type { Point, FeatureCollection } from 'geojson';
 
-const MAPBOX_TOKEN = 'pk.eyJ1IjoibmF0YWxpYWVzY29iYXI3IiwiYSI6ImNtazJ2NG53azA3NHMzZnEycTg3d2Q5emsifQ.kwIZCS3RzG6Lt6drTWnPlg';
+// Free vector tile style from Carto (no token required)
+const MAP_STYLE = 'https://basemaps.cartocdn.com/gl/positron-gl-style/style.json';
 
 const MARKER_COLOR = '#6366f1'; // Primary indigo color
 
@@ -26,8 +28,8 @@ interface MunicipalityData {
 const Map = () => {
   const navigate = useNavigate();
   const mapContainer = useRef<HTMLDivElement>(null);
-  const map = useRef<mapboxgl.Map | null>(null);
-  const popupRef = useRef<mapboxgl.Popup | null>(null);
+  const map = useRef<maplibregl.Map | null>(null);
+  const popupRef = useRef<maplibregl.Popup | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [selectedYear, setSelectedYear] = useState<string>("all");
   const [selectedDepartment, setSelectedDepartment] = useState<string>("all");
@@ -155,21 +157,19 @@ const Map = () => {
   useEffect(() => {
     if (!mapContainer.current) return;
 
-    mapboxgl.accessToken = MAPBOX_TOKEN;
-
-    map.current = new mapboxgl.Map({
+    map.current = new maplibregl.Map({
       container: mapContainer.current,
-      style: 'mapbox://styles/mapbox/light-v11',
+      style: MAP_STYLE,
       center: [-74.2973, 4.5709], // Colombia center
       zoom: 5,
     });
 
     map.current.addControl(
-      new mapboxgl.NavigationControl({ visualizePitch: true }),
+      new maplibregl.NavigationControl({ visualizePitch: true }),
       'top-right'
     );
-    map.current.addControl(new mapboxgl.FullscreenControl(), 'top-right');
-    map.current.addControl(new mapboxgl.ScaleControl(), 'bottom-left');
+    map.current.addControl(new maplibregl.FullscreenControl(), 'top-right');
+    map.current.addControl(new maplibregl.ScaleControl(), 'bottom-left');
 
     map.current.on('load', () => {
       // Add cluster source
@@ -222,7 +222,7 @@ const Map = () => {
             ['concat', ['to-string', ['/', ['round', ['/', ['get', 'sum'], 100]], 10]], 'k'],
             ['to-string', ['get', 'sum']]
           ],
-          'text-font': ['DIN Offc Pro Medium', 'Arial Unicode MS Bold'],
+          'text-font': ['Open Sans Semibold','Arial Unicode MS Bold'],
           'text-size': 12
         },
         paint: {
@@ -266,7 +266,7 @@ const Map = () => {
             ['concat', ['to-string', ['/', ['round', ['/', ['get', 'totalBeneficiarios'], 100]], 10]], 'k'],
             ['to-string', ['get', 'totalBeneficiarios']]
           ],
-          'text-font': ['DIN Offc Pro Medium', 'Arial Unicode MS Bold'],
+          'text-font': ['Open Sans Semibold','Arial Unicode MS Bold'],
           'text-size': 11
         },
         paint: {
@@ -280,23 +280,21 @@ const Map = () => {
           layers: ['clusters']
         });
         const clusterId = features[0].properties?.cluster_id;
-        const source = map.current!.getSource('municipalities') as mapboxgl.GeoJSONSource;
+        const source = map.current!.getSource('municipalities') as maplibregl.GeoJSONSource;
         
-        source.getClusterExpansionZoom(clusterId, (err, zoom) => {
-          if (err) return;
-          
+        source.getClusterExpansionZoom(clusterId).then((zoom) => {
           map.current!.easeTo({
-            center: (features[0].geometry as GeoJSON.Point).coordinates as [number, number],
+            center: (features[0].geometry as Point).coordinates as [number, number],
             zoom: zoom
           });
-        });
+        }).catch(() => {});
       });
 
       // Click on unclustered point to show popup
       map.current!.on('click', 'unclustered-point', (e) => {
         if (!e.features || !e.features[0]) return;
         
-        const coordinates = (e.features[0].geometry as GeoJSON.Point).coordinates.slice() as [number, number];
+        const coordinates = (e.features[0].geometry as Point).coordinates.slice() as [number, number];
         const props = e.features[0].properties;
         
         // Close existing popup
@@ -332,7 +330,7 @@ const Map = () => {
           console.error('Error parsing programas:', e);
         }
         
-        popupRef.current = new mapboxgl.Popup({ offset: 25, maxWidth: '350px', anchor: 'bottom', closeOnClick: false })
+        popupRef.current = new maplibregl.Popup({ offset: 25, maxWidth: '350px', anchor: 'bottom', closeOnClick: false })
           .setLngLat(coordinates)
           .setHTML(`
             <div style="padding: 12px; min-width: 300px; max-height: 400px; overflow-y: auto;">
@@ -394,9 +392,9 @@ const Map = () => {
   useEffect(() => {
     if (!map.current || isLoading) return;
     
-    const source = map.current.getSource('municipalities') as mapboxgl.GeoJSONSource;
+    const source = map.current.getSource('municipalities') as maplibregl.GeoJSONSource;
     if (source) {
-      source.setData(geojsonData as GeoJSON.FeatureCollection);
+      source.setData(geojsonData as FeatureCollection);
     }
   }, [geojsonData, isLoading]);
 

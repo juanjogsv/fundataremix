@@ -5,10 +5,11 @@ import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { getCoordinatesByDaneCode, normalizeDaneCode } from '@/lib/colombia-municipalities';
 import { useNavigate } from 'react-router-dom';
-import mapboxgl from 'mapbox-gl';
-import 'mapbox-gl/dist/mapbox-gl.css';
+import maplibregl from 'maplibre-gl';
+import 'maplibre-gl/dist/maplibre-gl.css';
+import type { Feature, FeatureCollection, Point } from 'geojson';
 
-const MAPBOX_TOKEN = 'pk.eyJ1IjoibmF0YWxpYWVzY29iYXI3IiwiYSI6ImNtazJ2NG53azA3NHMzZnEycTg3d2Q5emsifQ.kwIZCS3RzG6Lt6drTWnPlg';
+const MAP_STYLE = 'https://basemaps.cartocdn.com/gl/positron-gl-style/style.json';
 const MARKER_COLOR = '#6366f1';
 
 interface MunicipalityData {
@@ -23,8 +24,8 @@ interface MunicipalityData {
 export const EmbeddedMapCard = () => {
   const navigate = useNavigate();
   const mapContainer = useRef<HTMLDivElement>(null);
-  const map = useRef<mapboxgl.Map | null>(null);
-  const popupRef = useRef<mapboxgl.Popup | null>(null);
+  const map = useRef<maplibregl.Map | null>(null);
+  const popupRef = useRef<maplibregl.Popup | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
   const { data: beneficiariesData, isLoading: isDataLoading } = useQuery({
@@ -115,17 +116,15 @@ export const EmbeddedMapCard = () => {
   useEffect(() => {
     if (!mapContainer.current) return;
 
-    mapboxgl.accessToken = MAPBOX_TOKEN;
-
-    map.current = new mapboxgl.Map({
+    map.current = new maplibregl.Map({
       container: mapContainer.current,
-      style: 'mapbox://styles/mapbox/light-v11',
+      style: MAP_STYLE,
       center: [-74.2973, 4.5709],
       zoom: 4.5,
       attributionControl: false,
     });
 
-    map.current.addControl(new mapboxgl.NavigationControl({ showCompass: false }), 'top-right');
+    map.current.addControl(new maplibregl.NavigationControl({ showCompass: false }), 'top-right');
 
     map.current.on('load', () => {
       map.current!.addSource('municipalities', {
@@ -164,7 +163,7 @@ export const EmbeddedMapCard = () => {
             ['concat', ['to-string', ['/', ['round', ['/', ['get', 'sum'], 100]], 10]], 'k'],
             ['to-string', ['get', 'sum']]
           ],
-          'text-font': ['DIN Offc Pro Medium', 'Arial Unicode MS Bold'],
+          'text-font': ['Open Sans Semibold','Arial Unicode MS Bold'],
           'text-size': 10
         },
         paint: { 'text-color': '#ffffff' }
@@ -195,7 +194,7 @@ export const EmbeddedMapCard = () => {
             ['concat', ['to-string', ['/', ['round', ['/', ['get', 'totalBeneficiarios'], 100]], 10]], 'k'],
             ['to-string', ['get', 'totalBeneficiarios']]
           ],
-          'text-font': ['DIN Offc Pro Medium', 'Arial Unicode MS Bold'],
+          'text-font': ['Open Sans Semibold','Arial Unicode MS Bold'],
           'text-size': 9
         },
         paint: { 'text-color': '#ffffff' }
@@ -204,21 +203,20 @@ export const EmbeddedMapCard = () => {
       map.current!.on('click', 'clusters', (e) => {
         const features = map.current!.queryRenderedFeatures(e.point, { layers: ['clusters'] });
         const clusterId = features[0].properties?.cluster_id;
-        const source = map.current!.getSource('municipalities') as mapboxgl.GeoJSONSource;
+        const source = map.current!.getSource('municipalities') as maplibregl.GeoJSONSource;
         
-        source.getClusterExpansionZoom(clusterId, (err, zoom) => {
-          if (err) return;
+        source.getClusterExpansionZoom(clusterId).then((zoom) => {
           map.current!.easeTo({
-            center: (features[0].geometry as GeoJSON.Point).coordinates as [number, number],
+            center: (features[0].geometry as Point).coordinates as [number, number],
             zoom: zoom
           });
-        });
+        }).catch(() => {});
       });
 
       map.current!.on('click', 'unclustered-point', (e) => {
         if (!e.features || !e.features[0]) return;
         
-        const coordinates = (e.features[0].geometry as GeoJSON.Point).coordinates.slice() as [number, number];
+        const coordinates = (e.features[0].geometry as Point).coordinates.slice() as [number, number];
         const props = e.features[0].properties;
         
         if (popupRef.current) popupRef.current.remove();
@@ -251,7 +249,7 @@ export const EmbeddedMapCard = () => {
           console.error('Error parsing programas:', e);
         }
         
-        popupRef.current = new mapboxgl.Popup({ offset: 15, maxWidth: '250px', anchor: 'left', closeOnClick: false })
+        popupRef.current = new maplibregl.Popup({ offset: 15, maxWidth: '250px', anchor: 'left', closeOnClick: false })
           .setLngLat(coordinates)
           .setHTML(`
             <div style="padding: 8px; min-width: 200px;">
@@ -284,9 +282,9 @@ export const EmbeddedMapCard = () => {
   useEffect(() => {
     if (!map.current || isLoading) return;
     
-    const source = map.current.getSource('municipalities') as mapboxgl.GeoJSONSource;
+    const source = map.current.getSource('municipalities') as maplibregl.GeoJSONSource;
     if (source) {
-      source.setData(geojsonData as GeoJSON.FeatureCollection);
+      source.setData(geojsonData as FeatureCollection);
     }
   }, [geojsonData, isLoading]);
 
