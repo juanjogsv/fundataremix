@@ -27,8 +27,8 @@ interface MunicipalityData {
 const Map = () => {
   const navigate = useNavigate();
   const mapContainer = useRef<HTMLDivElement>(null);
-  const map = useRef<mapboxgl.Map | null>(null);
-  const popupRef = useRef<mapboxgl.Popup | null>(null);
+  const map = useRef<maplibregl.Map | null>(null);
+  const popupRef = useRef<maplibregl.Popup | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [selectedYear, setSelectedYear] = useState<string>("all");
   const [selectedDepartment, setSelectedDepartment] = useState<string>("all");
@@ -156,9 +156,9 @@ const Map = () => {
   useEffect(() => {
     if (!mapContainer.current) return;
 
-    mapboxgl.accessToken = MAPBOX_TOKEN;
+    maplibregl.accessToken = MAPBOX_TOKEN;
 
-    map.current = new mapboxgl.Map({
+    map.current = new maplibregl.Map({
       container: mapContainer.current,
       style: 'mapbox://styles/mapbox/light-v11',
       center: [-74.2973, 4.5709], // Colombia center
@@ -166,11 +166,11 @@ const Map = () => {
     });
 
     map.current.addControl(
-      new mapboxgl.NavigationControl({ visualizePitch: true }),
+      new maplibregl.NavigationControl({ visualizePitch: true }),
       'top-right'
     );
-    map.current.addControl(new mapboxgl.FullscreenControl(), 'top-right');
-    map.current.addControl(new mapboxgl.ScaleControl(), 'bottom-left');
+    map.current.addControl(new maplibregl.FullscreenControl(), 'top-right');
+    map.current.addControl(new maplibregl.ScaleControl(), 'bottom-left');
 
     map.current.on('load', () => {
       // Add cluster source
@@ -281,7 +281,7 @@ const Map = () => {
           layers: ['clusters']
         });
         const clusterId = features[0].properties?.cluster_id;
-        const source = map.current!.getSource('municipalities') as mapboxgl.GeoJSONSource;
+        const source = map.current!.getSource('municipalities') as maplibregl.GeoJSONSource;
         
         source.getClusterExpansionZoom(clusterId, (err, zoom) => {
           if (err) return;
@@ -333,7 +333,7 @@ const Map = () => {
           console.error('Error parsing programas:', e);
         }
         
-        popupRef.current = new mapboxgl.Popup({ offset: 25, maxWidth: '350px', anchor: 'bottom', closeOnClick: false })
+        popupRef.current = new maplibregl.Popup({ offset: 25, maxWidth: '350px', anchor: 'bottom', closeOnClick: false })
           .setLngLat(coordinates)
           .setHTML(`
             <div style="padding: 12px; min-width: 300px; max-height: 400px; overflow-y: auto;">
@@ -395,7 +395,7 @@ const Map = () => {
   useEffect(() => {
     if (!map.current || isLoading) return;
     
-    const source = map.current.getSource('municipalities') as mapboxgl.GeoJSONSource;
+    const source = map.current.getSource('municipalities') as maplibregl.GeoJSONSource;
     if (source) {
       source.setData(geojsonData as GeoJSON.FeatureCollection);
     }
