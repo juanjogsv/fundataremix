@@ -7,10 +7,11 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { getCoordinatesByDaneCode, normalizeDaneCode } from '@/lib/colombia-municipalities';
-import mapboxgl from 'mapbox-gl';
-import 'mapbox-gl/dist/mapbox-gl.css';
+import maplibregl from 'maplibre-gl';
+import 'maplibre-gl/dist/maplibre-gl.css';
 
-const MAPBOX_TOKEN = 'pk.eyJ1IjoibmF0YWxpYWVzY29iYXI3IiwiYSI6ImNtazJ2NG53azA3NHMzZnEycTg3d2Q5emsifQ.kwIZCS3RzG6Lt6drTWnPlg';
+// Free vector tile style from Carto (no token required)
+const MAP_STYLE = 'https://basemaps.cartocdn.com/gl/positron-gl-style/style.json';
 
 const MARKER_COLOR = '#6366f1'; // Primary indigo color
 
