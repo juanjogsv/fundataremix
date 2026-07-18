@@ -205,13 +205,12 @@ export const EmbeddedMapCard = () => {
         const clusterId = features[0].properties?.cluster_id;
         const source = map.current!.getSource('municipalities') as maplibregl.GeoJSONSource;
         
-        source.getClusterExpansionZoom(clusterId, (err, zoom) => {
-          if (err) return;
+        source.getClusterExpansionZoom(clusterId).then((zoom) => {
           map.current!.easeTo({
-            center: (features[0].geometry as GeoJSON.Point).coordinates as [number, number],
+            center: (features[0].geometry as Point).coordinates as [number, number],
             zoom: zoom
           });
-        });
+        }).catch(() => {});
       });
 
       map.current!.on('click', 'unclustered-point', (e) => {
