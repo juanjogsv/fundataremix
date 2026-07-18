@@ -35,14 +35,20 @@ const HomeRoute = () => {
   return <Index />;
 };
 
-/** Aplica AccessGate en todas las rutas EXCEPTO /datosabiertos/* y /auth */
+/**
+ * GateWrapper — Temporalmente DESACTIVADO por decisión del usuario.
+ * El código de acceso queda guardado en `codigos_acceso` + secret `INITIAL_ACCESS_CODE`
+ * y el componente `AccessGate` sigue disponible. Para reactivar, reemplaza el cuerpo
+ * de esta función por:
+ *   const location = useLocation();
+ *   const isPublic = location.pathname.startsWith("/datosabiertos") || location.pathname.startsWith("/auth");
+ *   if (isPublic) return <>{children}</>;
+ *   return <AccessGate>{children}</AccessGate>;
+ */
 const GateWrapper = ({ children }: { children: React.ReactNode }) => {
-  const location = useLocation();
-  const isPublic =
-    location.pathname.startsWith("/datosabiertos") ||
-    location.pathname.startsWith("/auth");
-  if (isPublic) return <>{children}</>;
-  return <AccessGate>{children}</AccessGate>;
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const _location = useLocation();
+  return <>{children}</>;
 };
 
 const App = () => (
