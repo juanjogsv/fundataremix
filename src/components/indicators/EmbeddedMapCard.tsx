@@ -5,10 +5,11 @@ import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { getCoordinatesByDaneCode, normalizeDaneCode } from '@/lib/colombia-municipalities';
 import { useNavigate } from 'react-router-dom';
-import maplibregl from 'mapbox-gl';
-import 'mapbox-gl/dist/mapbox-gl.css';
+import maplibregl from 'maplibre-gl';
+import 'maplibre-gl/dist/maplibre-gl.css';
+import type { Feature, FeatureCollection, Point } from 'geojson';
 
-const MAPBOX_TOKEN = 'pk.eyJ1IjoibmF0YWxpYWVzY29iYXI3IiwiYSI6ImNtazJ2NG53azA3NHMzZnEycTg3d2Q5emsifQ.kwIZCS3RzG6Lt6drTWnPlg';
+const MAP_STYLE = 'https://basemaps.cartocdn.com/gl/positron-gl-style/style.json';
 const MARKER_COLOR = '#6366f1';
 
 interface MunicipalityData {
