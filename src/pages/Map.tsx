@@ -9,6 +9,7 @@ import { supabase } from '@/integrations/supabase/client';
 import { getCoordinatesByDaneCode, normalizeDaneCode } from '@/lib/colombia-municipalities';
 import maplibregl from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
+import type { Point, FeatureCollection } from 'geojson';
 
 // Free vector tile style from Carto (no token required)
 const MAP_STYLE = 'https://basemaps.cartocdn.com/gl/positron-gl-style/style.json';
