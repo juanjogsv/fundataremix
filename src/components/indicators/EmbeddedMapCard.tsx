@@ -216,7 +216,7 @@ export const EmbeddedMapCard = () => {
       map.current!.on('click', 'unclustered-point', (e) => {
         if (!e.features || !e.features[0]) return;
         
-        const coordinates = (e.features[0].geometry as GeoJSON.Point).coordinates.slice() as [number, number];
+        const coordinates = (e.features[0].geometry as Point).coordinates.slice() as [number, number];
         const props = e.features[0].properties;
         
         if (popupRef.current) popupRef.current.remove();
@@ -284,7 +284,7 @@ export const EmbeddedMapCard = () => {
     
     const source = map.current.getSource('municipalities') as maplibregl.GeoJSONSource;
     if (source) {
-      source.setData(geojsonData as GeoJSON.FeatureCollection);
+      source.setData(geojsonData as FeatureCollection);
     }
   }, [geojsonData, isLoading]);
 
