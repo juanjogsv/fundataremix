@@ -286,7 +286,7 @@ const Map = () => {
           if (err) return;
           
           map.current!.easeTo({
-            center: (features[0].geometry as GeoJSON.Point).coordinates as [number, number],
+            center: (features[0].geometry as Point).coordinates as [number, number],
             zoom: zoom
           });
         });
@@ -296,7 +296,7 @@ const Map = () => {
       map.current!.on('click', 'unclustered-point', (e) => {
         if (!e.features || !e.features[0]) return;
         
-        const coordinates = (e.features[0].geometry as GeoJSON.Point).coordinates.slice() as [number, number];
+        const coordinates = (e.features[0].geometry as Point).coordinates.slice() as [number, number];
         const props = e.features[0].properties;
         
         // Close existing popup
@@ -396,7 +396,7 @@ const Map = () => {
     
     const source = map.current.getSource('municipalities') as maplibregl.GeoJSONSource;
     if (source) {
-      source.setData(geojsonData as GeoJSON.FeatureCollection);
+      source.setData(geojsonData as FeatureCollection);
     }
   }, [geojsonData, isLoading]);
 
