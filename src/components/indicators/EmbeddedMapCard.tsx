@@ -163,7 +163,7 @@ export const EmbeddedMapCard = () => {
             ['concat', ['to-string', ['/', ['round', ['/', ['get', 'sum'], 100]], 10]], 'k'],
             ['to-string', ['get', 'sum']]
           ],
-          'text-font': ['DIN Offc Pro Medium', 'Arial Unicode MS Bold'],
+          'text-font': ['Open Sans Semibold','Arial Unicode MS Bold'],
           'text-size': 10
         },
         paint: { 'text-color': '#ffffff' }
@@ -194,7 +194,7 @@ export const EmbeddedMapCard = () => {
             ['concat', ['to-string', ['/', ['round', ['/', ['get', 'totalBeneficiarios'], 100]], 10]], 'k'],
             ['to-string', ['get', 'totalBeneficiarios']]
           ],
-          'text-font': ['DIN Offc Pro Medium', 'Arial Unicode MS Bold'],
+          'text-font': ['Open Sans Semibold','Arial Unicode MS Bold'],
           'text-size': 9
         },
         paint: { 'text-color': '#ffffff' }
