@@ -156,11 +156,9 @@ const Map = () => {
   useEffect(() => {
     if (!mapContainer.current) return;
 
-    maplibregl.accessToken = MAPBOX_TOKEN;
-
     map.current = new maplibregl.Map({
       container: mapContainer.current,
-      style: 'mapbox://styles/mapbox/light-v11',
+      style: MAP_STYLE,
       center: [-74.2973, 4.5709], // Colombia center
       zoom: 5,
     });
