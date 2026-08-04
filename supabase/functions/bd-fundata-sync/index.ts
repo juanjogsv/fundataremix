@@ -339,7 +339,20 @@ Deno.serve(async (req) => {
     ];
 
 
-
+    // Catálogo de categorías: deduplicado por cod_indicador
+    const catMap = new Map<string, any>();
+    for (const c of categorias) {
+      const code = String(c.cod_indicador ?? "").trim();
+      if (!code || catMap.has(code)) continue;
+      catMap.set(code, {
+        cod_indicador: code,
+        indicador: c.indicador ? String(c.indicador) : null,
+        categoria: c.categoria ? String(c.categoria) : null,
+        categoria_2: c.categoria_2 ? String(c.categoria_2) : null,
+        entidad: c.entidad ? String(c.entidad) : null,
+      });
+    }
+    const categoriasFinal = [...catMap.values()];
 
     // 8. Volcado: TRUNCATE + INSERT
     await supabase.from("bd_catalogo_indicadores").delete().neq("cod_indicador", "___never___");
@@ -347,6 +360,10 @@ Deno.serve(async (req) => {
 
     await supabase.from("bd_catalogo_entidades").delete().neq("cod_entidad", "___never___");
     await chunkedInsert("bd_catalogo_entidades", entidadesFinal);
+
+    await supabase.from("bd_catalogo_categorias").delete().neq("cod_indicador", "___never___");
+    await chunkedInsert("bd_catalogo_categorias", categoriasFinal);
+
 
 
     await supabase.from("bd_datos_cache").delete().neq("id", -1);
