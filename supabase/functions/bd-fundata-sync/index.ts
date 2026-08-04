@@ -286,13 +286,52 @@ Deno.serve(async (req) => {
           headers: { ...corsHeaders, "Content-Type": "application/json" },
         });
       }
-      orphanWarning = `Permissive mode: filtered ${orphansInd.size} orphan indicators and ${orphansEnt.size} orphan entities. ${summary}`;
+      orphanWarning = `Modo permisivo: se auto-registraron ${orphansInd.size} indicadores y ${orphansEnt.size} entidades ausentes en los catálogos (0 filas descartadas). ${summary}`;
       console.warn(`[sync] ${orphanWarning}`);
     }
 
+    // En modo permisivo NO se descartan filas: los códigos ausentes se
+    // auto-registran en los catálogos como placeholders para no perder datos.
     const datosValidos = permissive
-      ? datos.filter((d) => indSet.has(d.cod_indicador) && entSet.has(d.cod_entidad))
-      : datos;
+      ? datos
+      : datos.filter((d) => indSet.has(d.cod_indicador) && entSet.has(d.cod_entidad));
+
+    const indicadoresFinal = [
+      ...indicadores.map((i) => ({
+        cod_indicador: String(i.cod_indicador).trim(),
+        indicador: i.indicador ? String(i.indicador) : null,
+        dimension: i.dimension ? String(i.dimension) : null,
+        seccion: i.seccion ? String(i.seccion) : null,
+        periodicidad: i.periodicidad ? String(i.periodicidad) : null,
+        fuente: i.fuente ? String(i.fuente) : null,
+        unidad_medida: i.unidad_medida ? String(i.unidad_medida) : null,
+      })),
+      ...(permissive
+        ? [...orphansInd.keys()].map((code) => ({
+            cod_indicador: code,
+            indicador: code,
+            dimension: null,
+            seccion: null,
+            periodicidad: null,
+            fuente: null,
+            unidad_medida: null,
+          }))
+        : []),
+    ];
+
+    const entidadesFinal = [
+      ...entidades.map((e) => ({
+        cod_entidad: String(e.cod_entidad).trim(),
+        entidad: e.entidad ? String(e.entidad) : null,
+      })),
+      ...(permissive
+        ? [...orphansEnt.keys()].map((code) => ({
+            cod_entidad: code,
+            entidad: code,
+          }))
+        : []),
+    ];
+
 
 
 
