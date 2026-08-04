@@ -337,27 +337,11 @@ Deno.serve(async (req) => {
 
     // 8. Volcado: TRUNCATE + INSERT
     await supabase.from("bd_catalogo_indicadores").delete().neq("cod_indicador", "___never___");
-    await chunkedInsert(
-      "bd_catalogo_indicadores",
-      indicadores.map((i) => ({
-        cod_indicador: String(i.cod_indicador).trim(),
-        indicador: i.indicador ? String(i.indicador) : null,
-        dimension: i.dimension ? String(i.dimension) : null,
-        seccion: i.seccion ? String(i.seccion) : null,
-        periodicidad: i.periodicidad ? String(i.periodicidad) : null,
-        fuente: i.fuente ? String(i.fuente) : null,
-        unidad_medida: i.unidad_medida ? String(i.unidad_medida) : null,
-      }))
-    );
+    await chunkedInsert("bd_catalogo_indicadores", indicadoresFinal);
 
     await supabase.from("bd_catalogo_entidades").delete().neq("cod_entidad", "___never___");
-    await chunkedInsert(
-      "bd_catalogo_entidades",
-      entidades.map((e) => ({
-        cod_entidad: String(e.cod_entidad).trim(),
-        entidad: e.entidad ? String(e.entidad) : null,
-      }))
-    );
+    await chunkedInsert("bd_catalogo_entidades", entidadesFinal);
+
 
     await supabase.from("bd_datos_cache").delete().neq("id", -1);
     await chunkedInsert("bd_datos_cache", datosValidos);
