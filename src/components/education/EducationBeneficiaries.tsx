@@ -36,20 +36,27 @@ const EducationBeneficiaries = () => {
   const [selectedProgram, setSelectedProgram] = useState<string>("todos");
   const [selectedSchoolProgram, setSelectedSchoolProgram] = useState<string>("Aprendamos todos a leer");
 
-  // Fetch from participants table (Base de Datos de Participantes)
+  // Fetch participants from DAMA master base (cod_indicador = GP_02 "Número de beneficiarios")
   const { data: participants, isLoading, error } = useQuery({
-    queryKey: ["education-participants"],
+    queryKey: ["education-participants-gp02"],
     queryFn: async () => {
-      const { data, error } = await supabase
-        .from("participants")
-        .select("*")
-        .in("base", ["Educación", "Formare"])
-        .order("year", { ascending: true });
-      
+      const { data, error } = await ecosistema
+        .from("datos_maestros")
+        .select("anio, cod_entidad, categoria, categoria_2, valor")
+        .eq("cod_indicador", "GP_02")
+        .in("categoria", ["Educación", "Formare"])
+        .order("anio", { ascending: true });
+
       if (error) throw error;
-      return data;
+      return ((data as any[]) || []).map((r) => ({
+        base: r.categoria as string,
+        programa: (r.categoria_2 as string) || "",
+        year: Number(r.anio),
+        valor: Number(r.valor) || 0,
+      }));
     },
   });
+
 
   // Fetch schools data from DAMA master base (cod_indicador = GP_03 "Número de instituciones beneficiarias")
   const { data: damaSchools } = useQuery({
