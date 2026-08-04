@@ -286,21 +286,18 @@ Deno.serve(async (req) => {
           headers: { ...corsHeaders, "Content-Type": "application/json" },
         });
       }
-      orphanWarning = `Permissive mode: filtered ${orphansInd.size} orphan indicators and ${orphansEnt.size} orphan entities. ${summary}`;
+      orphanWarning = `Modo permisivo: se auto-registraron ${orphansInd.size} indicadores y ${orphansEnt.size} entidades ausentes en los catálogos (0 filas descartadas). ${summary}`;
       console.warn(`[sync] ${orphanWarning}`);
     }
 
+    // En modo permisivo NO se descartan filas: los códigos ausentes se
+    // auto-registran en los catálogos como placeholders para no perder datos.
     const datosValidos = permissive
-      ? datos.filter((d) => indSet.has(d.cod_indicador) && entSet.has(d.cod_entidad))
-      : datos;
+      ? datos
+      : datos.filter((d) => indSet.has(d.cod_indicador) && entSet.has(d.cod_entidad));
 
-
-
-    // 8. Volcado: TRUNCATE + INSERT
-    await supabase.from("bd_catalogo_indicadores").delete().neq("cod_indicador", "___never___");
-    await chunkedInsert(
-      "bd_catalogo_indicadores",
-      indicadores.map((i) => ({
+    const indicadoresFinal = [
+      ...indicadores.map((i) => ({
         cod_indicador: String(i.cod_indicador).trim(),
         indicador: i.indicador ? String(i.indicador) : null,
         dimension: i.dimension ? String(i.dimension) : null,
@@ -308,17 +305,43 @@ Deno.serve(async (req) => {
         periodicidad: i.periodicidad ? String(i.periodicidad) : null,
         fuente: i.fuente ? String(i.fuente) : null,
         unidad_medida: i.unidad_medida ? String(i.unidad_medida) : null,
-      }))
-    );
+      })),
+      ...(permissive
+        ? [...orphansInd.keys()].map((code) => ({
+            cod_indicador: code,
+            indicador: code,
+            dimension: null,
+            seccion: null,
+            periodicidad: null,
+            fuente: null,
+            unidad_medida: null,
+          }))
+        : []),
+    ];
 
-    await supabase.from("bd_catalogo_entidades").delete().neq("cod_entidad", "___never___");
-    await chunkedInsert(
-      "bd_catalogo_entidades",
-      entidades.map((e) => ({
+    const entidadesFinal = [
+      ...entidades.map((e) => ({
         cod_entidad: String(e.cod_entidad).trim(),
         entidad: e.entidad ? String(e.entidad) : null,
-      }))
-    );
+      })),
+      ...(permissive
+        ? [...orphansEnt.keys()].map((code) => ({
+            cod_entidad: code,
+            entidad: code,
+          }))
+        : []),
+    ];
+
+
+
+
+    // 8. Volcado: TRUNCATE + INSERT
+    await supabase.from("bd_catalogo_indicadores").delete().neq("cod_indicador", "___never___");
+    await chunkedInsert("bd_catalogo_indicadores", indicadoresFinal);
+
+    await supabase.from("bd_catalogo_entidades").delete().neq("cod_entidad", "___never___");
+    await chunkedInsert("bd_catalogo_entidades", entidadesFinal);
+
 
     await supabase.from("bd_datos_cache").delete().neq("id", -1);
     await chunkedInsert("bd_datos_cache", datosValidos);
