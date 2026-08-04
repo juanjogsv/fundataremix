@@ -398,6 +398,7 @@ Deno.serve(async (req) => {
         rows_filtered: datos.length - datosValidos.length,
         indicadores: indicadores.length,
         entidades: entidades.length,
+        categorias: categoriasFinal.length,
         warning: orphanWarning,
       }),
       { headers: { ...corsHeaders, "Content-Type": "application/json" } }

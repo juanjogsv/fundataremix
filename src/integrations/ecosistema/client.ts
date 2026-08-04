@@ -21,5 +21,6 @@ export const ecosistema = createClient<any>(SUPABASE_URL, SUPABASE_KEY, {
 export const ECO_TABLES = {
   indicadores: "catalogo_indicadores",
   entidades: "catalogo_entidades",
+  categorias: "catalogo_categorias",
   datos: "datos_maestros",
 } as const;
