@@ -1,6 +1,6 @@
 import { useState, useMemo } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { supabase } from "@/integrations/supabase/client";
+
 import { ecosistema } from "@/integrations/ecosistema/client";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -36,20 +36,27 @@ const EducationBeneficiaries = () => {
   const [selectedProgram, setSelectedProgram] = useState<string>("todos");
   const [selectedSchoolProgram, setSelectedSchoolProgram] = useState<string>("Aprendamos todos a leer");
 
-  // Fetch from participants table (Base de Datos de Participantes)
+  // Fetch participants from DAMA master base (cod_indicador = GP_02 "Número de beneficiarios")
   const { data: participants, isLoading, error } = useQuery({
-    queryKey: ["education-participants"],
+    queryKey: ["education-participants-gp02"],
     queryFn: async () => {
-      const { data, error } = await supabase
-        .from("participants")
-        .select("*")
-        .in("base", ["Educación", "Formare"])
-        .order("year", { ascending: true });
-      
+      const { data, error } = await ecosistema
+        .from("datos_maestros")
+        .select("anio, cod_entidad, categoria, categoria_2, valor")
+        .eq("cod_indicador", "GP_02")
+        .in("categoria", ["Educación", "Formare"])
+        .order("anio", { ascending: true });
+
       if (error) throw error;
-      return data;
+      return ((data as any[]) || []).map((r) => ({
+        base: r.categoria as string,
+        programa: (r.categoria_2 as string) || "",
+        year: Number(r.anio),
+        valor: Number(r.valor) || 0,
+      }));
     },
   });
+
 
   // Fetch schools data from DAMA master base (cod_indicador = GP_03 "Número de instituciones beneficiarias")
   const { data: damaSchools } = useQuery({
@@ -70,7 +77,6 @@ const EducationBeneficiaries = () => {
   const programs = useMemo(() => {
     if (!participants) return [];
     const uniquePrograms = [...new Set(participants
-      .filter(item => item.categoria === "Total Beneficiarios")
       .map(item => item.programa)
       .filter(prog => prog && prog !== null)
     )];
@@ -88,13 +94,12 @@ const EducationBeneficiaries = () => {
     return Array.from(set).sort();
   }, [damaSchools]);
 
-  // Process data for stacked bar chart with Educación and Formare (Total Beneficiarios only)
+  // Process data for stacked bar chart with Educación and Formare
   const chartData = useMemo(() => {
     if (!participants) return [];
 
-    const beneficiariosData = participants.filter(
-      item => item.categoria === "Total Beneficiarios"
-    );
+    const beneficiariosData = participants;
+
 
     // Group by year
     const yearGroups = beneficiariosData.reduce((acc, item) => {
