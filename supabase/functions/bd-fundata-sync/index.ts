@@ -9,6 +9,7 @@ import { createClient } from "npm:@supabase/supabase-js@2";
 const DATA_FOLDER_ID = "188QWfU3Eqjg1QVmZQn7TmWcK979Fz9EJ";
 const CAT_INDICADORES_ID = "1BxMNkQByvuGFFNcKMUHddh--9lD4mIg26DcfLUd89VQ";
 const CAT_ENTIDADES_ID = "116kMxwBo3m3mtEoPyQ2AQiL8tkxM_A_SHBeCIdkLZhU";
+const CAT_CATEGORIAS_ID = "1wFnyFGSFb_oB_7O-z7pzgnBK1ijUXQc14ayZd38EcEk";
 // AAAAMMDD al inicio; el resto del nombre es libre. Debe ser .xlsx.
 const FILE_REGEX = /^(\d{8})(?:[_-].*)?\.xlsx$/i;
 const GW = "https://connector-gateway.lovable.dev";
@@ -177,13 +178,18 @@ Deno.serve(async (req) => {
     console.log(`[sync] latest: ${file.name} (${file.id})`);
 
     // 2. Leer catálogos
-    const [indRows, entRows] = await Promise.all([
+    const [indRows, entRows, catRows] = await Promise.all([
       readRange(CAT_INDICADORES_ID, "catalogo_indicadores!A1:Z"),
       readRange(CAT_ENTIDADES_ID, "catalogo_entidades!A1:Z"),
+      readRange(CAT_CATEGORIAS_ID, "catalogo_categorias!A1:Z"),
     ]);
     const indicadores = rowsToObjects(indRows);
     const entidades = rowsToObjects(entRows);
-    console.log(`[sync] cat: ind=${indicadores.length} ent=${entidades.length}`);
+    const categorias = rowsToObjects(catRows);
+    console.log(
+      `[sync] cat: ind=${indicadores.length} ent=${entidades.length} cat=${categorias.length}`
+    );
+
 
     // 3. Convertir xlsx → Google Sheet (Google parsea)
     tempSheetId = await convertXlsxToSheet(file.id, file.name);
@@ -333,7 +339,20 @@ Deno.serve(async (req) => {
     ];
 
 
-
+    // Catálogo de categorías: deduplicado por cod_indicador
+    const catMap = new Map<string, any>();
+    for (const c of categorias) {
+      const code = String(c.cod_indicador ?? "").trim();
+      if (!code || catMap.has(code)) continue;
+      catMap.set(code, {
+        cod_indicador: code,
+        indicador: c.indicador ? String(c.indicador) : null,
+        categoria: c.categoria ? String(c.categoria) : null,
+        categoria_2: c.categoria_2 ? String(c.categoria_2) : null,
+        entidad: c.entidad ? String(c.entidad) : null,
+      });
+    }
+    const categoriasFinal = [...catMap.values()];
 
     // 8. Volcado: TRUNCATE + INSERT
     await supabase.from("bd_catalogo_indicadores").delete().neq("cod_indicador", "___never___");
@@ -341,6 +360,10 @@ Deno.serve(async (req) => {
 
     await supabase.from("bd_catalogo_entidades").delete().neq("cod_entidad", "___never___");
     await chunkedInsert("bd_catalogo_entidades", entidadesFinal);
+
+    await supabase.from("bd_catalogo_categorias").delete().neq("cod_indicador", "___never___");
+    await chunkedInsert("bd_catalogo_categorias", categoriasFinal);
+
 
 
     await supabase.from("bd_datos_cache").delete().neq("id", -1);
@@ -375,6 +398,7 @@ Deno.serve(async (req) => {
         rows_filtered: datos.length - datosValidos.length,
         indicadores: indicadores.length,
         entidades: entidades.length,
+        categorias: categoriasFinal.length,
         warning: orphanWarning,
       }),
       { headers: { ...corsHeaders, "Content-Type": "application/json" } }

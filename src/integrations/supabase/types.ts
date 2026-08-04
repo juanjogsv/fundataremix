@@ -14,6 +14,33 @@ export type Database = {
   }
   public: {
     Tables: {
+      bd_catalogo_categorias: {
+        Row: {
+          categoria: string | null
+          categoria_2: string | null
+          cod_indicador: string
+          entidad: string | null
+          indicador: string | null
+          updated_at: string
+        }
+        Insert: {
+          categoria?: string | null
+          categoria_2?: string | null
+          cod_indicador: string
+          entidad?: string | null
+          indicador?: string | null
+          updated_at?: string
+        }
+        Update: {
+          categoria?: string | null
+          categoria_2?: string | null
+          cod_indicador?: string
+          entidad?: string | null
+          indicador?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
       bd_catalogo_entidades: {
         Row: {
           cod_entidad: string
@@ -1109,6 +1136,30 @@ export type Database = {
       }
     }
     Views: {
+      catalogo_categorias: {
+        Row: {
+          categoria: string | null
+          categoria_2: string | null
+          cod_indicador: string | null
+          entidad: string | null
+          indicador: string | null
+        }
+        Insert: {
+          categoria?: string | null
+          categoria_2?: string | null
+          cod_indicador?: string | null
+          entidad?: string | null
+          indicador?: string | null
+        }
+        Update: {
+          categoria?: string | null
+          categoria_2?: string | null
+          cod_indicador?: string | null
+          entidad?: string | null
+          indicador?: string | null
+        }
+        Relationships: []
+      }
       catalogo_entidades: {
         Row: {
           cod_entidad: string | null
