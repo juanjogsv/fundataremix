@@ -282,7 +282,7 @@ const StrategicIndicators = () => {
                           let goal = indicator.annual_goal ?? 1;
                           let percentage = indicator.accumulated_percentage ?? 0;
 
-                          if (percentage > 0 && percentage <= 2) {
+                          if (indicator.source === "dama" ? percentage > 0 : (percentage > 0 && percentage <= 2)) {
                             percentage = percentage * 100;
                           }
 
@@ -351,7 +351,7 @@ const StrategicIndicators = () => {
                       let goal = indicator.annual_goal ?? 1;
                       let percentage = indicator.accumulated_percentage ?? 0;
 
-                      if (percentage > 0 && percentage <= 2) {
+                      if (indicator.source === "dama" ? percentage > 0 : (percentage > 0 && percentage <= 2)) {
                         percentage = percentage * 100;
                       }
 
@@ -393,7 +393,7 @@ const StrategicIndicators = () => {
                       let goal = indicator.annual_goal ?? 1;
                       let percentage = indicator.accumulated_percentage ?? 0;
 
-                      if (percentage > 0 && percentage <= 2) {
+                      if (indicator.source === "dama" ? percentage > 0 : (percentage > 0 && percentage <= 2)) {
                         percentage = percentage * 100;
                       }
 
