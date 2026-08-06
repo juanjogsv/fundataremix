@@ -27,7 +27,9 @@ interface Indicator {
   achievement_2023: number | null;
   achievement_2024: number | null;
   achievement_2025: number | null;
+  source?: "dama";
 }
+
 
 const StrategicIndicators = () => {
   const [indicators, setIndicators] = useState<Indicator[]>([]);
