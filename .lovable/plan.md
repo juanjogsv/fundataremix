@@ -1,59 +1,48 @@
-## Objetivo
+# Indicadores estratégicos: fuente híbrida (DAMA + carga Excel)
 
-Agregar una ruta pública `/datosabiertos` que muestre una versión reducida del dashboard, reutilizando los componentes ya existentes. Sin tocar auth, rutas actuales, ni componentes.
+## Diagnóstico
 
-## Cambios
+Los indicadores estratégicos **no se actualizan con la sincronización de Google Drive**. Hoy dependen 100% de la carga manual de Excel en `/admin`:
 
-### 1. Nueva página `src/pages/DatosAbiertos.tsx`
+- La página consulta la tabla interna `strategic_indicators`, que solo se llena con el archivo de indicadores subido manualmente.
+- Esa tabla tiene 12 registros de 2025 (última modificación: 7 de enero de 2026) y 6 de 2024. No hay 2026.
+- El selector de año de la página está fijo en 2023 / 2024 / 2025 y arranca en "2025" por defecto.
+- El catálogo sincronizado desde Drive (`bd_catalogo_indicadores`, 63 indicadores) solo cubre las dimensiones *Educación*, *Contexto socioeconómico* y *Gestión de proyectos*. No existe una dimensión "Estrategia", por lo que la meta anual, el acumulado y el % de cumplimiento no están en DAMA.
 
-Estructura tipo "landing + secciones", inspirada en `Index.tsx` para mantener identidad de marca (Montserrat, paleta Luker, `PageHeader`, gradientes suaves, contenedor `container mx-auto`).
+## Enfoque acordado: híbrido
 
-Layout:
+Los indicadores cuyo valor real ya existe en DAMA se leen de la sincronización de Drive; el resto (metas, avances cualitativos, cooperación, comunicaciones) siguen viniendo del Excel.
 
-```text
-[Header simple con logo Fundación Luker + título "Datos Abiertos"]
-[Hero corto: 1 frase + subtítulo]
-[Grid de 7 tarjetas de acceso rápido -> anchors a cada sección]
-  - Financiero, Educación, Emprendimiento,
-    Desarrollo Rural, Especiales, Contexto Socioeconómico, Mapa
-[Sección #financiero]           -> reutiliza SocialInvestmentSection + OperatingExpensesSection (dentro de Tabs, igual que Financial.tsx)
-[Sección #educacion]            -> reutiliza los sub-componentes tal cual los usa Education.tsx
-[Sección #emprendimiento]       -> reutiliza EAPHistoricalCharts
-[Sección #desarrollo-rural]     -> reutiliza los componentes de RuralDevelopment.tsx
-[Sección #especiales]           -> reutiliza SpecialProjectsBeneficiaries + SpecialProjectsInvestment
-[Sección #socioeconomico]       -> reutiliza el contenido de SocioeconomicContext.tsx
-[Sección #mapa]                 -> reutiliza el componente que hoy usa /mapa (Map.tsx)
-[Footer con crédito Fundación Luker]
-```
+### Indicadores que pasan a leerse de DAMA
 
-Reglas:
-- Importa componentes hijos ya existentes (`SocialInvestmentSection`, `EAPHistoricalCharts`, `SpecialProjectsBeneficiaries`, etc.) — nada nuevo, nada duplicado.
-- Cada sección se envuelve en un `<section id="...">` con un título uniforme para permitir anchors desde las tarjetas.
-- Consumo de datos idéntico: los componentes reutilizados ya llaman a `supabase` / conector Google Drive existente — no se toca fuente de datos.
-- Mismo `PageHeader` visual del proyecto o un header propio con `bg-white/95 backdrop-blur` como en `Index.tsx`.
-- No incluye botones de "Admin", "Salir" ni referencias a `useAuth`.
+| Indicador estratégico | Código DAMA | Cálculo |
+|---|---|---|
+| % de estudiantes de primero que alcanzan el estándar de lectura | `ATAL_02` | Manizales (17001), `categoria = 'Total'`, `categoria_2 = 'Primero'`, último año |
+| % de jóvenes egresados vinculados al mundo productivo y/o estudiando | `MLJ_02` | Manizales (17001), último año, con la misma agregación de categorías que ya usa Mercado Laboral en Educación |
+| # de personas impactadas a través del spin off | `GP_02` | Suma de beneficiarios del último año, con el mismo filtro de categorías que ya usa la gráfica de participantes |
 
-### 2. `src/App.tsx`
+La meta anual (`annual_goal`) sigue viniendo del Excel; el valor acumulado y el % de cumplimiento se recalculan con el dato de DAMA (`valor / meta`), de modo que se actualizan solos con cada sincronización.
 
-Agregar UNA sola línea antes del catch-all `*`:
+### Indicadores que siguen por carga Excel
 
-```tsx
-<Route path="/datosabiertos" element={<DatosAbiertos />} />
-```
+GEIAL, Emprendimiento colegios, Empresas silver aceleradas, Matriculados formación, Nuevos aliados, Avance Plan Silver, Alianza universidades, Recursos cooperación e Incremento cubrimiento educación. No existen en DAMA.
 
-Más el `import DatosAbiertos from "./pages/DatosAbiertos";`. Ningún otro cambio.
+### Año dinámico
 
-### 3. Navegación
+- El selector de año deja de estar codificado: se construye con los años presentes en `strategic_indicators` más el último año disponible en DAMA.
+- El año seleccionado por defecto pasa a ser el más reciente disponible (hoy 2025; cuando exista 2026 lo tomará automáticamente).
 
-No se agrega `/datosabiertos` a `Index.tsx` ni a ningún menú. Acceso sólo por URL directa, como pediste.
+## Detalle técnico
 
-## Lo que NO se toca
+1. Nuevo hook `src/hooks/useStrategicDamaOverrides.ts`: consulta `datos_maestros` con el cliente `ecosistema` para `ATAL_02`, `MLJ_02` y `GP_02`, devuelve `{ valor, anio }` por *keyword* estratégica y reutiliza la lógica de agregación existente en `EducationLaborMarket` / `EducationBeneficiaries` para no duplicar reglas de negocio.
+2. `src/pages/StrategicIndicators.tsx`:
+   - fusiona los resultados de `strategic_indicators` con los overrides de DAMA por `keyword` (DAMA gana cuando hay dato del año seleccionado);
+   - recalcula `accumulated_value` y `accumulated_percentage` para esos tres indicadores;
+   - reemplaza el `Select` de años fijos por una lista derivada de los datos y selecciona el año máximo por defecto;
+   - muestra una nota breve indicando qué tarjetas provienen de la sincronización de Drive.
+3. Sin cambios de base de datos ni de la edge function `bd-fundata-sync`.
 
-- `useAuth`, `RequireJunta`, `Auth.tsx`, `Admin.tsx`.
-- Rutas `/`, `/indicadores`, `/financiero`, `/educacion`, `/emprendimiento`, `/desarrollo-rural`, `/especiales`, `/socioeconomico`, `/mapa`, `/admin`, `/auth`.
-- Ningún componente de visualización existente: se importan tal cual.
-- `supabase/client`, `types`, edge functions, migraciones.
+## Fuera de alcance
 
-## Nota técnica
-
-Las páginas ampliadas actuales (`Financial`, `Education`, etc.) ya son accesibles sin `RequireJunta` a nivel de router — la restricción real está en el flujo de login y en el acceso a `/admin`. Esta nueva página simplemente omite cualquier UI de autenticación y no depende de `useAuth`, por lo que un usuario anónimo puede consumirla directamente. No se cambia la postura de auth del resto del sitio.
+- No se modifican los uploads de Excel ni el resto de módulos.
+- No se cargan datos 2026: cuando subas el archivo 2026 al administrador, el año aparecerá y se seleccionará automáticamente.
