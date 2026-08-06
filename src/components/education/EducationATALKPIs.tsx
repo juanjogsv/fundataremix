@@ -44,9 +44,10 @@ const EducationATALKPIs = () => {
             .ilike("categoria_2", "%aprendamos todos a leer%"),
           supabase
             .from("datos_maestros")
-            .select("cod_indicador, anio, categoria_2, valor")
+            .select("cod_indicador, anio, categoria, categoria_2, valor")
             .eq("cod_indicador", "ATAL_02")
             .eq("cod_entidad", COD_ENTIDAD)
+            .eq("categoria", "Total")
             .in("categoria_2", ["Primero", "Quinto"])
             .limit(5000),
         ]);
