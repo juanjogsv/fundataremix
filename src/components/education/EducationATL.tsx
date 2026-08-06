@@ -82,7 +82,7 @@ const EducationATL = () => {
           .in('cod_indicador', ['ATAL_01', 'ATAL_02'])
           .eq('categoria_2', 'Primero')
           .gte('anio', 2018)
-          .lte('anio', 2025)
+          
           .limit(10000);
 
         if (errorPrimero) throw errorPrimero;
@@ -96,7 +96,7 @@ const EducationATL = () => {
           .in('cod_indicador', ['ATAL_01', 'ATAL_02'])
           .eq('categoria_2', 'Quinto')
           .gte('anio', 2018)
-          .lte('anio', 2025)
+          
           .limit(10000);
 
         if (errorQuinto) throw errorQuinto;
