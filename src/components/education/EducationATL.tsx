@@ -296,7 +296,7 @@ const EducationATL = () => {
                   axisLine={{ stroke: 'hsl(122 56% 51%)' }}
                 />
                 <Tooltip 
-                  formatter={(value: any) => `${Number(value).toFixed(2)}%`}
+                  formatter={(value: any) => `${Number(value).toFixed(1)}%`}
                   contentStyle={{ backgroundColor: '#fff', border: '1px solid hsl(122 56% 51%)' }}
                 />
                 <Legend wrapperStyle={{ color: 'hsl(122 56% 51%)' }} />
@@ -375,7 +375,7 @@ const EducationATL = () => {
                   axisLine={{ stroke: 'hsl(122 56% 51%)' }}
                 />
                 <Tooltip 
-                  formatter={(value: any) => `${Number(value).toFixed(2)}%`}
+                  formatter={(value: any) => `${Number(value).toFixed(1)}%`}
                   contentStyle={{ backgroundColor: '#fff', border: '1px solid hsl(122 56% 51%)' }}
                 />
                 <Legend wrapperStyle={{ color: 'hsl(122 56% 51%)' }} />
@@ -454,7 +454,7 @@ const EducationATL = () => {
                   axisLine={{ stroke: 'hsl(122 56% 51%)' }}
                 />
                 <Tooltip 
-                  formatter={(value: any) => `${Number(value).toFixed(2)}%`}
+                  formatter={(value: any) => `${Number(value).toFixed(1)}%`}
                   contentStyle={{ backgroundColor: '#fff', border: '1px solid hsl(122 56% 51%)' }}
                 />
                 <Legend wrapperStyle={{ color: 'hsl(122 56% 51%)' }} />
