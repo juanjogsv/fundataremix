@@ -220,6 +220,7 @@ Deno.serve(async (req) => {
     const entSet = new Set(entidades.map((e) => String(e.cod_entidad).trim()));
     const orphansInd = new Map<string, number>();
     const orphansEnt = new Map<string, number>();
+    const skippedByInd = new Map<string, number>();
     const datos: any[] = [];
 
     // 6. Paginar y normalizar (con throttle para respetar cuota de Sheets)
