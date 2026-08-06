@@ -108,7 +108,7 @@ const EducationATL = () => {
           s && s.toLowerCase().trim() === 'escuela activa urbana' ? 'Escuela Activa' : s;
         const allInstitutionsCard4 = new Set<string>();
         (dataPrimero || []).forEach((item: any) => {
-          if (item.categoria) {
+          if (item.categoria && item.categoria !== 'Total') {
             allInstitutionsCard4.add(normalizeInst(item.categoria));
           }
         });
@@ -120,7 +120,7 @@ const EducationATL = () => {
         // Get unique institutions for Card 5 (including "Total")
         const allInstitutionsCard5 = new Set<string>();
         (dataQuinto || []).forEach((item: any) => {
-          if (item.categoria) {
+          if (item.categoria && item.categoria !== 'Total') {
             allInstitutionsCard5.add(normalizeInst(item.categoria));
           }
         });
@@ -128,6 +128,7 @@ const EducationATL = () => {
         const institutionsListCard5 = ['Total', ...Array.from(allInstitutionsCard5).sort()];
         setInstitutionsCard5(institutionsListCard5);
         setSelectedInstitutionCard5('Total');
+
 
       } catch (err: any) {
         console.error('Error fetching ATL data:', err);
