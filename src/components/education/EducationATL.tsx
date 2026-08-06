@@ -71,8 +71,8 @@ const EducationATL = () => {
         const avg = (arr: number[]) => arr.length ? arr.reduce((a, b) => a + b, 0) / arr.length : 0;
         setComparisonData(grados.map(g => ({
           grado: g,
-          'Entrada': Number(avg(acc[g].b).toFixed(2)),
-          'Salida': Number(avg(acc[g].r).toFixed(2)),
+          'Entrada': Number(avg(acc[g].b).toFixed(1)),
+          'Salida': Number(avg(acc[g].r).toFixed(1)),
         })));
 
         // Fetch data for Card 4: Primero histórico (Entrada ATAL_01 vs Salida ATAL_02) desde dama_data
@@ -177,8 +177,8 @@ const EducationATL = () => {
       .sort((a, b) => a[0] - b[0])
       .map(([year, data]) => ({
         año: year.toString(),
-        Entrada: Number(avg(data.entrada).toFixed(2)),
-        Salida: Number(avg(data.salida).toFixed(2)),
+        Entrada: Number(avg(data.entrada).toFixed(1)),
+        Salida: Number(avg(data.salida).toFixed(1)),
       }));
   }, [dataPrimeroHistorico, selectedInstitutionCard4]);
 
@@ -214,8 +214,8 @@ const EducationATL = () => {
       .sort((a, b) => a[0] - b[0])
       .map(([year, data]) => ({
         año: year.toString(),
-        Entrada: Number(avg(data.entrada).toFixed(2)),
-        Salida: Number(avg(data.salida).toFixed(2)),
+        Entrada: Number(avg(data.entrada).toFixed(1)),
+        Salida: Number(avg(data.salida).toFixed(1)),
       }));
   }, [dataQuintoHistorico, selectedInstitutionCard5]);
 
@@ -296,7 +296,7 @@ const EducationATL = () => {
                   axisLine={{ stroke: 'hsl(122 56% 51%)' }}
                 />
                 <Tooltip 
-                  formatter={(value: any) => `${Number(value).toFixed(2)}%`}
+                  formatter={(value: any) => `${Number(value).toFixed(1)}%`}
                   contentStyle={{ backgroundColor: '#fff', border: '1px solid hsl(122 56% 51%)' }}
                 />
                 <Legend wrapperStyle={{ color: 'hsl(122 56% 51%)' }} />
@@ -375,7 +375,7 @@ const EducationATL = () => {
                   axisLine={{ stroke: 'hsl(122 56% 51%)' }}
                 />
                 <Tooltip 
-                  formatter={(value: any) => `${Number(value).toFixed(2)}%`}
+                  formatter={(value: any) => `${Number(value).toFixed(1)}%`}
                   contentStyle={{ backgroundColor: '#fff', border: '1px solid hsl(122 56% 51%)' }}
                 />
                 <Legend wrapperStyle={{ color: 'hsl(122 56% 51%)' }} />
@@ -454,7 +454,7 @@ const EducationATL = () => {
                   axisLine={{ stroke: 'hsl(122 56% 51%)' }}
                 />
                 <Tooltip 
-                  formatter={(value: any) => `${Number(value).toFixed(2)}%`}
+                  formatter={(value: any) => `${Number(value).toFixed(1)}%`}
                   contentStyle={{ backgroundColor: '#fff', border: '1px solid hsl(122 56% 51%)' }}
                 />
                 <Legend wrapperStyle={{ color: 'hsl(122 56% 51%)' }} />
