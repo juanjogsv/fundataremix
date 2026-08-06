@@ -220,6 +220,7 @@ Deno.serve(async (req) => {
     const entSet = new Set(entidades.map((e) => String(e.cod_entidad).trim()));
     const orphansInd = new Map<string, number>();
     const orphansEnt = new Map<string, number>();
+    const skippedByInd = new Map<string, number>();
     const datos: any[] = [];
 
     // 6. Paginar y normalizar (con throttle para respetar cuota de Sheets)
@@ -231,7 +232,11 @@ Deno.serve(async (req) => {
       for (const r of page) {
         const codInd = r[iInd];
         const codEnt = r[iEnt];
-        if (codInd == null || codEnt == null || codInd === "" || codEnt === "") continue;
+        if (codInd == null || codEnt == null || codInd === "" || codEnt === "") {
+          const k = `${codInd == null || codInd === "" ? "<sin_indicador>" : String(codInd).trim()}${codEnt == null || codEnt === "" ? " (sin cod_entidad)" : " (sin cod_indicador)"}`;
+          skippedByInd.set(k, (skippedByInd.get(k) ?? 0) + 1);
+          continue;
+        }
         const ci = String(codInd).trim();
         const ce = String(codEnt).trim();
         if (!indSet.has(ci)) orphansInd.set(ci, (orphansInd.get(ci) ?? 0) + 1);
@@ -386,6 +391,7 @@ Deno.serve(async (req) => {
         filtered: datos.length - datosValidos.length,
         orphans_indicadores: orphIndArr,
         orphans_entidades: orphEntArr,
+        skipped_rows: [...skippedByInd.entries()].map(([code, rows]) => ({ code, rows })).sort((a, b) => b.rows - a.rows),
       },
     });
 

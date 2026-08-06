@@ -51,8 +51,8 @@ const EducationATL = () => {
 
         if (latestYear) {
           const [{ data: a1, error: e1 }, { data: a2, error: e2 }] = await Promise.all([
-            supabase.from('datos_maestros').select('categoria_2, valor').eq('cod_indicador', 'ATAL_01').eq('cod_entidad', '17001').eq('anio', latestYear).limit(5000),
-            supabase.from('datos_maestros').select('categoria_2, valor').eq('cod_indicador', 'ATAL_02').eq('cod_entidad', '17001').eq('anio', latestYear).limit(5000),
+            supabase.from('datos_maestros').select('categoria_2, valor').eq('cod_indicador', 'ATAL_01').eq('cod_entidad', '17001').eq('categoria', 'Total').eq('anio', latestYear).limit(5000),
+            supabase.from('datos_maestros').select('categoria_2, valor').eq('cod_indicador', 'ATAL_02').eq('cod_entidad', '17001').eq('categoria', 'Total').eq('anio', latestYear).limit(5000),
           ]);
           if (e1) throw e1;
           if (e2) throw e2;
@@ -82,7 +82,7 @@ const EducationATL = () => {
           .in('cod_indicador', ['ATAL_01', 'ATAL_02'])
           .eq('categoria_2', 'Primero')
           .gte('anio', 2018)
-          .lte('anio', 2025)
+          
           .limit(10000);
 
         if (errorPrimero) throw errorPrimero;
@@ -96,7 +96,7 @@ const EducationATL = () => {
           .in('cod_indicador', ['ATAL_01', 'ATAL_02'])
           .eq('categoria_2', 'Quinto')
           .gte('anio', 2018)
-          .lte('anio', 2025)
+          
           .limit(10000);
 
         if (errorQuinto) throw errorQuinto;
@@ -108,7 +108,7 @@ const EducationATL = () => {
           s && s.toLowerCase().trim() === 'escuela activa urbana' ? 'Escuela Activa' : s;
         const allInstitutionsCard4 = new Set<string>();
         (dataPrimero || []).forEach((item: any) => {
-          if (item.categoria) {
+          if (item.categoria && item.categoria !== 'Total') {
             allInstitutionsCard4.add(normalizeInst(item.categoria));
           }
         });
@@ -120,7 +120,7 @@ const EducationATL = () => {
         // Get unique institutions for Card 5 (including "Total")
         const allInstitutionsCard5 = new Set<string>();
         (dataQuinto || []).forEach((item: any) => {
-          if (item.categoria) {
+          if (item.categoria && item.categoria !== 'Total') {
             allInstitutionsCard5.add(normalizeInst(item.categoria));
           }
         });
@@ -128,6 +128,7 @@ const EducationATL = () => {
         const institutionsListCard5 = ['Total', ...Array.from(allInstitutionsCard5).sort()];
         setInstitutionsCard5(institutionsListCard5);
         setSelectedInstitutionCard5('Total');
+
 
       } catch (err: any) {
         console.error('Error fetching ATL data:', err);
@@ -151,7 +152,7 @@ const EducationATL = () => {
       s && s.toLowerCase().trim() === 'escuela activa urbana' ? 'Escuela Activa' : s;
 
     const filteredData = selectedInstitutionCard4 === 'Total'
-      ? dataPrimeroHistorico
+      ? dataPrimeroHistorico.filter((item: any) => item.categoria === 'Total')
       : dataPrimeroHistorico.filter((item: any) => normalizeInst(item.categoria) === selectedInstitutionCard4);
 
     if (filteredData.length === 0) return [];
@@ -189,7 +190,7 @@ const EducationATL = () => {
       s && s.toLowerCase().trim() === 'escuela activa urbana' ? 'Escuela Activa' : s;
 
     const filteredData = selectedInstitutionCard5 === 'Total'
-      ? dataQuintoHistorico
+      ? dataQuintoHistorico.filter((item: any) => item.categoria === 'Total')
       : dataQuintoHistorico.filter((item: any) => normalizeInst(item.categoria) === selectedInstitutionCard5);
 
     if (filteredData.length === 0) return [];
