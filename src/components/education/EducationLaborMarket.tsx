@@ -200,7 +200,7 @@ const EducationLaborMarket = () => {
         <CardHeader>
           <CardTitle className="text-xl flex items-center gap-2 text-luker-orange">
             <Briefcase className="h-5 w-5 text-luker-teal" />
-            Ocupación egresados Año 2024
+            Ocupación egresados{totalOccupationYear ? ` Año ${totalOccupationYear}` : ""}
           </CardTitle>
           <p className="text-sm text-muted-foreground mt-1">
             Suma de: Estudiando y trabajando, Solo trabajando, Solo estudiando
@@ -212,7 +212,7 @@ const EducationLaborMarket = () => {
               {totalOccupation.toFixed(1)}%
             </div>
             <div className="text-sm text-luker-teal">
-              Ocupación Total Juvenil 2024
+              Ocupación Total Juvenil{totalOccupationYear ? ` ${totalOccupationYear}` : ""}
             </div>
           </div>
         </CardContent>
