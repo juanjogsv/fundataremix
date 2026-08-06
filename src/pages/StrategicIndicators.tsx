@@ -9,6 +9,8 @@ import { PageHeader } from "@/components/PageHeader";
 import { SocialInvestmentCompactCard } from "@/components/indicators/SocialInvestmentCompactCard";
 import { ExecutionProjectsCard } from "@/components/indicators/ExecutionProjectsCard";
 import { ParticipantsCompactCard } from "@/components/indicators/BeneficiariesCompactCard";
+import { useStrategicDamaOverrides } from "@/hooks/useStrategicDamaOverrides";
+
 
 import lukerPattern1 from "@/assets/luker-pattern-1.png";
 import lukerPattern2 from "@/assets/luker-pattern-2.png";
@@ -25,34 +27,77 @@ interface Indicator {
   achievement_2023: number | null;
   achievement_2024: number | null;
   achievement_2025: number | null;
+  source?: "dama";
 }
+
 
 const StrategicIndicators = () => {
   const [indicators, setIndicators] = useState<Indicator[]>([]);
   const [loading, setLoading] = useState(true);
-  const [selectedYear, setSelectedYear] = useState("2025");
-  
+  const [availableYears, setAvailableYears] = useState<number[]>([]);
+  const [selectedYear, setSelectedYear] = useState<string>("");
+
+  const { data: damaOverrides } = useStrategicDamaOverrides();
+
+  // Años disponibles: los de la carga Excel + el último año sincronizado desde Drive
+  useEffect(() => {
+    const loadYears = async () => {
+      const { data } = await supabase.from("strategic_indicators").select("year");
+      const excelYears = Array.from(new Set(((data as any[]) ?? []).map((r) => Number(r.year))));
+      const damaYears = (damaOverrides ?? []).map((o) => o.year);
+      const years = (excelYears.length > 0
+        ? Array.from(new Set([...excelYears, ...damaYears.filter((y) => excelYears.includes(y))]))
+        : [2023, 2024, 2025]
+      )
+        .filter((y) => Number.isFinite(y))
+        .sort((a, b) => a - b);
+      setAvailableYears(years);
+      setSelectedYear((prev) => prev || String(years[years.length - 1]));
+    };
+
+    loadYears();
+  }, [damaOverrides]);
+
+  // Indicadores del año seleccionado, con los valores de DAMA cuando existen
+  const mergedIndicators = useMemo<Indicator[]>(() => {
+    const year = Number(selectedYear);
+    return indicators.map((ind) => {
+      const override = (damaOverrides ?? []).find(
+        (o) => o.year === year && ind.keyword && o.keyword.toLowerCase() === ind.keyword.toLowerCase()
+      );
+      if (!override) return ind;
+      const goal = ind.annual_goal ?? 0;
+      const percentage = goal > 0 ? override.value / goal : ind.accumulated_percentage;
+      return {
+        ...ind,
+        accumulated_value: override.value,
+        accumulated_percentage: percentage,
+        source: "dama" as const,
+      };
+    });
+  }, [indicators, damaOverrides, selectedYear]);
 
   // Calculate progress averages
   const progressData = useMemo(() => {
-    if (indicators.length === 0) return { strategic: 0, general: 0 };
-    
+    if (mergedIndicators.length === 0) return { strategic: 0, general: 0 };
+
     const strategicAreas = ['Educación', 'Emprendimiento', 'Desarrollo rural', 'Proyectos especiales'];
-    const strategicIndicators = indicators.filter(ind => strategicAreas.includes(ind.area));
-    
+    const strategicIndicators = mergedIndicators.filter(ind => strategicAreas.includes(ind.area));
+
     const strategicAvg = strategicIndicators.length > 0
       ? strategicIndicators.reduce((sum, ind) => sum + (ind.accumulated_percentage || 0), 0) / strategicIndicators.length
       : 0;
-    
-    const generalAvg = indicators.reduce((sum, ind) => sum + (ind.accumulated_percentage || 0), 0) / indicators.length;
-    
+
+    const generalAvg = mergedIndicators.reduce((sum, ind) => sum + (ind.accumulated_percentage || 0), 0) / mergedIndicators.length;
+
     return {
       strategic: Math.round(strategicAvg * 100),
       general: Math.round(generalAvg * 100)
     };
-  }, [indicators]);
+  }, [mergedIndicators]);
 
   useEffect(() => {
+    if (!selectedYear) return;
     fetchIndicators();
   }, [selectedYear]);
 
@@ -76,11 +121,12 @@ const StrategicIndicators = () => {
 
   // Map indicators by keyword for easy access
   const getIndicatorByKeyword = (searchKeyword: string): Indicator | undefined => {
-    return indicators.find(ind => 
+    return mergedIndicators.find(ind => 
       ind.keyword?.toLowerCase().includes(searchKeyword.toLowerCase()) ||
       ind.indicator_name.toLowerCase().includes(searchKeyword.toLowerCase())
     );
   };
+
 
   // Define indicators by year - keywords that exist in each dataset
   const keywordMapByYear: Record<string, Array<{ keyword: string; displayName: string }>> = {
@@ -197,12 +243,16 @@ const StrategicIndicators = () => {
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="2023">2023</SelectItem>
-                        <SelectItem value="2024">2024</SelectItem>
-                        <SelectItem value="2025">2025</SelectItem>
+                        {availableYears.map((y) => (
+                          <SelectItem key={y} value={String(y)}>{y}</SelectItem>
+                        ))}
                       </SelectContent>
                     </Select>
+                    <span className="text-[11px] text-gray-400 text-center max-w-[280px]">
+                      Lectura 1ero, Egresados UTC ocupados y Beneficiarios Spin Off se actualizan con la sincronización de Google Drive.
+                    </span>
                   </div>
+
                 </div>
 
                 {/* Desktop Layout */}
@@ -235,7 +285,7 @@ const StrategicIndicators = () => {
                           let goal = indicator.annual_goal ?? 1;
                           let percentage = indicator.accumulated_percentage ?? 0;
 
-                          if (percentage > 0 && percentage <= 2) {
+                          if (indicator.source === "dama" ? percentage > 0 : (percentage > 0 && percentage <= 2)) {
                             percentage = percentage * 100;
                           }
 
@@ -304,7 +354,7 @@ const StrategicIndicators = () => {
                       let goal = indicator.annual_goal ?? 1;
                       let percentage = indicator.accumulated_percentage ?? 0;
 
-                      if (percentage > 0 && percentage <= 2) {
+                      if (indicator.source === "dama" ? percentage > 0 : (percentage > 0 && percentage <= 2)) {
                         percentage = percentage * 100;
                       }
 
@@ -346,7 +396,7 @@ const StrategicIndicators = () => {
                       let goal = indicator.annual_goal ?? 1;
                       let percentage = indicator.accumulated_percentage ?? 0;
 
-                      if (percentage > 0 && percentage <= 2) {
+                      if (indicator.source === "dama" ? percentage > 0 : (percentage > 0 && percentage <= 2)) {
                         percentage = percentage * 100;
                       }
 
