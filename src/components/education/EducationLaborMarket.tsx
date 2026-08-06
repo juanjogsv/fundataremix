@@ -136,6 +136,12 @@ const EducationLaborMarket = () => {
     return totalOccupationData.reduce((sum, item) => sum + (Number(item.valor) || 0), 0);
   }, [totalOccupationData]);
 
+  // Año del dato más reciente usado en el KPI
+  const totalOccupationYear = useMemo(() => {
+    if (!totalOccupationData || totalOccupationData.length === 0) return null;
+    return Math.max(...(totalOccupationData as any[]).map((r: any) => Number(r.year)));
+  }, [totalOccupationData]);
+
   // Procesar datos históricos de ocupación total
   const historicalChartData = useMemo(() => {
     if (!historicalOccupationData || historicalOccupationData.length === 0) return [];
@@ -194,7 +200,7 @@ const EducationLaborMarket = () => {
         <CardHeader>
           <CardTitle className="text-xl flex items-center gap-2 text-luker-orange">
             <Briefcase className="h-5 w-5 text-luker-teal" />
-            Ocupación egresados Año 2024
+            Ocupación egresados{totalOccupationYear ? ` Año ${totalOccupationYear}` : ""}
           </CardTitle>
           <p className="text-sm text-muted-foreground mt-1">
             Suma de: Estudiando y trabajando, Solo trabajando, Solo estudiando
@@ -206,7 +212,7 @@ const EducationLaborMarket = () => {
               {totalOccupation.toFixed(1)}%
             </div>
             <div className="text-sm text-luker-teal">
-              Ocupación Total Juvenil 2024
+              Ocupación Total Juvenil{totalOccupationYear ? ` ${totalOccupationYear}` : ""}
             </div>
           </div>
         </CardContent>
