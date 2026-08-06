@@ -30,29 +30,67 @@ interface Indicator {
 const StrategicIndicators = () => {
   const [indicators, setIndicators] = useState<Indicator[]>([]);
   const [loading, setLoading] = useState(true);
-  const [selectedYear, setSelectedYear] = useState("2025");
-  
+  const [availableYears, setAvailableYears] = useState<number[]>([]);
+  const [selectedYear, setSelectedYear] = useState<string>("");
+
+  const { data: damaOverrides } = useStrategicDamaOverrides();
+
+  // Años disponibles: los de la carga Excel + el último año sincronizado desde Drive
+  useEffect(() => {
+    const loadYears = async () => {
+      const { data } = await supabase.from("strategic_indicators").select("year");
+      const excelYears = Array.from(new Set(((data as any[]) ?? []).map((r) => Number(r.year))));
+      const damaYears = (damaOverrides ?? []).map((o) => o.year);
+      const years = Array.from(new Set([...excelYears, ...damaYears.filter((y) => excelYears.includes(y))]))
+        .filter((y) => Number.isFinite(y))
+        .sort((a, b) => a - b);
+      if (years.length === 0) return;
+      setAvailableYears(years);
+      setSelectedYear((prev) => prev || String(years[years.length - 1]));
+    };
+    loadYears();
+  }, [damaOverrides]);
+
+  // Indicadores del año seleccionado, con los valores de DAMA cuando existen
+  const mergedIndicators = useMemo<Indicator[]>(() => {
+    const year = Number(selectedYear);
+    return indicators.map((ind) => {
+      const override = (damaOverrides ?? []).find(
+        (o) => o.year === year && ind.keyword && o.keyword.toLowerCase() === ind.keyword.toLowerCase()
+      );
+      if (!override) return ind;
+      const goal = ind.annual_goal ?? 0;
+      const percentage = goal > 0 ? override.value / goal : ind.accumulated_percentage;
+      return {
+        ...ind,
+        accumulated_value: override.value,
+        accumulated_percentage: percentage,
+        source: "dama" as const,
+      };
+    });
+  }, [indicators, damaOverrides, selectedYear]);
 
   // Calculate progress averages
   const progressData = useMemo(() => {
-    if (indicators.length === 0) return { strategic: 0, general: 0 };
-    
+    if (mergedIndicators.length === 0) return { strategic: 0, general: 0 };
+
     const strategicAreas = ['Educación', 'Emprendimiento', 'Desarrollo rural', 'Proyectos especiales'];
-    const strategicIndicators = indicators.filter(ind => strategicAreas.includes(ind.area));
-    
+    const strategicIndicators = mergedIndicators.filter(ind => strategicAreas.includes(ind.area));
+
     const strategicAvg = strategicIndicators.length > 0
       ? strategicIndicators.reduce((sum, ind) => sum + (ind.accumulated_percentage || 0), 0) / strategicIndicators.length
       : 0;
-    
-    const generalAvg = indicators.reduce((sum, ind) => sum + (ind.accumulated_percentage || 0), 0) / indicators.length;
-    
+
+    const generalAvg = mergedIndicators.reduce((sum, ind) => sum + (ind.accumulated_percentage || 0), 0) / mergedIndicators.length;
+
     return {
       strategic: Math.round(strategicAvg * 100),
       general: Math.round(generalAvg * 100)
     };
-  }, [indicators]);
+  }, [mergedIndicators]);
 
   useEffect(() => {
+    if (!selectedYear) return;
     fetchIndicators();
   }, [selectedYear]);
 
@@ -76,11 +114,12 @@ const StrategicIndicators = () => {
 
   // Map indicators by keyword for easy access
   const getIndicatorByKeyword = (searchKeyword: string): Indicator | undefined => {
-    return indicators.find(ind => 
+    return mergedIndicators.find(ind => 
       ind.keyword?.toLowerCase().includes(searchKeyword.toLowerCase()) ||
       ind.indicator_name.toLowerCase().includes(searchKeyword.toLowerCase())
     );
   };
+
 
   // Define indicators by year - keywords that exist in each dataset
   const keywordMapByYear: Record<string, Array<{ keyword: string; displayName: string }>> = {
