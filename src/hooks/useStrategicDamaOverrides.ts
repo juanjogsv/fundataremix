@@ -57,12 +57,12 @@ export function useStrategicDamaOverrides() {
         overrides.push({ keyword: "Egresados UTC ocupados", value, year, codIndicador: "MLJ_02" })
       );
 
-      // 3) Beneficiarios Spin Off — GP_02, mismo filtro de la gráfica de participantes
+      // 3) Beneficiarios Spin Off — GP_02, categoría Formare (spin off) únicamente
       const { data: gp, error: gpErr } = await (ecosistema as any)
         .from("datos_maestros")
         .select("anio, valor")
         .eq("cod_indicador", "GP_02")
-        .in("categoria", ["Educación", "Formare"]);
+        .eq("categoria", "Formare");
       if (gpErr) throw gpErr;
       const gpByYear = new Map<number, number>();
       (gp ?? []).forEach((r: any) => {
