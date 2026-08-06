@@ -152,7 +152,7 @@ const EducationATL = () => {
       s && s.toLowerCase().trim() === 'escuela activa urbana' ? 'Escuela Activa' : s;
 
     const filteredData = selectedInstitutionCard4 === 'Total'
-      ? dataPrimeroHistorico
+      ? dataPrimeroHistorico.filter((item: any) => item.categoria === 'Total')
       : dataPrimeroHistorico.filter((item: any) => normalizeInst(item.categoria) === selectedInstitutionCard4);
 
     if (filteredData.length === 0) return [];
