@@ -136,6 +136,12 @@ const EducationLaborMarket = () => {
     return totalOccupationData.reduce((sum, item) => sum + (Number(item.valor) || 0), 0);
   }, [totalOccupationData]);
 
+  // Año del dato más reciente usado en el KPI
+  const totalOccupationYear = useMemo(() => {
+    if (!totalOccupationData || totalOccupationData.length === 0) return null;
+    return Math.max(...(totalOccupationData as any[]).map((r: any) => Number(r.year)));
+  }, [totalOccupationData]);
+
   // Procesar datos históricos de ocupación total
   const historicalChartData = useMemo(() => {
     if (!historicalOccupationData || historicalOccupationData.length === 0) return [];
