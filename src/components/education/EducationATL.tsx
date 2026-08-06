@@ -51,8 +51,8 @@ const EducationATL = () => {
 
         if (latestYear) {
           const [{ data: a1, error: e1 }, { data: a2, error: e2 }] = await Promise.all([
-            supabase.from('datos_maestros').select('categoria_2, valor').eq('cod_indicador', 'ATAL_01').eq('cod_entidad', '17001').eq('anio', latestYear).limit(5000),
-            supabase.from('datos_maestros').select('categoria_2, valor').eq('cod_indicador', 'ATAL_02').eq('cod_entidad', '17001').eq('anio', latestYear).limit(5000),
+            supabase.from('datos_maestros').select('categoria_2, valor').eq('cod_indicador', 'ATAL_01').eq('cod_entidad', '17001').eq('categoria', 'Total').eq('anio', latestYear).limit(5000),
+            supabase.from('datos_maestros').select('categoria_2, valor').eq('cod_indicador', 'ATAL_02').eq('cod_entidad', '17001').eq('categoria', 'Total').eq('anio', latestYear).limit(5000),
           ]);
           if (e1) throw e1;
           if (e2) throw e2;
