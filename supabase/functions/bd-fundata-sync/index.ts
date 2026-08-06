@@ -232,7 +232,11 @@ Deno.serve(async (req) => {
       for (const r of page) {
         const codInd = r[iInd];
         const codEnt = r[iEnt];
-        if (codInd == null || codEnt == null || codInd === "" || codEnt === "") continue;
+        if (codInd == null || codEnt == null || codInd === "" || codEnt === "") {
+          const k = `${codInd == null || codInd === "" ? "<sin_indicador>" : String(codInd).trim()}${codEnt == null || codEnt === "" ? " (sin cod_entidad)" : " (sin cod_indicador)"}`;
+          skippedByInd.set(k, (skippedByInd.get(k) ?? 0) + 1);
+          continue;
+        }
         const ci = String(codInd).trim();
         const ce = String(codEnt).trim();
         if (!indSet.has(ci)) orphansInd.set(ci, (orphansInd.get(ci) ?? 0) + 1);
