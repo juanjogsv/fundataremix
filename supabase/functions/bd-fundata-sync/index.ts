@@ -391,6 +391,7 @@ Deno.serve(async (req) => {
         filtered: datos.length - datosValidos.length,
         orphans_indicadores: orphIndArr,
         orphans_entidades: orphEntArr,
+        skipped_rows: [...skippedByInd.entries()].map(([code, rows]) => ({ code, rows })).sort((a, b) => b.rows - a.rows),
       },
     });
 
