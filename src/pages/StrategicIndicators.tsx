@@ -9,6 +9,8 @@ import { PageHeader } from "@/components/PageHeader";
 import { SocialInvestmentCompactCard } from "@/components/indicators/SocialInvestmentCompactCard";
 import { ExecutionProjectsCard } from "@/components/indicators/ExecutionProjectsCard";
 import { ParticipantsCompactCard } from "@/components/indicators/BeneficiariesCompactCard";
+import { useStrategicDamaOverrides } from "@/hooks/useStrategicDamaOverrides";
+
 
 import lukerPattern1 from "@/assets/luker-pattern-1.png";
 import lukerPattern2 from "@/assets/luker-pattern-2.png";
