@@ -45,13 +45,16 @@ const StrategicIndicators = () => {
       const { data } = await supabase.from("strategic_indicators").select("year");
       const excelYears = Array.from(new Set(((data as any[]) ?? []).map((r) => Number(r.year))));
       const damaYears = (damaOverrides ?? []).map((o) => o.year);
-      const years = Array.from(new Set([...excelYears, ...damaYears.filter((y) => excelYears.includes(y))]))
+      const years = (excelYears.length > 0
+        ? Array.from(new Set([...excelYears, ...damaYears.filter((y) => excelYears.includes(y))]))
+        : [2023, 2024, 2025]
+      )
         .filter((y) => Number.isFinite(y))
         .sort((a, b) => a - b);
-      if (years.length === 0) return;
       setAvailableYears(years);
       setSelectedYear((prev) => prev || String(years[years.length - 1]));
     };
+
     loadYears();
   }, [damaOverrides]);
 
