@@ -28,11 +28,38 @@ import DatosAbiertos from "./pages/DatosAbiertos";
 
 const queryClient = new QueryClient();
 
+const PUBLIC_HOST = "datosabiertos.fundacionluker.org.co";
+const isPublicHost = () => window.location.hostname === PUBLIC_HOST;
+
 const HomeRoute = () => {
-  if (window.location.hostname === "datosabiertos.fundacionluker.org.co") {
-    return <Navigate to="/datosabiertos" replace />;
+  if (isPublicHost()) {
+    return <DatosAbiertos />;
   }
   return <Index />;
+};
+
+/**
+ * La URL antigua appmijunta.fundacionluker.org.co/datosabiertos quedó dada de baja.
+ * Cualquier acceso a /datosabiertos fuera del subdominio público redirige (301 vía
+ * location.replace) al nuevo dominio datosabiertos.fundacionluker.org.co.
+ */
+const DatosAbiertosRoute = () => {
+  if (!isPublicHost()) {
+    window.location.replace(`https://${PUBLIC_HOST}${window.location.search}${window.location.hash}`);
+    return null;
+  }
+  return <DatosAbiertos />;
+};
+
+/**
+ * En el subdominio público solo existe la versión reducida: cualquier otra ruta
+ * redirige a la raíz (dashboard público).
+ */
+const PublicOnlyRoute = ({ children }: { children: React.ReactNode }) => {
+  if (isPublicHost()) {
+    return <Navigate to="/" replace />;
+  }
+  return <>{children}</>;
 };
 
 /**
