@@ -87,25 +87,25 @@ const App = () => (
         <GateWrapper>
           <Routes>
             <Route path="/" element={<HomeRoute />} />
-            <Route path="/indicadores" element={<StrategicIndicators />} />
-            <Route path="/calendario" element={<Calendar />} />
-            <Route path="/documentos" element={<Documents />} />
-            <Route path="/mapa" element={<Map />} />
-            <Route path="/financiero" element={<Financial />} />
-            <Route path="/educacion" element={<Education />} />
-            <Route path="/emprendimiento" element={<Entrepreneurship />} />
-            <Route path="/desarrollo-rural" element={<RuralDevelopment />} />
-            <Route path="/especiales" element={<SpecialProjects />} />
-            <Route path="/contexto" element={<AreaIndicators />} />
-            <Route path="/socioeconomico" element={<SocioeconomicContext />} />
-            <Route path="/datosabiertos" element={<DatosAbiertos />} />
+            <Route path="/indicadores" element={<PublicOnlyRoute><StrategicIndicators /></PublicOnlyRoute>} />
+            <Route path="/calendario" element={<PublicOnlyRoute><Calendar /></PublicOnlyRoute>} />
+            <Route path="/documentos" element={<PublicOnlyRoute><Documents /></PublicOnlyRoute>} />
+            <Route path="/mapa" element={<PublicOnlyRoute><Map /></PublicOnlyRoute>} />
+            <Route path="/financiero" element={<PublicOnlyRoute><Financial /></PublicOnlyRoute>} />
+            <Route path="/educacion" element={<PublicOnlyRoute><Education /></PublicOnlyRoute>} />
+            <Route path="/emprendimiento" element={<PublicOnlyRoute><Entrepreneurship /></PublicOnlyRoute>} />
+            <Route path="/desarrollo-rural" element={<PublicOnlyRoute><RuralDevelopment /></PublicOnlyRoute>} />
+            <Route path="/especiales" element={<PublicOnlyRoute><SpecialProjects /></PublicOnlyRoute>} />
+            <Route path="/contexto" element={<PublicOnlyRoute><AreaIndicators /></PublicOnlyRoute>} />
+            <Route path="/socioeconomico" element={<PublicOnlyRoute><SocioeconomicContext /></PublicOnlyRoute>} />
+            <Route path="/datosabiertos" element={<DatosAbiertosRoute />} />
 
-            <Route path="/auth" element={<Auth />} />
-            <Route path="/admin" element={<Admin />} />
-            <Route path="/admin/documentos" element={<AdminDocuments />} />
-            <Route path="/admin/biblioteca" element={<AdminBiblioteca />} />
-            <Route path="/about" element={<About />} />
-            <Route path="/help" element={<Help />} />
+            <Route path="/auth" element={<PublicOnlyRoute><Auth /></PublicOnlyRoute>} />
+            <Route path="/admin" element={<PublicOnlyRoute><Admin /></PublicOnlyRoute>} />
+            <Route path="/admin/documentos" element={<PublicOnlyRoute><AdminDocuments /></PublicOnlyRoute>} />
+            <Route path="/admin/biblioteca" element={<PublicOnlyRoute><AdminBiblioteca /></PublicOnlyRoute>} />
+            <Route path="/about" element={<PublicOnlyRoute><About /></PublicOnlyRoute>} />
+            <Route path="/help" element={<PublicOnlyRoute><Help /></PublicOnlyRoute>} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
