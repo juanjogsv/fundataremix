@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { supabase } from "@/integrations/supabase/client";
+import { ecosistema } from "@/integrations/ecosistema/client";
 import { Card, CardContent } from "@/components/ui/card";
 import { BarChart, Bar, XAxis, YAxis, ResponsiveContainer, Tooltip, Legend } from "recharts";
 
@@ -9,28 +9,46 @@ interface HistoricalData {
   total: number;
 }
 
-// Color palette and label mapping for bases
+// Color palette and label mapping for consolidated groups (Luker brand)
 const baseConfig: Record<string, { color: string; label: string }> = {
-  "Cacao": { color: "#8B4513", label: "Rural" },
-  "Educación": { color: "#3b82f6", label: "Educación" },
-  "Formare": { color: "#10b981", label: "Formare" },
-  "Proyectos especiales": { color: "#8b5cf6", label: "Especiales" },
+  "Educación": { color: "#00A0AF", label: "Educación" },
+  "Formare": { color: "#7AC143", label: "Formare" },
+  "Rural": { color: "#572700", label: "Rural" },
+  "Especiales": { color: "#FBB040", label: "Especiales" },
+};
+
+const GROUP_ORDER = ["Educación", "Formare", "Rural", "Especiales"];
+
+// Normaliza las categorías de GP_02 (sincronización de Drive) a 4 grupos
+const toGroup = (categoria: string | null | undefined): string => {
+  const c = (categoria || "").toLowerCase();
+  if (c.includes("formare")) return "Formare";
+  if (c.includes("generación r") || c.includes("generacion r") || c.includes("cacao") || c.includes("rural"))
+    return "Rural";
+  if (c.includes("especiales") || c.includes("emprendimiento")) return "Especiales";
+  if (c.includes("educación") || c.includes("educacion") || c.includes("otras iniciativas")) return "Educación";
+  return "Especiales";
 };
 
 export const ParticipantsCompactCard = () => {
   const { data, isLoading } = useQuery({
-    queryKey: ["participants-historical"],
+    queryKey: ["participants-historical-gp02"],
     queryFn: async () => {
-      const { data, error } = await supabase
-        .from("participants")
-        .select("year, base, valor")
-        .lt("year", 2025) // Exclude 2025 until more complete data is available
-        .order("year", { ascending: true });
+      const { data, error } = await (ecosistema as any)
+        .from("datos_maestros")
+        .select("anio, categoria, valor")
+        .eq("cod_indicador", "GP_02")
+        .order("anio", { ascending: true });
 
       if (error) throw error;
-      return data as { year: number; base: string; valor: number }[];
+      return ((data as any[]) || []).map((r) => ({
+        year: Number(r.anio),
+        base: toGroup(r.categoria),
+        valor: Number(r.valor) || 0,
+      }));
     },
   });
+
 
   // Transform data for stacked bar chart
   const chartData = data?.reduce((acc: Record<number, Record<string, number>>, item) => {
@@ -42,10 +60,14 @@ export const ParticipantsCompactCard = () => {
     return acc;
   }, {});
 
-  const formattedData = chartData ? Object.values(chartData) : [];
+  const formattedData = chartData
+    ? Object.values(chartData).sort((a: any, b: any) => a.year - b.year)
+    : [];
 
-  // Get unique bases from data
-  const bases = data ? [...new Set(data.map(d => d.base || "Otros"))] : [];
+  // Grupos presentes, en orden fijo
+  const present = new Set((data ?? []).map((d) => d.base));
+  const bases = GROUP_ORDER.filter((g) => present.has(g));
+
 
   // Calculate year range dynamically
   const years = data?.map(d => d.year) || [];
