@@ -60,10 +60,14 @@ export const ParticipantsCompactCard = () => {
     return acc;
   }, {});
 
-  const formattedData = chartData ? Object.values(chartData) : [];
+  const formattedData = chartData
+    ? Object.values(chartData).sort((a: any, b: any) => a.year - b.year)
+    : [];
 
-  // Get unique bases from data
-  const bases = data ? [...new Set(data.map(d => d.base || "Otros"))] : [];
+  // Grupos presentes, en orden fijo
+  const present = new Set((data ?? []).map((d) => d.base));
+  const bases = GROUP_ORDER.filter((g) => present.has(g));
+
 
   // Calculate year range dynamically
   const years = data?.map(d => d.year) || [];
