@@ -112,6 +112,7 @@ const App = () => (
       <Toaster />
       <Sonner />
       <BrowserRouter>
+        <DynamicTitle />
         <GateWrapper>
           <Routes>
             <Route path="/" element={<HomeRoute />} />
