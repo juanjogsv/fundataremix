@@ -39,17 +39,13 @@ const HomeRoute = () => {
 };
 
 /**
- * La URL antigua appmijunta.fundacionluker.org.co/datosabiertos quedó dada de baja.
- * Cualquier acceso a /datosabiertos fuera del subdominio público redirige (301 vía
- * location.replace) al nuevo dominio datosabiertos.fundacionluker.org.co.
+ * /datosabiertos muestra el dashboard público en cualquier dominio.
+ * Nota: datosabiertos.fundacionluker.org.co es dominio secundario y Lovable
+ * lo redirige (302) al primario appmijunta..., conservando la ruta; por eso
+ * esta ruta debe renderizar el contenido también en el dominio primario
+ * en lugar de redirigir de vuelta (evita bucles de redirección).
  */
-const DatosAbiertosRoute = () => {
-  if (!isPublicHost()) {
-    window.location.replace(`https://${PUBLIC_HOST}${window.location.search}${window.location.hash}`);
-    return null;
-  }
-  return <DatosAbiertos />;
-};
+const DatosAbiertosRoute = () => <DatosAbiertos />;
 
 /**
  * En el subdominio público solo existe la versión reducida: cualquier otra ruta
