@@ -1,12 +1,14 @@
 import { useState, useEffect } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, FolderOpen, FileText, Download, BookOpen } from "lucide-react";
+import { ArrowLeft, FolderOpen, FileText, Download, BookOpen, Globe } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { LibraryPublicationsGrid } from "@/components/documents/LibraryPublicationsGrid";
+import { BibliotecaIframe } from "@/components/documents/BibliotecaIframe";
+
 
 interface DocumentCategory {
   id: string;
@@ -172,7 +174,7 @@ const Documents = () => {
         </div>
 
         <Tabs defaultValue="documentos" className="w-full">
-          <TabsList className="grid w-full max-w-md grid-cols-2">
+          <TabsList className="grid w-full max-w-2xl grid-cols-3">
             <TabsTrigger value="documentos" className="flex items-center gap-2">
               <FolderOpen className="h-4 w-4" />
               Documentos
@@ -181,7 +183,12 @@ const Documents = () => {
               <BookOpen className="h-4 w-4" />
               Biblioteca
             </TabsTrigger>
+            <TabsTrigger value="escopios" className="flex items-center gap-2">
+              <Globe className="h-4 w-4" />
+              Escopios
+            </TabsTrigger>
           </TabsList>
+
 
           <TabsContent value="documentos" className="mt-6">
             {selectedCategory ? (
@@ -302,7 +309,26 @@ const Documents = () => {
               </CardContent>
             </Card>
           </TabsContent>
+
+          <TabsContent value="escopios" className="mt-6">
+            <Card className="bg-card border-border overflow-hidden">
+              <CardHeader>
+                <CardTitle className="text-foreground flex items-center gap-2">
+                  <Globe className="h-5 w-5" />
+                  Escopios Fundación Luker
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="p-0">
+                <BibliotecaIframe
+                  src="https://escopios.fundacionluker.org.co/"
+                  openUrl="https://escopios.fundacionluker.org.co/"
+                  title="Escopios Fundación Luker"
+                />
+              </CardContent>
+            </Card>
+          </TabsContent>
         </Tabs>
+
       </div>
     </div>
   );
