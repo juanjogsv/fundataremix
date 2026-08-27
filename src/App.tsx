@@ -75,6 +75,37 @@ const GateWrapper = ({ children }: { children: React.ReactNode }) => {
   return <>{children}</>;
 };
 
+/**
+ * Ajusta el título de la pestaña según el dominio o la ruta:
+ * - datosabiertos.fundacionluker.org.co -> "Datos Abiertos"
+ * - /datosabiertos en cualquier dominio -> "Datos Abiertos"
+ * - appmijunta.fundacionluker.org.co y resto del sitio -> "Mi Junta"
+ */
+const DynamicTitle = () => {
+  const location = useLocation();
+  const hostname = window.location.hostname;
+  const pathname = location.pathname;
+
+  const isDatosAbiertos =
+    hostname === "datosabiertos.fundacionluker.org.co" ||
+    pathname.startsWith("/datosabiertos");
+
+  const title = isDatosAbiertos ? "Datos Abiertos" : "Mi Junta";
+  const description = isDatosAbiertos
+    ? "Datos abiertos de Fundación Luker: indicadores, educación, emprendimiento y desarrollo rural."
+    : "Explora los indicadores estratégicos, los datos y más de Mi Junta - Fundación Luker.";
+
+  return (
+    <Helmet>
+      <title>{title}</title>
+      <meta property="og:title" content={title} />
+      <meta name="twitter:title" content={title} />
+      <meta property="og:description" content={description} />
+      <meta name="twitter:description" content={description} />
+    </Helmet>
+  );
+};
+
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
