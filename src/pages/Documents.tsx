@@ -7,6 +7,8 @@ import { supabase } from "@/integrations/supabase/client";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { LibraryPublicationsGrid } from "@/components/documents/LibraryPublicationsGrid";
+import { BibliotecaIframe } from "@/components/documents/BibliotecaIframe";
+
 
 interface DocumentCategory {
   id: string;
@@ -307,7 +309,26 @@ const Documents = () => {
               </CardContent>
             </Card>
           </TabsContent>
+
+          <TabsContent value="escopios" className="mt-6">
+            <Card className="bg-card border-border overflow-hidden">
+              <CardHeader>
+                <CardTitle className="text-foreground flex items-center gap-2">
+                  <Globe className="h-5 w-5" />
+                  Escopios Fundación Luker
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="p-0">
+                <BibliotecaIframe
+                  src="https://escopios.fundacionluker.org.co/"
+                  openUrl="https://escopios.fundacionluker.org.co/"
+                  title="Escopios Fundación Luker"
+                />
+              </CardContent>
+            </Card>
+          </TabsContent>
         </Tabs>
+
       </div>
     </div>
   );
