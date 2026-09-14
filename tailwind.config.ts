@@ -75,6 +75,10 @@ export default {
           lime: "hsl(var(--kit-lime))",
           teal: "hsl(var(--kit-teal))",
           orange: "hsl(var(--kit-orange))",
+          coralDeep: "hsl(var(--kit-coral-deep))",
+          tealDeep: "hsl(var(--kit-teal-deep))",
+          limeDeep: "hsl(var(--kit-lime-deep))",
+          orangeDeep: "hsl(var(--kit-orange-deep))",
         },
       },
       borderRadius: {
