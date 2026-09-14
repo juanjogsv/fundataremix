@@ -29,8 +29,8 @@ const sections = [
     title: "Indicadores Estratégicos",
     icon: BarChart3,
     path: "/indicadores",
-    color: "from-luker-teal/20 to-luker-green/20",
-    iconColor: "bg-luker-teal",
+    color: "from-kit-teal/20 to-kit-lime/20",
+    iconColor: "bg-kit-teal",
     description: "Seguimiento de KPIs"
   },
   {
@@ -38,8 +38,8 @@ const sections = [
     title: "Calendario",
     icon: Calendar,
     path: "/calendario",
-    color: "from-luker-orange/20 to-luker-red/20",
-    iconColor: "bg-luker-orange",
+    color: "from-kit-orange/20 to-kit-coral/20",
+    iconColor: "bg-kit-orange",
     description: "Eventos y actividades"
   },
   {
@@ -47,8 +47,8 @@ const sections = [
     title: "Documentos",
     icon: FolderOpen,
     path: "/documentos",
-    color: "from-luker-brown/20 to-luker-orange/20",
-    iconColor: "bg-luker-brown",
+    color: "from-kit-brown/20 to-kit-orange/20",
+    iconColor: "bg-kit-brown",
     description: "Repositorio documental"
   },
   {
@@ -56,8 +56,8 @@ const sections = [
     title: "Financiero",
     icon: DollarSign,
     path: "/financiero",
-    color: "from-luker-green/20 to-luker-teal/20",
-    iconColor: "bg-luker-green",
+    color: "from-kit-lime/20 to-kit-teal/20",
+    iconColor: "bg-kit-lime",
     description: "Gestión financiera"
   },
   {
@@ -65,8 +65,8 @@ const sections = [
     title: "Educación",
     icon: GraduationCap,
     path: "/educacion",
-    color: "from-luker-red/20 to-luker-orange/20",
-    iconColor: "bg-luker-red",
+    color: "from-kit-coral/20 to-kit-orange/20",
+    iconColor: "bg-kit-coral",
     description: "Programas educativos"
   },
   {
@@ -74,8 +74,8 @@ const sections = [
     title: "Emprendimiento",
     icon: Lightbulb,
     path: "/emprendimiento",
-    color: "from-luker-orange/20 to-luker-green/20",
-    iconColor: "bg-luker-orange",
+    color: "from-kit-orange/20 to-kit-lime/20",
+    iconColor: "bg-kit-orange",
     description: "Ecosistema de emprendimiento"
   },
   {
@@ -83,8 +83,8 @@ const sections = [
     title: "Desarrollo Rural",
     icon: Sprout,
     path: "/desarrollo-rural",
-    color: "from-luker-green/20 to-luker-brown/20",
-    iconColor: "bg-luker-green",
+    color: "from-kit-lime/20 to-kit-brown/20",
+    iconColor: "bg-kit-lime",
     description: "Proyectos rurales"
   },
   {
@@ -92,8 +92,8 @@ const sections = [
     title: "Especiales",
     icon: Sparkles,
     path: "/especiales",
-    color: "from-luker-red/20 to-luker-teal/20",
-    iconColor: "bg-luker-red",
+    color: "from-kit-coral/20 to-kit-teal/20",
+    iconColor: "bg-kit-coral",
     description: "Proyectos especiales"
   },
   {
@@ -101,8 +101,8 @@ const sections = [
     title: "Mapa",
     icon: MapPin,
     path: "/mapa",
-    color: "from-luker-teal/20 to-luker-brown/20",
-    iconColor: "bg-luker-teal",
+    color: "from-kit-teal/20 to-kit-brown/20",
+    iconColor: "bg-kit-teal",
     description: "Georreferenciación"
   },
   {
@@ -110,8 +110,8 @@ const sections = [
     title: "Contexto Socioeconómico",
     icon: TrendingUp,
     path: "/socioeconomico",
-    color: "from-luker-orange/20 to-luker-green/20",
-    iconColor: "bg-luker-orange",
+    color: "from-kit-orange/20 to-kit-lime/20",
+    iconColor: "bg-kit-orange",
     description: "Indicadores de ciudad"
   }
 ];
@@ -128,7 +128,7 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-background">
       {/* Header */}
-      <header className="border-b border-gray-200/80 bg-white/95 backdrop-blur-sm sticky top-0 z-50">
+      <header className="border-b border-border bg-background/95 backdrop-blur-sm sticky top-0 z-50">
         <div className="container mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
             <img 
@@ -175,14 +175,14 @@ const Index = () => {
         <div className="container mx-auto px-6 py-8 md:py-10 relative z-10">
           <div className="max-w-5xl mx-auto text-center space-y-4">
             <div className="inline-block">
-              <span className="text-sm font-semibold text-white bg-gradient-to-r from-luker-green to-luker-teal px-5 py-2.5 rounded-full shadow-md">
+              <span className="text-sm font-semibold text-kit-brown bg-kit-coral px-5 py-2.5 rounded-full shadow-md">
                 Plataforma de Gestión Estratégica
               </span>
             </div>
             
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-luker-brown leading-tight font-heading">
               Transformando vidas a través de la{" "}
-              <span className="bg-gradient-to-r from-luker-green to-luker-teal bg-clip-text text-transparent">educación</span>
+              <span className="text-kit-coral font-extrabold">educación</span>
             </h1>
             
             <p className="text-lg md:text-xl text-gray-700 leading-relaxed max-w-4xl mx-auto">
@@ -201,7 +201,7 @@ const Index = () => {
               <Card
                 key={section.id}
                 onClick={() => navigate(section.path)}
-                className="group relative overflow-hidden cursor-pointer transition-all duration-300 hover:scale-[1.02] bg-white border-gray-200/80 aspect-square hover:shadow-lg"
+                className="group relative overflow-hidden cursor-pointer transition-all duration-300 hover:scale-[1.02] bg-card border-border aspect-square hover:shadow-lg"
               >
                 <div className={`absolute inset-0 bg-gradient-to-br ${section.color} opacity-0 group-hover:opacity-100 transition-opacity duration-300`} />
                 
@@ -220,7 +220,7 @@ const Index = () => {
                   </div>
                 </div>
 
-                <div className="absolute inset-0 border-2 border-transparent group-hover:border-kit-lime/40 rounded-lg transition-colors duration-300" />
+                <div className="absolute inset-0 border-2 border-transparent group-hover:border-kit-orange/40 rounded-lg transition-colors duration-300" />
               </Card>
             );
           })}
@@ -229,7 +229,7 @@ const Index = () => {
 
       {/* CTA Section */}
       <section className="container mx-auto px-6 py-16 mb-12">
-        <Card className="bg-gradient-to-br from-luker-green/5 via-luker-orange/5 to-luker-teal/5 border-luker-green/20 shadow-lg">
+        <Card className="bg-card border-border shadow-lg">
           <div className="p-8 md:p-12 text-center space-y-6">
             <h2 className="text-2xl md:text-3xl font-bold text-luker-brown font-heading">
               ¿Necesitas ayuda para navegar la plataforma?
@@ -258,7 +258,7 @@ const Index = () => {
       </section>
 
       {/* Footer */}
-      <footer className="border-t border-gray-200/80 bg-white/95 py-8">
+      <footer className="border-t border-border bg-background/95 py-8">
         <div className="container mx-auto px-6">
           <div className="flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-gray-600">
             <p>© 2025 Fundación Luker. Todos los derechos reservados.</p>
