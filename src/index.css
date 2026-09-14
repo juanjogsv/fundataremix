@@ -8,109 +8,128 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    /* Light, clean, professional theme for executives */
-    --background: 0 0% 99%;
-    --foreground: 28 100% 8%;
+    /* Kit institucional Fundación Luker — crema / café / coral / lima / turquesa / naranja */
+    --background: 39 29% 91%;
+    --foreground: 30 60% 24%;
     
-    --card: 0 0% 100%;
-    --card-foreground: 28 100% 8%;
+    --card: 40 50% 98%;
+    --card-foreground: 30 60% 24%;
     
-    --popover: 0 0% 100%;
-    --popover-foreground: 28 100% 8%;
+    --popover: 40 50% 98%;
+    --popover-foreground: 30 60% 24%;
     
-    --primary: 28 100% 8%;
-    --primary-foreground: 0 0% 98%;
+    --primary: 30 60% 24%;
+    --primary-foreground: 39 45% 95%;
     
-    --secondary: 122 56% 51%;
-    --secondary-foreground: 0 0% 100%;
+    --secondary: 78 69% 44%;
+    --secondary-foreground: 30 60% 24%;
     
-    --muted: 0 0% 96%;
-    --muted-foreground: 28 60% 25%;
+    --muted: 40 24% 87%;
+    --muted-foreground: 30 35% 32%;
     
-    --accent: 37 97% 62%;
-    --accent-foreground: 28 100% 8%;
+    --accent: 37 96% 62%;
+    --accent-foreground: 30 60% 24%;
     
     --destructive: 0 84% 59%;
     --destructive-foreground: 0 0% 98%;
     
-    --border: 0 0% 90%;
-    --input: 0 0% 90%;
-    --ring: 122 56% 51%;
+    --border: 34 23% 79%;
+    --input: 34 23% 79%;
+    --ring: 185 100% 34%;
     
     --radius: 0.75rem;
     
-    /* Fundación Luker brand colors - HSL format */
+    /* Fundación Luker brand colors (charts & rankings — DO NOT change) - HSL format */
     --luker-brown: 28 100% 8%;
     --luker-orange: 37 97% 62%;
     --luker-green: 122 56% 51%;
     --luker-red: 0 84% 59%;
     --luker-teal: 180 100% 34%;
     
-    /* Dashboard background - soft teal/aqua */
-    --dashboard-bg: 170 40% 92%;
+    /* Kit palette (page 15) — module accents */
+    --kit-cream: 39 29% 91%;
+    --kit-brown: 30 60% 24%;
+    --kit-coral: 358 100% 74%;
+    --kit-lime: 78 69% 44%;
+    --kit-teal: 185 100% 34%;
+    --kit-orange: 37 96% 62%;
+    --kit-surface: 40 50% 98%;
+    --kit-coral-deep: 358 65% 48%;
+    --kit-teal-deep: 185 100% 25%;
+    --kit-lime-deep: 78 60% 30%;
+    --kit-orange-deep: 30 90% 42%;
     
-    /* Soft background gradients */
-    --gradient-soft: linear-gradient(135deg, hsl(0 0% 99%) 0%, hsl(0 0% 97%) 100%);
-    --gradient-accent: linear-gradient(135deg, hsl(122 56% 95%) 0%, hsl(37 97% 95%) 100%);
+    /* Dashboard background — warm cream */
+    --dashboard-bg: 39 29% 91%;
     
-    /* Elegant shadows */
-    --shadow-card: 0 2px 8px -2px hsl(0 0% 0% / 0.06);
-    --shadow-hover: 0 8px 24px -4px hsl(0 0% 0% / 0.12);
+    /* Soft background gradients — clean cream, no generic gradients */
+    --gradient-soft: linear-gradient(135deg, hsl(39 29% 91%) 0%, hsl(40 40% 94%) 100%);
+    --gradient-accent: linear-gradient(135deg, hsl(78 69% 96%) 0%, hsl(37 96% 96%) 100%);
+    
+    /* Elegant shadows — soft brown tint */
+    --shadow-card: 0 2px 8px -2px hsl(30 60% 24% / 0.08);
+    --shadow-hover: 0 8px 24px -4px hsl(30 60% 24% / 0.18);
 
-    --sidebar-background: 0 0% 98%;
-    --sidebar-foreground: 28 100% 8%;
-    --sidebar-primary: 28 100% 8%;
-    --sidebar-primary-foreground: 0 0% 98%;
-    --sidebar-accent: 0 0% 95%;
-    --sidebar-accent-foreground: 28 100% 8%;
-    --sidebar-border: 0 0% 90%;
-    --sidebar-ring: 122 56% 51%;
+    --sidebar-background: 39 29% 91%;
+    --sidebar-foreground: 30 60% 24%;
+    --sidebar-primary: 30 60% 24%;
+    --sidebar-primary-foreground: 39 45% 95%;
+    --sidebar-accent: 40 24% 87%;
+    --sidebar-accent-foreground: 30 60% 24%;
+    --sidebar-border: 34 23% 79%;
+    --sidebar-ring: 185 100% 34%;
   }
 
   .dark {
-    --background: 28 100% 8%;
-    --foreground: 0 0% 98%;
+    --background: 30 45% 14%;
+    --foreground: 39 45% 95%;
 
-    --card: 28 60% 12%;
-    --card-foreground: 0 0% 98%;
+    --card: 30 40% 18%;
+    --card-foreground: 39 45% 95%;
 
-    --popover: 28 60% 12%;
-    --popover-foreground: 0 0% 98%;
+    --popover: 30 40% 18%;
+    --popover-foreground: 39 45% 95%;
 
-    --primary: 0 0% 98%;
-    --primary-foreground: 28 100% 8%;
+    --primary: 39 45% 95%;
+    --primary-foreground: 30 60% 24%;
 
-    --secondary: 122 56% 51%;
-    --secondary-foreground: 0 0% 98%;
+    --secondary: 78 69% 44%;
+    --secondary-foreground: 30 60% 24%;
 
-    --muted: 28 40% 18%;
-    --muted-foreground: 0 0% 70%;
+    --muted: 30 30% 24%;
+    --muted-foreground: 39 25% 72%;
 
-    --accent: 37 97% 62%;
-    --accent-foreground: 28 100% 8%;
+    --accent: 37 96% 62%;
+    --accent-foreground: 30 60% 24%;
 
     --destructive: 0 84% 59%;
     --destructive-foreground: 0 0% 98%;
 
-    --border: 28 40% 20%;
-    --input: 28 40% 20%;
-    --ring: 122 56% 51%;
-    
-    /* Fundación Luker brand colors - same in dark mode */
-    --luker-brown: 28 100% 8%;
-    --luker-orange: 37 97% 62%;
-    --luker-green: 122 56% 51%;
-    --luker-red: 0 84% 59%;
-    --luker-teal: 180 100% 34%;
-    
-    --sidebar-background: 28 100% 8%;
-    --sidebar-foreground: 0 0% 98%;
-    --sidebar-primary: 122 56% 51%;
-    --sidebar-primary-foreground: 28 100% 8%;
-    --sidebar-accent: 28 80% 25%;
-    --sidebar-accent-foreground: 0 0% 98%;
-    --sidebar-border: 28 50% 30%;
-    --sidebar-ring: 122 56% 51%;
+    --border: 30 30% 26%;
+    --input: 30 30% 26%;
+    --ring: 185 100% 34%;
+
+    /* Kit palette - same in dark mode */
+    --kit-cream: 39 29% 91%;
+    --kit-brown: 30 60% 24%;
+    --kit-coral: 358 100% 74%;
+    --kit-lime: 78 69% 44%;
+    --kit-teal: 185 100% 34%;
+    --kit-orange: 37 96% 62%;
+    --kit-surface: 40 50% 98%;
+    --kit-coral-deep: 358 65% 48%;
+    --kit-teal-deep: 185 100% 25%;
+    --kit-lime-deep: 78 60% 30%;
+    --kit-orange-deep: 30 90% 42%;
+
+    --sidebar-background: 30 45% 14%;
+    --sidebar-foreground: 39 45% 95%;
+    --sidebar-primary: 78 69% 44%;
+    --sidebar-primary-foreground: 30 60% 24%;
+    --sidebar-accent: 30 30% 24%;
+    --sidebar-accent-foreground: 39 45% 95%;
+    --sidebar-border: 30 30% 26%;
+    --sidebar-ring: 185 100% 34%;
   }
 }
 

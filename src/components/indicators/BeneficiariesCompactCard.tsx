@@ -103,7 +103,7 @@ export const ParticipantsCompactCard = () => {
     return (
       <Card className="bg-white/95 backdrop-blur-sm border border-gray-200/60 shadow-lg h-full">
         <CardContent className="p-5 h-full flex items-center justify-center">
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-kit-teal/40"></div>
         </CardContent>
       </Card>
     );

@@ -428,7 +428,7 @@ export const UploadOperatingExpenses = () => {
 
         {parsedData && (
           <div className="bg-luker-green/10 border border-luker-green/20 rounded-lg p-4 space-y-3">
-            <div className="flex items-center gap-2 text-luker-green">
+            <div className="flex items-center gap-2 text-kit-limeDeep">
               <CheckCircle2 className="h-5 w-5" />
               <span className="font-semibold">Archivo procesado correctamente</span>
             </div>

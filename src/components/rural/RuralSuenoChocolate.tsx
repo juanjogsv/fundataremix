@@ -77,7 +77,7 @@ const ChartCard = ({
             <div className={`p-2 rounded-lg ${iconColor}`}>
               <Icon className="h-5 w-5 text-white" />
             </div>
-            <CardTitle className="text-sm font-semibold text-amber-900 leading-tight">
+            <CardTitle className="text-sm font-semibold text-kit-orangeDeep leading-tight">
               {title}
             </CardTitle>
           </div>
@@ -97,11 +97,11 @@ const ChartCard = ({
         
         {/* KPI Value */}
         <div className="mt-3 flex items-baseline gap-2">
-          <span className="text-2xl font-bold text-amber-800">
+          <span className="text-2xl font-bold text-kit-orangeDeep">
             {formatValue(latestValue, isCurrency)}
           </span>
         </div>
-        <p className="text-xs text-amber-600">
+        <p className="text-xs text-kit-orangeDeep">
           Último año disponible: {data.length > 0 ? data[data.length - 1]?.year : 'N/A'}
         </p>
       </CardHeader>
@@ -273,7 +273,7 @@ const RuralSuenoChocolate = () => {
         <ChartCard
           title="Evolución Histórica: Participantes"
           icon={Users}
-          iconColor="bg-amber-600"
+          iconColor="bg-kit-orange"
           data={beneficiariosChartData}
           categories={["Total"]}
           selectedCategory={categoryBeneficiarios}
@@ -287,7 +287,7 @@ const RuralSuenoChocolate = () => {
         <ChartCard
           title="Inversión Total Proyecto"
           icon={Banknote}
-          iconColor="bg-amber-700"
+          iconColor="bg-kit-orange"
           data={invTotalData}
           categories={indicatorCategories}
           selectedCategory={categoryInvTotal}

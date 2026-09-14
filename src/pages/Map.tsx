@@ -411,7 +411,7 @@ const Map = () => {
             <ArrowLeft className="h-5 w-5" />
           </Button>
           <div>
-            <h1 className="text-4xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
+            <h1 className="text-4xl font-bold bg-primary text-primary-foreground hover:bg-primary/90 bg-clip-text text-transparent">
               Mapa de Participantes
             </h1>
             <p className="text-muted-foreground mt-2">

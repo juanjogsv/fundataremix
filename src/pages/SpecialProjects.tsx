@@ -26,13 +26,13 @@ const SpecialProjects = () => {
   const [activeTab, setActiveTab] = useState("beneficiarios");
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-white via-slate-50/30 to-white">
+    <div className="min-h-screen bg-background">
       {/* Header */}
       <PageHeader
         title="Proyectos Especiales"
         icon={Star}
-        iconBgColor="bg-blue-600"
-        gradientColors="from-blue-600 via-blue-500 to-slate-600"
+        iconBgColor="bg-kit-coral"
+        gradientColors="from-kit-coral to-kit-orange"
       />
 
       <div className="container mx-auto px-4 md:px-6 py-6 md:py-8">
@@ -45,7 +45,7 @@ const SpecialProjects = () => {
                 <TabsTrigger
                   key={section.id}
                   value={section.id}
-                  className="flex items-center gap-2 data-[state=active]:bg-blue-600 data-[state=active]:text-white"
+                  className="flex items-center gap-2 data-[state=active]:bg-kit-teal data-[state=active]:text-white"
                 >
                   <Icon className="h-4 w-4" />
                   <span className="hidden md:inline">{section.label}</span>

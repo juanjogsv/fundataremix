@@ -86,8 +86,8 @@ export default function BdFundataSyncPanel() {
 
   const StatusIcon = () => {
     if (!meta?.status) return <AlertTriangle className="h-5 w-5 text-muted-foreground" />;
-    if (meta.status === "ok") return <CheckCircle2 className="h-5 w-5 text-luker-green" />;
-    if (meta.status === "ok_with_warnings") return <AlertTriangle className="h-5 w-5 text-luker-orange" />;
+    if (meta.status === "ok") return <CheckCircle2 className="h-5 w-5 text-kit-limeDeep" />;
+    if (meta.status === "ok_with_warnings") return <AlertTriangle className="h-5 w-5 text-kit-orangeDeep" />;
     if (meta.status === "running") return <Loader2 className="h-5 w-5 animate-spin text-luker-teal" />;
     return <XCircle className="h-5 w-5 text-luker-red" />;
   };
@@ -167,7 +167,7 @@ export default function BdFundataSyncPanel() {
             <CollapsibleTrigger asChild>
               <Button variant="outline" className="w-full justify-between">
                 <span className="flex items-center gap-2">
-                  <AlertTriangle className="h-4 w-4 text-luker-orange" />
+                  <AlertTriangle className="h-4 w-4 text-kit-orangeDeep" />
                   Detalle de problemas ({diag.orphans_entidades.length} entidades + {diag.orphans_indicadores.length} indicadores huérfanos)
                 </span>
                 <ChevronDown className="h-4 w-4" />
@@ -181,15 +181,15 @@ export default function BdFundataSyncPanel() {
                 </div>
                 <div>
                   <div className="text-muted-foreground text-xs">Ingeridas</div>
-                  <div className="font-semibold text-luker-green">{diag.ingested.toLocaleString()}</div>
+                  <div className="font-semibold text-kit-limeDeep">{diag.ingested.toLocaleString()}</div>
                 </div>
                 <div>
                   <div className="text-muted-foreground text-xs">Descartadas</div>
-                  <div className="font-semibold text-luker-orange">{diag.filtered.toLocaleString()}</div>
+                  <div className="font-semibold text-kit-orangeDeep">{diag.filtered.toLocaleString()}</div>
                 </div>
                 <div>
                   <div className="text-muted-foreground text-xs">% pérdida</div>
-                  <div className="font-semibold text-luker-orange">{lossPct}%</div>
+                  <div className="font-semibold text-kit-orangeDeep">{lossPct}%</div>
                 </div>
               </div>
 
@@ -222,7 +222,7 @@ export default function BdFundataSyncPanel() {
 
         {meta?.error_message && !hasOrphans && (
           <div className="rounded-md bg-luker-orange/10 border border-luker-orange/30 p-3 text-xs">
-            <div className="font-semibold text-luker-orange mb-1">Detalle</div>
+            <div className="font-semibold text-kit-orangeDeep mb-1">Detalle</div>
             <div className="font-mono whitespace-pre-wrap break-all">{meta.error_message}</div>
           </div>
         )}

@@ -738,7 +738,7 @@ const EducationSaberOnce = () => {
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
                       <div className="bg-white border rounded-lg p-4 shadow-sm">
                         <p className="text-xs text-gray-500 uppercase tracking-wide">Brecha promedio</p>
-                        <p className={`text-2xl font-bold mt-1 ${gapStats.avgDiff >= 0 ? 'text-emerald-600' : 'text-luker-red'}`}>
+                        <p className={`text-2xl font-bold mt-1 ${gapStats.avgDiff >= 0 ? 'text-kit-limeDeep' : 'text-luker-red'}`}>
                           {gapStats.avgDiff > 1 ? '+' : ''}{gapStats.avgDiff} pts
                         </p>
                         <p className="text-xs text-gray-400 mt-1">
@@ -747,7 +747,7 @@ const EducationSaberOnce = () => {
                       </div>
                       <div className="bg-white border rounded-lg p-4 shadow-sm">
                         <p className="text-xs text-gray-500 uppercase tracking-wide">Brecha {gapStats.latestYear}</p>
-                        <p className={`text-2xl font-bold mt-1 ${(gapStats.latestDiff ?? 1) >= 0 ? 'text-emerald-600' : 'text-luker-red'}`}>
+                        <p className={`text-2xl font-bold mt-1 ${(gapStats.latestDiff ?? 1) >= 0 ? 'text-kit-limeDeep' : 'text-luker-red'}`}>
                           {(gapStats.latestDiff ?? 0) > 1 ? '+' : ''}{gapStats.latestDiff} pts
                         </p>
                         <p className="text-xs text-gray-400 mt-1">
@@ -843,7 +843,7 @@ const EducationSaberOnce = () => {
                     </div>
                     <div className="flex items-center justify-center gap-6 mt-2 text-xs text-gray-500">
                       <span className="flex items-center gap-1">
-                        <span className="inline-block w-3 h-3 rounded-sm bg-emerald-500" />
+                        <span className="inline-block w-3 h-3 rounded-sm bg-kit-lime" />
                         Oficial mejor
                       </span>
                       <span className="flex items-center gap-1">

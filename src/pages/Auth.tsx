@@ -86,7 +86,7 @@ const Auth = () => {
     <div className="min-h-screen bg-background flex items-center justify-center p-6">
       <Card className="w-full max-w-md">
         <CardHeader className="text-center">
-          <CardTitle className="text-3xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
+          <CardTitle className="text-3xl font-bold bg-primary text-primary-foreground hover:bg-primary/90 bg-clip-text text-transparent">
             Fundación Luker
           </CardTitle>
           <CardDescription>

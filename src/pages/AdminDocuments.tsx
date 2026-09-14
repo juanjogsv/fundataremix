@@ -437,7 +437,7 @@ const AdminDocuments = () => {
             <ArrowLeft className="h-5 w-5" />
           </Button>
           <div className="flex-1">
-            <h1 className="text-3xl md:text-5xl font-bold bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent animate-gradient">
+            <h1 className="text-3xl md:text-5xl font-bold bg-primary text-primary-foreground bg-clip-text text-transparent animate-gradient">
               Gestión de Documentos
             </h1>
             <p className="text-muted-foreground mt-2 text-sm md:text-base">

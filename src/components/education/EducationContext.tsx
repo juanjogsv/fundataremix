@@ -17,11 +17,11 @@ const KPI_CONFIG: Array<{
   accentVar: string;
   ascending?: boolean;
 }> = [
-  { code: "COBE_01", title: "Cobertura Neta Preescolar", icon: School,        bg: "bg-rose-50",   iconBg: "bg-rose-100",   text: "text-rose-600",  accentVar: "luker-orange" },
-  { code: "COBE_02", title: "Cobertura Neta Primaria",   icon: BookOpen,      bg: "bg-amber-50",  iconBg: "bg-amber-100",  text: "text-amber-600", accentVar: "luker-orange" },
+  { code: "COBE_01", title: "Cobertura Neta Preescolar", icon: School,        bg: "bg-kit-coral/10",   iconBg: "bg-kit-coral/20",   text: "text-kit-coralDeep",  accentVar: "luker-orange" },
+  { code: "COBE_02", title: "Cobertura Neta Primaria",   icon: BookOpen,      bg: "bg-kit-orange/10",  iconBg: "bg-kit-orange/20",  text: "text-kit-orangeDeep", accentVar: "luker-orange" },
   { code: "COBE_03", title: "Cobertura Neta Secundaria", icon: GraduationCap, bg: "bg-green-50",  iconBg: "bg-green-100",  text: "text-green-600", accentVar: "luker-green" },
-  { code: "COBE_04", title: "Cobertura Neta Media",      icon: Users,         bg: "bg-sky-50",    iconBg: "bg-sky-100",    text: "text-sky-600",   accentVar: "luker-teal" },
-  { code: "COBE_06", title: "Tasa de Tránsito",          icon: TrendingUp,    bg: "bg-slate-50",  iconBg: "bg-slate-100",  text: "text-slate-600", accentVar: "luker-teal" },
+  { code: "COBE_04", title: "Cobertura Neta Media",      icon: Users,         bg: "bg-kit-teal/5",    iconBg: "bg-kit-teal/15",    text: "text-kit-tealDeep",   accentVar: "luker-teal" },
+  { code: "COBE_06", title: "Tasa de Tránsito",          icon: TrendingUp,    bg: "bg-slate-50",  iconBg: "bg-slate-100",  text: "text-kit-brown", accentVar: "luker-teal" },
   { code: "COBE_05", title: "Tasa de Deserción Escolar", icon: LogOut,        bg: "bg-red-50",    iconBg: "bg-red-100",    text: "text-red-600",   accentVar: "luker-red", ascending: false },
 ];
 

@@ -8,7 +8,7 @@ const Help = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-white via-gray-50/30 to-white">
+    <div className="min-h-screen bg-background">
       <div className="container mx-auto px-6 py-8 max-w-5xl">
         {/* Header */}
         <div className="flex items-center gap-4 mb-8">

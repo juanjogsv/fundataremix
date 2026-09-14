@@ -623,7 +623,7 @@ const MCVSubsection = ({
                       {allCitiesData.map((entry, index) => (
                         <Cell 
                           key={`cell-${index}`}
-                          fill={entry.entidad === selectedEntity ? "#3b82f6" : "#94a3b8"}
+                          fill={entry.entidad === selectedEntity ? "#009EAE" : "#94a3b8"}
                         />
                       ))}
                     </Bar>
@@ -640,8 +640,8 @@ const MCVSubsection = ({
                   >
                     <defs>
                       <linearGradient id="colorMain" x1="0" y1="0" x2="0" y2="1">
-                        <stop offset="5%" stopColor="#3b82f6" stopOpacity={0.3} />
-                        <stop offset="95%" stopColor="#3b82f6" stopOpacity={0} />
+                        <stop offset="5%" stopColor="#009EAE" stopOpacity={0.3} />
+                        <stop offset="95%" stopColor="#009EAE" stopOpacity={0} />
                       </linearGradient>
                       <linearGradient id="colorCompare" x1="0" y1="0" x2="0" y2="1">
                         <stop offset="5%" stopColor="#f97316" stopOpacity={0.3} />
@@ -696,11 +696,11 @@ const MCVSubsection = ({
                     <Area
                       type="monotone"
                       dataKey={selectedEntity}
-                      stroke="#3b82f6"
+                      stroke="#009EAE"
                       strokeWidth={2}
                       fill="url(#colorMain)"
-                      dot={{ fill: "#3b82f6", strokeWidth: 2, r: 3 }}
-                      activeDot={{ r: 5, stroke: "#3b82f6", strokeWidth: 2 }}
+                      dot={{ fill: "#009EAE", strokeWidth: 2, r: 3 }}
+                      activeDot={{ r: 5, stroke: "#009EAE", strokeWidth: 2 }}
                       connectNulls
                     />
                     {compareCity !== "none" && compareCity !== "all" && (

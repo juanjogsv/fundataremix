@@ -102,7 +102,7 @@ const RuralSocial = () => {
           value={personasResiliencia ? formatValue(personasResiliencia.valor, personasResiliencia.unidad_medida) : "N/A"}
           year={personasResiliencia ? `${personasResiliencia.year}` : "Sin datos"}
           icon={HeartHandshake}
-          iconBgColor="bg-amber-500"
+          iconBgColor="bg-kit-orange"
           isPlaceholder={!personasResiliencia}
         />
       </div>

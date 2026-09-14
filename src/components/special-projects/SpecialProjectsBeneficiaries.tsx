@@ -148,7 +148,7 @@ const SpecialProjectsBeneficiaries = () => {
   return (
     <div className="space-y-6">
       <div className="flex items-center gap-2 mb-6">
-        <Users className="h-6 w-6 text-blue-600" />
+        <Users className="h-6 w-6 text-kit-tealDeep" />
         <h2 className="text-2xl font-bold text-gray-800">Participantes</h2>
       </div>
 
