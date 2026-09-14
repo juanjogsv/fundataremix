@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Card } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import {
@@ -21,6 +21,7 @@ import {
   UserCheck,
   Star,
   Shield,
+  ArrowDown,
 } from "lucide-react";
 import lukerLogo from "@/assets/fundacion-luker-logo.jpeg";
 
@@ -56,12 +57,11 @@ import MCVSubsection from "@/components/mcv/MCVSubsection";
 // Mapa — se enlaza a /mapa (componente completo con su propio layout)
 
 const sections = [
-
-  { id: "educacion", title: "Educación", icon: GraduationCap, iconColor: "bg-luker-red", color: "from-luker-red/20 to-luker-orange/20" },
-  { id: "emprendimiento", title: "Emprendimiento", icon: Lightbulb, iconColor: "bg-luker-orange", color: "from-luker-orange/20 to-luker-green/20" },
-  { id: "desarrollo-rural", title: "Desarrollo Rural", icon: Sprout, iconColor: "bg-luker-green", color: "from-luker-green/20 to-luker-brown/20" },
-  { id: "especiales", title: "Especiales", icon: Sparkles, iconColor: "bg-luker-red", color: "from-luker-red/20 to-luker-teal/20" },
-  { id: "socioeconomico", title: "Contexto Socioeconómico", icon: TrendingUp, iconColor: "bg-luker-orange", color: "from-luker-orange/20 to-luker-green/20" },
+  { id: "educacion", title: "Educación", icon: GraduationCap, accent: "coral" },
+  { id: "emprendimiento", title: "Emprendimiento", icon: Lightbulb, accent: "orange" },
+  { id: "desarrollo-rural", title: "Desarrollo Rural", icon: Sprout, accent: "lime" },
+  { id: "especiales", title: "Especiales", icon: Sparkles, accent: "teal" },
+  { id: "socioeconomico", title: "Contexto Socioeconómico", icon: TrendingUp, accent: "brown" },
 ];
 
 // Configuración reusada de las páginas ampliadas
@@ -115,22 +115,28 @@ const SectionShell = ({
   id,
   title,
   icon: Icon,
-  iconColor,
+  accent,
+  index,
   children,
 }: {
   id: string;
   title: string;
   icon: typeof DollarSign;
-  iconColor: string;
+  accent: string;
+  index: string;
   children: React.ReactNode;
 }) => (
-  <section id={id} className="scroll-mt-24 py-10 md:py-14 border-t border-gray-200/70">
-    <div className="container mx-auto px-4 md:px-6">
-      <div className="flex items-center gap-3 mb-6 md:mb-8">
-        <div className={`p-3 rounded-2xl ${iconColor} shadow-md`}>
-          <Icon className="h-6 w-6 text-white" />
+  <section id={id} data-accent={accent} className="da-section scroll-mt-36 py-12 md:py-20">
+    <div className="container mx-auto px-5 md:px-8">
+      <div className="da-section-heading mb-8 md:mb-10">
+        <span className="da-section-number" aria-hidden="true">{index}</span>
+        <div className="da-section-icon">
+          <Icon className="h-6 w-6" />
         </div>
-        <h2 className="text-2xl md:text-3xl font-bold text-luker-brown font-heading">{title}</h2>
+        <div>
+          <p className="da-eyebrow">Explora los indicadores</p>
+          <h2 className="font-heading text-3xl font-extrabold leading-tight md:text-5xl">{title}</h2>
+        </div>
       </div>
       {children}
     </div>
@@ -146,74 +152,73 @@ const DatosAbiertos = () => {
   const [mcvEntity, setMcvEntity] = useState("Manizales");
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-white via-gray-50/30 to-white">
+    <div className="datos-abiertos min-h-screen font-sans">
       {/* Header público */}
-      <header className="border-b border-gray-200/80 bg-white/95 backdrop-blur-sm sticky top-0 z-50">
-        <div className="container mx-auto px-6 py-4 flex items-center justify-between">
+      <header className="da-header sticky top-0 z-50">
+        <div className="container mx-auto flex h-16 items-center justify-between px-5 md:h-[72px] md:px-8">
           <div className="flex items-center gap-4">
-            <img src={lukerLogo} alt="Fundación Luker" className="h-10 md:h-12 w-auto object-contain" />
-            <div className="hidden sm:block h-8 w-px bg-gray-200" />
-            <div className="hidden sm:flex items-center gap-2 text-luker-brown">
-              <Shield className="h-4 w-4 text-luker-green" />
-              <span className="text-sm font-semibold">Datos Abiertos</span>
+            <img src={lukerLogo} alt="Fundación Luker" className="h-10 w-auto object-contain md:h-12" />
+            <div className="da-header-divider hidden h-8 w-px sm:block" />
+            <div className="hidden items-center gap-2 sm:flex">
+              <Shield className="h-4 w-4" />
+              <span className="text-sm font-bold">Datos Abiertos</span>
             </div>
           </div>
-          <span className="text-xs md:text-sm text-gray-500 hidden md:inline">Acceso público</span>
+          <span className="da-public-label">Acceso público</span>
         </div>
       </header>
 
       {/* Hero */}
-      <section className="relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-luker-green/5 via-luker-orange/5 to-luker-teal/10" />
-        <div className="absolute top-0 right-0 w-96 h-96 bg-luker-green/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
-        <div className="absolute bottom-0 left-0 w-80 h-80 bg-luker-orange/10 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2" />
-
-        <div className="container mx-auto px-6 py-10 md:py-14 relative z-10">
-          <div className="max-w-4xl mx-auto text-center space-y-4">
-            <span className="text-sm font-semibold text-white bg-gradient-to-r from-luker-green to-luker-teal px-5 py-2.5 rounded-full shadow-md">
-              Transparencia y rendición de cuentas
-            </span>
-            <h1 className="text-4xl md:text-5xl font-bold text-luker-brown leading-tight font-heading">
-              Datos abiertos de la{" "}
-              <span className="bg-gradient-to-r from-luker-green to-luker-teal bg-clip-text text-transparent">
-                Fundación Luker
-              </span>
+      <section className="da-hero relative overflow-hidden">
+        <span className="da-hero-letter da-hero-letter-left" aria-hidden="true">d</span>
+        <span className="da-hero-letter da-hero-letter-right" aria-hidden="true">a</span>
+        <div className="container relative z-10 mx-auto grid min-h-[440px] items-center gap-8 px-5 py-12 md:grid-cols-[1.2fr_0.8fr] md:px-8 md:py-16">
+          <div className="max-w-3xl">
+            <p className="da-kicker mb-5">Transparencia y rendición de cuentas</p>
+            <h1 className="font-heading text-5xl font-black leading-[0.98] md:text-7xl">
+              Datos abiertos
+              <span className="mt-2 block">Fundación Luker</span>
             </h1>
-            <p className="text-lg text-gray-700 leading-relaxed max-w-3xl mx-auto">
-              Consulta libre de los principales indicadores y resultados de nuestros programas sociales.
+            <p className="mt-7 max-w-2xl text-lg font-medium leading-relaxed md:text-xl">
+              Información para aprender, decidir y transformar. Consulta libremente los principales indicadores y resultados de nuestros programas sociales.
             </p>
+          </div>
+          <div className="da-hero-index" aria-label="Cinco áreas de información disponibles">
+            <span className="da-hero-index-number">05</span>
+            <span className="da-hero-index-label">áreas para explorar</span>
+            <ArrowDown className="mt-5 h-7 w-7" aria-hidden="true" />
           </div>
         </div>
       </section>
 
       {/* Barra sticky de accesos rápidos */}
-      <div className="sticky top-[65px] z-40 bg-white/95 backdrop-blur-sm border-y border-gray-200/80 shadow-sm">
-        <div className="container mx-auto px-4 md:px-6 py-3">
-          <div className="flex flex-nowrap gap-2 overflow-x-auto max-w-7xl mx-auto">
+      <nav aria-label="Secciones de datos abiertos" className="da-quick-nav sticky top-16 z-40 md:top-[72px]">
+        <div className="container mx-auto px-5 py-3 md:px-8">
+          <div className="mx-auto flex max-w-7xl flex-nowrap gap-2 overflow-x-auto">
             {sections.map((s) => {
               const Icon = s.icon;
               return (
-                <button
+                <Button
                   key={s.id}
+                  variant="outline"
                   onClick={() => scrollToSection(s.id)}
-                  className="group flex items-center gap-2 px-3 md:px-4 py-2 rounded-full border border-gray-200 bg-white hover:border-luker-green/40 hover:shadow-md transition-all duration-200 whitespace-nowrap cursor-pointer shrink-0"
+                  data-accent={s.accent}
+                  className="da-quick-link h-10 shrink-0 gap-2 px-3 md:px-4"
                 >
-                  <div className={`p-1.5 rounded-full ${s.iconColor} shadow-sm transform group-hover:scale-110 transition-transform duration-200`}>
-                    <Icon className="h-3.5 w-3.5 text-white" />
-                  </div>
-                  <span className="text-xs md:text-sm font-semibold text-luker-brown font-heading">
+                  <Icon className="h-4 w-4" />
+                  <span className="font-heading text-xs font-bold md:text-sm">
                     {s.title}
                   </span>
-                </button>
+                </Button>
               );
             })}
           </div>
         </div>
-      </div>
+      </nav>
 
 
       {/* Educación */}
-      <SectionShell id="educacion" title="Educación" icon={GraduationCap} iconColor="bg-luker-red">
+      <SectionShell id="educacion" title="Educación" icon={GraduationCap} accent="coral" index="01">
         <Tabs value={educationTab} onValueChange={setEducationTab} className="w-full">
           <TabsList className="w-full h-auto flex-wrap justify-start gap-2 bg-white border border-gray-200 p-2">
             {educationTabs.map((t) => {
@@ -236,12 +241,12 @@ const DatosAbiertos = () => {
       </SectionShell>
 
       {/* Emprendimiento */}
-      <SectionShell id="emprendimiento" title="Emprendimiento" icon={Lightbulb} iconColor="bg-luker-orange">
+      <SectionShell id="emprendimiento" title="Emprendimiento" icon={Lightbulb} accent="orange" index="02">
         <EAPHistoricalCharts />
       </SectionShell>
 
       {/* Desarrollo Rural */}
-      <SectionShell id="desarrollo-rural" title="Desarrollo Rural — El Efecto Cacao" icon={Sprout} iconColor="bg-luker-green">
+      <SectionShell id="desarrollo-rural" title="Desarrollo Rural — El Efecto Cacao" icon={Sprout} accent="lime" index="03">
         <Tabs value={ruralTab} onValueChange={setRuralTab} className="w-full">
           <TabsList className="w-full h-auto flex-wrap justify-start gap-2 bg-white border border-gray-200 p-2">
             {ruralTabs.map((t) => {
@@ -264,13 +269,13 @@ const DatosAbiertos = () => {
       </SectionShell>
 
       {/* Especiales */}
-      <SectionShell id="especiales" title="Proyectos Especiales" icon={Star} iconColor="bg-blue-600">
+      <SectionShell id="especiales" title="Proyectos Especiales" icon={Star} accent="teal" index="04">
         <Tabs value={specialTab} onValueChange={setSpecialTab} className="w-full">
           <TabsList className="w-full h-auto flex-wrap justify-start gap-2 bg-white border border-gray-200 p-2">
             {specialTabs.map((t) => {
               const Icon = t.icon;
               return (
-                <TabsTrigger key={t.id} value={t.id} className="flex items-center gap-2 data-[state=active]:bg-blue-600 data-[state=active]:text-white">
+              <TabsTrigger key={t.id} value={t.id} className="flex items-center gap-2 data-[state=active]:bg-luker-teal data-[state=active]:text-primary-foreground">
                   <Icon className="h-4 w-4" />
                   <span className="hidden md:inline">{t.label}</span>
                   <span className="md:hidden">{t.mobile}</span>
@@ -287,7 +292,7 @@ const DatosAbiertos = () => {
       </SectionShell>
 
       {/* Contexto Socioeconómico */}
-      <SectionShell id="socioeconomico" title="Contexto Socioeconómico" icon={TrendingUp} iconColor="bg-luker-teal">
+      <SectionShell id="socioeconomico" title="Contexto Socioeconómico" icon={TrendingUp} accent="brown" index="05">
         <div className="mb-6 flex items-center gap-4 p-4 bg-white rounded-lg border border-gray-200 shadow-sm">
           <div className="flex items-center gap-2">
             <TrendingUp className="h-5 w-5 text-luker-teal" />
@@ -336,11 +341,17 @@ const DatosAbiertos = () => {
 
 
       {/* Footer */}
-      <footer className="border-t border-gray-200/80 bg-white/95 py-8 mt-8">
-        <div className="container mx-auto px-6">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-gray-600">
-            <p>© 2026 Fundación Luker. Datos abiertos.</p>
-            <p>Plataforma de Gestión Estratégica</p>
+      <footer className="da-footer py-10">
+        <div className="container mx-auto px-5 md:px-8">
+          <div className="flex flex-col items-start justify-between gap-6 md:flex-row md:items-end">
+            <div>
+              <img src={lukerLogo} alt="Fundación Luker" className="mb-4 h-12 w-auto object-contain" />
+              <p className="text-sm font-semibold">© 2026 Fundación Luker. Datos abiertos.</p>
+            </div>
+            <div className="text-left md:text-right">
+              <p className="text-lg font-extrabold">Aprender · Decidir · Transformar</p>
+              <p className="mt-1 text-sm">Plataforma de Gestión Estratégica</p>
+            </div>
           </div>
         </div>
       </footer>
