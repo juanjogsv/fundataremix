@@ -130,13 +130,13 @@ export const SocialInvestmentCompactCard = () => {
               <Bar 
                 dataKey="Propios" 
                 stackId="a" 
-                fill="#10b981" 
+                fill="#8EBC22" 
                 radius={[0, 0, 0, 0]}
               />
               <Bar 
                 dataKey="Terceros" 
                 stackId="a" 
-                fill="#8b5cf6" 
+                fill="#FF7C80" 
                 radius={[2, 2, 0, 0]}
               />
             </BarChart>
