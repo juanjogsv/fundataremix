@@ -139,3 +139,247 @@ All colors MUST be HSL.
     }
   }
 }
+
+@layer components {
+  .datos-abiertos {
+    --da-cream: 39 29% 91%;
+    --da-brown: 30 60% 24%;
+    --da-coral: 358 100% 74%;
+    --da-lime: 78 69% 44%;
+    --da-teal: 185 100% 34%;
+    --da-orange: 37 96% 62%;
+    --da-surface: 40 35% 97%;
+    --da-accent: var(--da-coral);
+    background: hsl(var(--da-cream));
+    color: hsl(var(--da-brown));
+  }
+
+  .datos-abiertos .da-header {
+    border-bottom: 1px solid hsl(var(--da-brown) / 0.16);
+    background: hsl(var(--da-cream) / 0.96);
+    backdrop-filter: blur(14px);
+  }
+
+  .datos-abiertos .da-header-divider {
+    background: hsl(var(--da-brown) / 0.2);
+  }
+
+  .datos-abiertos .da-public-label,
+  .datos-abiertos .da-kicker,
+  .datos-abiertos .da-eyebrow {
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+
+  .datos-abiertos .da-public-label {
+    border: 1px solid hsl(var(--da-brown) / 0.35);
+    border-radius: 9999px;
+    padding: 0.4rem 0.75rem;
+    font-size: 0.7rem;
+  }
+
+  .datos-abiertos .da-hero {
+    border-bottom: 1px solid hsl(var(--da-brown) / 0.18);
+    background: hsl(var(--da-coral));
+  }
+
+  .datos-abiertos .da-hero h1 span {
+    color: hsl(var(--da-cream));
+  }
+
+  .datos-abiertos .da-kicker {
+    display: inline-flex;
+    border: 1px solid hsl(var(--da-brown));
+    border-radius: 9999px;
+    padding: 0.5rem 0.85rem;
+    font-size: 0.72rem;
+  }
+
+  .datos-abiertos .da-hero-letter {
+    position: absolute;
+    color: hsl(var(--da-cream) / 0.2);
+    font-size: clamp(18rem, 38vw, 36rem);
+    font-weight: 900;
+    line-height: 0.7;
+    pointer-events: none;
+    user-select: none;
+  }
+
+  .datos-abiertos .da-hero-letter-left {
+    bottom: -3rem;
+    left: -3rem;
+  }
+
+  .datos-abiertos .da-hero-letter-right {
+    right: -1rem;
+    top: -3rem;
+  }
+
+  .datos-abiertos .da-hero-index {
+    align-items: flex-start;
+    border-left: 2px solid hsl(var(--da-brown));
+    display: flex;
+    flex-direction: column;
+    justify-self: end;
+    padding: 1rem 0 1rem 2rem;
+    position: relative;
+  }
+
+  .datos-abiertos .da-hero-index-number {
+    font-size: clamp(5rem, 10vw, 9rem);
+    font-weight: 900;
+    line-height: 0.8;
+  }
+
+  .datos-abiertos .da-hero-index-label {
+    font-size: 0.8rem;
+    font-weight: 800;
+    margin-top: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+
+  .datos-abiertos .da-quick-nav {
+    border-bottom: 1px solid hsl(var(--da-brown) / 0.2);
+    background: hsl(var(--da-cream) / 0.96);
+    box-shadow: 0 10px 24px -18px hsl(var(--da-brown) / 0.34);
+    backdrop-filter: blur(14px);
+  }
+
+  .datos-abiertos .da-quick-link {
+    --da-accent: var(--da-coral);
+    border-color: hsl(var(--da-accent));
+    border-radius: 0.5rem;
+    background: transparent;
+    color: hsl(var(--da-brown));
+    box-shadow: none;
+  }
+
+  .datos-abiertos [data-accent="coral"] { --da-accent: var(--da-coral); }
+  .datos-abiertos [data-accent="orange"] { --da-accent: var(--da-orange); }
+  .datos-abiertos [data-accent="lime"] { --da-accent: var(--da-lime); }
+  .datos-abiertos [data-accent="teal"] { --da-accent: var(--da-teal); }
+  .datos-abiertos [data-accent="brown"] { --da-accent: var(--da-brown); }
+
+  .datos-abiertos .da-quick-link:hover,
+  .datos-abiertos .da-quick-link:focus-visible {
+    border-color: hsl(var(--da-accent));
+    background: hsl(var(--da-accent));
+    color: hsl(var(--da-brown));
+    transform: translateY(-1px);
+  }
+
+  .datos-abiertos .da-section {
+    border-bottom: 1px solid hsl(var(--da-brown) / 0.18);
+  }
+
+  .datos-abiertos .da-section:nth-of-type(even) {
+    background: hsl(var(--da-surface) / 0.58);
+  }
+
+  .datos-abiertos .da-section-heading {
+    align-items: center;
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: auto auto 1fr;
+    position: relative;
+  }
+
+  .datos-abiertos .da-section-number {
+    color: hsl(var(--da-accent) / 0.24);
+    font-size: clamp(3rem, 7vw, 6rem);
+    font-weight: 900;
+    line-height: 0.8;
+  }
+
+  .datos-abiertos .da-section-icon {
+    align-items: center;
+    background: hsl(var(--da-accent));
+    border-radius: 0.6rem;
+    color: hsl(var(--da-brown));
+    display: flex;
+    height: 3.25rem;
+    justify-content: center;
+    width: 3.25rem;
+  }
+
+  .datos-abiertos .da-eyebrow {
+    color: hsl(var(--da-brown) / 0.68);
+    font-size: 0.68rem;
+    margin-bottom: 0.25rem;
+  }
+
+  .datos-abiertos .da-section [class*="rounded-lg"][class*="border"],
+  .datos-abiertos .da-section [class*="rounded-xl"][class*="border"] {
+    border-color: hsl(var(--da-brown) / 0.18);
+  }
+
+  .datos-abiertos .da-section [class*="shadow-sm"],
+  .datos-abiertos .da-section [class*="shadow-md"] {
+    box-shadow: 0 8px 20px -12px hsl(var(--da-brown) / 0.34);
+  }
+
+  .datos-abiertos .da-section [role="tablist"] {
+    border-color: hsl(var(--da-brown) / 0.18);
+    background: hsl(var(--da-surface));
+    border-radius: 0.6rem;
+  }
+
+  .datos-abiertos .da-section [role="tab"] {
+    border-radius: 0.45rem;
+    color: hsl(var(--da-brown));
+  }
+
+  .datos-abiertos .da-section [role="tab"]:focus-visible,
+  .datos-abiertos .da-section button:focus-visible {
+    outline: 2px solid hsl(var(--da-accent));
+    outline-offset: 2px;
+  }
+
+  .datos-abiertos .da-footer {
+    background: hsl(var(--da-brown));
+    color: hsl(var(--da-cream));
+  }
+
+  .datos-abiertos .da-footer img {
+    background: hsl(var(--da-cream));
+    border-radius: 0.4rem;
+    padding: 0.35rem;
+  }
+
+  @media (max-width: 767px) {
+    .datos-abiertos .da-public-label {
+      padding: 0.35rem 0.55rem;
+    }
+
+    .datos-abiertos .da-hero-index {
+      border-left: 0;
+      border-top: 2px solid hsl(var(--da-brown));
+      justify-self: stretch;
+      padding: 1.5rem 0 0;
+    }
+
+    .datos-abiertos .da-hero-index-number {
+      font-size: 4.5rem;
+    }
+
+    .datos-abiertos .da-section-heading {
+      grid-template-columns: auto 1fr;
+    }
+
+    .datos-abiertos .da-section-icon {
+      display: none;
+    }
+
+    .datos-abiertos .da-section-heading h2 {
+      overflow-wrap: anywhere;
+    }
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .datos-abiertos .da-quick-link {
+      transition: background-color 180ms ease, border-color 180ms ease, color 180ms ease, transform 180ms ease;
+    }
+  }
+}
