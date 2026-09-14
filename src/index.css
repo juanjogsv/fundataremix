@@ -331,6 +331,16 @@ All colors MUST be HSL.
     color: hsl(var(--da-brown));
   }
 
+  .datos-abiertos .da-section [role="tab"][data-state="active"] {
+    background: hsl(var(--da-accent));
+    color: hsl(var(--da-brown));
+  }
+
+  .datos-abiertos .da-section [class*="bg-gradient-to-"] {
+    background-color: hsl(var(--da-surface));
+    background-image: none;
+  }
+
   .datos-abiertos .da-section [role="tab"]:focus-visible,
   .datos-abiertos .da-section button:focus-visible {
     outline: 2px solid hsl(var(--da-accent));
