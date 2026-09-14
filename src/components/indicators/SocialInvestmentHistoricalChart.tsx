@@ -76,7 +76,7 @@ const SocialInvestmentHistoricalChart = () => {
       <CardHeader className="pb-2">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="p-2 rounded-lg bg-gradient-to-br from-luker-green to-emerald-600">
+            <div className="p-2 rounded-lg bg-gradient-to-br from-kit-lime to-kit-teal">
               <TrendingUp className="h-5 w-5 text-white" />
             </div>
             <div>
@@ -95,12 +95,12 @@ const SocialInvestmentHistoricalChart = () => {
       <CardContent className="pt-4">
         {/* Summary stats */}
         <div className="grid grid-cols-2 gap-4 mb-6">
-          <div className="bg-gradient-to-br from-emerald-50 to-green-50 rounded-lg p-3 border border-kit-lime/40/50">
+          <div className="bg-kit-lime/10 rounded-lg p-3 border border-kit-lime/40">
             <p className="text-xs text-kit-limeDeep font-medium uppercase tracking-wide">Propios</p>
             <p className="text-lg font-bold text-kit-limeDeep">{formatCurrency(totalPropios)}</p>
             <p className="text-xs text-kit-limeDeep">{((totalPropios / grandTotal) * 100).toFixed(0)}% del total</p>
           </div>
-          <div className="bg-gradient-to-br from-purple-50 to-violet-50 rounded-lg p-3 border border-kit-coral/40/50">
+          <div className="bg-kit-coral/10 rounded-lg p-3 border border-kit-coral/40">
             <p className="text-xs text-kit-coralDeep font-medium uppercase tracking-wide">Terceros</p>
             <p className="text-lg font-bold text-kit-coralDeep">{formatCurrency(totalTerceros)}</p>
             <p className="text-xs text-kit-coralDeep">{((totalTerceros / grandTotal) * 100).toFixed(0)}% del total</p>
@@ -172,12 +172,12 @@ const SocialInvestmentHistoricalChart = () => {
               />
               <defs>
                 <linearGradient id="propiosGradient" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stopColor="#10b981" />
-                  <stop offset="100%" stopColor="#059669" />
+                  <stop offset="0%" stopColor="#8EBC22" />
+                  <stop offset="100%" stopColor="#5F8017" />
                 </linearGradient>
                 <linearGradient id="tercerosGradient" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stopColor="#8b5cf6" />
-                  <stop offset="100%" stopColor="#7c3aed" />
+                  <stop offset="0%" stopColor="#FF7C80" />
+                  <stop offset="100%" stopColor="#D6454B" />
                 </linearGradient>
               </defs>
             </BarChart>
