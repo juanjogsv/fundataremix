@@ -68,6 +68,14 @@ export default {
           teal: "hsl(var(--luker-teal))",
           orange: "hsl(var(--luker-orange))",
         },
+        kit: {
+          cream: "hsl(var(--kit-cream))",
+          brown: "hsl(var(--kit-brown))",
+          coral: "hsl(var(--kit-coral))",
+          lime: "hsl(var(--kit-lime))",
+          teal: "hsl(var(--kit-teal))",
+          orange: "hsl(var(--kit-orange))",
+        },
       },
       borderRadius: {
         lg: "var(--radius)",
