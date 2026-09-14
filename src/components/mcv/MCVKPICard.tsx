@@ -4,12 +4,12 @@ import { TrendingUp, TrendingDown, Minus, LucideIcon } from "lucide-react";
 // Color palette for KPI cards (soft pastel backgrounds with matching icon colors)
 const cardStyles = [
   { bg: "bg-red-50", iconBg: "bg-white", iconColor: "text-red-500", valueColor: "text-red-600" },
-  { bg: "bg-amber-50", iconBg: "bg-white", iconColor: "text-amber-500", valueColor: "text-amber-600" },
+  { bg: "bg-kit-orange/10", iconBg: "bg-white", iconColor: "text-kit-orangeDeep", valueColor: "text-kit-orangeDeep" },
   { bg: "bg-green-50", iconBg: "bg-white", iconColor: "text-green-500", valueColor: "text-green-600" },
-  { bg: "bg-cyan-50", iconBg: "bg-white", iconColor: "text-cyan-500", valueColor: "text-cyan-600" },
-  { bg: "bg-blue-50", iconBg: "bg-white", iconColor: "text-blue-500", valueColor: "text-blue-600" },
-  { bg: "bg-purple-50", iconBg: "bg-white", iconColor: "text-purple-500", valueColor: "text-purple-600" },
-  { bg: "bg-pink-50", iconBg: "bg-white", iconColor: "text-pink-500", valueColor: "text-pink-600" },
+  { bg: "bg-kit-teal/10", iconBg: "bg-white", iconColor: "text-kit-tealDeep", valueColor: "text-kit-tealDeep" },
+  { bg: "bg-kit-teal/10", iconBg: "bg-white", iconColor: "text-kit-tealDeep", valueColor: "text-kit-tealDeep" },
+  { bg: "bg-kit-coral/10", iconBg: "bg-white", iconColor: "text-kit-coralDeep", valueColor: "text-kit-coralDeep" },
+  { bg: "bg-kit-coral/10", iconBg: "bg-white", iconColor: "text-kit-coralDeep", valueColor: "text-kit-coralDeep" },
   { bg: "bg-gray-100", iconBg: "bg-white", iconColor: "text-gray-500", valueColor: "text-gray-600" },
 ];
 

@@ -206,7 +206,7 @@ const StrategicIndicators = () => {
           mobileTitle="Indicadores"
           icon={TrendingUp}
           iconBgColor="bg-kit-teal"
-          gradientColors="from-purple-500 via-pink-500 to-rose-500"
+          gradientColors="from-kit-teal to-kit-lime"
         />
 
         {/* Tabs for subsections */}

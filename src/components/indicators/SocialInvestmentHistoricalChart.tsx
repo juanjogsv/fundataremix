@@ -95,15 +95,15 @@ const SocialInvestmentHistoricalChart = () => {
       <CardContent className="pt-4">
         {/* Summary stats */}
         <div className="grid grid-cols-2 gap-4 mb-6">
-          <div className="bg-gradient-to-br from-emerald-50 to-green-50 rounded-lg p-3 border border-emerald-200/50">
-            <p className="text-xs text-emerald-700 font-medium uppercase tracking-wide">Propios</p>
-            <p className="text-lg font-bold text-emerald-800">{formatCurrency(totalPropios)}</p>
-            <p className="text-xs text-emerald-600">{((totalPropios / grandTotal) * 100).toFixed(0)}% del total</p>
+          <div className="bg-gradient-to-br from-emerald-50 to-green-50 rounded-lg p-3 border border-kit-lime/40/50">
+            <p className="text-xs text-kit-limeDeep font-medium uppercase tracking-wide">Propios</p>
+            <p className="text-lg font-bold text-kit-limeDeep">{formatCurrency(totalPropios)}</p>
+            <p className="text-xs text-kit-limeDeep">{((totalPropios / grandTotal) * 100).toFixed(0)}% del total</p>
           </div>
-          <div className="bg-gradient-to-br from-purple-50 to-violet-50 rounded-lg p-3 border border-purple-200/50">
-            <p className="text-xs text-purple-700 font-medium uppercase tracking-wide">Terceros</p>
-            <p className="text-lg font-bold text-purple-800">{formatCurrency(totalTerceros)}</p>
-            <p className="text-xs text-purple-600">{((totalTerceros / grandTotal) * 100).toFixed(0)}% del total</p>
+          <div className="bg-gradient-to-br from-purple-50 to-violet-50 rounded-lg p-3 border border-kit-coral/40/50">
+            <p className="text-xs text-kit-coralDeep font-medium uppercase tracking-wide">Terceros</p>
+            <p className="text-lg font-bold text-kit-coralDeep">{formatCurrency(totalTerceros)}</p>
+            <p className="text-xs text-kit-coralDeep">{((totalTerceros / grandTotal) * 100).toFixed(0)}% del total</p>
           </div>
         </div>
 
@@ -133,11 +133,11 @@ const SocialInvestmentHistoricalChart = () => {
                         <p className="font-semibold text-gray-800 mb-2">Año {label}</p>
                         <div className="space-y-1 text-sm">
                           <p className="flex justify-between gap-4">
-                            <span className="text-emerald-600">● Propios:</span>
+                            <span className="text-kit-limeDeep">● Propios:</span>
                             <span className="font-medium">${propios.toFixed(1)} MM</span>
                           </p>
                           <p className="flex justify-between gap-4">
-                            <span className="text-purple-600">● Terceros:</span>
+                            <span className="text-kit-coralDeep">● Terceros:</span>
                             <span className="font-medium">${terceros.toFixed(1)} MM</span>
                           </p>
                           <div className="border-t border-gray-200 pt-1 mt-1">

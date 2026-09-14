@@ -230,7 +230,7 @@ const SpecialProjectsInvestment = () => {
     <div className="space-y-8">
       {/* Title */}
       <div className="flex items-center gap-2">
-        <Wallet className="h-6 w-6 text-blue-600" />
+        <Wallet className="h-6 w-6 text-kit-tealDeep" />
         <h2 className="text-2xl font-bold text-gray-800">Inversión</h2>
       </div>
 
@@ -342,8 +342,8 @@ const SpecialProjectsInvestment = () => {
         <CardHeader className="pb-4">
           <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
             <div className="flex items-center gap-2">
-              <div className="p-2 rounded-lg bg-blue-100">
-                <TrendingUp className="h-5 w-5 text-blue-600" />
+              <div className="p-2 rounded-lg bg-kit-teal/20">
+                <TrendingUp className="h-5 w-5 text-kit-tealDeep" />
               </div>
               <CardTitle className="text-base font-semibold text-gray-800">
                 Detalle de Inversión por Proyecto
@@ -443,10 +443,10 @@ const SpecialProjectsInvestment = () => {
                       <TableCell className="text-right text-green-600">
                         {formatCurrencyTable(row.propios)}
                       </TableCell>
-                      <TableCell className="text-right text-purple-600">
+                      <TableCell className="text-right text-kit-coralDeep">
                         {formatCurrencyTable(row.terceros)}
                       </TableCell>
-                      <TableCell className="text-right font-semibold text-blue-600">
+                      <TableCell className="text-right font-semibold text-kit-tealDeep">
                         {formatCurrencyTable(row.total)}
                       </TableCell>
                     </TableRow>
@@ -468,13 +468,13 @@ const SpecialProjectsInvestment = () => {
                 </div>
                 <div>
                   <p className="text-sm text-gray-500">Total Terceros</p>
-                  <p className="text-lg font-bold text-purple-600">
+                  <p className="text-lg font-bold text-kit-coralDeep">
                     {formatCurrency(tableData.reduce((sum, r) => sum + r.terceros, 0))}
                   </p>
                 </div>
                 <div>
                   <p className="text-sm text-gray-500">Total General</p>
-                  <p className="text-lg font-bold text-blue-600">
+                  <p className="text-lg font-bold text-kit-tealDeep">
                     {formatCurrency(tableData.reduce((sum, r) => sum + r.total, 0))}
                   </p>
                 </div>

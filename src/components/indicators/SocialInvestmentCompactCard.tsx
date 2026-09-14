@@ -77,12 +77,12 @@ export const SocialInvestmentCompactCard = () => {
           </div>
           <div className="grid grid-cols-3 gap-2 text-xs mt-3">
             <div>
-              <span className="text-emerald-600 font-medium">Propios</span>
-              <p className="font-bold text-emerald-700 text-sm">{formatCurrencyMillions(totalPropios)}</p>
+              <span className="text-kit-limeDeep font-medium">Propios</span>
+              <p className="font-bold text-kit-limeDeep text-sm">{formatCurrencyMillions(totalPropios)}</p>
             </div>
             <div className="text-center">
-              <span className="text-purple-600 font-medium">Terceros</span>
-              <p className="font-bold text-purple-700 text-sm">{formatCurrencyMillions(totalTerceros)}</p>
+              <span className="text-kit-coralDeep font-medium">Terceros</span>
+              <p className="font-bold text-kit-coralDeep text-sm">{formatCurrencyMillions(totalTerceros)}</p>
             </div>
             <div className="text-right">
               <span className="text-luker-brown font-medium">Total</span>
@@ -118,8 +118,8 @@ export const SocialInvestmentCompactCard = () => {
                     return (
                       <div className="bg-white border border-gray-200 rounded p-2 shadow-lg text-xs">
                         <p className="font-semibold mb-1">Año {label}</p>
-                        <p className="text-emerald-600">Propios: ${propios.toFixed(1)} MM</p>
-                        <p className="text-purple-600">Terceros: ${terceros.toFixed(1)} MM</p>
+                        <p className="text-kit-limeDeep">Propios: ${propios.toFixed(1)} MM</p>
+                        <p className="text-kit-coralDeep">Terceros: ${terceros.toFixed(1)} MM</p>
                         <p className="font-bold text-luker-brown border-t border-gray-200 mt-1 pt-1">Total: ${total.toFixed(1)} MM</p>
                       </div>
                     );

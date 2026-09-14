@@ -95,7 +95,7 @@ const RuralGeneracionR = () => {
       title: "% de aumento de ingresos de jóvenes acompañados por fuente",
       data: aumentoIngresos,
       icon: TrendingUp,
-      iconBgColor: "bg-emerald-600",
+      iconBgColor: "bg-kit-lime",
     },
   ];
 
