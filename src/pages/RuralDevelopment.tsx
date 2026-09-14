@@ -66,7 +66,7 @@ const RuralDevelopment = () => {
   const [activeTab, setActiveTab] = useState("participantes");
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-white via-gray-50/30 to-white">
+    <div className="min-h-screen bg-background">
       {/* Header */}
       <PageHeader
         title="Desarrollo Rural"
