@@ -77,49 +77,51 @@ All colors MUST be HSL.
   }
 
   .dark {
-    --background: 28 100% 8%;
-    --foreground: 0 0% 98%;
+    --background: 30 45% 14%;
+    --foreground: 39 45% 95%;
 
-    --card: 28 60% 12%;
-    --card-foreground: 0 0% 98%;
+    --card: 30 40% 18%;
+    --card-foreground: 39 45% 95%;
 
-    --popover: 28 60% 12%;
-    --popover-foreground: 0 0% 98%;
+    --popover: 30 40% 18%;
+    --popover-foreground: 39 45% 95%;
 
-    --primary: 0 0% 98%;
-    --primary-foreground: 28 100% 8%;
+    --primary: 39 45% 95%;
+    --primary-foreground: 30 60% 24%;
 
-    --secondary: 122 56% 51%;
-    --secondary-foreground: 0 0% 98%;
+    --secondary: 78 69% 44%;
+    --secondary-foreground: 30 60% 24%;
 
-    --muted: 28 40% 18%;
-    --muted-foreground: 0 0% 70%;
+    --muted: 30 30% 24%;
+    --muted-foreground: 39 25% 72%;
 
-    --accent: 37 97% 62%;
-    --accent-foreground: 28 100% 8%;
+    --accent: 37 96% 62%;
+    --accent-foreground: 30 60% 24%;
 
     --destructive: 0 84% 59%;
     --destructive-foreground: 0 0% 98%;
 
-    --border: 28 40% 20%;
-    --input: 28 40% 20%;
-    --ring: 122 56% 51%;
-    
-    /* Fundación Luker brand colors - same in dark mode */
-    --luker-brown: 28 100% 8%;
-    --luker-orange: 37 97% 62%;
-    --luker-green: 122 56% 51%;
-    --luker-red: 0 84% 59%;
-    --luker-teal: 180 100% 34%;
-    
-    --sidebar-background: 28 100% 8%;
-    --sidebar-foreground: 0 0% 98%;
-    --sidebar-primary: 122 56% 51%;
-    --sidebar-primary-foreground: 28 100% 8%;
-    --sidebar-accent: 28 80% 25%;
-    --sidebar-accent-foreground: 0 0% 98%;
-    --sidebar-border: 28 50% 30%;
-    --sidebar-ring: 122 56% 51%;
+    --border: 30 30% 26%;
+    --input: 30 30% 26%;
+    --ring: 185 100% 34%;
+
+    /* Kit palette - same in dark mode */
+    --kit-cream: 39 29% 91%;
+    --kit-brown: 30 60% 24%;
+    --kit-coral: 358 100% 74%;
+    --kit-lime: 78 69% 44%;
+    --kit-teal: 185 100% 34%;
+    --kit-orange: 37 96% 62%;
+    --kit-surface: 40 50% 98%;
+
+    --sidebar-background: 30 45% 14%;
+    --sidebar-foreground: 39 45% 95%;
+    --sidebar-primary: 78 69% 44%;
+    --sidebar-primary-foreground: 30 60% 24%;
+    --sidebar-accent: 30 30% 24%;
+    --sidebar-accent-foreground: 39 45% 95%;
+    --sidebar-border: 30 30% 26%;
+    --sidebar-ring: 185 100% 34%;
   }
 }
 
