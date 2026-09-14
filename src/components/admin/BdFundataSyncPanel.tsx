@@ -181,15 +181,15 @@ export default function BdFundataSyncPanel() {
                 </div>
                 <div>
                   <div className="text-muted-foreground text-xs">Ingeridas</div>
-                  <div className="font-semibold text-luker-green">{diag.ingested.toLocaleString()}</div>
+                  <div className="font-semibold text-kit-limeDeep">{diag.ingested.toLocaleString()}</div>
                 </div>
                 <div>
                   <div className="text-muted-foreground text-xs">Descartadas</div>
-                  <div className="font-semibold text-luker-orange">{diag.filtered.toLocaleString()}</div>
+                  <div className="font-semibold text-kit-orangeDeep">{diag.filtered.toLocaleString()}</div>
                 </div>
                 <div>
                   <div className="text-muted-foreground text-xs">% pérdida</div>
-                  <div className="font-semibold text-luker-orange">{lossPct}%</div>
+                  <div className="font-semibold text-kit-orangeDeep">{lossPct}%</div>
                 </div>
               </div>
 
@@ -222,7 +222,7 @@ export default function BdFundataSyncPanel() {
 
         {meta?.error_message && !hasOrphans && (
           <div className="rounded-md bg-luker-orange/10 border border-luker-orange/30 p-3 text-xs">
-            <div className="font-semibold text-luker-orange mb-1">Detalle</div>
+            <div className="font-semibold text-kit-orangeDeep mb-1">Detalle</div>
             <div className="font-mono whitespace-pre-wrap break-all">{meta.error_message}</div>
           </div>
         )}
