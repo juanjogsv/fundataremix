@@ -352,12 +352,6 @@ All colors MUST be HSL.
     color: hsl(var(--da-cream));
   }
 
-  .datos-abiertos .da-footer img {
-    background: hsl(var(--da-cream));
-    border-radius: 0.4rem;
-    padding: 0.35rem;
-  }
-
   @media (max-width: 767px) {
     .datos-abiertos .da-public-label {
       padding: 0.35rem 0.55rem;
