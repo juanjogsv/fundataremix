@@ -26,12 +26,12 @@ const SpecialProjects = () => {
   const [activeTab, setActiveTab] = useState("beneficiarios");
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-white via-slate-50/30 to-white">
+    <div className="min-h-screen bg-background">
       {/* Header */}
       <PageHeader
         title="Proyectos Especiales"
         icon={Star}
-        iconBgColor="bg-blue-600"
+        iconBgColor="bg-kit-coral"
         gradientColors="from-blue-600 via-blue-500 to-slate-600"
       />
 

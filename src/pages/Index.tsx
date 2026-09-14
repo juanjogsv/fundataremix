@@ -220,7 +220,7 @@ const Index = () => {
                   </div>
                 </div>
 
-                <div className="absolute inset-0 border-2 border-transparent group-hover:border-luker-green/30 rounded-lg transition-colors duration-300" />
+                <div className="absolute inset-0 border-2 border-transparent group-hover:border-kit-lime/40 rounded-lg transition-colors duration-300" />
               </Card>
             );
           })}

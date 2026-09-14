@@ -182,7 +182,7 @@ const StrategicIndicators = () => {
     .filter(Boolean) as (Indicator & { displayName: string })[];
 
   return (
-    <div className="min-h-screen relative overflow-hidden bg-gradient-to-br from-white via-gray-50/30 to-white">
+    <div className="min-h-screen relative overflow-hidden bg-background">
       {/* Background decorative elements - matching home style */}
       <div className="absolute inset-0 bg-gradient-to-br from-luker-green/5 via-luker-orange/5 to-luker-teal/10" />
       <div className="absolute top-0 right-0 w-96 h-96 bg-luker-green/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
@@ -205,7 +205,7 @@ const StrategicIndicators = () => {
           title="Indicadores Estratégicos"
           mobileTitle="Indicadores"
           icon={TrendingUp}
-          iconBgColor="bg-purple-500"
+          iconBgColor="bg-kit-teal"
           gradientColors="from-purple-500 via-pink-500 to-rose-500"
         />
 
