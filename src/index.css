@@ -336,6 +336,13 @@ All colors MUST be HSL.
     color: hsl(var(--da-brown));
   }
 
+  .datos-abiertos [data-accent="brown"] .da-section-icon,
+  .datos-abiertos [data-accent="brown"] [role="tab"][data-state="active"],
+  .datos-abiertos .da-quick-link[data-accent="brown"]:hover,
+  .datos-abiertos .da-quick-link[data-accent="brown"]:focus-visible {
+    color: hsl(var(--da-cream));
+  }
+
   .datos-abiertos .da-section [class*="bg-gradient-to-"] {
     background-color: hsl(var(--da-surface));
     background-image: none;
