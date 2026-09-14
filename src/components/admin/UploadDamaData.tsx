@@ -300,12 +300,12 @@ const UploadDamaData = () => {
 
         {phase === "done" && summary && (
           <Alert className="border-luker-green/40 bg-luker-green/5">
-            <CheckCircle2 className="h-4 w-4 text-luker-green" />
-            <AlertTitle className="text-luker-green">Carga completada</AlertTitle>
+            <CheckCircle2 className="h-4 w-4 text-kit-limeDeep" />
+            <AlertTitle className="text-kit-limeDeep">Carga completada</AlertTitle>
             <AlertDescription>
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mt-2">
                 <div className="rounded-lg border border-luker-green/30 bg-card p-3">
-                  <div className="text-2xl font-bold text-luker-green">
+                  <div className="text-2xl font-bold text-kit-limeDeep">
                     {summary.catalog.toLocaleString()}
                   </div>
                   <div className="text-xs text-muted-foreground">indicadores actualizados</div>
@@ -317,7 +317,7 @@ const UploadDamaData = () => {
                   <div className="text-xs text-muted-foreground">entidades mapeadas</div>
                 </div>
                 <div className="rounded-lg border border-luker-orange/30 bg-card p-3">
-                  <div className="text-2xl font-bold text-luker-orange">
+                  <div className="text-2xl font-bold text-kit-orangeDeep">
                     {summary.data.toLocaleString()}
                   </div>
                   <div className="text-xs text-muted-foreground">filas de datos procesadas</div>
