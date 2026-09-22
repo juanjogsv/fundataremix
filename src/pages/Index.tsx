@@ -23,6 +23,8 @@ import {
 } from "lucide-react";
 import lukerLogo from "@/assets/fundacion-luker-color-letra-cafe-horizontal.png.asset.json";
 
+const lukerLogoUrl = `https://id-preview--86b2a9c4-6838-4f82-a3c4-21cb241b504c.lovable.app${lukerLogo.url}`;
+
 const sections = [
   {
     id: 1,
@@ -132,7 +134,7 @@ const Index = () => {
         <div className="container mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
             <img 
-              src={lukerLogo.url} 
+              src={lukerLogoUrl} 
               alt="Fundación Luker" 
               className="h-12 md:h-14 w-auto object-contain"
             />
