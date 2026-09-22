@@ -2,7 +2,9 @@ import { LucideIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import logoImage from "@/assets/fundacion-luker-logo.jpeg";
+import logoImage from "@/assets/fundacion-luker-color-letra-cafe-horizontal.png.asset.json";
+
+const logoImageUrl = `https://id-preview--86b2a9c4-6838-4f82-a3c4-21cb241b504c.lovable.app${logoImage.url}`;
 
 interface PageHeaderProps {
   title: string;
@@ -62,7 +64,7 @@ export const PageHeader = ({
           </div>
           
           <img 
-            src={logoImage} 
+            src={logoImageUrl} 
             alt="Fundación Luker" 
             className="h-8 sm:h-10 lg:h-11 w-auto object-contain shrink-0"
           />
