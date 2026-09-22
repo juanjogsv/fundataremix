@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ArrowLeft, Target, Lightbulb, Users, TrendingUp, Shield, Zap } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import lukerLogo from "@/assets/fundacion-luker-logo.jpeg";
+import lukerLogo from "@/assets/fundacion-luker-color-letra-cafe-horizontal.png.asset.json";
 
 const About = () => {
   const navigate = useNavigate();
@@ -36,7 +36,7 @@ const About = () => {
             <div className="p-8 md:p-12">
               <div className="flex items-start gap-6 mb-8">
                 <img 
-                  src={lukerLogo} 
+                  src={lukerLogo.url} 
                   alt="Fundación Luker" 
                   className="h-20 w-auto object-contain"
                 />

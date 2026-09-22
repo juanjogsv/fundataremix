@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
 import { Shield, Loader2 } from "lucide-react";
-import lukerLogo from "@/assets/fundacion-luker-logo.jpeg";
+import lukerLogo from "@/assets/fundacion-luker-color-letra-cafe-horizontal.png.asset.json";
 
 const LOCAL_FLAG = "fl_access_granted_v1";
 
@@ -78,7 +78,7 @@ export const AccessGate = ({ children }: { children: React.ReactNode }) => {
       <Card className="w-full max-w-md p-8 shadow-xl border-luker-green/20">
         <div className="flex flex-col items-center text-center space-y-4 mb-6">
           <img
-            src={lukerLogo}
+            src={lukerLogo.url}
             alt="Fundación Luker"
             className="h-14 w-auto object-contain"
           />

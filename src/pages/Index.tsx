@@ -21,7 +21,7 @@ import {
   Users,
   Heart,
 } from "lucide-react";
-import lukerLogo from "@/assets/fundacion-luker-logo.jpeg";
+import lukerLogo from "@/assets/fundacion-luker-color-letra-cafe-horizontal.png.asset.json";
 
 const sections = [
   {
@@ -132,7 +132,7 @@ const Index = () => {
         <div className="container mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
             <img 
-              src={lukerLogo} 
+              src={lukerLogo.url} 
               alt="Fundación Luker" 
               className="h-12 md:h-14 w-auto object-contain"
             />
