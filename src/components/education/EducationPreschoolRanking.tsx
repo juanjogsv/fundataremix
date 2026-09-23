@@ -143,10 +143,10 @@ const EducationPreschoolRanking = () => {
             value={selectedYear?.toString() || ""}
             onValueChange={(value) => setSelectedYear(parseInt(value))}
           >
-            <SelectTrigger className="w-[150px] bg-background">
+            <SelectTrigger className="w-[150px]">
               <SelectValue placeholder="Seleccionar año" />
             </SelectTrigger>
-            <SelectContent className="bg-background z-50">
+            <SelectContent className="z-50">
               {availableYears.map((year) => (
                 <SelectItem key={year} value={year.toString()}>
                   {year}

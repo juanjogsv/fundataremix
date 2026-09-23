@@ -420,7 +420,7 @@ const EducationSocioemotional = () => {
               Selecciona el grado
             </label>
             <Select value={selectedGradeFort1} onValueChange={setSelectedGradeFort1}>
-              <SelectTrigger className="w-full md:w-[360px] border-luker-teal/30 bg-background">
+              <SelectTrigger className="w-full md:w-[360px] border-luker-teal/30">
                 <SelectValue placeholder="Selecciona un grado" />
               </SelectTrigger>
               <SelectContent>
@@ -499,7 +499,7 @@ const EducationSocioemotional = () => {
                 Selecciona una institución
               </label>
               <Select value={selectedInstitutionFort2} onValueChange={setSelectedInstitutionFort2}>
-                <SelectTrigger className="w-full border-luker-teal/30 bg-background">
+                <SelectTrigger className="w-full border-luker-teal/30">
                   <SelectValue placeholder="Selecciona una institución" />
                 </SelectTrigger>
                 <SelectContent>
@@ -514,7 +514,7 @@ const EducationSocioemotional = () => {
                 Selecciona el grado
               </label>
               <Select value={selectedGradeFort2} onValueChange={setSelectedGradeFort2}>
-                <SelectTrigger className="w-full border-luker-teal/30 bg-background">
+                <SelectTrigger className="w-full border-luker-teal/30">
                   <SelectValue placeholder="Selecciona un grado" />
                 </SelectTrigger>
                 <SelectContent>
@@ -604,7 +604,7 @@ const EducationSocioemotional = () => {
               Selecciona una categoría
             </label>
             <Select value={selectedCategoryQuinto} onValueChange={setSelectedCategoryQuinto}>
-              <SelectTrigger className="w-full md:w-[360px] border-luker-teal/30 bg-background">
+              <SelectTrigger className="w-full md:w-[360px] border-luker-teal/30">
                 <SelectValue placeholder="Selecciona una categoría" />
               </SelectTrigger>
               <SelectContent>
@@ -686,7 +686,7 @@ const EducationSocioemotional = () => {
               Selecciona una categoría
             </label>
             <Select value={selectedCategory} onValueChange={setSelectedCategory}>
-              <SelectTrigger className="w-full md:w-[360px] border-luker-teal/30 bg-background">
+              <SelectTrigger className="w-full md:w-[360px] border-luker-teal/30">
                 <SelectValue placeholder="Selecciona una categoría" />
               </SelectTrigger>
               <SelectContent>
