@@ -48,7 +48,9 @@ const Index = () => {
     <div className="home-editorial">
       <header className="home-editorial__header">
         <div className="home-editorial__header-inner">
-          <img src={lukerLogoUrl} alt="Fundación Luker" className="home-editorial__logo" />
+          <a href="/" className="home-editorial__brand" aria-label="Fundación Luker, ir al inicio">
+            <img src={lukerLogoUrl} alt="Fundación Luker" className="home-editorial__logo" />
+          </a>
           {user && (
             <div className="flex items-center gap-2">
               {isAdmin && (
