@@ -211,7 +211,7 @@ const UploadDamaData = () => {
   };
 
   return (
-    <Card className="border-2 border-luker-teal/40 bg-gradient-to-br from-card via-card to-luker-teal/5 shadow-lg">
+    <Card className="border-2 border-luker-teal/40 bg-card shadow-card">
       <CardHeader>
         <div className="flex items-start gap-4">
           <div className="p-3 rounded-xl bg-luker-teal/10 border border-luker-teal/20">

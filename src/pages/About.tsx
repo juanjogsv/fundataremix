@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import lukerLogo from "@/assets/fundacion-luker-color-letra-cafe-horizontal.png.asset.json";
 import { PageHeader } from "@/components/PageHeader";
 
-const lukerLogoUrl = `https://id-preview--86b2a9c4-6838-4f82-a3c4-21cb241b504c.lovable.app${lukerLogo.url}`;
+const lukerLogoUrl = lukerLogo.url;
 
 const About = () => {
   const navigate = useNavigate();

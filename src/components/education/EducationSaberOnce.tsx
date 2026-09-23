@@ -847,7 +847,7 @@ const EducationSaberOnce = () => {
                         Oficial mejor
                       </span>
                       <span className="flex items-center gap-1">
-                        <span className="inline-block w-3 h-3 rounded-sm bg-gray-400" />
+                        <span className="inline-block w-3 h-3 rounded-sm bg-muted-foreground/50" />
                         Paridad
                       </span>
                       <span className="flex items-center gap-1">

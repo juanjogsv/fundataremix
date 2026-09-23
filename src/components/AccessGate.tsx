@@ -6,7 +6,7 @@ import { Card } from "@/components/ui/card";
 import { Shield, Loader2 } from "lucide-react";
 import lukerLogo from "@/assets/fundacion-luker-color-letra-cafe-horizontal.png.asset.json";
 
-const lukerLogoUrl = `https://id-preview--86b2a9c4-6838-4f82-a3c4-21cb241b504c.lovable.app${lukerLogo.url}`;
+const lukerLogoUrl = lukerLogo.url;
 
 const LOCAL_FLAG = "fl_access_granted_v1";
 
