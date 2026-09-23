@@ -198,6 +198,8 @@ All colors MUST be HSL.
     line-height: 0.92;
   }
 
+  .home-hero h1:focus { outline: none; }
+
   .home-hero h1 span { color: hsl(var(--kit-coral)); }
   .home-hero__lead { max-width: 38rem; margin-top: 1.5rem; color: hsl(var(--kit-brown) / 0.76); font-size: clamp(1rem, 1.7vw, 1.3rem); line-height: 1.55; }
   .home-hero__action { margin-top: 2rem; gap: 0.6rem; background: hsl(var(--kit-green, var(--kit-lime))); color: hsl(var(--kit-brown)); }
@@ -292,12 +294,17 @@ All colors MUST be HSL.
   }
 
   @media (max-width: 900px) {
-    .home-hero { min-height: 34rem; grid-template-columns: minmax(0, 1.08fr) minmax(17rem, 0.92fr); }
-    .home-hero__copy { padding: 3.5rem 1rem; }
-    .home-hero h1 { font-size: clamp(3rem, 7.5vw, 4.5rem); }
-    .home-hero__visual { min-height: 30rem; }
-    .home-hero__visual img { right: -3rem; width: 34rem; max-width: none; }
-    .home-hero__accent { right: 0; width: 92%; }
+    .home-hero {
+      min-height: 47rem;
+      grid-template-columns: 1fr;
+      grid-template-rows: auto minmax(20rem, 1fr);
+      align-items: start;
+    }
+    .home-hero__copy { padding: 3.5rem 1rem 0; }
+    .home-hero h1 { max-width: 11ch; font-size: clamp(3.25rem, 9vw, 4.5rem); }
+    .home-hero__visual { min-height: 21rem; }
+    .home-hero__visual img { right: 2%; width: min(32rem, 76vw); height: 108%; max-width: none; }
+    .home-hero__accent { right: 3%; width: 62%; height: 72%; }
     .home-impact { grid-template-columns: 1fr; }
   }
 
@@ -307,7 +314,7 @@ All colors MUST be HSL.
     .home-editorial__logo { max-width: 9rem; height: 2.5rem; }
     .home-hero { min-height: 43rem; grid-template-columns: 1fr; grid-template-rows: auto minmax(18rem, 1fr); align-items: start; }
     .home-hero__copy { padding: 2.75rem 0.25rem 0; }
-    .home-hero h1 { max-width: 10ch; font-size: clamp(2.75rem, 13vw, 3.75rem); }
+    .home-hero h1 { max-width: none; font-size: clamp(2.45rem, 11vw, 3.2rem); }
     .home-hero__lead { font-size: 0.95rem; }
     .home-hero__action { margin-top: 1.5rem; }
     .home-hero__visual { min-height: 18rem; }
