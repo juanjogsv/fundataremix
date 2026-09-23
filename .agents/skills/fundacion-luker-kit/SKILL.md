@@ -42,6 +42,7 @@ Reglas de color:
 - En estados `hover`, foco y pulsación, conservar el texto café: aplicar el acento como fondo suave (aprox. 16–24%), borde o indicador lateral. No rellenar todo el control con un acento si compromete contraste.
 - Hacer equivalentes `hover` y `focus-visible`, añadir un foco perceptible y respetar `prefers-reduced-motion`.
 - En pestañas activas, usar superficie clara y subrayado del acento; nunca fondo y texto del mismo tono.
+- Todos los cuadros, barras y campos destinados a filtrar datos usan fondo blanco sólido, incluidos selectores y sus menús desplegables. Mantener borde café suave, texto café y foco turquesa; no usar crema ni acentos sólidos como fondo del filtro.
 - Franja cromática inferior (coral, verde, turquesa, naranja) como cierre de página.
 - Footer en café con texto crema.
 
