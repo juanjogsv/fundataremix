@@ -109,9 +109,9 @@ const EducationContext = () => {
         </Select>
       </div>
 
-      <Card className="bg-gradient-to-br from-white to-gray-50/50 border-gray-200">
+      <Card className="bg-card border-border">
         <CardHeader>
-          <CardTitle className="text-lg text-gray-700">Manizales</CardTitle>
+          <CardTitle className="text-lg text-foreground/85">Manizales</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -125,13 +125,13 @@ const EducationContext = () => {
                       <div className={`${kpi.text} p-3 rounded-full bg-white/80`}>
                         <Icon className="h-6 w-6" />
                       </div>
-                      <p className="text-sm font-medium text-gray-700 leading-tight min-h-[2.5rem] flex items-center">
+                      <p className="text-sm font-medium text-foreground/85 leading-tight min-h-[2.5rem] flex items-center">
                         {kpi.title}
                       </p>
                       <p className={`text-4xl font-bold ${kpi.text}`}>
                         {loading ? "…" : v?.value !== null && v?.value !== undefined ? `${v.value.toFixed(1)}%` : "--"}
                       </p>
-                      <p className="text-xs text-gray-500">{v?.year ?? ""}</p>
+                      <p className="text-xs text-muted-foreground">{v?.year ?? ""}</p>
                     </div>
                   </CardContent>
                 </Card>

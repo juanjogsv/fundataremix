@@ -10,7 +10,7 @@ const cardStyles = [
   { bg: "bg-kit-teal/10", iconBg: "bg-white", iconColor: "text-kit-tealDeep", valueColor: "text-kit-tealDeep" },
   { bg: "bg-kit-coral/10", iconBg: "bg-white", iconColor: "text-kit-coralDeep", valueColor: "text-kit-coralDeep" },
   { bg: "bg-kit-coral/10", iconBg: "bg-white", iconColor: "text-kit-coralDeep", valueColor: "text-kit-coralDeep" },
-  { bg: "bg-gray-100", iconBg: "bg-white", iconColor: "text-gray-500", valueColor: "text-gray-600" },
+  { bg: "bg-muted", iconBg: "bg-white", iconColor: "text-muted-foreground", valueColor: "text-muted-foreground" },
 ];
 
 interface MCVIndicator {
@@ -112,7 +112,7 @@ const MCVKPICard = ({
           
           <div className="space-y-1">
             {/* Title */}
-            <p className="text-xs font-medium text-gray-600 leading-tight">
+            <p className="text-xs font-medium text-muted-foreground leading-tight">
               {title}
             </p>
             

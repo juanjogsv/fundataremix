@@ -177,7 +177,7 @@ const SpecialProjectsBeneficiaries = () => {
                       <CardTitle className="text-base font-semibold text-gray-800">
                         {config.title}
                       </CardTitle>
-                      <p className="text-sm text-gray-500">
+                      <p className="text-sm text-muted-foreground">
                         {formatValue(latestTotal)} participantes ({maxYear})
                       </p>
                     </div>

@@ -88,11 +88,11 @@ export const AccessGate = ({ children }: { children: React.ReactNode }) => {
             <Shield className="h-4 w-4 text-luker-green" />
             <span className="text-sm font-semibold">Acceso restringido</span>
           </div>
-          <p className="text-sm text-gray-600 leading-relaxed">
+          <p className="text-sm text-muted-foreground leading-relaxed">
             Esta plataforma es de uso interno. Ingresa el código compartido para
             continuar.
             <br />
-            <span className="text-xs text-gray-500">
+            <span className="text-xs text-muted-foreground">
               ¿Buscas los datos públicos? Visita{" "}
               <a
                 href="/datosabiertos"

@@ -259,7 +259,7 @@ const SpecialProjectsInvestment = () => {
                     </CardTitle>
                     <p className="text-lg font-bold" style={{ color: config.color }}>
                       {formatCurrency(latestTotal)}
-                      <span className="text-xs font-normal text-gray-500 ml-1">({maxYear})</span>
+                      <span className="text-xs font-normal text-muted-foreground ml-1">({maxYear})</span>
                     </p>
                   </div>
                 </div>
@@ -432,7 +432,7 @@ const SpecialProjectsInvestment = () => {
               <TableBody>
                 {tableData.length === 0 ? (
                   <TableRow>
-                    <TableCell colSpan={4} className="text-center text-gray-500 py-8">
+                    <TableCell colSpan={4} className="text-center text-muted-foreground py-8">
                       No hay datos para los filtros seleccionados
                     </TableCell>
                   </TableRow>
@@ -458,22 +458,22 @@ const SpecialProjectsInvestment = () => {
           
           {/* Table Totals */}
           {tableData.length > 0 && (
-            <div className="mt-4 p-4 bg-gray-50 rounded-lg">
+            <div className="mt-4 p-4 bg-card rounded-lg">
               <div className="grid grid-cols-3 gap-4 text-center">
                 <div>
-                  <p className="text-sm text-gray-500">Total Propios</p>
+                  <p className="text-sm text-muted-foreground">Total Propios</p>
                   <p className="text-lg font-bold text-green-600">
                     {formatCurrency(tableData.reduce((sum, r) => sum + r.propios, 0))}
                   </p>
                 </div>
                 <div>
-                  <p className="text-sm text-gray-500">Total Terceros</p>
+                  <p className="text-sm text-muted-foreground">Total Terceros</p>
                   <p className="text-lg font-bold text-kit-coralDeep">
                     {formatCurrency(tableData.reduce((sum, r) => sum + r.terceros, 0))}
                   </p>
                 </div>
                 <div>
-                  <p className="text-sm text-gray-500">Total General</p>
+                  <p className="text-sm text-muted-foreground">Total General</p>
                   <p className="text-lg font-bold text-kit-tealDeep">
                     {formatCurrency(tableData.reduce((sum, r) => sum + r.total, 0))}
                   </p>

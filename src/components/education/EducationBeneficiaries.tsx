@@ -220,7 +220,7 @@ const EducationBeneficiaries = () => {
           <h2 className="text-2xl font-bold text-luker-brown">Histórico de Participantes</h2>
         </div>
         <Select value={selectedProgram} onValueChange={setSelectedProgram}>
-          <SelectTrigger className="w-[250px] bg-white border-gray-300">
+          <SelectTrigger className="w-[250px] bg-white border-border">
             <SelectValue placeholder="Seleccionar programa" />
           </SelectTrigger>
           <SelectContent className="bg-white">
@@ -233,13 +233,13 @@ const EducationBeneficiaries = () => {
       </div>
 
       {/* Total for Latest Year */}
-      <Card className="border-luker-red/20 bg-gradient-to-br from-luker-red/5 to-white">
+      <Card className="border-border bg-card">
         <CardContent className="pt-6">
           <div className="text-center">
             <div className="text-5xl font-bold text-luker-red mb-2">
               {year2024Data.total.toLocaleString('es-CO')}
             </div>
-            <p className="text-sm text-gray-600">
+            <p className="text-sm text-muted-foreground">
               Participantes {year2024Data.year}
             </p>
           </div>
@@ -317,7 +317,7 @@ const EducationBeneficiaries = () => {
           <h2 className="text-2xl font-bold text-luker-brown">Histórico de Colegios</h2>
         </div>
         <Select value={selectedSchoolProgram} onValueChange={setSelectedSchoolProgram}>
-          <SelectTrigger className="w-[250px] bg-white border-gray-300">
+          <SelectTrigger className="w-[250px] bg-white border-border">
             <SelectValue placeholder="Seleccionar programa" />
           </SelectTrigger>
           <SelectContent className="bg-white">
@@ -329,13 +329,13 @@ const EducationBeneficiaries = () => {
       </div>
 
       {/* Schools Total Card */}
-      <Card className="border-luker-green/20 bg-gradient-to-br from-luker-green/5 to-white">
+      <Card className="border-border bg-card">
         <CardContent className="pt-6">
           <div className="text-center">
             <div className="text-5xl font-bold text-luker-green mb-2">
               {schools2024Data.total.toLocaleString('es-CO')}
             </div>
-            <p className="text-sm text-gray-600">
+            <p className="text-sm text-muted-foreground">
               Colegios {schools2024Data.year}
             </p>
           </div>

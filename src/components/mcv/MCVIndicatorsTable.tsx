@@ -88,7 +88,7 @@ const MCVIndicatorsTable = ({ data, selectedEntity, sectionName, allEntities = [
           </div>
           <div className="flex items-center gap-3 flex-wrap">
             <div className="relative">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground/80" />
               <Input
                 placeholder="Buscar indicador..."
                 value={searchTerm}
@@ -140,7 +140,7 @@ const MCVIndicatorsTable = ({ data, selectedEntity, sectionName, allEntities = [
             <TableBody>
               {filteredData.length === 0 ? (
                 <TableRow>
-                  <TableCell colSpan={4} className="text-center text-gray-500 py-8">
+                  <TableCell colSpan={4} className="text-center text-muted-foreground py-8">
                     No se encontraron indicadores
                   </TableCell>
                 </TableRow>
@@ -152,7 +152,7 @@ const MCVIndicatorsTable = ({ data, selectedEntity, sectionName, allEntities = [
                     <TableCell className="text-right font-medium">
                       {formatValue(item.dato, item.unidad_medida)}
                     </TableCell>
-                    <TableCell className="text-xs text-gray-500 truncate max-w-40">
+                    <TableCell className="text-xs text-muted-foreground truncate max-w-40">
                       {item.unidad_medida || "-"}
                     </TableCell>
                   </TableRow>
@@ -161,7 +161,7 @@ const MCVIndicatorsTable = ({ data, selectedEntity, sectionName, allEntities = [
             </TableBody>
           </Table>
         </div>
-        <div className="mt-4 text-xs text-gray-500 text-right">
+        <div className="mt-4 text-xs text-muted-foreground text-right">
           Mostrando {filteredData.length} de {data.filter(d => d.entidad === filterEntity).length} registros para {filterEntity}
         </div>
       </CardContent>

@@ -75,24 +75,24 @@ export const IndicatorCard = ({ value, unit, goal, percentage, keyword, area, in
   const displayPercentage = Math.min(Math.max(percentage, 0), 100);
   if (isPlaceholder) {
     return (
-      <Card className="bg-white/50 border-gray-300/40 shadow-sm relative overflow-hidden h-full">
+      <Card className="bg-white/50 border-border/40 shadow-sm relative overflow-hidden h-full">
         <div className="absolute top-4 right-4 opacity-5">
-          <Plus className="h-6 w-6 text-gray-400 rotate-45" />
+          <Plus className="h-6 w-6 text-muted-foreground/80 rotate-45" />
         </div>
         <CardContent className="p-5 space-y-3">
           <div className="space-y-1.5">
             <div className="text-4xl font-bold leading-none text-gray-300">
               --
             </div>
-            <p className="text-sm text-gray-400 font-medium">
+            <p className="text-sm text-muted-foreground/80 font-medium">
               Sin datos
             </p>
           </div>
           <div className="space-y-1.5">
-            <div className="h-2.5 bg-gray-100 rounded-full" />
+            <div className="h-2.5 bg-muted rounded-full" />
           </div>
           <div className="pt-2 border-t border-gray-100">
-            <p className="text-sm font-semibold text-gray-500 leading-snug">
+            <p className="text-sm font-semibold text-muted-foreground leading-snug">
               {keyword}
             </p>
           </div>
@@ -118,7 +118,7 @@ export const IndicatorCard = ({ value, unit, goal, percentage, keyword, area, in
             {formatValue(value, unit)}
             {unit === "Porcentaje" && "%"}
           </div>
-          <p className="text-xs text-gray-600 font-medium">
+          <p className="text-xs text-muted-foreground font-medium">
             Meta: {formatValue(goal, unit)}
             {unit === "Porcentaje" && "%"}
           </p>
@@ -126,7 +126,7 @@ export const IndicatorCard = ({ value, unit, goal, percentage, keyword, area, in
 
         {/* Progress Bar */}
         <div className="mt-2">
-          <div className="h-2 bg-gray-100 rounded-full overflow-hidden">
+          <div className="h-2 bg-muted rounded-full overflow-hidden">
             <div 
               className="h-full rounded-full transition-all duration-1000 ease-out relative"
               style={{
@@ -149,7 +149,7 @@ export const IndicatorCard = ({ value, unit, goal, percentage, keyword, area, in
             {keyword}
           </p>
           {indicatorName && (
-            <p className="text-xs text-gray-500 mt-0.5 leading-tight line-clamp-2">
+            <p className="text-xs text-muted-foreground mt-0.5 leading-tight line-clamp-2">
               {indicatorName}
             </p>
           )}

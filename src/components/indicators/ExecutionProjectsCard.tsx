@@ -82,7 +82,7 @@ export const ExecutionProjectsCard = () => {
 
   if (loading) {
     return (
-      <Card className="bg-white/95 backdrop-blur-sm border border-gray-200/60 shadow-lg h-full">
+      <Card className="bg-white/95 backdrop-blur-sm border border-border/60 shadow-lg h-full">
         <CardContent className="p-4 h-full flex items-center justify-center">
           <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-luker-green"></div>
         </CardContent>
@@ -92,16 +92,16 @@ export const ExecutionProjectsCard = () => {
 
   if (data.length === 0) {
     return (
-      <Card className="bg-white/95 backdrop-blur-sm border border-gray-200/60 shadow-lg h-full">
+      <Card className="bg-white/95 backdrop-blur-sm border border-border/60 shadow-lg h-full">
         <CardContent className="p-4 h-full flex flex-col">
           <div className="flex items-center gap-2 mb-2">
             <div className="p-1.5 bg-luker-teal/10 rounded-lg">
               <TrendingUp className="h-4 w-4 text-luker-teal" />
             </div>
-            <span className="text-xs font-medium text-gray-500 uppercase tracking-wide">Inversión Social</span>
+            <span className="text-xs font-medium text-muted-foreground uppercase tracking-wide">Inversión Social</span>
           </div>
           <h3 className="text-sm font-bold text-luker-brown mb-2">Ejecución Presupuestal Inversión Social</h3>
-          <div className="flex-1 flex items-center justify-center text-gray-400 text-sm">
+          <div className="flex-1 flex items-center justify-center text-muted-foreground/80 text-sm">
             Sin datos disponibles
           </div>
         </CardContent>
@@ -110,7 +110,7 @@ export const ExecutionProjectsCard = () => {
   }
 
   return (
-    <Card className="bg-white/95 backdrop-blur-sm border border-gray-200/60 shadow-lg hover:shadow-xl transition-all duration-300 h-full min-h-[320px] relative">
+    <Card className="bg-white/95 backdrop-blur-sm border border-border/60 shadow-lg hover:shadow-xl transition-all duration-300 h-full min-h-[320px] relative">
       <CardContent className="p-5 h-full flex flex-col" ref={chartRef}>
         {/* Header */}
         <div className="flex items-center justify-between mb-3">
@@ -118,7 +118,7 @@ export const ExecutionProjectsCard = () => {
             <div className="p-2 bg-luker-teal/10 rounded-lg">
               <TrendingUp className="h-5 w-5 text-luker-teal" />
             </div>
-            <span className="text-sm font-medium text-gray-500 uppercase tracking-wide">Inversión Social</span>
+            <span className="text-sm font-medium text-muted-foreground uppercase tracking-wide">Inversión Social</span>
           </div>
           <div className="text-right mr-20">
             <span className="text-3xl font-bold text-luker-teal">{currentPercentage}%</span>

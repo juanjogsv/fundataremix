@@ -257,7 +257,7 @@ const EducationATL = () => {
 
       {/* Tarjeta 1: Comparativo Entrada (ATAL_01) vs Salida (ATAL_02) */}
       <Card className="border-luker-green/20 shadow-lg">
-        <CardHeader className="bg-gradient-to-r from-luker-green/5 to-luker-teal/5">
+        <CardHeader className="bg-card border-b border-border">
           <div className="flex items-center justify-between flex-wrap gap-4">
             <div>
               <CardTitle className="text-xl flex items-center gap-2 text-luker-green">
@@ -320,7 +320,7 @@ const EducationATL = () => {
 
       {/* Tarjeta 4: Avance Histórico de Lectura - Grado Primero */}
       <Card className="border-luker-green/20 shadow-lg">
-        <CardHeader className="bg-gradient-to-r from-luker-green/5 to-luker-teal/5 space-y-3">
+        <CardHeader className="bg-card border-b border-border space-y-3">
           <div className="flex items-start justify-between flex-wrap gap-4">
             <CardTitle className="text-xl flex items-center gap-2 text-luker-green">
               <BookOpen className="h-5 w-5 text-luker-teal" />
@@ -399,7 +399,7 @@ const EducationATL = () => {
 
       {/* Tarjeta 5: Avance Histórico de Lectura - Grado Quinto */}
       <Card className="border-luker-green/20 shadow-lg">
-        <CardHeader className="bg-gradient-to-r from-luker-green/5 to-luker-teal/5 space-y-3">
+        <CardHeader className="bg-card border-b border-border space-y-3">
           <div className="flex items-start justify-between flex-wrap gap-4">
             <CardTitle className="text-xl flex items-center gap-2 text-luker-green">
               <BookOpen className="h-5 w-5 text-luker-teal" />

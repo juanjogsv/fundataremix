@@ -110,7 +110,7 @@ const EducationUTC = () => {
       {/* Fila 1: Tarjeta 1 (Colegios) + Tarjeta 2 (Universidades) */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-stretch">
         <Card className="border-luker-green/20 shadow-lg h-full flex flex-col">
-          <CardHeader className="bg-gradient-to-r from-luker-green/5 to-luker-teal/5">
+          <CardHeader className="bg-card border-b border-border">
             <CardTitle className="text-xl flex items-center gap-2 text-luker-green">
               <GraduationCap className="h-5 w-5 text-luker-teal" />
               Matrícula Técnica en Instituciones Educativas{selectedInstitution !== "Total" ? ` - ${selectedInstitution}` : ""}

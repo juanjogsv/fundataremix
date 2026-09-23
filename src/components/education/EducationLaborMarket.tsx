@@ -196,7 +196,7 @@ const EducationLaborMarket = () => {
   return (
     <div className="space-y-8">
       {/* Tarjeta 3: KPI Ocupación Total Juvenil */}
-      <Card className="border-luker-orange/20 shadow-lg bg-gradient-to-br from-luker-orange/5 to-luker-teal/5">
+      <Card className="border-luker-orange/20 shadow-lg bg-card">
         <CardHeader>
           <CardTitle className="text-xl flex items-center gap-2 text-luker-orange">
             <Briefcase className="h-5 w-5 text-luker-teal" />
@@ -220,7 +220,7 @@ const EducationLaborMarket = () => {
 
       {/* Tarjeta 1: Ocupación de Egresados por Categoría */}
       <Card className="border-luker-green/20 shadow-lg">
-        <CardHeader className="bg-gradient-to-r from-luker-green/5 to-luker-teal/5">
+        <CardHeader className="bg-card border-b border-border">
           <div className="flex items-center justify-between">
             <CardTitle className="text-xl flex items-center gap-2 text-luker-green">
               <Briefcase className="h-5 w-5 text-luker-teal" />
@@ -291,7 +291,7 @@ const EducationLaborMarket = () => {
 
       {/* Tarjeta 2: Evolución Histórica de la Situación Ocupacional de Egresados */}
       <Card className="border-luker-green/20 shadow-lg">
-        <CardHeader className="bg-gradient-to-r from-luker-green/5 to-luker-teal/5">
+        <CardHeader className="bg-card border-b border-border">
           <div className="flex items-center justify-between">
             <CardTitle className="text-xl flex items-center gap-2 text-luker-green">
               <Briefcase className="h-5 w-5 text-luker-teal" />
@@ -397,7 +397,7 @@ const EducationLaborMarket = () => {
 
       {/* Tarjeta 4: Ocupación Total Histórica por Año */}
       <Card className="border-luker-green/20 shadow-lg">
-        <CardHeader className="bg-gradient-to-r from-luker-green/5 to-luker-teal/5">
+        <CardHeader className="bg-card border-b border-border">
           <div className="flex items-center justify-between">
             <CardTitle className="text-xl flex items-center gap-2 text-luker-green">
               <Briefcase className="h-5 w-5 text-luker-teal" />

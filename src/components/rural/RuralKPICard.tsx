@@ -56,17 +56,17 @@ export const RuralKPICard = ({
         </div>
 
         {/* Title */}
-        <h3 className="text-gray-700 text-base font-medium leading-tight min-h-[2.5rem] flex items-center">
+        <h3 className="text-foreground/85 text-base font-medium leading-tight min-h-[2.5rem] flex items-center">
           {title}
         </h3>
 
         {/* Value */}
-        <div className={`text-5xl font-bold ${isPlaceholder ? 'text-gray-400' : 'text-luker-green'}`}>
+        <div className={`text-5xl font-bold ${isPlaceholder ? 'text-muted-foreground/80' : 'text-luker-green'}`}>
           {value}
         </div>
 
         {/* Year */}
-        <p className="text-gray-500 text-sm">
+        <p className="text-muted-foreground text-sm">
           {year}
         </p>
       </CardContent>

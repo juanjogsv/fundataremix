@@ -404,7 +404,7 @@ export const UploadOperatingExpenses = () => {
   };
 
   return (
-    <Card className="bg-white border-gray-200/80 shadow-sm">
+    <Card className="bg-white border-border/80 shadow-sm">
       <CardHeader className="border-b border-gray-100">
         <CardTitle className="text-lg text-luker-brown flex items-center gap-2">
           <FileSpreadsheet className="h-5 w-5" />
@@ -412,7 +412,7 @@ export const UploadOperatingExpenses = () => {
         </CardTitle>
       </CardHeader>
       <CardContent className="p-6 space-y-4">
-        <p className="text-sm text-gray-600">
+        <p className="text-sm text-muted-foreground">
           Sube el archivo de ejecución presupuestal de funcionamiento (.xls o .xlsx). 
           El sistema leerá la tabla "EJECUCION PRESUPUESTAL - DESGLOSADA".
         </p>

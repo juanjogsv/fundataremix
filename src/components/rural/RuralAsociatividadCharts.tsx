@@ -255,7 +255,7 @@ const RuralAsociatividadCharts = () => {
                   </ComposedChart>
                 </ResponsiveContainer>
               ) : (
-                <div className="h-[320px] flex items-center justify-center text-gray-500">
+                <div className="h-[320px] flex items-center justify-center text-muted-foreground">
                   No hay datos disponibles para este indicador
                 </div>
               )}

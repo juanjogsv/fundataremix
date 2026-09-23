@@ -142,7 +142,7 @@ const RuralProductividadCharts = () => {
   }) => {
     if (active && payload && payload.length) {
       return (
-        <div className="bg-white p-3 rounded-lg shadow-lg border border-gray-200">
+        <div className="bg-white p-3 rounded-lg shadow-lg border border-border">
           <p className="font-semibold text-gray-800 mb-2">Año {label}</p>
           {payload.map((entry, index) => (
             <p key={index} className="text-sm" style={{ color: entry.color }}>
@@ -275,7 +275,7 @@ const RuralProductividadCharts = () => {
                   </ComposedChart>
                 </ResponsiveContainer>
               ) : (
-                <div className="h-64 flex items-center justify-center text-gray-500">
+                <div className="h-64 flex items-center justify-center text-muted-foreground">
                   No hay datos disponibles para este indicador
                 </div>
               )}

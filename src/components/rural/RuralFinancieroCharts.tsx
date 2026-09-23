@@ -144,7 +144,7 @@ const RuralFinancieroCharts = () => {
                 </CardTitle>
               </CardHeader>
               <CardContent className="flex items-center justify-center h-[350px]">
-                <p className="text-gray-500">No hay datos disponibles para este indicador</p>
+                <p className="text-muted-foreground">No hay datos disponibles para este indicador</p>
               </CardContent>
             </Card>
           );

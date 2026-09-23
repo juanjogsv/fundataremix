@@ -301,21 +301,21 @@ export const EmbeddedMapCard = () => {
           href="/mapa"
           target="_blank"
           rel="noopener noreferrer"
-          className="flex items-center gap-1 text-xs text-gray-500 hover:text-luker-green transition-colors"
+          className="flex items-center gap-1 text-xs text-muted-foreground hover:text-luker-green transition-colors"
         >
           <ExternalLink className="h-3 w-3" />
           Ver completo
         </a>
       </CardHeader>
       <CardContent className="p-0 flex-1 flex flex-col">
-        <div className="px-4 pb-2 flex items-center gap-4 text-xs text-gray-500">
-          <span className="font-medium text-gray-700">{municipalitiesData.length}</span> municipios
+        <div className="px-4 pb-2 flex items-center gap-4 text-xs text-muted-foreground">
+          <span className="font-medium text-foreground/85">{municipalitiesData.length}</span> municipios
           <span className="font-medium text-luker-green">{totalBeneficiarios.toLocaleString()}</span> participantes
         </div>
         <div className="relative flex-1 min-h-[280px]">
           {(isLoading || isDataLoading) && (
-            <div className="absolute inset-0 flex items-center justify-center bg-gray-50/80 z-10">
-              <Loader2 className="h-5 w-5 animate-spin text-gray-400" />
+            <div className="absolute inset-0 flex items-center justify-center bg-card/80 z-10">
+              <Loader2 className="h-5 w-5 animate-spin text-muted-foreground/80" />
             </div>
           )}
           <div ref={mapContainer} className="absolute inset-0" />
