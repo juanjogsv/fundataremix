@@ -93,11 +93,11 @@ const Index = () => {
             {sections.map((section, index) => {
               const Icon = section.icon;
               return (
-                <Button
+                <button
                   key={section.id}
-                  variant="ghost"
+                  type="button"
                   onClick={() => navigate(section.path)}
-                  className="home-module animate-fade-in !grid"
+                  className="home-module animate-fade-in"
                   data-accent={section.accent}
                   style={{ animationDelay: `${index * 80}ms`, animationFillMode: "both" }}
                 >
@@ -112,7 +112,7 @@ const Index = () => {
                     <ArrowUpRight aria-hidden="true" />
                   </span>
                   <span className="home-module__number" aria-hidden="true">{String(section.id).padStart(2, "0")}</span>
-                </Button>
+                </button>
               );
             })}
           </div>
