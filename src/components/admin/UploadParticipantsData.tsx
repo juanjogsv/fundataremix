@@ -143,11 +143,11 @@ const UploadParticipantsData = () => {
   };
 
   return (
-    <Card className="col-span-full bg-gradient-to-br from-blue-50 to-indigo-50 border-kit-teal/40 shadow-lg">
+    <Card className="col-span-full border-2 border-kit-teal/40 bg-card shadow-card">
       <CardHeader className="pb-4">
         <div className="flex items-center gap-3">
           <div className="p-3 rounded-xl bg-kit-teal shadow-lg">
-            <Users className="h-6 w-6 text-white" />
+            <Users className="h-6 w-6 text-primary-foreground" />
           </div>
           <div>
             <CardTitle className="text-xl text-kit-tealDeep">
@@ -161,7 +161,7 @@ const UploadParticipantsData = () => {
       </CardHeader>
       <CardContent className="space-y-4">
         {/* Info Box */}
-        <div className="bg-white/80 rounded-lg p-4 border border-kit-teal/40">
+        <div className="bg-background rounded-lg p-4 border border-kit-teal/40">
           <div className="flex items-start gap-3">
             <AlertCircle className="h-5 w-5 text-kit-tealDeep mt-0.5 flex-shrink-0" />
             <div className="text-sm text-kit-tealDeep space-y-2">

@@ -3,6 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ArrowLeft, Target, Lightbulb, Users, TrendingUp, Shield, Zap } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import lukerLogo from "@/assets/fundacion-luker-color-letra-cafe-horizontal.png.asset.json";
+import { PageHeader } from "@/components/PageHeader";
 
 const lukerLogoUrl = `https://id-preview--86b2a9c4-6838-4f82-a3c4-21cb241b504c.lovable.app${lukerLogo.url}`;
 
@@ -11,30 +12,12 @@ const About = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      <div className="container mx-auto px-6 py-8 max-w-7xl">
-        {/* Header */}
-        <div className="flex items-center gap-4 mb-8">
-          <Button 
-            variant="ghost" 
-            size="icon"
-            onClick={() => navigate("/")}
-            className="hover:bg-luker-brown/5"
-          >
-            <ArrowLeft className="h-5 w-5" />
-          </Button>
-          <div>
-            <h1 className="text-4xl font-bold text-luker-brown font-heading">
-              Acerca de la Plataforma
-            </h1>
-            <p className="text-gray-600 mt-2">
-              Conoce más sobre nuestro sistema de gestión estratégica
-            </p>
-          </div>
-        </div>
+      <PageHeader title="Acerca de la Plataforma" mobileTitle="Acerca de" subtitle="El propósito y los principios que orientan Mi Junta" icon={Target} iconBgColor="bg-kit-coral" />
+      <div className="container mx-auto px-4 sm:px-6 py-8 sm:py-10 max-w-[1400px]">
 
         {/* Mission Section */}
         <section className="mb-12">
-          <Card className="bg-gradient-to-br from-luker-green/5 via-white to-luker-orange/5 border-luker-green/20 shadow-md">
+          <Card className="border-l-4 border-l-kit-lime">
             <div className="p-8 md:p-12">
               <div className="flex items-start gap-6 mb-8">
                 <img 
@@ -247,7 +230,7 @@ const About = () => {
 
         {/* CTA */}
         <section>
-          <Card className="bg-gradient-to-br from-luker-green/5 via-luker-orange/5 to-luker-teal/5 border-luker-green/20 shadow-md">
+          <Card className="border-l-4 border-l-kit-teal">
             <div className="p-8 text-center space-y-4">
               <h3 className="text-2xl font-bold text-luker-brown font-heading">
                 ¿Listo para explorar los datos?

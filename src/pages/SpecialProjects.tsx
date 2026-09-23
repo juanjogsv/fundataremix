@@ -32,20 +32,20 @@ const SpecialProjects = () => {
         title="Proyectos Especiales"
         icon={Star}
         iconBgColor="bg-kit-coral"
-        gradientColors="from-kit-coral to-kit-orange"
+        subtitle="Iniciativas que amplían nuestro impacto"
       />
 
-      <div className="container mx-auto px-4 md:px-6 py-6 md:py-8">
+      <div className="container mx-auto px-4 sm:px-6 py-8 sm:py-10 max-w-[1400px]">
         {/* Subsections Navigation */}
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-          <TabsList className="w-full h-auto flex-wrap justify-start gap-2 bg-white border border-gray-200 p-2">
+          <TabsList className="w-full h-auto flex-wrap justify-start gap-2">
             {subsections.map((section) => {
               const Icon = section.icon;
               return (
                 <TabsTrigger
                   key={section.id}
                   value={section.id}
-                  className="flex items-center gap-2 data-[state=active]:bg-kit-teal data-[state=active]:text-white"
+                  className="flex items-center gap-2 data-[state=active]:bg-kit-coral data-[state=active]:text-primary-foreground"
                 >
                   <Icon className="h-4 w-4" />
                   <span className="hidden md:inline">{section.label}</span>

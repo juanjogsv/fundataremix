@@ -6,6 +6,7 @@ import { Progress } from "@/components/ui/progress";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, TrendingUp } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
+import { PageHeader } from "@/components/PageHeader";
 
 interface Indicator {
   id: string;
@@ -20,36 +21,30 @@ interface Indicator {
   achievement_2024: number;
 }
 
-const areaConfig: Record<string, { title: string; color: string; gradient: string }> = {
+const areaConfig: Record<string, { title: string; accent: string }> = {
   financiero: {
     title: "Financiero",
-    color: "from-green-500 to-emerald-500",
-    gradient: "from-green-500/20 to-emerald-500/20"
+    accent: "bg-kit-lime"
   },
   educacion: {
     title: "Educación",
-    color: "from-indigo-500 to-blue-500",
-    gradient: "from-indigo-500/20 to-blue-500/20"
+    accent: "bg-kit-coral"
   },
   emprendimiento: {
     title: "Emprendimiento",
-    color: "from-yellow-500 to-orange-500",
-    gradient: "from-yellow-500/20 to-orange-500/20"
+    accent: "bg-kit-orange"
   },
   "desarrollo-rural": {
     title: "Desarrollo rural",
-    color: "from-lime-500 to-green-500",
-    gradient: "from-lime-500/20 to-green-500/20"
+    accent: "bg-kit-lime"
   },
   especiales: {
     title: "Proyectos especiales",
-    color: "from-pink-500 to-rose-500",
-    gradient: "from-pink-500/20 to-rose-500/20"
+    accent: "bg-kit-coral"
   },
   contexto: {
     title: "Contexto socioeconómico",
-    color: "from-violet-500 to-purple-500",
-    gradient: "from-violet-500/20 to-purple-500/20"
+    accent: "bg-kit-teal"
   }
 };
 
@@ -98,26 +93,9 @@ const AreaIndicators = () => {
   }
 
   return (
-    <div className="min-h-screen bg-background p-6">
-      <div className="max-w-7xl mx-auto space-y-6">
-        <div className="flex items-center gap-4">
-          <Button 
-            variant="ghost" 
-            size="icon"
-            onClick={() => navigate("/")}
-            className="hover:bg-card"
-          >
-            <ArrowLeft className="h-5 w-5" />
-          </Button>
-          <div>
-            <h1 className={`text-4xl font-bold bg-gradient-to-r ${config.color} bg-clip-text text-transparent`}>
-              {config.title}
-            </h1>
-            <p className="text-muted-foreground mt-2">
-              Indicadores de seguimiento y gestión
-            </p>
-          </div>
-        </div>
+    <div className="min-h-screen bg-background">
+      <PageHeader title={config.title} subtitle="Indicadores de seguimiento y gestión" icon={TrendingUp} iconBgColor={config.accent} />
+      <div className="container mx-auto px-4 sm:px-6 py-8 sm:py-10 max-w-[1400px] space-y-8">
 
         {loading ? (
           <div className="text-center py-12">

@@ -67,7 +67,7 @@ export const AccessGate = ({ children }: { children: React.ReactNode }) => {
 
   if (checking) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-white">
+      <div className="min-h-screen flex items-center justify-center bg-background">
         <Loader2 className="h-6 w-6 animate-spin text-luker-green" />
       </div>
     );
@@ -76,7 +76,7 @@ export const AccessGate = ({ children }: { children: React.ReactNode }) => {
   if (hasSession) return <>{children}</>;
 
   return (
-    <div className="fixed inset-0 z-[100] min-h-screen bg-gradient-to-br from-white via-gray-50 to-luker-green/5 flex items-center justify-center p-6">
+    <div className="fixed inset-0 z-[100] min-h-screen bg-background flex items-center justify-center p-6">
       <Card className="w-full max-w-md p-8 shadow-xl border-luker-green/20">
         <div className="flex flex-col items-center text-center space-y-4 mb-6">
           <img

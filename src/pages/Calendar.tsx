@@ -16,6 +16,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
+import { PageHeader } from "@/components/PageHeader";
 
 interface CalendarEvent {
   id: string;
@@ -351,28 +352,13 @@ const Calendar = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background p-6">
-      <div className="max-w-7xl mx-auto space-y-6">
-        <div className="flex items-center gap-4">
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={() => navigate("/")}
-            className="hover:bg-card"
-          >
-            <ArrowLeft className="h-5 w-5" />
-          </Button>
-          <div>
-            <h1 className="text-4xl font-bold bg-primary text-primary-foreground hover:bg-primary/90 bg-clip-text text-transparent">
-              Calendario de Eventos
-            </h1>
-            <p className="text-muted-foreground mt-2">Planifica y consulta eventos importantes</p>
-          </div>
-        </div>
+    <div className="min-h-screen bg-background">
+      <PageHeader title="Calendario de Eventos" mobileTitle="Calendario" subtitle="Agenda de juntas, actividades y documentos previos" icon={CalendarDays} iconBgColor="bg-kit-orange" />
+      <div className="container mx-auto px-4 sm:px-6 py-8 sm:py-10 max-w-[1400px] space-y-8">
 
         {/* Filter by category - only show if there are categories */}
         {categories.length > 0 && (
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-3 border-b border-border pb-5">
             <Filter className="h-4 w-4 text-muted-foreground" />
             <Select value={selectedCategory} onValueChange={setSelectedCategory}>
               <SelectTrigger className="w-[200px]">

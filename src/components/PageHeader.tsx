@@ -1,6 +1,5 @@
-import { LucideIcon } from "lucide-react";
+import { ArrowLeft, LucideIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import logoImage from "@/assets/fundacion-luker-color-letra-cafe-horizontal.png.asset.json";
 
@@ -15,6 +14,14 @@ interface PageHeaderProps {
   gradientColors?: string;
 }
 
+const accentFromClass = (className: string) => {
+  if (className.includes("coral") || className.includes("red")) return "coral";
+  if (className.includes("orange")) return "orange";
+  if (className.includes("green") || className.includes("lime")) return "lime";
+  if (className.includes("brown")) return "brown";
+  return "teal";
+};
+
 export const PageHeader = ({ 
   title, 
   mobileTitle,
@@ -23,52 +30,43 @@ export const PageHeader = ({
   iconBgColor
 }: PageHeaderProps) => {
   const navigate = useNavigate();
+  const accent = accentFromClass(iconBgColor);
 
   return (
-    <header className="bg-background/95 border-b border-border shadow-sm sticky top-0 z-10 backdrop-blur-sm">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-3 sm:py-4">
-        <div className="flex items-center justify-between gap-2">
-          <div className="flex items-center gap-2 sm:gap-4 min-w-0 flex-1">
+    <header className="institutional-page-header" data-accent={accent}>
+      <div className="institutional-page-header__bar">
+        <div className="institutional-page-header__nav">
+          <div className="flex items-center gap-3 min-w-0">
             <Button
               variant="ghost"
               size="icon"
               onClick={() => navigate("/")}
-              className="hover:bg-muted transition-colors shrink-0 text-foreground"
+              className="institutional-back-button shrink-0"
+              aria-label="Volver al inicio"
             >
               <ArrowLeft className="h-5 w-5" />
             </Button>
-            
-            <div className="flex items-center gap-2 sm:gap-3 min-w-0">
-              {/* Icon badge — kit accent per module */}
-              <div className={`${iconBgColor} w-10 h-10 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl flex items-center justify-center shadow-sm shrink-0`}>
-                <Icon className="h-5 w-5 sm:h-6 sm:w-6 text-white" strokeWidth={2.5} />
-              </div>
-              
-              {/* Title — editorial, solid brown */}
-              <div className="min-w-0">
-                {/* Mobile title (shorter) */}
-                <h1 className="sm:hidden text-xl font-extrabold tracking-tight text-foreground truncate">
-                  {mobileTitle || title}
-                </h1>
-                {/* Desktop title (full) */}
-                <h1 className="hidden sm:block text-2xl lg:text-3xl font-extrabold tracking-tight text-foreground">
-                  {title}
-                </h1>
-                {subtitle && (
-                  <p className="text-xs sm:text-sm text-muted-foreground mt-0.5 truncate">
-                    {subtitle}
-                  </p>
-                )}
-              </div>
-            </div>
+            <span className="institutional-page-header__kicker">Mi Junta · Capítulo</span>
           </div>
-          
           <img 
             src={logoImageUrl} 
             alt="Fundación Luker" 
-            className="h-8 sm:h-10 lg:h-11 w-auto object-contain shrink-0"
+            className="institutional-page-header__logo"
           />
         </div>
+      </div>
+      <div className="institutional-page-header__title-row">
+        <div className="institutional-page-header__number" aria-hidden="true">
+          <Icon />
+        </div>
+        <div className="min-w-0">
+          <h1 className="institutional-page-header__title">
+            <span className="sm:hidden">{mobileTitle || title}</span>
+            <span className="hidden sm:inline">{title}</span>
+          </h1>
+          {subtitle && <p className="institutional-page-header__subtitle">{subtitle}</p>}
+        </div>
+        <div className="institutional-page-header__rule" />
       </div>
     </header>
   );

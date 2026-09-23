@@ -10,11 +10,12 @@ import { getCoordinatesByDaneCode, normalizeDaneCode } from '@/lib/colombia-muni
 import maplibregl from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import type { Point, FeatureCollection } from 'geojson';
+import { PageHeader } from "@/components/PageHeader";
 
 // Free vector tile style from Carto (no token required)
 const MAP_STYLE = 'https://basemaps.cartocdn.com/gl/positron-gl-style/style.json';
 
-const MARKER_COLOR = '#6366f1'; // Primary indigo color
+const MARKER_COLOR = '#009EAE';
 
 interface MunicipalityData {
   cod_entidad: string;
@@ -399,29 +400,12 @@ const Map = () => {
   }, [geojsonData, isLoading]);
 
   return (
-    <div className="min-h-screen bg-background p-6">
-      <div className="max-w-7xl mx-auto space-y-6">
-        <div className="flex items-center gap-4">
-          <Button 
-            variant="ghost" 
-            size="icon"
-            onClick={() => navigate("/")}
-            className="hover:bg-card"
-          >
-            <ArrowLeft className="h-5 w-5" />
-          </Button>
-          <div>
-            <h1 className="text-4xl font-bold bg-primary text-primary-foreground hover:bg-primary/90 bg-clip-text text-transparent">
-              Mapa de Participantes
-            </h1>
-            <p className="text-muted-foreground mt-2">
-              Visualización georreferenciada de participantes por municipio
-            </p>
-          </div>
-        </div>
+    <div className="min-h-screen bg-background">
+      <PageHeader title="Mapa de Participantes" mobileTitle="Mapa" subtitle="Presencia territorial de los programas por municipio" icon={MapPin} iconBgColor="bg-kit-teal" />
+      <div className="container mx-auto px-4 sm:px-6 py-8 sm:py-10 max-w-[1400px] space-y-8">
 
         {/* Filters */}
-        <Card className="bg-card/80 backdrop-blur-sm border-border">
+        <div className="border-b border-border pb-5">
           <CardContent className="py-4">
             <div className="flex flex-wrap items-center gap-4">
               <div className="flex items-center gap-2">
@@ -459,7 +443,7 @@ const Map = () => {
               </div>
             </div>
           </CardContent>
-        </Card>
+        </div>
 
         {/* Map Container */}
         <Card className="bg-card border-border overflow-hidden">

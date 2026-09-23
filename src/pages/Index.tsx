@@ -1,122 +1,38 @@
-import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
-import { 
-  BarChart3, 
-  Calendar, 
-  FolderOpen, 
-  
-  DollarSign, 
-  GraduationCap, 
-  Lightbulb, 
-  Sprout, 
-  Sparkles, 
-  MapPin, 
-  TrendingUp,
-  LogOut,
-  Settings,
+import {
   ArrowRight,
-  Target,
-  Users,
-  Heart,
+  BarChart3,
+  Calendar,
+  DollarSign,
+  FolderOpen,
+  GraduationCap,
+  Lightbulb,
+  LogOut,
+  MapPin,
+  Settings,
+  Sparkles,
+  Sprout,
+  TrendingUp,
 } from "lucide-react";
 import lukerLogo from "@/assets/fundacion-luker-color-letra-cafe-horizontal.png.asset.json";
+import heroPeople from "@/assets/mi-junta-hero-people.png";
 
 const lukerLogoUrl = `https://id-preview--86b2a9c4-6838-4f82-a3c4-21cb241b504c.lovable.app${lukerLogo.url}`;
 
 const sections = [
-  {
-    id: 1,
-    title: "Indicadores Estratégicos",
-    icon: BarChart3,
-    path: "/indicadores",
-    color: "from-kit-teal/20 to-kit-lime/20",
-    iconColor: "bg-kit-teal",
-    description: "Seguimiento de KPIs"
-  },
-  {
-    id: 2,
-    title: "Calendario",
-    icon: Calendar,
-    path: "/calendario",
-    color: "from-kit-orange/20 to-kit-coral/20",
-    iconColor: "bg-kit-orange",
-    description: "Eventos y actividades"
-  },
-  {
-    id: 3,
-    title: "Documentos",
-    icon: FolderOpen,
-    path: "/documentos",
-    color: "from-kit-brown/20 to-kit-orange/20",
-    iconColor: "bg-kit-brown",
-    description: "Repositorio documental"
-  },
-  {
-    id: 4,
-    title: "Financiero",
-    icon: DollarSign,
-    path: "/financiero",
-    color: "from-kit-lime/20 to-kit-teal/20",
-    iconColor: "bg-kit-lime",
-    description: "Gestión financiera"
-  },
-  {
-    id: 5,
-    title: "Educación",
-    icon: GraduationCap,
-    path: "/educacion",
-    color: "from-kit-coral/20 to-kit-orange/20",
-    iconColor: "bg-kit-coral",
-    description: "Programas educativos"
-  },
-  {
-    id: 6,
-    title: "Emprendimiento",
-    icon: Lightbulb,
-    path: "/emprendimiento",
-    color: "from-kit-orange/20 to-kit-lime/20",
-    iconColor: "bg-kit-orange",
-    description: "Ecosistema de emprendimiento"
-  },
-  {
-    id: 7,
-    title: "Desarrollo Rural",
-    icon: Sprout,
-    path: "/desarrollo-rural",
-    color: "from-kit-lime/20 to-kit-brown/20",
-    iconColor: "bg-kit-lime",
-    description: "Proyectos rurales"
-  },
-  {
-    id: 8,
-    title: "Especiales",
-    icon: Sparkles,
-    path: "/especiales",
-    color: "from-kit-coral/20 to-kit-teal/20",
-    iconColor: "bg-kit-coral",
-    description: "Proyectos especiales"
-  },
-  {
-    id: 9,
-    title: "Mapa",
-    icon: MapPin,
-    path: "/mapa",
-    color: "from-kit-teal/20 to-kit-brown/20",
-    iconColor: "bg-kit-teal",
-    description: "Georreferenciación"
-  },
-  {
-    id: 10,
-    title: "Contexto Socioeconómico",
-    icon: TrendingUp,
-    path: "/socioeconomico",
-    color: "from-kit-orange/20 to-kit-lime/20",
-    iconColor: "bg-kit-orange",
-    description: "Indicadores de ciudad"
-  }
-];
+  { id: 1, title: "Indicadores Estratégicos", icon: BarChart3, path: "/indicadores", accent: "teal", description: "Seguimiento de KPIs" },
+  { id: 2, title: "Calendario", icon: Calendar, path: "/calendario", accent: "orange", description: "Eventos y actividades" },
+  { id: 3, title: "Documentos", icon: FolderOpen, path: "/documentos", accent: "brown", description: "Repositorio documental" },
+  { id: 4, title: "Financiero", icon: DollarSign, path: "/financiero", accent: "lime", description: "Gestión financiera" },
+  { id: 5, title: "Educación", icon: GraduationCap, path: "/educacion", accent: "coral", description: "Programas educativos" },
+  { id: 6, title: "Emprendimiento", icon: Lightbulb, path: "/emprendimiento", accent: "orange", description: "Ecosistema de emprendimiento" },
+  { id: 7, title: "Desarrollo Rural", icon: Sprout, path: "/desarrollo-rural", accent: "lime", description: "Proyectos rurales" },
+  { id: 8, title: "Especiales", icon: Sparkles, path: "/especiales", accent: "coral", description: "Proyectos especiales" },
+  { id: 9, title: "Mapa", icon: MapPin, path: "/mapa", accent: "teal", description: "Georreferenciación" },
+  { id: 10, title: "Contexto Socioeconómico", icon: TrendingUp, path: "/socioeconomico", accent: "orange", description: "Indicadores de ciudad" },
+] as const;
 
 const Index = () => {
   const navigate = useNavigate();
@@ -128,146 +44,96 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background">
-      {/* Header */}
-      <header className="border-b border-border bg-background/95 backdrop-blur-sm sticky top-0 z-50">
-        <div className="container mx-auto px-6 py-4">
-          <div className="flex items-center justify-between">
-            <img 
-              src={lukerLogoUrl} 
-              alt="Fundación Luker" 
-              className="h-12 md:h-14 w-auto object-contain"
-            />
-            
-            {user && (
-              <div className="flex items-center gap-3">
-                {isAdmin && (
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={() => navigate("/admin")}
-                    className="border-luker-green/30 text-luker-brown hover:bg-luker-green/5"
-                  >
-                    <Settings className="h-4 w-4 mr-2" />
-                    Admin
-                  </Button>
-                )}
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={handleSignOut}
-                  className="text-gray-600 hover:text-luker-brown hover:bg-gray-100"
-                >
-                  <LogOut className="h-4 w-4 mr-2" />
-                  Salir
+    <div className="home-editorial">
+      <header className="home-editorial__header">
+        <div className="home-editorial__header-inner">
+          <img src={lukerLogoUrl} alt="Fundación Luker" className="home-editorial__logo" />
+          {user && (
+            <div className="flex items-center gap-2">
+              {isAdmin && (
+                <Button variant="outline" size="sm" onClick={() => navigate("/admin")}>
+                  <Settings className="h-4 w-4 mr-2" />Admin
                 </Button>
-              </div>
-            )}
-          </div>
+              )}
+              <Button variant="ghost" size="sm" onClick={handleSignOut}>
+                <LogOut className="h-4 w-4 mr-2" />Salir
+              </Button>
+            </div>
+          )}
         </div>
       </header>
 
-      {/* Hero Section - Storytelling */}
-      <section className="relative overflow-hidden">
-        {/* Background decorative elements */}
-        <div className="absolute inset-0 bg-gradient-to-br from-luker-green/5 via-luker-orange/5 to-luker-teal/10" />
-        <div className="absolute top-0 right-0 w-96 h-96 bg-luker-green/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
-        <div className="absolute bottom-0 left-0 w-80 h-80 bg-luker-orange/10 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2" />
-        
-        <div className="container mx-auto px-6 py-8 md:py-10 relative z-10">
-          <div className="max-w-5xl mx-auto text-center space-y-4">
-            <div className="inline-block">
-              <span className="text-sm font-semibold text-kit-brown bg-kit-coral px-5 py-2.5 rounded-full shadow-md">
-                Plataforma de Gestión Estratégica
-              </span>
-            </div>
-            
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-luker-brown leading-tight font-heading">
-              Transformando vidas a través de la{" "}
-              <span className="text-kit-coral font-extrabold">educación</span>
-            </h1>
-            
-            <p className="text-lg md:text-xl text-gray-700 leading-relaxed max-w-4xl mx-auto">
-              <span className="font-bold text-luker-brown">Movilizamos palancas para que niños y jóvenes</span> potencien su desarrollo para una vida <span className="font-bold text-luker-green">productiva gratificante</span>
+      <main>
+        <section className="home-hero">
+          <div className="home-hero__letter" aria-hidden="true">L</div>
+          <div className="home-hero__copy animate-fade-in">
+            <p className="home-kicker">Plataforma de gestión estratégica</p>
+            <h1>Transformamos vidas a través de la <span>educación</span></h1>
+            <p className="home-hero__lead">
+              Movilizamos palancas para que niños y jóvenes potencien su desarrollo para una vida productiva gratificante.
             </p>
+            <Button className="home-hero__action" onClick={() => navigate("/indicadores")}>Explorar indicadores <ArrowRight className="h-4 w-4" /></Button>
           </div>
-        </div>
-      </section>
+          <div className="home-hero__visual animate-scale-in">
+            <div className="home-hero__accent" aria-hidden="true" />
+            <img src={heroPeople} alt="Educadora, estudiante y productor rural de la comunidad" width={1200} height={1400} />
+          </div>
+        </section>
 
-      {/* Modules Section */}
-      <section className="container mx-auto px-6 py-8">
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 md:gap-6 max-w-7xl mx-auto">
-          {sections.map((section) => {
-            const Icon = section.icon;
-            return (
-              <Card
-                key={section.id}
-                onClick={() => navigate(section.path)}
-                className="group relative overflow-hidden cursor-pointer transition-all duration-300 hover:scale-[1.02] bg-card border-border aspect-square hover:shadow-lg"
-              >
-                <div className={`absolute inset-0 bg-gradient-to-br ${section.color} opacity-0 group-hover:opacity-100 transition-opacity duration-300`} />
-                
-                <div className="h-full flex flex-col items-center justify-center p-4 space-y-3 relative z-10">
-                  <div className={`p-3 md:p-4 rounded-2xl ${section.iconColor} shadow-md transform group-hover:scale-110 transition-transform duration-300`}>
-                    <Icon className="h-6 w-6 md:h-8 md:w-8 text-white" />
-                  </div>
-                  
-                  <div className="text-center space-y-1">
-                    <h3 className="font-semibold text-sm md:text-base text-luker-brown leading-tight font-heading">
-                      {section.title}
-                    </h3>
-                    <p className="text-xs text-gray-600 hidden md:block">
-                      {section.description}
-                    </p>
-                  </div>
-                </div>
-
-                <div className="absolute inset-0 border-2 border-transparent group-hover:border-kit-orange/40 rounded-lg transition-colors duration-300" />
-              </Card>
-            );
-          })}
-        </div>
-      </section>
-
-      {/* CTA Section */}
-      <section className="container mx-auto px-6 py-16 mb-12">
-        <Card className="bg-card border-border shadow-lg">
-          <div className="p-8 md:p-12 text-center space-y-6">
-            <h2 className="text-2xl md:text-3xl font-bold text-luker-brown font-heading">
-              ¿Necesitas ayuda para navegar la plataforma?
-            </h2>
-            <p className="text-gray-600 max-w-2xl mx-auto">
-              Consulta nuestra guía de usuario o contacta al equipo técnico para obtener asistencia
-            </p>
-            <div className="flex flex-wrap gap-4 justify-center pt-2">
-              <Button 
-                variant="outline"
-                onClick={() => navigate("/help")}
-                className="border-luker-green/30 text-luker-brown hover:bg-luker-green/5"
-              >
-                Ver Guía de Usuario
-              </Button>
-              <Button 
-                variant="outline"
-                onClick={() => navigate("/about")}
-                className="border-luker-orange/30 text-luker-brown hover:bg-luker-orange/5"
-              >
-                Acerca de la Plataforma
-              </Button>
+        <section className="home-directory" aria-labelledby="directory-title">
+          <div className="home-section-heading">
+            <div>
+              <p className="home-kicker">Índice de contenidos</p>
+              <h2 id="directory-title">Nuestros programas y la ciudad</h2>
             </div>
+            <p>Consulta el seguimiento estratégico, los programas y la información que acompaña nuestras decisiones.</p>
           </div>
-        </Card>
-      </section>
+          <div className="home-directory__grid">
+            {sections.map((section, index) => {
+              const Icon = section.icon;
+              return (
+                <Button
+                  key={section.id}
+                  variant="ghost"
+                  onClick={() => navigate(section.path)}
+                  className="home-module animate-fade-in"
+                  data-accent={section.accent}
+                  data-featured={index === 0 || index === 4 ? "true" : "false"}
+                  style={{ animationDelay: `${index * 80}ms`, animationFillMode: "both" }}
+                >
+                  <span className="home-module__number">{String(section.id).padStart(2, "0")}</span>
+                  <span className="home-module__icon"><Icon /></span>
+                  <span className="home-module__copy">
+                    <strong>{section.title}</strong>
+                    <small>{section.description}</small>
+                  </span>
+                  <ArrowRight className="home-module__arrow" />
+                </Button>
+              );
+            })}
+          </div>
+        </section>
 
-      {/* Footer */}
-      <footer className="border-t border-border bg-background/95 py-8">
-        <div className="container mx-auto px-6">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-gray-600">
-            <p>© 2025 Fundación Luker. Todos los derechos reservados.</p>
-            <p>Plataforma de Gestión Estratégica</p>
+        <section className="home-impact" aria-labelledby="impact-title">
+          <div className="home-impact__intro">
+            <p className="home-kicker">La historia en cifras</p>
+            <h2 id="impact-title">Datos que cuentan transformación</h2>
           </div>
-        </div>
-      </footer>
+          <div className="home-impact__stats">
+            <article data-accent="coral"><strong>117.827</strong><span>participantes en 2025</span></article>
+            <article data-accent="lime"><strong>10</strong><span>módulos conectados</span></article>
+            <article data-accent="teal"><strong>2003—2025</strong><span>trayectoria visible</span></article>
+          </div>
+        </section>
+
+        <section className="home-links">
+          <p>¿Necesitas orientación para consultar la plataforma?</p>
+          <nav aria-label="Enlaces de ayuda">
+            <Button variant="link" onClick={() => navigate("/help")}>Ver guía de usuario <ArrowRight className="h-4 w-4" /></Button>
+            <Button variant="link" onClick={() => navigate("/about")}>Acerca de Mi Junta <ArrowRight className="h-4 w-4" /></Button>
+          </nav>
+        </section>
+      </main>
     </div>
   );
 };

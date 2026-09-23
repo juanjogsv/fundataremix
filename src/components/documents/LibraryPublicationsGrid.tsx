@@ -97,14 +97,14 @@ export function LibraryPublicationsGrid() {
                       loading="lazy"
                     />
                   ) : (
-                    <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-primary/10 to-accent/10">
+                    <div className="flex h-full w-full items-center justify-center bg-muted">
                       <BookOpen className="h-16 w-16 text-primary/40" />
                     </div>
                   )}
 
                   {/* Hover overlay */}
-                  <div className="absolute inset-0 flex items-center justify-center bg-black/50 opacity-0 transition-opacity duration-200 group-hover:opacity-100">
-                    <span className="flex items-center gap-2 rounded-full bg-white px-4 py-2 text-sm font-medium text-foreground shadow">
+                  <div className="absolute inset-0 flex items-center justify-center bg-foreground/50 opacity-0 transition-opacity duration-200 group-hover:opacity-100">
+                    <span className="flex items-center gap-2 rounded-full bg-card px-4 py-2 text-sm font-medium text-foreground shadow">
                       <ExternalLink className="h-4 w-4" />
                       Ver publicación
                     </span>

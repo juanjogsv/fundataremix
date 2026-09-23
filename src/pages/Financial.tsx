@@ -30,20 +30,20 @@ const Financial = () => {
         title="Financiero"
         icon={DollarSign}
         iconBgColor="bg-luker-green"
-        gradientColors="from-luker-green via-emerald-500 to-teal-500"
+        subtitle="Presupuesto, ejecución y funcionamiento"
       />
 
-      <div className="container mx-auto px-6 py-8 max-w-7xl">
+      <div className="container mx-auto px-4 sm:px-6 py-8 sm:py-10 max-w-[1400px]">
         {/* Subsections Navigation */}
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-          <TabsList className="w-full h-auto flex-wrap justify-start gap-2 bg-white border border-gray-200 p-2 mb-6">
+          <TabsList className="w-full h-auto flex-wrap justify-start gap-2 mb-8">
             {subsections.map((section) => {
               const Icon = section.icon;
               return (
                 <TabsTrigger
                   key={section.id}
                   value={section.id}
-                  className="flex items-center gap-2 data-[state=active]:bg-luker-green data-[state=active]:text-white"
+                  className="flex items-center gap-2 data-[state=active]:bg-kit-lime data-[state=active]:text-primary-foreground"
                 >
                   <Icon className="h-4 w-4" />
                   <span className="hidden md:inline">{section.label}</span>

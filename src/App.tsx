@@ -4,7 +4,6 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, Navigate, useLocation } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
-import AccessGate from "./components/AccessGate";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 import StrategicIndicators from "./pages/StrategicIndicators";
@@ -25,6 +24,7 @@ import RuralDevelopment from "./pages/RuralDevelopment";
 import SpecialProjects from "./pages/SpecialProjects";
 import SocioeconomicContext from "./pages/SocioeconomicContext";
 import DatosAbiertos from "./pages/DatosAbiertos";
+import { InstitutionalFooter } from "./components/InstitutionalFooter";
 
 
 const queryClient = new QueryClient();
@@ -70,9 +70,15 @@ const PublicOnlyRoute = ({ children }: { children: React.ReactNode }) => {
  *   return <AccessGate>{children}</AccessGate>;
  */
 const GateWrapper = ({ children }: { children: React.ReactNode }) => {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const _location = useLocation();
-  return <>{children}</>;
+  const location = useLocation();
+  const isDatosAbiertos = isPublicHost() || location.pathname.startsWith("/datosabiertos");
+  if (isDatosAbiertos) return <>{children}</>;
+  return (
+    <div className="mi-junta-site">
+      {children}
+      <InstitutionalFooter />
+    </div>
+  );
 };
 
 /**
