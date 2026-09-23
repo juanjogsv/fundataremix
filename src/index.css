@@ -222,6 +222,7 @@ All colors MUST be HSL.
   .home-directory__grid {
     display: grid;
     grid-template-columns: 1fr;
+    grid-auto-rows: 1fr;
     gap: 1.25rem;
   }
 
@@ -231,7 +232,7 @@ All colors MUST be HSL.
     display: grid;
     min-width: 0;
     min-height: 18.125rem;
-    height: auto;
+    height: 100%;
     grid-template-columns: 1fr auto;
     grid-template-rows: auto auto 1fr auto;
     grid-template-areas:
@@ -309,6 +310,10 @@ All colors MUST be HSL.
 
   @media (min-width: 1024px) {
     .home-directory__grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  }
+
+  @media (min-width: 960px) and (max-width: 1399px) {
+    .home-hero h1 { font-size: clamp(3.25rem, 5vw, 4.75rem); }
   }
 
   @media (min-width: 1280px) {
