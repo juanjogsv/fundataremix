@@ -69,7 +69,7 @@ export const InvestmentChart = () => {
   };
 
   return (
-    <Card className="bg-white border-border/60 shadow-sm lg:col-span-2">
+    <Card className="bg-card border-border/60 shadow-sm lg:col-span-2">
       <CardContent className="p-6" ref={chartRef}>
         <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-6 gap-4">
           <div>
@@ -81,14 +81,14 @@ export const InvestmentChart = () => {
               <div className="w-4 h-4 rounded-sm bg-luker-green"></div>
               <div className="flex flex-col">
                 <span className="text-xs text-muted-foreground">Ejecutado</span>
-                <span className="font-bold text-gray-900">{formatCurrencyMillions(totalOwn)}</span>
+                <span className="font-bold text-foreground">{formatCurrencyMillions(totalOwn)}</span>
               </div>
             </div>
             <div className="flex items-center gap-2">
               <div className="w-4 h-4 rounded-sm bg-luker-orange"></div>
               <div className="flex flex-col">
                 <span className="text-xs text-muted-foreground">Pendiente</span>
-                <span className="font-bold text-gray-900">{formatCurrencyMillions(totalThird)}</span>
+                <span className="font-bold text-foreground">{formatCurrencyMillions(totalThird)}</span>
               </div>
             </div>
           </div>

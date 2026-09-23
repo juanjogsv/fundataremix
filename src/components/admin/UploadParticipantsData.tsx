@@ -185,7 +185,7 @@ const UploadParticipantsData = () => {
         <Label htmlFor="participants-file" className="block cursor-pointer">
           <div className={`
             relative border-2 border-dashed rounded-xl p-8 text-center 
-            transition-all duration-300 bg-white
+            transition-all duration-300 bg-card
             ${isUploading 
               ? 'border-kit-teal/40 bg-kit-teal/10' 
               : 'border-kit-teal/40 hover:border-kit-teal/40 hover:bg-kit-teal/10'

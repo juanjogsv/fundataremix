@@ -101,7 +101,7 @@ export const ParticipantsCompactCard = () => {
 
   if (isLoading) {
     return (
-      <Card className="bg-white/95 backdrop-blur-sm border border-border/60 shadow-lg h-full">
+      <Card className="bg-card/95 backdrop-blur-sm border border-border/60 shadow-lg h-full">
         <CardContent className="p-5 h-full flex items-center justify-center">
           <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-kit-teal/40"></div>
         </CardContent>
@@ -110,12 +110,12 @@ export const ParticipantsCompactCard = () => {
   }
 
   return (
-    <Card className="bg-white/95 backdrop-blur-sm border border-border/60 shadow-lg hover:shadow-xl transition-all duration-300 h-full min-h-[320px]">
+    <Card className="bg-card/95 backdrop-blur-sm border border-border/60 shadow-lg hover:shadow-xl transition-all duration-300 h-full min-h-[320px]">
       <CardContent className="p-5 h-full flex flex-col">
         {/* Header */}
         <div className="mb-4">
           <div className="flex items-baseline justify-between">
-            <h3 className="text-base font-bold text-gray-800">Participantes</h3>
+            <h3 className="text-base font-bold text-foreground">Participantes</h3>
             {periodLabel && (
               <span className="text-xs text-muted-foreground font-medium">{periodLabel}</span>
             )}
@@ -147,7 +147,7 @@ export const ParticipantsCompactCard = () => {
           {/* Grand Total */}
           <div className="mt-2 pt-2 border-t border-border flex items-center justify-between">
             <span className="text-xs font-medium text-muted-foreground">Total {maxYear}</span>
-            <span className="text-sm font-bold text-gray-800">{formatFullNumber(grandTotal)}</span>
+            <span className="text-sm font-bold text-foreground">{formatFullNumber(grandTotal)}</span>
           </div>
         </div>
 
@@ -190,8 +190,8 @@ export const ParticipantsCompactCard = () => {
                   if (active && payload && payload.length) {
                     const total = payload.reduce((sum, p) => sum + (Number(p.value) || 0), 0);
                     return (
-                      <div className="bg-white border border-border rounded-lg p-3 shadow-lg text-xs">
-                        <p className="font-semibold mb-2 text-gray-800">Año {label}</p>
+                      <div className="bg-card border border-border rounded-lg p-3 shadow-lg text-xs">
+                        <p className="font-semibold mb-2 text-foreground">Año {label}</p>
                         {payload.map((entry, index) => {
                           const config = baseConfig[entry.name as string] || { color: entry.color, label: entry.name };
                           return (
@@ -201,7 +201,7 @@ export const ParticipantsCompactCard = () => {
                             </p>
                           );
                         })}
-                        <p className="font-bold text-gray-800 border-t border-border mt-2 pt-2 flex justify-between gap-4">
+                        <p className="font-bold text-foreground border-t border-border mt-2 pt-2 flex justify-between gap-4">
                           <span>Total:</span>
                           <span>{formatFullNumber(total)}</span>
                         </p>

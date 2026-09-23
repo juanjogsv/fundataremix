@@ -45,7 +45,7 @@ const About = () => {
             ¿Qué es esta Plataforma?
           </h2>
           <div className="prose max-w-none">
-            <Card className="bg-white border-border/80 shadow-sm">
+            <Card className="bg-card border-border/80 shadow-sm">
               <CardContent className="p-8">
                 <p className="text-foreground/85 text-lg leading-relaxed mb-4">
                   La Plataforma de Gestión Estratégica de la Fundación Luker es un sistema integral 
@@ -68,7 +68,7 @@ const About = () => {
             Características Principales
           </h2>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <Card className="bg-white border-border/80 shadow-sm hover:shadow-md transition-shadow">
+            <Card className="bg-card border-border/80 shadow-sm hover:shadow-md transition-shadow">
               <CardHeader>
                 <div className="p-3 bg-luker-green/10 rounded-xl w-fit mb-2">
                   <Target className="h-6 w-6 text-luker-green" />
@@ -83,7 +83,7 @@ const About = () => {
               </CardContent>
             </Card>
 
-            <Card className="bg-white border-border/80 shadow-sm hover:shadow-md transition-shadow">
+            <Card className="bg-card border-border/80 shadow-sm hover:shadow-md transition-shadow">
               <CardHeader>
                 <div className="p-3 bg-luker-orange/10 rounded-xl w-fit mb-2">
                   <TrendingUp className="h-6 w-6 text-luker-orange" />
@@ -98,7 +98,7 @@ const About = () => {
               </CardContent>
             </Card>
 
-            <Card className="bg-white border-border/80 shadow-sm hover:shadow-md transition-shadow">
+            <Card className="bg-card border-border/80 shadow-sm hover:shadow-md transition-shadow">
               <CardHeader>
                 <div className="p-3 bg-luker-teal/10 rounded-xl w-fit mb-2">
                   <Lightbulb className="h-6 w-6 text-luker-teal" />
@@ -113,7 +113,7 @@ const About = () => {
               </CardContent>
             </Card>
 
-            <Card className="bg-white border-border/80 shadow-sm hover:shadow-md transition-shadow">
+            <Card className="bg-card border-border/80 shadow-sm hover:shadow-md transition-shadow">
               <CardHeader>
                 <div className="p-3 bg-luker-red/10 rounded-xl w-fit mb-2">
                   <Users className="h-6 w-6 text-luker-red" />
@@ -128,7 +128,7 @@ const About = () => {
               </CardContent>
             </Card>
 
-            <Card className="bg-white border-border/80 shadow-sm hover:shadow-md transition-shadow">
+            <Card className="bg-card border-border/80 shadow-sm hover:shadow-md transition-shadow">
               <CardHeader>
                 <div className="p-3 bg-luker-brown/10 rounded-xl w-fit mb-2">
                   <Shield className="h-6 w-6 text-luker-brown" />
@@ -143,7 +143,7 @@ const About = () => {
               </CardContent>
             </Card>
 
-            <Card className="bg-white border-border/80 shadow-sm hover:shadow-md transition-shadow">
+            <Card className="bg-card border-border/80 shadow-sm hover:shadow-md transition-shadow">
               <CardHeader>
                 <div className="p-3 bg-luker-green/10 rounded-xl w-fit mb-2">
                   <Zap className="h-6 w-6 text-luker-green" />
@@ -165,7 +165,7 @@ const About = () => {
           <h2 className="text-2xl md:text-3xl font-bold text-luker-brown mb-6 font-heading">
             Metodología de Indicadores
           </h2>
-          <Card className="bg-white border-border/80 shadow-sm">
+          <Card className="bg-card border-border/80 shadow-sm">
             <CardContent className="p-8">
               <div className="space-y-6">
                 <div>

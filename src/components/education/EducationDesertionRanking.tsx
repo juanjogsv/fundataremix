@@ -127,7 +127,7 @@ const EducationDesertionRanking = () => {
       <CardHeader>
         <div className="flex items-center justify-between flex-wrap gap-4">
           <div className="flex items-center gap-3">
-            <TrendingDown className="h-6 w-6 text-red-600" />
+            <TrendingDown className="h-6 w-6 text-kit-coralDeep" />
             <CardTitle className="text-xl text-luker-brown">
               Ranking de Entidades: Tasa de Deserción Escolar
             </CardTitle>

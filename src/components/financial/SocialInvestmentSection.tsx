@@ -299,7 +299,7 @@ export const SocialInvestmentSection = () => {
     if (active && payload && payload.length) {
       const data = payload[0].payload;
       return (
-        <div className="bg-white p-4 rounded-lg shadow-xl border-2 border-luker-brown/20">
+        <div className="bg-card p-4 rounded-lg shadow-xl border-2 border-luker-brown/20">
           <p className="text-base font-bold text-luker-brown mb-2">{data.name}</p>
           <div className="space-y-1">
             <p className="text-sm text-foreground/85">
@@ -339,12 +339,12 @@ export const SocialInvestmentSection = () => {
 
   if (!hasMonthlyData && legacyInvestments.length === 0) {
     return (
-      <Card className="bg-yellow-50 border-yellow-200">
+      <Card className="bg-kit-orange/10 border-kit-orange/40">
         <CardContent className="p-6 flex items-center gap-3">
-          <AlertCircle className="h-6 w-6 text-yellow-600" />
+          <AlertCircle className="h-6 w-6 text-kit-orangeDeep" />
           <div>
-            <p className="font-semibold text-yellow-800">No hay datos disponibles</p>
-            <p className="text-sm text-yellow-700">
+            <p className="font-semibold text-foreground">No hay datos disponibles</p>
+            <p className="text-sm text-foreground/80">
               Carga un archivo de ejecución mensual desde el panel de administración.
             </p>
           </div>
@@ -368,7 +368,7 @@ export const SocialInvestmentSection = () => {
 
       {/* Resumen Ejecutivo */}
       <section className="grid md:grid-cols-3 gap-6">
-        <Card className="bg-white border-border/80 shadow-sm">
+        <Card className="bg-card border-border/80 shadow-sm">
           <CardContent className="p-6 flex items-start gap-4">
             <div className="p-3 bg-luker-green/10 rounded-xl">
               <DollarSign className="h-6 w-6 text-luker-green" />
@@ -382,7 +382,7 @@ export const SocialInvestmentSection = () => {
           </CardContent>
         </Card>
 
-        <Card className="bg-white border-border/80 shadow-sm">
+        <Card className="bg-card border-border/80 shadow-sm">
           <CardContent className="p-6 flex items-start gap-4">
             <div className="p-3 bg-luker-orange/10 rounded-xl">
               <TrendingUp className="h-6 w-6 text-luker-orange" />
@@ -396,7 +396,7 @@ export const SocialInvestmentSection = () => {
           </CardContent>
         </Card>
 
-        <Card className="bg-white border-border/80 shadow-sm">
+        <Card className="bg-card border-border/80 shadow-sm">
           <CardContent className="p-6 flex items-start gap-4">
             <div className="p-3 bg-luker-teal/10 rounded-xl">
               <FileText className="h-6 w-6 text-luker-teal" />
@@ -416,8 +416,8 @@ export const SocialInvestmentSection = () => {
         <section className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {/* Gráfico de Torta - Distribución del Presupuesto */}
           {pieChartData.length > 0 && (
-            <Card className="bg-white border-border/80 shadow-lg">
-              <CardHeader className="border-b border-gray-100">
+            <Card className="bg-card border-border/80 shadow-lg">
+              <CardHeader className="border-b border-border">
                 <CardTitle className="text-xl text-luker-brown font-heading flex items-center gap-2">
                   <div className="w-1 h-6 bg-luker-green rounded-full"></div>
                   Distribución del Presupuesto
@@ -478,8 +478,8 @@ export const SocialInvestmentSection = () => {
 
           {/* Ejecución Presupuestal Histórica */}
           {historicalExecution.length > 0 && (
-            <Card className="bg-white border-border/80 shadow-lg">
-              <CardHeader className="border-b border-gray-100">
+            <Card className="bg-card border-border/80 shadow-lg">
+              <CardHeader className="border-b border-border">
                 <CardTitle className="text-xl text-luker-brown font-heading flex items-center gap-2">
                   <div className="w-1 h-6 bg-luker-teal rounded-full"></div>
                   Ejecución presupuestal por mes {selectedMonth?.year ? `- ${selectedMonth.year}` : ""}
@@ -561,8 +561,8 @@ export const SocialInvestmentSection = () => {
       {/* Tabla Detallada con Búsqueda */}
       {filteredInvestments.length > 0 && (
         <section>
-          <Card className="bg-white border-border/80 shadow-lg">
-            <CardHeader className="border-b border-gray-100">
+          <Card className="bg-card border-border/80 shadow-lg">
+            <CardHeader className="border-b border-border">
               <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
                 <div className="flex-1">
                   <CardTitle className="text-2xl text-luker-brown font-heading flex items-center gap-2">

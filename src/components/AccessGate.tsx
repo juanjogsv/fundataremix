@@ -116,7 +116,7 @@ export const AccessGate = ({ children }: { children: React.ReactNode }) => {
             className="text-center tracking-widest"
           />
           {error && (
-            <p className="text-sm text-red-600 text-center">{error}</p>
+            <p className="text-sm text-kit-coralDeep text-center">{error}</p>
           )}
           <Button
             type="submit"

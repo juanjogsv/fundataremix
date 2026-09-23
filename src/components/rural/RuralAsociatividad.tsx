@@ -56,7 +56,7 @@ const RuralAsociatividad = () => {
       <div className="space-y-6">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {[1, 2].map((i) => (
-            <Card key={i} className="bg-white border-0 shadow-sm">
+            <Card key={i} className="bg-card border-0 shadow-sm">
               <CardContent className="p-8 flex flex-col items-center space-y-4">
                 <Skeleton className="w-16 h-16 rounded-full" />
                 <Skeleton className="h-4 w-48" />
@@ -68,7 +68,7 @@ const RuralAsociatividad = () => {
         </div>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-8">
           {[1, 2].map((i) => (
-            <Card key={i} className="bg-white border-0 shadow-sm">
+            <Card key={i} className="bg-card border-0 shadow-sm">
               <CardContent className="p-8">
                 <Skeleton className="h-[300px] w-full" />
               </CardContent>

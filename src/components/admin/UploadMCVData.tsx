@@ -200,7 +200,7 @@ const UploadMCVData = () => {
 
         {result && (
           <div className={`flex items-center gap-2 p-3 rounded ${
-            result.errors === 0 ? "bg-green-50 text-green-700" : "bg-yellow-50 text-yellow-700"
+            result.errors === 0 ? "bg-kit-lime/10 text-green-700" : "bg-kit-orange/10 text-foreground/80"
           }`}>
             {result.errors === 0 ? (
               <Check className="h-5 w-5" />

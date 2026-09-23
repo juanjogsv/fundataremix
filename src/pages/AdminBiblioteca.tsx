@@ -408,7 +408,7 @@ function CompactPublicationRow({ pub, idx, uploadingCoverId, uploadingDocId, onF
           <Input
             value={pub.cover_image_url || ""}
             onChange={(e) => onFieldChange(pub.id, "cover_image_url", e.target.value)}
-            className="h-8 text-xs w-24"
+            className="h-11 text-xs w-24"
             placeholder="URL"
           />
           <input ref={coverRef} type="file" accept="image/*" onChange={(e) => onCoverUpload(e, pub.id)} className="hidden" />
@@ -422,7 +422,7 @@ function CompactPublicationRow({ pub, idx, uploadingCoverId, uploadingDocId, onF
           <Input
             value={pub.external_url}
             onChange={(e) => onFieldChange(pub.id, "external_url", e.target.value)}
-            className="h-8 text-xs w-28"
+            className="h-11 text-xs w-28"
             placeholder="URL"
           />
           <input ref={docRef} type="file" accept=".pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx" onChange={(e) => onDocUpload(e, pub.id)} className="hidden" />

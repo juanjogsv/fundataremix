@@ -48,7 +48,7 @@ export const RuralKPICard = ({
   isPlaceholder = false
 }: RuralKPICardProps) => {
   return (
-    <Card className="bg-white border-0 shadow-sm hover:shadow-md transition-all duration-300">
+    <Card className="bg-card border-0 shadow-sm hover:shadow-md transition-all duration-300">
       <CardContent className="p-8 flex flex-col items-center text-center space-y-4">
         {/* Icon */}
         <div className={`${iconBgColor} w-16 h-16 rounded-full flex items-center justify-center`}>

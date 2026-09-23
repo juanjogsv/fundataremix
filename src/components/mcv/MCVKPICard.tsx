@@ -3,14 +3,14 @@ import { TrendingUp, TrendingDown, Minus, LucideIcon } from "lucide-react";
 
 // Color palette for KPI cards (soft pastel backgrounds with matching icon colors)
 const cardStyles = [
-  { bg: "bg-red-50", iconBg: "bg-white", iconColor: "text-red-500", valueColor: "text-red-600" },
-  { bg: "bg-kit-orange/10", iconBg: "bg-white", iconColor: "text-kit-orangeDeep", valueColor: "text-kit-orangeDeep" },
-  { bg: "bg-green-50", iconBg: "bg-white", iconColor: "text-green-500", valueColor: "text-green-600" },
-  { bg: "bg-kit-teal/10", iconBg: "bg-white", iconColor: "text-kit-tealDeep", valueColor: "text-kit-tealDeep" },
-  { bg: "bg-kit-teal/10", iconBg: "bg-white", iconColor: "text-kit-tealDeep", valueColor: "text-kit-tealDeep" },
-  { bg: "bg-kit-coral/10", iconBg: "bg-white", iconColor: "text-kit-coralDeep", valueColor: "text-kit-coralDeep" },
-  { bg: "bg-kit-coral/10", iconBg: "bg-white", iconColor: "text-kit-coralDeep", valueColor: "text-kit-coralDeep" },
-  { bg: "bg-muted", iconBg: "bg-white", iconColor: "text-muted-foreground", valueColor: "text-muted-foreground" },
+  { bg: "bg-kit-coral/10", iconBg: "bg-card", iconColor: "text-kit-coralDeep", valueColor: "text-kit-coralDeep" },
+  { bg: "bg-kit-orange/10", iconBg: "bg-card", iconColor: "text-kit-orangeDeep", valueColor: "text-kit-orangeDeep" },
+  { bg: "bg-kit-lime/10", iconBg: "bg-card", iconColor: "text-kit-limeDeep", valueColor: "text-kit-limeDeep" },
+  { bg: "bg-kit-teal/10", iconBg: "bg-card", iconColor: "text-kit-tealDeep", valueColor: "text-kit-tealDeep" },
+  { bg: "bg-kit-teal/10", iconBg: "bg-card", iconColor: "text-kit-tealDeep", valueColor: "text-kit-tealDeep" },
+  { bg: "bg-kit-coral/10", iconBg: "bg-card", iconColor: "text-kit-coralDeep", valueColor: "text-kit-coralDeep" },
+  { bg: "bg-kit-coral/10", iconBg: "bg-card", iconColor: "text-kit-coralDeep", valueColor: "text-kit-coralDeep" },
+  { bg: "bg-muted", iconBg: "bg-card", iconColor: "text-muted-foreground", valueColor: "text-muted-foreground" },
 ];
 
 interface MCVIndicator {
@@ -105,7 +105,7 @@ const MCVKPICard = ({
         <div className="flex flex-col items-center text-center space-y-3">
           {/* Icon */}
           {Icon && (
-            <div className={`${style.iconColor} p-3 rounded-full bg-white/80`}>
+            <div className={`${style.iconColor} p-3 rounded-full bg-card/80`}>
               <Icon className="h-6 w-6" />
             </div>
           )}

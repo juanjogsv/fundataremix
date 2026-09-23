@@ -61,7 +61,7 @@ export const MonthSelector = ({
   };
 
   return (
-    <div className="flex flex-wrap items-center gap-3 bg-white rounded-lg border border-border shadow-sm px-4 py-2">
+    <div className="flex flex-wrap items-center gap-3 bg-card rounded-lg border border-border shadow-sm px-4 py-2">
       <CalendarDays className="h-5 w-5 text-luker-brown" />
       <span className="text-sm font-medium text-muted-foreground">Período:</span>
 

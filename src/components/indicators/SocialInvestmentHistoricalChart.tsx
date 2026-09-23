@@ -57,7 +57,7 @@ const SocialInvestmentHistoricalChart = () => {
 
   if (isLoading) {
     return (
-      <Card className="bg-white/90 backdrop-blur-sm border border-border/50 shadow-lg">
+      <Card className="bg-card/90 backdrop-blur-sm border border-border/50 shadow-lg">
         <CardContent className="p-6">
           <div className="flex items-center justify-center h-64">
             <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-luker-green"></div>
@@ -68,7 +68,7 @@ const SocialInvestmentHistoricalChart = () => {
   }
 
   return (
-    <Card className="bg-white/90 backdrop-blur-sm border border-border/50 shadow-lg relative">
+    <Card className="bg-card/90 backdrop-blur-sm border border-border/50 shadow-lg relative">
       <div className="absolute top-4 right-4 z-10">
         <ChartDownloadButton chartRef={chartRef} title="Inversión Social Histórica" />
       </div>
@@ -129,8 +129,8 @@ const SocialInvestmentHistoricalChart = () => {
                     const terceros = payload.find(p => p.dataKey === "Terceros")?.value as number || 0;
                     const total = propios + terceros;
                     return (
-                      <div className="bg-white/95 border border-border rounded-lg p-3 shadow-lg">
-                        <p className="font-semibold text-gray-800 mb-2">Año {label}</p>
+                      <div className="bg-card/95 border border-border rounded-lg p-3 shadow-lg">
+                        <p className="font-semibold text-foreground mb-2">Año {label}</p>
                         <div className="space-y-1 text-sm">
                           <p className="flex justify-between gap-4">
                             <span className="text-kit-limeDeep">● Propios:</span>

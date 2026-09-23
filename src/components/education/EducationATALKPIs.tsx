@@ -185,7 +185,7 @@ const EducationATALKPIs = () => {
           >
             <CardContent className="p-4">
               <div className="flex flex-col items-center text-center space-y-3">
-                <div className={`${kpi.color} p-3 rounded-full bg-white/80`}>
+                <div className={`${kpi.color} p-3 rounded-full bg-card/80`}>
                   <Icon className="h-6 w-6" />
                 </div>
                 <div className="space-y-1">

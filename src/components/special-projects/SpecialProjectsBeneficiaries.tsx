@@ -149,7 +149,7 @@ const SpecialProjectsBeneficiaries = () => {
     <div className="space-y-6">
       <div className="flex items-center gap-2 mb-6">
         <Users className="h-6 w-6 text-kit-tealDeep" />
-        <h2 className="text-2xl font-bold text-gray-800">Participantes</h2>
+        <h2 className="text-2xl font-bold text-foreground">Participantes</h2>
       </div>
 
       <div className="grid gap-6 md:grid-cols-2">
@@ -174,7 +174,7 @@ const SpecialProjectsBeneficiaries = () => {
                       <Icon className="h-5 w-5" style={{ color: config.color }} />
                     </div>
                     <div>
-                      <CardTitle className="text-base font-semibold text-gray-800">
+                      <CardTitle className="text-base font-semibold text-foreground">
                         {config.title}
                       </CardTitle>
                       <p className="text-sm text-muted-foreground">
@@ -191,7 +191,7 @@ const SpecialProjectsBeneficiaries = () => {
                       value={currentFilter} 
                       onValueChange={(value) => handleCategoryChange(section, value)}
                     >
-                      <SelectTrigger className="w-full bg-white text-sm h-9">
+                      <SelectTrigger className="w-full bg-card text-sm h-9">
                         <SelectValue placeholder="Filtrar categoría" />
                       </SelectTrigger>
                       <SelectContent>

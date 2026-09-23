@@ -736,7 +736,7 @@ const EducationSaberOnce = () => {
                   {/* KPIs de brecha */}
                   {gapStats && (
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
-                      <div className="bg-white border rounded-lg p-4 shadow-sm">
+                      <div className="bg-card border rounded-lg p-4 shadow-sm">
                         <p className="text-xs text-muted-foreground uppercase tracking-wide">Brecha promedio</p>
                         <p className={`text-2xl font-bold mt-1 ${gapStats.avgDiff >= 0 ? 'text-kit-limeDeep' : 'text-luker-red'}`}>
                           {gapStats.avgDiff > 1 ? '+' : ''}{gapStats.avgDiff} pts
@@ -745,7 +745,7 @@ const EducationSaberOnce = () => {
                           {gapStats.avgDiff >= 1 ? 'A favor de Oficial' : gapStats.avgDiff <= -1 ? 'A favor de No oficial' : 'Paridad'}
                         </p>
                       </div>
-                      <div className="bg-white border rounded-lg p-4 shadow-sm">
+                      <div className="bg-card border rounded-lg p-4 shadow-sm">
                         <p className="text-xs text-muted-foreground uppercase tracking-wide">Brecha {gapStats.latestYear}</p>
                         <p className={`text-2xl font-bold mt-1 ${(gapStats.latestDiff ?? 1) >= 0 ? 'text-kit-limeDeep' : 'text-luker-red'}`}>
                           {(gapStats.latestDiff ?? 0) > 1 ? '+' : ''}{gapStats.latestDiff} pts
@@ -754,7 +754,7 @@ const EducationSaberOnce = () => {
                           {(gapStats.latestDiff ?? 0) >= 1 ? 'A favor de Oficial' : (gapStats.latestDiff ?? 0) <= -1 ? 'A favor de No oficial' : 'Paridad'}
                         </p>
                       </div>
-                      <div className="bg-white border rounded-lg p-4 shadow-sm">
+                      <div className="bg-card border rounded-lg p-4 shadow-sm">
                         <p className="text-xs text-muted-foreground uppercase tracking-wide">Tendencia histórica</p>
                         <p className="text-2xl font-bold mt-1 text-luker-brown">
                           {gapStats.positiveYears} <span className="text-base font-normal text-muted-foreground/80">de {gapStats.totalYears} años</span>
@@ -789,14 +789,14 @@ const EducationSaberOnce = () => {
                               ? 'N/A'
                               : `${diff > 0 ? '+' : ''}${Math.round(diff)} pts ${diff > 0 ? '(a favor Oficial)' : diff < 0 ? '(a favor No oficial)' : '(paridad)'}`;
                             return (
-                              <div className="bg-white border border-border rounded-md shadow-md px-3 py-2 text-sm">
-                                <div className="font-semibold text-gray-900 mb-1">{label}</div>
+                              <div className="bg-card border border-border rounded-md shadow-md px-3 py-2 text-sm">
+                                <div className="font-semibold text-foreground mb-1">{label}</div>
                                 {payload.map((p: any) => (
                                   <div key={p.dataKey} style={{ color: p.color }}>
                                     {p.dataKey} : {p.value == null ? 'N/A' : Math.round(p.value)}
                                   </div>
                                 ))}
-                                <div className="mt-1 pt-1 border-t border-gray-100" style={{ color: diffColor }}>
+                                <div className="mt-1 pt-1 border-t border-border" style={{ color: diffColor }}>
                                   Brecha: {diffLabel}
                                 </div>
                               </div>
@@ -1141,7 +1141,7 @@ const EducationSaberOnce = () => {
                         className={`px-3 py-1.5 rounded-full text-sm font-medium transition-all flex items-center gap-1.5 ${
                           selectedCities.includes(city)
                             ? 'text-white shadow-sm'
-                            : 'bg-white text-muted-foreground hover:bg-muted border'
+                            : 'bg-card text-muted-foreground hover:bg-muted border'
                         }`}
                         style={selectedCities.includes(city) ? { backgroundColor: cityColors[city] } : {}}
                       >

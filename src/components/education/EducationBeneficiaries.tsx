@@ -220,10 +220,10 @@ const EducationBeneficiaries = () => {
           <h2 className="text-2xl font-bold text-luker-brown">Histórico de Participantes</h2>
         </div>
         <Select value={selectedProgram} onValueChange={setSelectedProgram}>
-          <SelectTrigger className="w-[250px] bg-white border-border">
+          <SelectTrigger className="w-[250px] bg-card border-border">
             <SelectValue placeholder="Seleccionar programa" />
           </SelectTrigger>
-          <SelectContent className="bg-white">
+          <SelectContent className="bg-card">
             <SelectItem value="todos">Todos los Programas</SelectItem>
             {programs.map(program => (
               <SelectItem key={program} value={program}>{displayProgramLabel(program)}</SelectItem>
@@ -317,10 +317,10 @@ const EducationBeneficiaries = () => {
           <h2 className="text-2xl font-bold text-luker-brown">Histórico de Colegios</h2>
         </div>
         <Select value={selectedSchoolProgram} onValueChange={setSelectedSchoolProgram}>
-          <SelectTrigger className="w-[250px] bg-white border-border">
+          <SelectTrigger className="w-[250px] bg-card border-border">
             <SelectValue placeholder="Seleccionar programa" />
           </SelectTrigger>
-          <SelectContent className="bg-white">
+          <SelectContent className="bg-card">
             {schoolPrograms.map(program => (
               <SelectItem key={program} value={program}>{program}</SelectItem>
             ))}

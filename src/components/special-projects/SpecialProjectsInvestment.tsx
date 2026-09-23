@@ -231,7 +231,7 @@ const SpecialProjectsInvestment = () => {
       {/* Title */}
       <div className="flex items-center gap-2">
         <Wallet className="h-6 w-6 text-kit-tealDeep" />
-        <h2 className="text-2xl font-bold text-gray-800">Inversión</h2>
+        <h2 className="text-2xl font-bold text-foreground">Inversión</h2>
       </div>
 
       {/* KPI Cards with Charts */}
@@ -254,7 +254,7 @@ const SpecialProjectsInvestment = () => {
                     <Icon className="h-5 w-5" style={{ color: config.color }} />
                   </div>
                   <div className="flex-1">
-                    <CardTitle className="text-sm font-semibold text-gray-800">
+                    <CardTitle className="text-sm font-semibold text-foreground">
                       {config.title}
                     </CardTitle>
                     <p className="text-lg font-bold" style={{ color: config.color }}>
@@ -270,7 +270,7 @@ const SpecialProjectsInvestment = () => {
                     value={sectionFilter} 
                     onValueChange={(value) => handleSectionChange(config.id, value)}
                   >
-                    <SelectTrigger className="w-full bg-white text-sm h-9">
+                    <SelectTrigger className="w-full bg-card text-sm h-9">
                       <SelectValue placeholder="Filtrar sección" />
                     </SelectTrigger>
                     <SelectContent>
@@ -345,7 +345,7 @@ const SpecialProjectsInvestment = () => {
               <div className="p-2 rounded-lg bg-kit-teal/20">
                 <TrendingUp className="h-5 w-5 text-kit-tealDeep" />
               </div>
-              <CardTitle className="text-base font-semibold text-gray-800">
+              <CardTitle className="text-base font-semibold text-foreground">
                 Detalle de Inversión por Proyecto
               </CardTitle>
             </div>
@@ -353,7 +353,7 @@ const SpecialProjectsInvestment = () => {
             {/* Table Filters */}
             <div className="flex flex-wrap gap-3">
               <Select value={tableYear} onValueChange={setTableYear}>
-                <SelectTrigger className="w-32 bg-white text-sm h-9">
+                <SelectTrigger className="w-32 bg-card text-sm h-9">
                   <SelectValue placeholder="Año" />
                 </SelectTrigger>
                 <SelectContent>
@@ -367,7 +367,7 @@ const SpecialProjectsInvestment = () => {
               </Select>
               
               <Select value={tableSection} onValueChange={setTableSection}>
-                <SelectTrigger className="w-48 bg-white text-sm h-9">
+                <SelectTrigger className="w-48 bg-card text-sm h-9">
                   <SelectValue placeholder="Sección" />
                 </SelectTrigger>
                 <SelectContent>
@@ -440,7 +440,7 @@ const SpecialProjectsInvestment = () => {
                   tableData.map((row) => (
                     <TableRow key={row.categoria}>
                       <TableCell className="font-medium">{row.categoria}</TableCell>
-                      <TableCell className="text-right text-green-600">
+                      <TableCell className="text-right text-kit-limeDeep">
                         {formatCurrencyTable(row.propios)}
                       </TableCell>
                       <TableCell className="text-right text-kit-coralDeep">
@@ -462,7 +462,7 @@ const SpecialProjectsInvestment = () => {
               <div className="grid grid-cols-3 gap-4 text-center">
                 <div>
                   <p className="text-sm text-muted-foreground">Total Propios</p>
-                  <p className="text-lg font-bold text-green-600">
+                  <p className="text-lg font-bold text-kit-limeDeep">
                     {formatCurrency(tableData.reduce((sum, r) => sum + r.propios, 0))}
                   </p>
                 </div>

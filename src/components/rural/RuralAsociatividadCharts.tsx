@@ -121,8 +121,8 @@ const RuralAsociatividadCharts = () => {
   const CustomTooltip = ({ active, payload, label, config }: any) => {
     if (active && payload && payload.length) {
       return (
-        <div className="bg-white p-4 rounded-lg shadow-lg border border-gray-100">
-          <p className="font-semibold text-gray-800 mb-2">{`Año: ${label}`}</p>
+        <div className="bg-card p-4 rounded-lg shadow-lg border border-border">
+          <p className="font-semibold text-foreground mb-2">{`Año: ${label}`}</p>
           {payload.map((entry: any, index: number) => (
             <p key={index} className="text-sm" style={{ color: entry.color }}>
               {entry.name}:{" "}
@@ -141,7 +141,7 @@ const RuralAsociatividadCharts = () => {
     return (
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-8">
         {[1, 2].map((i) => (
-          <Card key={i} className="bg-white border-0 shadow-sm">
+          <Card key={i} className="bg-card border-0 shadow-sm">
             <CardHeader>
               <Skeleton className="h-6 w-3/4" />
             </CardHeader>
@@ -164,9 +164,9 @@ const RuralAsociatividadCharts = () => {
         const Icon = config.icon;
 
         return (
-          <Card key={index} className="bg-white border-0 shadow-sm">
+          <Card key={index} className="bg-card border-0 shadow-sm">
             <CardHeader className="pb-2">
-              <CardTitle className="text-lg font-semibold text-gray-800 flex items-center gap-2">
+              <CardTitle className="text-lg font-semibold text-foreground flex items-center gap-2">
                 <div className="p-2 rounded-full bg-luker-green/10">
                   <Icon className="h-5 w-5 text-luker-green" />
                 </div>

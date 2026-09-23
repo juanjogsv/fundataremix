@@ -219,7 +219,7 @@ const StrategicIndicators = () => {
                   <div className="flex flex-col items-center gap-2">
                     <span className="text-xs font-medium text-muted-foreground uppercase tracking-wide">Año</span>
                     <Select value={selectedYear} onValueChange={setSelectedYear}>
-                      <SelectTrigger className="w-28 bg-white border-border shadow-sm">
+                      <SelectTrigger className="w-28 bg-card border-border shadow-sm">
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
@@ -408,7 +408,7 @@ const StrategicIndicators = () => {
 
           {/* Tab: Tablero General (Embedded Dashboard) */}
           <TabsContent value="tablero">
-            <div className="bg-white rounded-xl shadow-sm border overflow-hidden">
+            <div className="bg-card rounded-xl shadow-sm border overflow-hidden">
               <iframe
                 src="https://inluk.fundacionluker.org.co/fundata/"
                 title="Tablero General - Fundación Luker"

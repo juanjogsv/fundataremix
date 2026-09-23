@@ -291,9 +291,9 @@ export const EmbeddedMapCard = () => {
   const totalBeneficiarios = (municipalitiesData as MunicipalityData[]).reduce((acc, m) => acc + m.totalBeneficiarios, 0);
 
   return (
-    <Card className="bg-white border border-gray-100 shadow-lg rounded-2xl overflow-hidden h-full flex flex-col">
+    <Card className="bg-card border border-border shadow-lg rounded-2xl overflow-hidden h-full flex flex-col">
       <CardHeader className="pb-2 flex flex-row items-center justify-between">
-        <CardTitle className="text-base font-semibold text-gray-800 flex items-center gap-2">
+        <CardTitle className="text-base font-semibold text-foreground flex items-center gap-2">
           <MapPin className="h-4 w-4 text-luker-green" />
           Mapa de Participantes
         </CardTitle>

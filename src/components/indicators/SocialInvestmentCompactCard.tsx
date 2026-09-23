@@ -56,7 +56,7 @@ export const SocialInvestmentCompactCard = () => {
 
   if (isLoading) {
     return (
-      <Card className="bg-white/95 backdrop-blur-sm border border-border/60 shadow-lg h-full">
+      <Card className="bg-card/95 backdrop-blur-sm border border-border/60 shadow-lg h-full">
         <CardContent className="p-4 h-full flex items-center justify-center">
           <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-luker-green"></div>
         </CardContent>
@@ -65,7 +65,7 @@ export const SocialInvestmentCompactCard = () => {
   }
 
   return (
-    <Card className="bg-white/95 backdrop-blur-sm border border-border/60 shadow-lg hover:shadow-xl transition-all duration-300 h-full min-h-[320px]">
+    <Card className="bg-card/95 backdrop-blur-sm border border-border/60 shadow-lg hover:shadow-xl transition-all duration-300 h-full min-h-[320px]">
       <CardContent className="p-5 h-full flex flex-col">
         {/* Header */}
         <div className="mb-4">
@@ -116,7 +116,7 @@ export const SocialInvestmentCompactCard = () => {
                     const terceros = Number(payload.find(p => p.dataKey === "Terceros")?.value || 0);
                     const total = propios + terceros;
                     return (
-                      <div className="bg-white border border-border rounded p-2 shadow-lg text-xs">
+                      <div className="bg-card border border-border rounded p-2 shadow-lg text-xs">
                         <p className="font-semibold mb-1">Año {label}</p>
                         <p className="text-kit-limeDeep">Propios: ${propios.toFixed(1)} MM</p>
                         <p className="text-kit-coralDeep">Terceros: ${terceros.toFixed(1)} MM</p>

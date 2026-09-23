@@ -15,7 +15,7 @@ const Help = () => {
 
         {/* Quick Links */}
         <section className="grid md:grid-cols-3 gap-4 mb-12">
-          <Card className="bg-white border-border/80 shadow-sm hover:shadow-md transition-shadow cursor-pointer">
+          <Card className="bg-card border-border/80 shadow-sm hover:shadow-md transition-shadow cursor-pointer">
             <CardContent className="p-6 text-center space-y-3">
               <div className="p-3 bg-luker-green/10 rounded-xl w-fit mx-auto">
                 <BookOpen className="h-8 w-8 text-luker-green" />
@@ -25,7 +25,7 @@ const Help = () => {
             </CardContent>
           </Card>
 
-          <Card className="bg-white border-border/80 shadow-sm hover:shadow-md transition-shadow cursor-pointer">
+          <Card className="bg-card border-border/80 shadow-sm hover:shadow-md transition-shadow cursor-pointer">
             <CardContent className="p-6 text-center space-y-3">
               <div className="p-3 bg-luker-orange/10 rounded-xl w-fit mx-auto">
                 <Video className="h-8 w-8 text-luker-orange" />
@@ -35,7 +35,7 @@ const Help = () => {
             </CardContent>
           </Card>
 
-          <Card className="bg-white border-border/80 shadow-sm hover:shadow-md transition-shadow cursor-pointer">
+          <Card className="bg-card border-border/80 shadow-sm hover:shadow-md transition-shadow cursor-pointer">
             <CardContent className="p-6 text-center space-y-3">
               <div className="p-3 bg-luker-teal/10 rounded-xl w-fit mx-auto">
                 <Mail className="h-8 w-8 text-luker-teal" />
@@ -57,7 +57,7 @@ const Help = () => {
             </h2>
           </div>
 
-          <Card className="bg-white border-border/80 shadow-sm">
+          <Card className="bg-card border-border/80 shadow-sm">
             <CardContent className="p-6">
               <Accordion type="single" collapsible className="w-full">
                 <AccordionItem value="item-1">

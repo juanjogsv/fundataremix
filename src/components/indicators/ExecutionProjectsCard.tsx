@@ -82,7 +82,7 @@ export const ExecutionProjectsCard = () => {
 
   if (loading) {
     return (
-      <Card className="bg-white/95 backdrop-blur-sm border border-border/60 shadow-lg h-full">
+      <Card className="bg-card/95 backdrop-blur-sm border border-border/60 shadow-lg h-full">
         <CardContent className="p-4 h-full flex items-center justify-center">
           <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-luker-green"></div>
         </CardContent>
@@ -92,7 +92,7 @@ export const ExecutionProjectsCard = () => {
 
   if (data.length === 0) {
     return (
-      <Card className="bg-white/95 backdrop-blur-sm border border-border/60 shadow-lg h-full">
+      <Card className="bg-card/95 backdrop-blur-sm border border-border/60 shadow-lg h-full">
         <CardContent className="p-4 h-full flex flex-col">
           <div className="flex items-center gap-2 mb-2">
             <div className="p-1.5 bg-luker-teal/10 rounded-lg">
@@ -110,7 +110,7 @@ export const ExecutionProjectsCard = () => {
   }
 
   return (
-    <Card className="bg-white/95 backdrop-blur-sm border border-border/60 shadow-lg hover:shadow-xl transition-all duration-300 h-full min-h-[320px] relative">
+    <Card className="bg-card/95 backdrop-blur-sm border border-border/60 shadow-lg hover:shadow-xl transition-all duration-300 h-full min-h-[320px] relative">
       <CardContent className="p-5 h-full flex flex-col" ref={chartRef}>
         {/* Header */}
         <div className="flex items-center justify-between mb-3">
