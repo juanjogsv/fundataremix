@@ -3,32 +3,15 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { ArrowLeft, HelpCircle, BookOpen, Video, Mail } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { PageHeader } from "@/components/PageHeader";
 
 const Help = () => {
   const navigate = useNavigate();
 
   return (
     <div className="min-h-screen bg-background">
-      <div className="container mx-auto px-6 py-8 max-w-5xl">
-        {/* Header */}
-        <div className="flex items-center gap-4 mb-8">
-          <Button 
-            variant="ghost" 
-            size="icon"
-            onClick={() => navigate("/")}
-            className="hover:bg-luker-brown/5"
-          >
-            <ArrowLeft className="h-5 w-5" />
-          </Button>
-          <div>
-            <h1 className="text-4xl font-bold text-luker-brown font-heading">
-              Centro de Ayuda
-            </h1>
-            <p className="text-gray-600 mt-2">
-              Encuentra respuestas y aprende a usar la plataforma
-            </p>
-          </div>
-        </div>
+      <PageHeader title="Centro de Ayuda" mobileTitle="Ayuda" subtitle="Respuestas para consultar y aprovechar la plataforma" icon={HelpCircle} iconBgColor="bg-kit-orange" />
+      <div className="container mx-auto px-4 sm:px-6 py-8 sm:py-10 max-w-5xl">
 
         {/* Quick Links */}
         <section className="grid md:grid-cols-3 gap-4 mb-12">
@@ -173,7 +156,7 @@ const Help = () => {
 
         {/* Contact Support */}
         <section className="mt-12">
-          <Card className="bg-gradient-to-br from-luker-green/5 via-luker-orange/5 to-luker-teal/5 border-luker-green/20 shadow-md">
+          <Card className="border-l-4 border-l-kit-orange">
             <div className="p-8 text-center space-y-4">
               <h3 className="text-2xl font-bold text-luker-brown font-heading">
                 ¿No encontraste lo que buscabas?

@@ -8,6 +8,7 @@ import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { LibraryPublicationsGrid } from "@/components/documents/LibraryPublicationsGrid";
 import { BibliotecaIframe } from "@/components/documents/BibliotecaIframe";
+import { PageHeader } from "@/components/PageHeader";
 
 
 interface DocumentCategory {
@@ -152,26 +153,9 @@ const Documents = () => {
   });
 
   return (
-    <div className="min-h-screen bg-background p-6">
-      <div className="max-w-7xl mx-auto space-y-6">
-        <div className="flex items-center gap-4">
-          <Button 
-            variant="ghost" 
-            size="icon"
-            onClick={() => navigate("/")}
-            className="hover:bg-card"
-          >
-            <ArrowLeft className="h-5 w-5" />
-          </Button>
-          <div>
-            <h1 className="text-4xl font-bold bg-primary text-primary-foreground hover:bg-primary/90 bg-clip-text text-transparent">
-              Documentos y Biblioteca
-            </h1>
-            <p className="text-muted-foreground mt-2">
-              Organiza y accede a tus documentos importantes
-            </p>
-          </div>
-        </div>
+    <div className="min-h-screen bg-background">
+      <PageHeader title="Documentos y Biblioteca" mobileTitle="Documentos" subtitle="Memoria institucional, publicaciones y conocimiento" icon={FolderOpen} iconBgColor="bg-kit-brown" />
+      <div className="container mx-auto px-4 sm:px-6 py-8 sm:py-10 max-w-[1400px] space-y-8">
 
         <Tabs defaultValue="documentos" className="w-full">
           <TabsList className="grid w-full max-w-2xl grid-cols-3">
