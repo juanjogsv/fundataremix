@@ -98,7 +98,6 @@ const Index = () => {
                   onClick={() => navigate(section.path)}
                   className="home-module animate-fade-in"
                   data-accent={section.accent}
-                  data-featured={index === 0 || index === 4 ? "true" : "false"}
                   style={{ animationDelay: `${index * 80}ms`, animationFillMode: "both" }}
                 >
                   <span className="home-module__number">{String(section.id).padStart(2, "0")}</span>
