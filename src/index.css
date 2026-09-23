@@ -279,15 +279,15 @@ All colors MUST be HSL.
   .home-module[data-accent="lime"] { --module-accent: var(--kit-lime); }
   .home-module[data-accent="orange"] { --module-accent: var(--kit-orange); }
   .home-module[data-accent="brown"] { --module-accent: var(--kit-brown); }
-  .home-module:hover,
-  .home-module:focus-visible {
+  .home-directory .home-module:hover,
+  .home-directory .home-module:focus-visible {
     z-index: 1;
     background: hsl(var(--module-accent) / 0.16);
     color: hsl(var(--kit-brown));
     box-shadow: inset 0 0 0 2px hsl(var(--module-accent));
     transform: translateY(-2px);
   }
-  .home-module:active { background: hsl(var(--module-accent) / 0.24); transform: translateY(0); }
+  .home-directory .home-module:active { background: hsl(var(--module-accent) / 0.24); transform: translateY(0); }
   .home-module:hover::before,
   .home-module:focus-visible::before { opacity: 1; transform: scaleY(1); }
   .home-module__number { color: hsl(var(--module-accent)); font-size: 0.72rem; font-weight: 800; }
@@ -298,12 +298,12 @@ All colors MUST be HSL.
   .home-module__icon svg { width: 1.25rem; height: 1.25rem; }
   .home-module:hover .home-module__icon,
   .home-module:focus-visible .home-module__icon { box-shadow: 0 0 0 3px hsl(var(--kit-surface)); }
-  .home-module__copy { display: flex; min-width: 0; align-self: end; flex-direction: column; gap: 0.35rem; }
-  .home-module__copy strong { max-width: 100%; overflow-wrap: anywhere; font-size: 1rem; line-height: 1.22; }
+  .home-module__copy { display: flex; width: 100%; min-width: 0; align-self: end; flex-direction: column; gap: 0.35rem; padding-right: 0.25rem; }
+  .home-module__copy strong { display: block; max-width: 100%; overflow-wrap: anywhere; font-size: 0.98rem; line-height: 1.22; }
   .home-module__copy small { color: hsl(var(--kit-brown) / 0.62); font-weight: 500; }
   .home-module:hover .home-module__copy small,
   .home-module:focus-visible .home-module__copy small { color: hsl(var(--kit-brown) / 0.78); }
-  .home-module__arrow { position: absolute; right: 1.5rem; bottom: 1.5rem; width: 1.1rem; }
+  .home-module__arrow { position: absolute; top: 1.5rem; right: 1.5rem; width: 1.1rem; }
 
   .home-impact { display: grid; grid-template-columns: 0.75fr 1.25fr; gap: 4rem; border-top: 2px solid hsl(var(--kit-brown)); padding-block: 4rem 5rem; }
   .home-impact__stats { display: grid; grid-template-columns: repeat(3, 1fr); }
