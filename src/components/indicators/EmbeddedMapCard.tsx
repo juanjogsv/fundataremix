@@ -253,7 +253,7 @@ export const EmbeddedMapCard = () => {
           .setLngLat(coordinates)
           .setHTML(`
             <div style="padding: 8px; min-width: 200px;">
-              <h3 style="font-size: 14px; font-weight: 600; margin: 0 0 2px 0;">${props?.entidad}</h3>
+              <h3 style="font-size: 14px; font-weight: 700; margin: 0 0 2px 0; color: #623E19;">${props?.entidad}</h3>
               <p style="font-size: 11px; color: rgba(98,62,25,.72); margin: 0 0 8px 0;">${props?.departamento}</p>
               <div style="background: #009EAE; border-radius: 6px; padding: 8px; color: white;">
                 <div style="font-size: 20px; font-weight: 700;">${Number(props?.totalBeneficiarios).toLocaleString()}</div>

@@ -270,7 +270,7 @@ const SpecialProjectsInvestment = () => {
                     value={sectionFilter} 
                     onValueChange={(value) => handleSectionChange(config.id, value)}
                   >
-                    <SelectTrigger className="w-full bg-card text-sm h-9">
+                    <SelectTrigger className="w-full text-sm">
                       <SelectValue placeholder="Filtrar sección" />
                     </SelectTrigger>
                     <SelectContent>
@@ -353,7 +353,7 @@ const SpecialProjectsInvestment = () => {
             {/* Table Filters */}
             <div className="flex flex-wrap gap-3">
               <Select value={tableYear} onValueChange={setTableYear}>
-                <SelectTrigger className="w-32 bg-card text-sm h-9">
+                <SelectTrigger className="w-32 text-sm">
                   <SelectValue placeholder="Año" />
                 </SelectTrigger>
                 <SelectContent>
@@ -367,7 +367,7 @@ const SpecialProjectsInvestment = () => {
               </Select>
               
               <Select value={tableSection} onValueChange={setTableSection}>
-                <SelectTrigger className="w-48 bg-card text-sm h-9">
+                <SelectTrigger className="w-48 text-sm">
                   <SelectValue placeholder="Sección" />
                 </SelectTrigger>
                 <SelectContent>

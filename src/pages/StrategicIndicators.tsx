@@ -192,12 +192,12 @@ const StrategicIndicators = () => {
         {/* Tabs for subsections */}
         <Tabs defaultValue="indicadores" className="mt-6">
           <TabsList className="grid w-full max-w-md grid-cols-2 mb-8">
-            <TabsTrigger value="indicadores" className="flex items-center gap-2 data-[state=active]:bg-kit-teal data-[state=active]:text-primary-foreground">
+            <TabsTrigger value="indicadores" className="flex items-center gap-2">
               <TrendingUp className="h-4 w-4" />
               <span className="hidden sm:inline">Indicadores Estratégicos</span>
               <span className="sm:hidden">Indicadores</span>
             </TabsTrigger>
-            <TabsTrigger value="tablero" className="flex items-center gap-2 data-[state=active]:bg-kit-teal data-[state=active]:text-primary-foreground">
+            <TabsTrigger value="tablero" className="flex items-center gap-2">
               <LayoutDashboard className="h-4 w-4" />
               <span>Tablero General</span>
             </TabsTrigger>

@@ -191,7 +191,7 @@ const SpecialProjectsBeneficiaries = () => {
                       value={currentFilter} 
                       onValueChange={(value) => handleCategoryChange(section, value)}
                     >
-                      <SelectTrigger className="w-full bg-card text-sm h-9">
+                      <SelectTrigger className="w-full text-sm">
                         <SelectValue placeholder="Filtrar categoría" />
                       </SelectTrigger>
                       <SelectContent>

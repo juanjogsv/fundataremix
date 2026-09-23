@@ -151,7 +151,7 @@ const UploadATALData = () => {
 
         {progress && (
           <div className="p-4 bg-kit-teal/10 border border-kit-teal/40 rounded-lg">
-            <p className="text-sm text-kit-tealDeep dark:text-kit-tealDeep">{progress}</p>
+            <p className="text-sm text-kit-tealDeep">{progress}</p>
           </div>
         )}
 
