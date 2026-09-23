@@ -69,26 +69,26 @@ export const InvestmentChart = () => {
   };
 
   return (
-    <Card className="bg-white border-gray-200/60 shadow-sm lg:col-span-2">
+    <Card className="bg-card border-border/60 shadow-sm lg:col-span-2">
       <CardContent className="p-6" ref={chartRef}>
         <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-6 gap-4">
           <div>
             <h3 className="text-2xl font-bold text-luker-brown">Inversión Social</h3>
-            <p className="text-sm text-gray-600 mt-1">Ejecutado vs. Pendiente - 2025</p>
+            <p className="text-sm text-muted-foreground mt-1">Ejecutado vs. Pendiente - 2025</p>
           </div>
           <div className="flex flex-wrap gap-4 text-sm mr-24">
             <div className="flex items-center gap-2">
               <div className="w-4 h-4 rounded-sm bg-luker-green"></div>
               <div className="flex flex-col">
-                <span className="text-xs text-gray-500">Ejecutado</span>
-                <span className="font-bold text-gray-900">{formatCurrencyMillions(totalOwn)}</span>
+                <span className="text-xs text-muted-foreground">Ejecutado</span>
+                <span className="font-bold text-foreground">{formatCurrencyMillions(totalOwn)}</span>
               </div>
             </div>
             <div className="flex items-center gap-2">
               <div className="w-4 h-4 rounded-sm bg-luker-orange"></div>
               <div className="flex flex-col">
-                <span className="text-xs text-gray-500">Pendiente</span>
-                <span className="font-bold text-gray-900">{formatCurrencyMillions(totalThird)}</span>
+                <span className="text-xs text-muted-foreground">Pendiente</span>
+                <span className="font-bold text-foreground">{formatCurrencyMillions(totalThird)}</span>
               </div>
             </div>
           </div>

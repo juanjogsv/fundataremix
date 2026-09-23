@@ -192,12 +192,12 @@ const StrategicIndicators = () => {
         {/* Tabs for subsections */}
         <Tabs defaultValue="indicadores" className="mt-6">
           <TabsList className="grid w-full max-w-md grid-cols-2 mb-8">
-            <TabsTrigger value="indicadores" className="flex items-center gap-2 data-[state=active]:bg-kit-teal data-[state=active]:text-primary-foreground">
+            <TabsTrigger value="indicadores" className="flex items-center gap-2">
               <TrendingUp className="h-4 w-4" />
               <span className="hidden sm:inline">Indicadores Estratégicos</span>
               <span className="sm:hidden">Indicadores</span>
             </TabsTrigger>
-            <TabsTrigger value="tablero" className="flex items-center gap-2 data-[state=active]:bg-kit-teal data-[state=active]:text-primary-foreground">
+            <TabsTrigger value="tablero" className="flex items-center gap-2">
               <LayoutDashboard className="h-4 w-4" />
               <span>Tablero General</span>
             </TabsTrigger>
@@ -209,7 +209,7 @@ const StrategicIndicators = () => {
               <div className="flex items-center justify-center py-20">
                 <div className="text-center">
                   <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-luker-green mx-auto mb-4"></div>
-                  <p className="text-gray-600 font-medium">Cargando indicadores...</p>
+                  <p className="text-muted-foreground font-medium">Cargando indicadores...</p>
                 </div>
               </div>
             ) : (
@@ -217,9 +217,9 @@ const StrategicIndicators = () => {
                 {/* Year Selector - Above cards */}
                 <div className="flex justify-center mt-5 mb-4">
                   <div className="flex flex-col items-center gap-2">
-                    <span className="text-xs font-medium text-gray-500 uppercase tracking-wide">Año</span>
+                    <span className="text-xs font-medium text-muted-foreground uppercase tracking-wide">Año</span>
                     <Select value={selectedYear} onValueChange={setSelectedYear}>
-                      <SelectTrigger className="w-28 bg-white border-gray-300 shadow-sm">
+                      <SelectTrigger className="w-28 bg-card border-border shadow-sm">
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
@@ -228,7 +228,7 @@ const StrategicIndicators = () => {
                         ))}
                       </SelectContent>
                     </Select>
-                    <span className="text-[11px] text-gray-400 text-center max-w-[280px]">
+                    <span className="text-[11px] text-muted-foreground/80 text-center max-w-[280px]">
                       Lectura 1ero, Egresados UTC ocupados y Beneficiarios Spin Off se actualizan con la sincronización de Google Drive.
                     </span>
                   </div>
@@ -408,7 +408,7 @@ const StrategicIndicators = () => {
 
           {/* Tab: Tablero General (Embedded Dashboard) */}
           <TabsContent value="tablero">
-            <div className="bg-white rounded-xl shadow-sm border overflow-hidden">
+            <div className="bg-card rounded-xl shadow-sm border overflow-hidden">
               <iframe
                 src="https://inluk.fundacionluker.org.co/fundata/"
                 title="Tablero General - Fundación Luker"

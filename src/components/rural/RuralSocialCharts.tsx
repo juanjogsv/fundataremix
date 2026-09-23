@@ -141,7 +141,7 @@ const RuralSocialCharts = () => {
     return (
       <div className="grid grid-cols-1 gap-8">
         {CHART_CONFIGS.map((_, i) => (
-          <Card key={i} className="bg-white border-0 shadow-sm">
+          <Card key={i} className="bg-card border-0 shadow-sm">
             <CardHeader>
               <Skeleton className="h-6 w-64" />
             </CardHeader>
@@ -166,15 +166,15 @@ const RuralSocialCharts = () => {
 
         if (!hasData) {
           return (
-            <Card key={index} className="bg-white border-0 shadow-sm">
+            <Card key={index} className="bg-card border-0 shadow-sm">
               <CardHeader>
-                <CardTitle className="text-lg font-semibold text-gray-800 flex items-center gap-2">
+                <CardTitle className="text-lg font-semibold text-foreground flex items-center gap-2">
                   <Icon className="h-5 w-5 text-luker-green" />
                   {config.title}
                 </CardTitle>
               </CardHeader>
               <CardContent className="flex items-center justify-center h-[350px]">
-                <p className="text-gray-500">No hay datos disponibles para este indicador</p>
+                <p className="text-muted-foreground">No hay datos disponibles para este indicador</p>
               </CardContent>
             </Card>
           );
@@ -185,9 +185,9 @@ const RuralSocialCharts = () => {
         );
 
         return (
-          <Card key={index} className="bg-white border-0 shadow-sm">
+          <Card key={index} className="bg-card border-0 shadow-sm">
             <CardHeader>
-              <CardTitle className="text-lg font-semibold text-gray-800 flex items-center gap-2">
+              <CardTitle className="text-lg font-semibold text-foreground flex items-center gap-2">
                 <Icon className="h-5 w-5 text-luker-green" />
                 {config.title}
               </CardTitle>

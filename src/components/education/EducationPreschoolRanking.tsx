@@ -115,17 +115,17 @@ const EducationPreschoolRanking = () => {
     return (
       <Card className="animate-pulse">
         <CardHeader>
-          <div className="h-6 bg-gray-200 rounded w-3/4"></div>
+          <div className="h-6 bg-muted rounded w-3/4"></div>
         </CardHeader>
         <CardContent>
-          <div className="h-80 bg-gray-200 rounded"></div>
+          <div className="h-80 bg-muted rounded"></div>
         </CardContent>
       </Card>
     );
   }
 
   return (
-    <Card className="bg-gradient-to-br from-white to-gray-50/50 border-gray-200 relative">
+    <Card className="bg-card border-border relative">
       <div className="absolute top-4 right-4 z-10">
         <ChartDownloadButton chartRef={chartRef} title={`Ranking Cobertura Neta Preescolar ${selectedYear || ''}`} />
       </div>
@@ -159,7 +159,7 @@ const EducationPreschoolRanking = () => {
       </CardHeader>
       <CardContent>
         {data.length === 0 ? (
-          <div className="p-8 text-center text-gray-500">
+          <div className="p-8 text-center text-muted-foreground">
             No hay datos disponibles para mostrar.
           </div>
         ) : (

@@ -1,6 +1,6 @@
 import logoImage from "@/assets/fundacion-luker-color-letra-blanca-horizontal.png.asset.json";
 
-const logoUrl = `https://id-preview--86b2a9c4-6838-4f82-a3c4-21cb241b504c.lovable.app${logoImage.url}`;
+const logoUrl = logoImage.url;
 
 export const InstitutionalFooter = () => (
   <footer className="institutional-footer">

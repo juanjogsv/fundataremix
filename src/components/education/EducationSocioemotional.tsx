@@ -405,7 +405,7 @@ const EducationSocioemotional = () => {
       {/* Tarjeta 1: Fortalecimiento Trabajo en Equipo - Año 2024 */}
       <Card className="border-luker-green/20 shadow-lg h-full flex flex-col">
 
-        <CardHeader className="bg-gradient-to-r from-luker-green/5 to-luker-teal/5 space-y-3">
+        <CardHeader className="bg-card border-b border-border space-y-3">
           <div className="flex items-start justify-between flex-wrap gap-4">
             <CardTitle className="text-xl flex items-center gap-2 text-luker-green">
               <Brain className="h-5 w-5 text-luker-teal" />
@@ -483,7 +483,7 @@ const EducationSocioemotional = () => {
 
       {/* Tarjeta 2: Evolución Histórica Fortalecimiento Trabajo en Equipo */}
       <Card className="border-luker-green/20 shadow-lg h-full flex flex-col">
-        <CardHeader className="bg-gradient-to-r from-luker-green/5 to-luker-teal/5 space-y-3">
+        <CardHeader className="bg-card border-b border-border space-y-3">
           <div className="flex items-start justify-between flex-wrap gap-4">
             <CardTitle className="text-xl flex items-center gap-2 text-luker-green">
               <Brain className="h-5 w-5 text-luker-teal" />
@@ -589,7 +589,7 @@ const EducationSocioemotional = () => {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-stretch">
       {/* Tarjeta 3: Distribución de Niveles de Desempeño - Quinto */}
       <Card className="border-luker-green/20 shadow-lg h-full flex flex-col">
-        <CardHeader className="bg-gradient-to-r from-luker-green/5 to-luker-teal/5 space-y-3">
+        <CardHeader className="bg-card border-b border-border space-y-3">
           <div className="flex items-center justify-between flex-wrap gap-4">
             <CardTitle className="text-xl flex items-center gap-2 text-luker-green">
               <Brain className="h-5 w-5 text-luker-teal" />
@@ -671,7 +671,7 @@ const EducationSocioemotional = () => {
 
       {/* Tarjeta 4: Distribución de Niveles de Desempeño - Media */}
       <Card className="border-luker-green/20 shadow-lg h-full flex flex-col">
-        <CardHeader className="bg-gradient-to-r from-luker-green/5 to-luker-teal/5 space-y-3">
+        <CardHeader className="bg-card border-b border-border space-y-3">
           <div className="flex items-center justify-between flex-wrap gap-4">
             <CardTitle className="text-xl flex items-center gap-2 text-luker-green">
               <Brain className="h-5 w-5 text-luker-teal" />

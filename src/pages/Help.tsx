@@ -15,33 +15,33 @@ const Help = () => {
 
         {/* Quick Links */}
         <section className="grid md:grid-cols-3 gap-4 mb-12">
-          <Card className="bg-white border-gray-200/80 shadow-sm hover:shadow-md transition-shadow cursor-pointer">
+          <Card className="bg-card border-border/80 shadow-sm hover:shadow-md transition-shadow cursor-pointer">
             <CardContent className="p-6 text-center space-y-3">
               <div className="p-3 bg-luker-green/10 rounded-xl w-fit mx-auto">
                 <BookOpen className="h-8 w-8 text-luker-green" />
               </div>
               <h3 className="font-semibold text-luker-brown">Guía de Usuario</h3>
-              <p className="text-sm text-gray-600">Documentación completa</p>
+              <p className="text-sm text-muted-foreground">Documentación completa</p>
             </CardContent>
           </Card>
 
-          <Card className="bg-white border-gray-200/80 shadow-sm hover:shadow-md transition-shadow cursor-pointer">
+          <Card className="bg-card border-border/80 shadow-sm hover:shadow-md transition-shadow cursor-pointer">
             <CardContent className="p-6 text-center space-y-3">
               <div className="p-3 bg-luker-orange/10 rounded-xl w-fit mx-auto">
                 <Video className="h-8 w-8 text-luker-orange" />
               </div>
               <h3 className="font-semibold text-luker-brown">Video Tutoriales</h3>
-              <p className="text-sm text-gray-600">Aprende paso a paso</p>
+              <p className="text-sm text-muted-foreground">Aprende paso a paso</p>
             </CardContent>
           </Card>
 
-          <Card className="bg-white border-gray-200/80 shadow-sm hover:shadow-md transition-shadow cursor-pointer">
+          <Card className="bg-card border-border/80 shadow-sm hover:shadow-md transition-shadow cursor-pointer">
             <CardContent className="p-6 text-center space-y-3">
               <div className="p-3 bg-luker-teal/10 rounded-xl w-fit mx-auto">
                 <Mail className="h-8 w-8 text-luker-teal" />
               </div>
               <h3 className="font-semibold text-luker-brown">Contacto Soporte</h3>
-              <p className="text-sm text-gray-600">Escríbenos directamente</p>
+              <p className="text-sm text-muted-foreground">Escríbenos directamente</p>
             </CardContent>
           </Card>
         </section>
@@ -57,14 +57,14 @@ const Help = () => {
             </h2>
           </div>
 
-          <Card className="bg-white border-gray-200/80 shadow-sm">
+          <Card className="bg-card border-border/80 shadow-sm">
             <CardContent className="p-6">
               <Accordion type="single" collapsible className="w-full">
                 <AccordionItem value="item-1">
                   <AccordionTrigger className="text-left text-luker-brown hover:text-luker-green">
                     ¿Cómo accedo a los indicadores estratégicos?
                   </AccordionTrigger>
-                  <AccordionContent className="text-gray-600">
+                  <AccordionContent className="text-muted-foreground">
                     Desde la página principal, haz clic en el módulo "Indicadores Estratégicos". 
                     Podrás ver todos los indicadores organizados por área temática, con gráficos 
                     y tablas detalladas que muestran el avance hacia las metas anuales.
@@ -75,7 +75,7 @@ const Help = () => {
                   <AccordionTrigger className="text-left text-luker-brown hover:text-luker-green">
                     ¿Qué permisos necesito para actualizar datos?
                   </AccordionTrigger>
-                  <AccordionContent className="text-gray-600">
+                  <AccordionContent className="text-muted-foreground">
                     La actualización de datos está restringida a usuarios con rol de Administrador. 
                     Si necesitas estos permisos, contacta al equipo de tecnología o al coordinador 
                     de la plataforma de tu área.
@@ -86,7 +86,7 @@ const Help = () => {
                   <AccordionTrigger className="text-left text-luker-brown hover:text-luker-green">
                     ¿Cómo se cargan los datos en la plataforma?
                   </AccordionTrigger>
-                  <AccordionContent className="text-gray-600">
+                  <AccordionContent className="text-muted-foreground">
                     Los administradores pueden cargar datos mediante archivos Excel estructurados. 
                     Cada módulo tiene un formato específico que debe respetarse. Consulta la guía 
                     de carga de datos para más detalles sobre los formatos requeridos.
@@ -97,7 +97,7 @@ const Help = () => {
                   <AccordionTrigger className="text-left text-luker-brown hover:text-luker-green">
                     ¿Con qué frecuencia se actualizan los indicadores?
                   </AccordionTrigger>
-                  <AccordionContent className="text-gray-600">
+                  <AccordionContent className="text-muted-foreground">
                     La frecuencia de actualización varía según el indicador y el área. En general, 
                     los indicadores principales se actualizan mensualmente, mientras que algunos 
                     indicadores específicos pueden tener actualizaciones trimestrales o anuales.
@@ -108,7 +108,7 @@ const Help = () => {
                   <AccordionTrigger className="text-left text-luker-brown hover:text-luker-green">
                     ¿Puedo exportar los datos para análisis externos?
                   </AccordionTrigger>
-                  <AccordionContent className="text-gray-600">
+                  <AccordionContent className="text-muted-foreground">
                     Sí, la plataforma permite exportar datos en formato Excel y PDF. 
                     Los usuarios con permisos apropiados pueden generar reportes personalizados 
                     desde cada módulo.
@@ -119,7 +119,7 @@ const Help = () => {
                   <AccordionTrigger className="text-left text-luker-brown hover:text-luker-green">
                     ¿Cómo funciona el mapa georreferenciado?
                   </AccordionTrigger>
-                  <AccordionContent className="text-gray-600">
+                  <AccordionContent className="text-muted-foreground">
                     El módulo de Mapa muestra las ubicaciones de proyectos e intervenciones de la 
                     Fundación en un mapa interactivo. Puedes hacer clic en cada marcador para ver 
                     detalles del proyecto, filtrar por tipo de intervención y explorar el alcance 
@@ -131,7 +131,7 @@ const Help = () => {
                   <AccordionTrigger className="text-left text-luker-brown hover:text-luker-green">
                     ¿Qué navegadores son compatibles?
                   </AccordionTrigger>
-                  <AccordionContent className="text-gray-600">
+                  <AccordionContent className="text-muted-foreground">
                     La plataforma funciona mejor en las últimas versiones de Google Chrome, 
                     Mozilla Firefox, Safari y Microsoft Edge. Recomendamos mantener tu navegador 
                     actualizado para una experiencia óptima.
@@ -142,7 +142,7 @@ const Help = () => {
                   <AccordionTrigger className="text-left text-luker-brown hover:text-luker-green">
                     ¿Cómo reporto un problema técnico?
                   </AccordionTrigger>
-                  <AccordionContent className="text-gray-600">
+                  <AccordionContent className="text-muted-foreground">
                     Si encuentras algún problema o error, por favor contacta al equipo de soporte 
                     técnico proporcionando la siguiente información: tu nombre de usuario, el módulo 
                     donde ocurrió el problema, una descripción detallada del error y, si es posible, 
@@ -161,7 +161,7 @@ const Help = () => {
               <h3 className="text-2xl font-bold text-luker-brown font-heading">
                 ¿No encontraste lo que buscabas?
               </h3>
-              <p className="text-gray-600 max-w-2xl mx-auto">
+              <p className="text-muted-foreground max-w-2xl mx-auto">
                 Nuestro equipo de soporte está disponible para ayudarte con cualquier pregunta o problema
               </p>
               <div className="flex flex-wrap gap-4 justify-center pt-4">

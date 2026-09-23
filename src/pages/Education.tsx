@@ -74,7 +74,6 @@ const Education = () => {
         subtitle="Aprendizaje, permanencia y oportunidades para la vida"
         icon={GraduationCap}
         iconBgColor="bg-luker-teal"
-        gradientColors="from-luker-teal via-luker-green to-luker-orange"
       />
 
       <div className="container mx-auto px-4 sm:px-6 py-8 sm:py-10 max-w-[1400px]">
@@ -88,7 +87,7 @@ const Education = () => {
                 <TabsTrigger
                   key={section.id}
                   value={section.id}
-                  className="flex items-center gap-2 data-[state=active]:bg-kit-coral data-[state=active]:text-primary-foreground"
+                  className="flex items-center gap-2"
                 >
                   <Icon className="h-4 w-4" />
                   <span className="hidden md:inline">{section.label}</span>

@@ -185,16 +185,16 @@ const EducationATALKPIs = () => {
           >
             <CardContent className="p-4">
               <div className="flex flex-col items-center text-center space-y-3">
-                <div className={`${kpi.color} p-3 rounded-full bg-white/80`}>
+                <div className={`${kpi.color} p-3 rounded-full bg-card/80`}>
                   <Icon className="h-6 w-6" />
                 </div>
                 <div className="space-y-1">
-                  <p className="text-xs font-medium text-gray-600 leading-tight">
+                  <p className="text-xs font-medium text-muted-foreground leading-tight">
                     {kpi.title}
                   </p>
                   <p className={`text-3xl font-bold ${kpi.color}`}>{kpi.value}</p>
                   {kpi.year && (
-                    <p className="text-xs text-gray-500">Año {kpi.year}</p>
+                    <p className="text-xs text-muted-foreground">Año {kpi.year}</p>
                   )}
                 </div>
               </div>

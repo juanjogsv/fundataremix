@@ -19,10 +19,10 @@ const KPI_CONFIG: Array<{
 }> = [
   { code: "COBE_01", title: "Cobertura Neta Preescolar", icon: School,        bg: "bg-kit-coral/10",   iconBg: "bg-kit-coral/20",   text: "text-kit-coralDeep",  accentVar: "luker-orange" },
   { code: "COBE_02", title: "Cobertura Neta Primaria",   icon: BookOpen,      bg: "bg-kit-orange/10",  iconBg: "bg-kit-orange/20",  text: "text-kit-orangeDeep", accentVar: "luker-orange" },
-  { code: "COBE_03", title: "Cobertura Neta Secundaria", icon: GraduationCap, bg: "bg-green-50",  iconBg: "bg-green-100",  text: "text-green-600", accentVar: "luker-green" },
+  { code: "COBE_03", title: "Cobertura Neta Secundaria", icon: GraduationCap, bg: "bg-kit-lime/10",  iconBg: "bg-green-100",  text: "text-kit-limeDeep", accentVar: "luker-green" },
   { code: "COBE_04", title: "Cobertura Neta Media",      icon: Users,         bg: "bg-kit-teal/5",    iconBg: "bg-kit-teal/15",    text: "text-kit-tealDeep",   accentVar: "luker-teal" },
-  { code: "COBE_06", title: "Tasa de Tránsito",          icon: TrendingUp,    bg: "bg-slate-50",  iconBg: "bg-slate-100",  text: "text-kit-brown", accentVar: "luker-teal" },
-  { code: "COBE_05", title: "Tasa de Deserción Escolar", icon: LogOut,        bg: "bg-red-50",    iconBg: "bg-red-100",    text: "text-red-600",   accentVar: "luker-red", ascending: false },
+  { code: "COBE_06", title: "Tasa de Tránsito",          icon: TrendingUp,    bg: "bg-card",  iconBg: "bg-muted",  text: "text-kit-brown", accentVar: "luker-teal" },
+  { code: "COBE_05", title: "Tasa de Deserción Escolar", icon: LogOut,        bg: "bg-kit-coral/10",    iconBg: "bg-red-100",    text: "text-kit-coralDeep",   accentVar: "luker-red", ascending: false },
 ];
 
 const MANIZALES_COD = "17001";
@@ -109,9 +109,9 @@ const EducationContext = () => {
         </Select>
       </div>
 
-      <Card className="bg-gradient-to-br from-white to-gray-50/50 border-gray-200">
+      <Card className="bg-card border-border">
         <CardHeader>
-          <CardTitle className="text-lg text-gray-700">Manizales</CardTitle>
+          <CardTitle className="text-lg text-foreground/85">Manizales</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -122,16 +122,16 @@ const EducationContext = () => {
                 <Card key={kpi.code} className={`${kpi.bg} border-none shadow-sm hover:shadow-md transition-all duration-200`}>
                   <CardContent className="p-6">
                     <div className="flex flex-col items-center text-center space-y-3">
-                      <div className={`${kpi.text} p-3 rounded-full bg-white/80`}>
+                      <div className={`${kpi.text} p-3 rounded-full bg-card/80`}>
                         <Icon className="h-6 w-6" />
                       </div>
-                      <p className="text-sm font-medium text-gray-700 leading-tight min-h-[2.5rem] flex items-center">
+                      <p className="text-sm font-medium text-foreground/85 leading-tight min-h-[2.5rem] flex items-center">
                         {kpi.title}
                       </p>
                       <p className={`text-4xl font-bold ${kpi.text}`}>
                         {loading ? "…" : v?.value !== null && v?.value !== undefined ? `${v.value.toFixed(1)}%` : "--"}
                       </p>
-                      <p className="text-xs text-gray-500">{v?.year ?? ""}</p>
+                      <p className="text-xs text-muted-foreground">{v?.year ?? ""}</p>
                     </div>
                   </CardContent>
                 </Card>

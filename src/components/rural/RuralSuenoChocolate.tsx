@@ -70,7 +70,7 @@ const ChartCard = ({
     : null;
 
   return (
-    <Card className="bg-white border border-amber-100 shadow-sm hover:shadow-md transition-shadow">
+    <Card className="bg-card border border-border shadow-sm hover:shadow-md transition-shadow">
       <CardHeader className="pb-2">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
@@ -82,7 +82,7 @@ const ChartCard = ({
             </CardTitle>
           </div>
           <Select value={selectedCategory} onValueChange={onCategoryChange}>
-            <SelectTrigger className="w-[160px] h-8 text-xs border-amber-200">
+            <SelectTrigger className="w-[160px] h-11 text-xs border-border">
               <SelectValue placeholder="Categoría" />
             </SelectTrigger>
             <SelectContent>
@@ -260,7 +260,7 @@ const RuralSuenoChocolate = () => {
   if (loadingBenef || loadingInd) {
     return (
       <div className="flex items-center justify-center h-64">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-amber-600"></div>
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-kit-orange"></div>
       </div>
     );
   }
@@ -301,7 +301,7 @@ const RuralSuenoChocolate = () => {
         <ChartCard
           title="Inversión: Recursos Propios"
           icon={Wallet}
-          iconColor="bg-orange-600"
+          iconColor="bg-kit-orange"
           data={invPropiosData}
           categories={indicatorCategories}
           selectedCategory={categoryInvPropios}
@@ -315,7 +315,7 @@ const RuralSuenoChocolate = () => {
         <ChartCard
           title="Inversión: Recursos de Terceros (Aliados)"
           icon={Handshake}
-          iconColor="bg-yellow-700"
+          iconColor="bg-kit-orange"
           data={invTercerosData}
           categories={indicatorCategories}
           selectedCategory={categoryInvTerceros}

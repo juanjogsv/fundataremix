@@ -106,7 +106,7 @@ const EducationUniversityEnrollment = () => {
 
   return (
     <Card className="border-luker-green/20 shadow-lg h-full flex flex-col">
-      <CardHeader className="bg-gradient-to-r from-luker-green/5 to-luker-teal/5">
+      <CardHeader className="bg-card border-b border-border">
         <CardTitle className="text-xl flex items-center gap-2 text-luker-green">
           <GraduationCap className="h-5 w-5 text-luker-teal" />
           Matrícula Técnica en Universidades / Institutos T. y T.{selectedInstitution !== "Total" ? ` - ${selectedInstitution}` : ""}

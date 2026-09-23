@@ -1,9 +1,9 @@
 import { ArrowLeft, LucideIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import logoImage from "@/assets/fundacion-luker-color-letra-cafe-horizontal.png.asset.json";
 
-const logoImageUrl = `https://id-preview--86b2a9c4-6838-4f82-a3c4-21cb241b504c.lovable.app${logoImage.url}`;
+const logoImageUrl = logoImage.url;
 
 interface PageHeaderProps {
   title: string;
@@ -11,7 +11,6 @@ interface PageHeaderProps {
   subtitle?: string;
   icon: LucideIcon;
   iconBgColor: string;
-  gradientColors?: string;
 }
 
 const accentFromClass = (className: string) => {
@@ -60,7 +59,12 @@ export const PageHeader = ({
           <Icon />
         </div>
         <div className="min-w-0">
-          <h1 className="institutional-page-header__title">
+          <nav aria-label="Migas de pan" className="institutional-page-header__breadcrumbs">
+            <Link to="/">Inicio</Link>
+            <span aria-hidden="true">/</span>
+            <span aria-current="page">{title}</span>
+          </nav>
+          <h1 id="page-title" tabIndex={-1} className="institutional-page-header__title">
             <span className="sm:hidden">{mobileTitle || title}</span>
             <span className="hidden sm:inline">{title}</span>
           </h1>

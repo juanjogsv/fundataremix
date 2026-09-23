@@ -24,21 +24,21 @@ const cardConfigs = [
     id: "total",
     title: "Inversión Total Ejecutada",
     icon: TrendingUp,
-    color: "#2563eb",
+    color: "#009EAE",
     indicators: ["PE.3", "PE.4"],
   },
   {
     id: "propios",
     title: "Inversión: Recursos Propios (Fundación)",
     icon: Wallet,
-    color: "#10B981",
+    color: "#8EBC22",
     indicators: ["PE.3"],
   },
   {
     id: "terceros",
     title: "Inversión: Recursos de Terceros (Aliados)",
     icon: Handshake,
-    color: "#8B5CF6",
+    color: "#FBB03F",
     indicators: ["PE.4"],
   },
 ];
@@ -231,7 +231,7 @@ const SpecialProjectsInvestment = () => {
       {/* Title */}
       <div className="flex items-center gap-2">
         <Wallet className="h-6 w-6 text-kit-tealDeep" />
-        <h2 className="text-2xl font-bold text-gray-800">Inversión</h2>
+        <h2 className="text-2xl font-bold text-foreground">Inversión</h2>
       </div>
 
       {/* KPI Cards with Charts */}
@@ -254,12 +254,12 @@ const SpecialProjectsInvestment = () => {
                     <Icon className="h-5 w-5" style={{ color: config.color }} />
                   </div>
                   <div className="flex-1">
-                    <CardTitle className="text-sm font-semibold text-gray-800">
+                    <CardTitle className="text-sm font-semibold text-foreground">
                       {config.title}
                     </CardTitle>
                     <p className="text-lg font-bold" style={{ color: config.color }}>
                       {formatCurrency(latestTotal)}
-                      <span className="text-xs font-normal text-gray-500 ml-1">({maxYear})</span>
+                      <span className="text-xs font-normal text-muted-foreground ml-1">({maxYear})</span>
                     </p>
                   </div>
                 </div>
@@ -270,7 +270,7 @@ const SpecialProjectsInvestment = () => {
                     value={sectionFilter} 
                     onValueChange={(value) => handleSectionChange(config.id, value)}
                   >
-                    <SelectTrigger className="w-full bg-white text-sm h-9">
+                    <SelectTrigger className="w-full text-sm">
                       <SelectValue placeholder="Filtrar sección" />
                     </SelectTrigger>
                     <SelectContent>
@@ -345,7 +345,7 @@ const SpecialProjectsInvestment = () => {
               <div className="p-2 rounded-lg bg-kit-teal/20">
                 <TrendingUp className="h-5 w-5 text-kit-tealDeep" />
               </div>
-              <CardTitle className="text-base font-semibold text-gray-800">
+              <CardTitle className="text-base font-semibold text-foreground">
                 Detalle de Inversión por Proyecto
               </CardTitle>
             </div>
@@ -353,7 +353,7 @@ const SpecialProjectsInvestment = () => {
             {/* Table Filters */}
             <div className="flex flex-wrap gap-3">
               <Select value={tableYear} onValueChange={setTableYear}>
-                <SelectTrigger className="w-32 bg-white text-sm h-9">
+                <SelectTrigger className="w-32 text-sm">
                   <SelectValue placeholder="Año" />
                 </SelectTrigger>
                 <SelectContent>
@@ -367,7 +367,7 @@ const SpecialProjectsInvestment = () => {
               </Select>
               
               <Select value={tableSection} onValueChange={setTableSection}>
-                <SelectTrigger className="w-48 bg-white text-sm h-9">
+                <SelectTrigger className="w-48 text-sm">
                   <SelectValue placeholder="Sección" />
                 </SelectTrigger>
                 <SelectContent>
@@ -432,7 +432,7 @@ const SpecialProjectsInvestment = () => {
               <TableBody>
                 {tableData.length === 0 ? (
                   <TableRow>
-                    <TableCell colSpan={4} className="text-center text-gray-500 py-8">
+                    <TableCell colSpan={4} className="text-center text-muted-foreground py-8">
                       No hay datos para los filtros seleccionados
                     </TableCell>
                   </TableRow>
@@ -440,7 +440,7 @@ const SpecialProjectsInvestment = () => {
                   tableData.map((row) => (
                     <TableRow key={row.categoria}>
                       <TableCell className="font-medium">{row.categoria}</TableCell>
-                      <TableCell className="text-right text-green-600">
+                      <TableCell className="text-right text-kit-limeDeep">
                         {formatCurrencyTable(row.propios)}
                       </TableCell>
                       <TableCell className="text-right text-kit-coralDeep">
@@ -458,22 +458,22 @@ const SpecialProjectsInvestment = () => {
           
           {/* Table Totals */}
           {tableData.length > 0 && (
-            <div className="mt-4 p-4 bg-gray-50 rounded-lg">
+            <div className="mt-4 p-4 bg-card rounded-lg">
               <div className="grid grid-cols-3 gap-4 text-center">
                 <div>
-                  <p className="text-sm text-gray-500">Total Propios</p>
-                  <p className="text-lg font-bold text-green-600">
+                  <p className="text-sm text-muted-foreground">Total Propios</p>
+                  <p className="text-lg font-bold text-kit-limeDeep">
                     {formatCurrency(tableData.reduce((sum, r) => sum + r.propios, 0))}
                   </p>
                 </div>
                 <div>
-                  <p className="text-sm text-gray-500">Total Terceros</p>
+                  <p className="text-sm text-muted-foreground">Total Terceros</p>
                   <p className="text-lg font-bold text-kit-coralDeep">
                     {formatCurrency(tableData.reduce((sum, r) => sum + r.terceros, 0))}
                   </p>
                 </div>
                 <div>
-                  <p className="text-sm text-gray-500">Total General</p>
+                  <p className="text-sm text-muted-foreground">Total General</p>
                   <p className="text-lg font-bold text-kit-tealDeep">
                     {formatCurrency(tableData.reduce((sum, r) => sum + r.total, 0))}
                   </p>

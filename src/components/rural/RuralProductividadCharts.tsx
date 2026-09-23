@@ -142,8 +142,8 @@ const RuralProductividadCharts = () => {
   }) => {
     if (active && payload && payload.length) {
       return (
-        <div className="bg-white p-3 rounded-lg shadow-lg border border-gray-200">
-          <p className="font-semibold text-gray-800 mb-2">Año {label}</p>
+        <div className="bg-card p-3 rounded-lg shadow-lg border border-border">
+          <p className="font-semibold text-foreground mb-2">Año {label}</p>
           {payload.map((entry, index) => (
             <p key={index} className="text-sm" style={{ color: entry.color }}>
               {entry.name}:{" "}
@@ -162,7 +162,7 @@ const RuralProductividadCharts = () => {
     return (
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-8">
         {[1, 2, 3, 4].map((i) => (
-          <Card key={i} className="bg-white border-0 shadow-sm">
+          <Card key={i} className="bg-card border-0 shadow-sm">
             <CardHeader>
               <Skeleton className="h-6 w-3/4" />
             </CardHeader>
@@ -184,9 +184,9 @@ const RuralProductividadCharts = () => {
         );
 
         return (
-          <Card key={index} className="bg-white border-0 shadow-sm">
+          <Card key={index} className="bg-card border-0 shadow-sm">
             <CardHeader className="pb-2">
-              <CardTitle className="text-base font-semibold text-gray-800">
+              <CardTitle className="text-base font-semibold text-foreground">
                 {config.title}
               </CardTitle>
             </CardHeader>
@@ -275,7 +275,7 @@ const RuralProductividadCharts = () => {
                   </ComposedChart>
                 </ResponsiveContainer>
               ) : (
-                <div className="h-64 flex items-center justify-center text-gray-500">
+                <div className="h-64 flex items-center justify-center text-muted-foreground">
                   No hay datos disponibles para este indicador
                 </div>
               )}

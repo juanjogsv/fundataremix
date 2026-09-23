@@ -568,7 +568,7 @@ const EducationSaberOnce = () => {
               {/* Filters */}
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
                 <div className="space-y-2">
-                  <label className="text-sm font-medium text-gray-700">Área Temática</label>
+                  <label className="text-sm font-medium text-foreground/85">Área Temática</label>
                   <Select value={selectedIndicator} onValueChange={setSelectedIndicator}>
                     <SelectTrigger>
                       <SelectValue placeholder="Seleccione indicador" />
@@ -584,7 +584,7 @@ const EducationSaberOnce = () => {
                 </div>
 
                 <div className="space-y-2">
-                  <label className="text-sm font-medium text-gray-700">Categoría/Sector</label>
+                  <label className="text-sm font-medium text-foreground/85">Categoría/Sector</label>
                   <Select value={selectedCategory} onValueChange={setSelectedCategory}>
                     <SelectTrigger>
                       <SelectValue placeholder="Seleccione categoría" />
@@ -600,7 +600,7 @@ const EducationSaberOnce = () => {
                 </div>
 
                 <div className="space-y-2">
-                  <label className="text-sm font-medium text-gray-700">Sexo</label>
+                  <label className="text-sm font-medium text-foreground/85">Sexo</label>
                   <Select value={selectedSexo} onValueChange={handleSexoChange}>
                     <SelectTrigger>
                       <SelectValue placeholder="Seleccione sexo" />
@@ -614,7 +614,7 @@ const EducationSaberOnce = () => {
                 </div>
 
                 <div className="space-y-2">
-                  <label className="text-sm font-medium text-gray-700">Naturaleza</label>
+                  <label className="text-sm font-medium text-foreground/85">Naturaleza</label>
                   <Select value={selectedNaturaleza} onValueChange={handleNaturalezaChange}>
                     <SelectTrigger>
                       <SelectValue placeholder="Seleccione naturaleza" />
@@ -628,7 +628,7 @@ const EducationSaberOnce = () => {
                 </div>
 
                 <div className="space-y-2">
-                  <label className="text-sm font-medium text-gray-700">Zona</label>
+                  <label className="text-sm font-medium text-foreground/85">Zona</label>
                   <Select value={selectedZona} onValueChange={handleZonaChange}>
                     <SelectTrigger>
                       <SelectValue placeholder="Seleccione zona" />
@@ -703,7 +703,7 @@ const EducationSaberOnce = () => {
             <div className="space-y-4">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="space-y-2">
-                  <label className="text-sm font-medium text-gray-700">Ciudad</label>
+                  <label className="text-sm font-medium text-foreground/85">Ciudad</label>
                   <Select value={selectedCompCity} onValueChange={setSelectedCompCity}>
                     <SelectTrigger>
                       <SelectValue placeholder="Seleccione ciudad" />
@@ -717,7 +717,7 @@ const EducationSaberOnce = () => {
                 </div>
 
                 <div className="space-y-2">
-                  <label className="text-sm font-medium text-gray-700">Área Temática</label>
+                  <label className="text-sm font-medium text-foreground/85">Área Temática</label>
                   <Select value={selectedCompIndicator} onValueChange={setSelectedCompIndicator}>
                     <SelectTrigger>
                       <SelectValue placeholder="Seleccione indicador" />
@@ -736,30 +736,30 @@ const EducationSaberOnce = () => {
                   {/* KPIs de brecha */}
                   {gapStats && (
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
-                      <div className="bg-white border rounded-lg p-4 shadow-sm">
-                        <p className="text-xs text-gray-500 uppercase tracking-wide">Brecha promedio</p>
+                      <div className="bg-card border rounded-lg p-4 shadow-sm">
+                        <p className="text-xs text-muted-foreground uppercase tracking-wide">Brecha promedio</p>
                         <p className={`text-2xl font-bold mt-1 ${gapStats.avgDiff >= 0 ? 'text-kit-limeDeep' : 'text-luker-red'}`}>
                           {gapStats.avgDiff > 1 ? '+' : ''}{gapStats.avgDiff} pts
                         </p>
-                        <p className="text-xs text-gray-400 mt-1">
+                        <p className="text-xs text-muted-foreground/80 mt-1">
                           {gapStats.avgDiff >= 1 ? 'A favor de Oficial' : gapStats.avgDiff <= -1 ? 'A favor de No oficial' : 'Paridad'}
                         </p>
                       </div>
-                      <div className="bg-white border rounded-lg p-4 shadow-sm">
-                        <p className="text-xs text-gray-500 uppercase tracking-wide">Brecha {gapStats.latestYear}</p>
+                      <div className="bg-card border rounded-lg p-4 shadow-sm">
+                        <p className="text-xs text-muted-foreground uppercase tracking-wide">Brecha {gapStats.latestYear}</p>
                         <p className={`text-2xl font-bold mt-1 ${(gapStats.latestDiff ?? 1) >= 0 ? 'text-kit-limeDeep' : 'text-luker-red'}`}>
                           {(gapStats.latestDiff ?? 0) > 1 ? '+' : ''}{gapStats.latestDiff} pts
                         </p>
-                        <p className="text-xs text-gray-400 mt-1">
+                        <p className="text-xs text-muted-foreground/80 mt-1">
                           {(gapStats.latestDiff ?? 0) >= 1 ? 'A favor de Oficial' : (gapStats.latestDiff ?? 0) <= -1 ? 'A favor de No oficial' : 'Paridad'}
                         </p>
                       </div>
-                      <div className="bg-white border rounded-lg p-4 shadow-sm">
-                        <p className="text-xs text-gray-500 uppercase tracking-wide">Tendencia histórica</p>
+                      <div className="bg-card border rounded-lg p-4 shadow-sm">
+                        <p className="text-xs text-muted-foreground uppercase tracking-wide">Tendencia histórica</p>
                         <p className="text-2xl font-bold mt-1 text-luker-brown">
-                          {gapStats.positiveYears} <span className="text-base font-normal text-gray-400">de {gapStats.totalYears} años</span>
+                          {gapStats.positiveYears} <span className="text-base font-normal text-muted-foreground/80">de {gapStats.totalYears} años</span>
                         </p>
-                        <p className="text-xs text-gray-400 mt-1">
+                        <p className="text-xs text-muted-foreground/80 mt-1">
                           favorecen a Oficial
                         </p>
                       </div>
@@ -789,14 +789,14 @@ const EducationSaberOnce = () => {
                               ? 'N/A'
                               : `${diff > 0 ? '+' : ''}${Math.round(diff)} pts ${diff > 0 ? '(a favor Oficial)' : diff < 0 ? '(a favor No oficial)' : '(paridad)'}`;
                             return (
-                              <div className="bg-white border border-gray-200 rounded-md shadow-md px-3 py-2 text-sm">
-                                <div className="font-semibold text-gray-900 mb-1">{label}</div>
+                              <div className="bg-card border border-border rounded-md shadow-md px-3 py-2 text-sm">
+                                <div className="font-semibold text-foreground mb-1">{label}</div>
                                 {payload.map((p: any) => (
                                   <div key={p.dataKey} style={{ color: p.color }}>
                                     {p.dataKey} : {p.value == null ? 'N/A' : Math.round(p.value)}
                                   </div>
                                 ))}
-                                <div className="mt-1 pt-1 border-t border-gray-100" style={{ color: diffColor }}>
+                                <div className="mt-1 pt-1 border-t border-border" style={{ color: diffColor }}>
                                   Brecha: {diffLabel}
                                 </div>
                               </div>
@@ -812,7 +812,7 @@ const EducationSaberOnce = () => {
 
                   {/* Gráfico de diferencia (brecha) */}
                   <div className="border-t pt-6">
-                    <h4 className="text-sm font-semibold text-gray-700 mb-3">
+                    <h4 className="text-sm font-semibold text-foreground/85 mb-3">
                       Magnitud de la brecha: Oficial − No oficial (puntos)
                     </h4>
                     <div className="h-48">
@@ -841,13 +841,13 @@ const EducationSaberOnce = () => {
                         </BarChart>
                       </ResponsiveContainer>
                     </div>
-                    <div className="flex items-center justify-center gap-6 mt-2 text-xs text-gray-500">
+                    <div className="flex items-center justify-center gap-6 mt-2 text-xs text-muted-foreground">
                       <span className="flex items-center gap-1">
                         <span className="inline-block w-3 h-3 rounded-sm bg-kit-lime" />
                         Oficial mejor
                       </span>
                       <span className="flex items-center gap-1">
-                        <span className="inline-block w-3 h-3 rounded-sm bg-gray-400" />
+                        <span className="inline-block w-3 h-3 rounded-sm bg-muted-foreground/50" />
                         Paridad
                       </span>
                       <span className="flex items-center gap-1">
@@ -903,7 +903,7 @@ const EducationSaberOnce = () => {
               {/* Filters */}
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4">
                 <div className="space-y-2">
-                  <label className="text-sm font-medium text-gray-700">Año</label>
+                  <label className="text-sm font-medium text-foreground/85">Año</label>
                   <Select value={selectedRankingYear.toString()} onValueChange={(value) => { setUserPickedRankingYear(true); setSelectedRankingYear(Number(value)); }}>
                     <SelectTrigger>
                       <SelectValue placeholder="Seleccione año" />
@@ -919,7 +919,7 @@ const EducationSaberOnce = () => {
                 </div>
 
                 <div className="space-y-2">
-                  <label className="text-sm font-medium text-gray-700">Área Temática/Indicador</label>
+                  <label className="text-sm font-medium text-foreground/85">Área Temática/Indicador</label>
                   <Select value={selectedRankingIndicator} onValueChange={setSelectedRankingIndicator}>
                     <SelectTrigger>
                       <SelectValue placeholder="Seleccione indicador" />
@@ -936,7 +936,7 @@ const EducationSaberOnce = () => {
                 </div>
 
                 <div className="space-y-2">
-                  <label className="text-sm font-medium text-gray-700">Categoría/Sector</label>
+                  <label className="text-sm font-medium text-foreground/85">Categoría/Sector</label>
                   <Select value={selectedRankingCategory} onValueChange={setSelectedRankingCategory}>
                     <SelectTrigger>
                       <SelectValue placeholder="Seleccione categoría" />
@@ -952,7 +952,7 @@ const EducationSaberOnce = () => {
                 </div>
 
                 <div className="space-y-2">
-                  <label className="text-sm font-medium text-gray-700">Sexo</label>
+                  <label className="text-sm font-medium text-foreground/85">Sexo</label>
                   <Select value={selectedRankingSexo} onValueChange={handleRankingSexoChange}>
                     <SelectTrigger>
                       <SelectValue placeholder="Seleccione sexo" />
@@ -966,7 +966,7 @@ const EducationSaberOnce = () => {
                 </div>
 
                 <div className="space-y-2">
-                  <label className="text-sm font-medium text-gray-700">Naturaleza</label>
+                  <label className="text-sm font-medium text-foreground/85">Naturaleza</label>
                   <Select value={selectedRankingNaturaleza} onValueChange={handleRankingNaturalezaChange}>
                     <SelectTrigger>
                       <SelectValue placeholder="Seleccione naturaleza" />
@@ -980,7 +980,7 @@ const EducationSaberOnce = () => {
                 </div>
 
                 <div className="space-y-2">
-                  <label className="text-sm font-medium text-gray-700">Zona</label>
+                  <label className="text-sm font-medium text-foreground/85">Zona</label>
                   <Select value={selectedRankingZona} onValueChange={handleRankingZonaChange}>
                     <SelectTrigger>
                       <SelectValue placeholder="Seleccione zona" />
@@ -1073,7 +1073,7 @@ const EducationSaberOnce = () => {
               {/* Filters */}
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                 <div className="space-y-2">
-                  <label className="text-sm font-medium text-gray-700">Área Temática</label>
+                  <label className="text-sm font-medium text-foreground/85">Área Temática</label>
                   <Select value={selectedEvolutionIndicator} onValueChange={setSelectedEvolutionIndicator}>
                     <SelectTrigger>
                       <SelectValue placeholder="Seleccione indicador" />
@@ -1089,7 +1089,7 @@ const EducationSaberOnce = () => {
                 </div>
 
                 <div className="space-y-2">
-                  <label className="text-sm font-medium text-gray-700">Sexo</label>
+                  <label className="text-sm font-medium text-foreground/85">Sexo</label>
                   <Select value={selectedEvolutionSexo} onValueChange={handleEvolutionSexoChange}>
                     <SelectTrigger>
                       <SelectValue placeholder="Seleccione sexo" />
@@ -1103,7 +1103,7 @@ const EducationSaberOnce = () => {
                 </div>
 
                 <div className="space-y-2">
-                  <label className="text-sm font-medium text-gray-700">Naturaleza</label>
+                  <label className="text-sm font-medium text-foreground/85">Naturaleza</label>
                   <Select value={selectedEvolutionNaturaleza} onValueChange={handleEvolutionNaturalezaChange}>
                     <SelectTrigger>
                       <SelectValue placeholder="Seleccione naturaleza" />
@@ -1117,7 +1117,7 @@ const EducationSaberOnce = () => {
                 </div>
 
                 <div className="space-y-2">
-                  <label className="text-sm font-medium text-gray-700">Zona</label>
+                  <label className="text-sm font-medium text-foreground/85">Zona</label>
                   <Select value={selectedEvolutionZona} onValueChange={handleEvolutionZonaChange}>
                     <SelectTrigger>
                       <SelectValue placeholder="Seleccione zona" />
@@ -1132,8 +1132,8 @@ const EducationSaberOnce = () => {
 
 
                 <div className="space-y-2">
-                  <label className="text-sm font-medium text-gray-700">Ciudades a comparar ({selectedCities.length} seleccionadas)</label>
-                  <div className="flex flex-wrap gap-2 max-h-32 overflow-y-auto p-2 border rounded-md bg-gray-50">
+                  <label className="text-sm font-medium text-foreground/85">Ciudades a comparar ({selectedCities.length} seleccionadas)</label>
+                  <div className="flex flex-wrap gap-2 max-h-32 overflow-y-auto p-2 border rounded-md bg-card">
                     {availableCities.map((city) => (
                       <button
                         key={city}
@@ -1141,7 +1141,7 @@ const EducationSaberOnce = () => {
                         className={`px-3 py-1.5 rounded-full text-sm font-medium transition-all flex items-center gap-1.5 ${
                           selectedCities.includes(city)
                             ? 'text-white shadow-sm'
-                            : 'bg-white text-muted-foreground hover:bg-gray-100 border'
+                            : 'bg-card text-muted-foreground hover:bg-muted border'
                         }`}
                         style={selectedCities.includes(city) ? { backgroundColor: cityColors[city] } : {}}
                       >

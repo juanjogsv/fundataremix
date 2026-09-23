@@ -61,9 +61,9 @@ export const MonthSelector = ({
   };
 
   return (
-    <div className="flex flex-wrap items-center gap-3 bg-white rounded-lg border border-gray-200 shadow-sm px-4 py-2">
+    <div className="flex flex-wrap items-center gap-3 bg-card rounded-lg border border-border shadow-sm px-4 py-2">
       <CalendarDays className="h-5 w-5 text-luker-brown" />
-      <span className="text-sm font-medium text-gray-600">Período:</span>
+      <span className="text-sm font-medium text-muted-foreground">Período:</span>
 
       <Select value={String(selectedYear)} onValueChange={handleYearChange}>
         <SelectTrigger className="w-[110px] border-luker-brown/20 focus:ring-luker-green">

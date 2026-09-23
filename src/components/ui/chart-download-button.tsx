@@ -244,7 +244,7 @@ export const ChartDownloadButton = ({
           {isExporting ? "Exportando..." : "Descargar"}
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className="bg-white">
+      <DropdownMenuContent align="end" className="bg-card">
         <DropdownMenuItem onClick={downloadPDF} className="cursor-pointer">
           <FileText className="h-4 w-4 mr-2" />
           Descargar PDF

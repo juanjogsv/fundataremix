@@ -2,6 +2,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { useEffect } from "react";
 import { BrowserRouter, Routes, Route, Navigate, useLocation } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import Index from "./pages/Index";
@@ -31,6 +32,19 @@ const queryClient = new QueryClient();
 
 const PUBLIC_HOST = "datosabiertos.fundacionluker.org.co";
 const isPublicHost = () => window.location.hostname === PUBLIC_HOST;
+
+const RouteFocus = () => {
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "auto" });
+    window.requestAnimationFrame(() => {
+      document.querySelector<HTMLElement>("#page-title, main h1")?.focus({ preventScroll: true });
+    });
+  }, [pathname]);
+
+  return null;
+};
 
 const HomeRoute = () => {
   if (isPublicHost()) {
@@ -75,7 +89,8 @@ const GateWrapper = ({ children }: { children: React.ReactNode }) => {
   if (isDatosAbiertos) return <>{children}</>;
   return (
     <div className="mi-junta-site">
-      {children}
+      <a href="#contenido" className="skip-link">Saltar al contenido</a>
+      <main id="contenido">{children}</main>
       <InstitutionalFooter />
     </div>
   );
@@ -119,6 +134,7 @@ const App = () => (
       <Sonner />
       <BrowserRouter>
         <DynamicTitle />
+        <RouteFocus />
         <GateWrapper>
           <Routes>
             <Route path="/" element={<HomeRoute />} />

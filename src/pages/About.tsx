@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import lukerLogo from "@/assets/fundacion-luker-color-letra-cafe-horizontal.png.asset.json";
 import { PageHeader } from "@/components/PageHeader";
 
-const lukerLogoUrl = `https://id-preview--86b2a9c4-6838-4f82-a3c4-21cb241b504c.lovable.app${lukerLogo.url}`;
+const lukerLogoUrl = lukerLogo.url;
 
 const About = () => {
   const navigate = useNavigate();
@@ -29,7 +29,7 @@ const About = () => {
                   <h2 className="text-2xl md:text-3xl font-bold text-luker-brown mb-4 font-heading">
                     Nuestro Credo
                   </h2>
-                  <p className="text-lg text-gray-700 leading-relaxed">
+                  <p className="text-lg text-foreground/85 leading-relaxed">
                     Estamos convencidos que una persona educada y emprendedora transforma y genera 
                     desarrollo para sí mismo y las comunidades a su alrededor.
                   </p>
@@ -45,14 +45,14 @@ const About = () => {
             ¿Qué es esta Plataforma?
           </h2>
           <div className="prose max-w-none">
-            <Card className="bg-white border-gray-200/80 shadow-sm">
+            <Card className="bg-card border-border/80 shadow-sm">
               <CardContent className="p-8">
-                <p className="text-gray-700 text-lg leading-relaxed mb-4">
+                <p className="text-foreground/85 text-lg leading-relaxed mb-4">
                   La Plataforma de Gestión Estratégica de la Fundación Luker es un sistema integral 
                   diseñado para centralizar, visualizar y analizar información clave sobre nuestros 
                   programas e iniciativas sociales.
                 </p>
-                <p className="text-gray-700 text-lg leading-relaxed">
+                <p className="text-foreground/85 text-lg leading-relaxed">
                   Está pensada para facilitar la toma de decisiones informadas por parte de ejecutivos 
                   y líderes de la organización, proporcionando una visión 360° del impacto y desempeño 
                   de nuestras intervenciones en educación, emprendimiento, desarrollo rural y otras áreas estratégicas.
@@ -68,7 +68,7 @@ const About = () => {
             Características Principales
           </h2>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <Card className="bg-white border-gray-200/80 shadow-sm hover:shadow-md transition-shadow">
+            <Card className="bg-card border-border/80 shadow-sm hover:shadow-md transition-shadow">
               <CardHeader>
                 <div className="p-3 bg-luker-green/10 rounded-xl w-fit mb-2">
                   <Target className="h-6 w-6 text-luker-green" />
@@ -76,14 +76,14 @@ const About = () => {
                 <CardTitle className="text-luker-brown">Indicadores Estratégicos</CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-gray-600">
+                <p className="text-muted-foreground">
                   Seguimiento en tiempo real de KPIs clave organizados por áreas temáticas 
                   con visualizaciones claras y accionables.
                 </p>
               </CardContent>
             </Card>
 
-            <Card className="bg-white border-gray-200/80 shadow-sm hover:shadow-md transition-shadow">
+            <Card className="bg-card border-border/80 shadow-sm hover:shadow-md transition-shadow">
               <CardHeader>
                 <div className="p-3 bg-luker-orange/10 rounded-xl w-fit mb-2">
                   <TrendingUp className="h-6 w-6 text-luker-orange" />
@@ -91,14 +91,14 @@ const About = () => {
                 <CardTitle className="text-luker-brown">Análisis de Contexto</CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-gray-600">
+                <p className="text-muted-foreground">
                   Información socioeconómica del entorno que permite contextualizar 
                   nuestras intervenciones y medir su impacto real.
                 </p>
               </CardContent>
             </Card>
 
-            <Card className="bg-white border-gray-200/80 shadow-sm hover:shadow-md transition-shadow">
+            <Card className="bg-card border-border/80 shadow-sm hover:shadow-md transition-shadow">
               <CardHeader>
                 <div className="p-3 bg-luker-teal/10 rounded-xl w-fit mb-2">
                   <Lightbulb className="h-6 w-6 text-luker-teal" />
@@ -106,14 +106,14 @@ const About = () => {
                 <CardTitle className="text-luker-brown">Gestión Documental</CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-gray-600">
+                <p className="text-muted-foreground">
                   Repositorio centralizado de documentos clave, informes y materiales 
                   de referencia organizados por categorías.
                 </p>
               </CardContent>
             </Card>
 
-            <Card className="bg-white border-gray-200/80 shadow-sm hover:shadow-md transition-shadow">
+            <Card className="bg-card border-border/80 shadow-sm hover:shadow-md transition-shadow">
               <CardHeader>
                 <div className="p-3 bg-luker-red/10 rounded-xl w-fit mb-2">
                   <Users className="h-6 w-6 text-luker-red" />
@@ -121,14 +121,14 @@ const About = () => {
                 <CardTitle className="text-luker-brown">Georreferenciación</CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-gray-600">
+                <p className="text-muted-foreground">
                   Visualización geográfica de proyectos y ubicaciones de intervención 
                   para una mejor comprensión territorial.
                 </p>
               </CardContent>
             </Card>
 
-            <Card className="bg-white border-gray-200/80 shadow-sm hover:shadow-md transition-shadow">
+            <Card className="bg-card border-border/80 shadow-sm hover:shadow-md transition-shadow">
               <CardHeader>
                 <div className="p-3 bg-luker-brown/10 rounded-xl w-fit mb-2">
                   <Shield className="h-6 w-6 text-luker-brown" />
@@ -136,14 +136,14 @@ const About = () => {
                 <CardTitle className="text-luker-brown">Seguridad y Control</CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-gray-600">
+                <p className="text-muted-foreground">
                   Sistema de permisos y roles que garantiza el acceso apropiado 
                   a la información según el perfil del usuario.
                 </p>
               </CardContent>
             </Card>
 
-            <Card className="bg-white border-gray-200/80 shadow-sm hover:shadow-md transition-shadow">
+            <Card className="bg-card border-border/80 shadow-sm hover:shadow-md transition-shadow">
               <CardHeader>
                 <div className="p-3 bg-luker-green/10 rounded-xl w-fit mb-2">
                   <Zap className="h-6 w-6 text-luker-green" />
@@ -151,7 +151,7 @@ const About = () => {
                 <CardTitle className="text-luker-brown">Actualizaciones Dinámicas</CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-gray-600">
+                <p className="text-muted-foreground">
                   Sistema de carga de datos que permite mantener la información 
                   actualizada mediante archivos Excel y documentos estructurados.
                 </p>
@@ -165,16 +165,16 @@ const About = () => {
           <h2 className="text-2xl md:text-3xl font-bold text-luker-brown mb-6 font-heading">
             Metodología de Indicadores
           </h2>
-          <Card className="bg-white border-gray-200/80 shadow-sm">
+          <Card className="bg-card border-border/80 shadow-sm">
             <CardContent className="p-8">
               <div className="space-y-6">
                 <div>
                   <h3 className="text-xl font-semibold text-luker-brown mb-3">Lógica de Medición</h3>
-                  <p className="text-gray-700 leading-relaxed">
+                  <p className="text-foreground/85 leading-relaxed">
                     Los indicadores estratégicos están diseñados para medir el avance hacia metas anuales 
                     definidas por área temática. Cada indicador incluye:
                   </p>
-                  <ul className="list-disc list-inside mt-3 space-y-2 text-gray-700">
+                  <ul className="list-disc list-inside mt-3 space-y-2 text-foreground/85">
                     <li>Meta anual establecida al inicio del período</li>
                     <li>Valor acumulado durante el año en curso</li>
                     <li>Porcentaje de avance hacia la meta</li>
@@ -184,40 +184,40 @@ const About = () => {
 
                 <div>
                   <h3 className="text-xl font-semibold text-luker-brown mb-3">Áreas de Intervención</h3>
-                  <p className="text-gray-700 leading-relaxed">
+                  <p className="text-foreground/85 leading-relaxed">
                     La plataforma organiza los indicadores en 10 áreas estratégicas que reflejan 
                     la amplitud y profundidad del impacto de la Fundación Luker:
                   </p>
                   <div className="grid md:grid-cols-2 gap-3 mt-3">
-                    <div className="flex items-center gap-2 text-gray-700">
+                    <div className="flex items-center gap-2 text-foreground/85">
                       <div className="w-2 h-2 bg-luker-teal rounded-full"></div>
                       Educación
                     </div>
-                    <div className="flex items-center gap-2 text-gray-700">
+                    <div className="flex items-center gap-2 text-foreground/85">
                       <div className="w-2 h-2 bg-luker-green rounded-full"></div>
                       Emprendimiento
                     </div>
-                    <div className="flex items-center gap-2 text-gray-700">
+                    <div className="flex items-center gap-2 text-foreground/85">
                       <div className="w-2 h-2 bg-luker-orange rounded-full"></div>
                       Desarrollo Rural
                     </div>
-                    <div className="flex items-center gap-2 text-gray-700">
+                    <div className="flex items-center gap-2 text-foreground/85">
                       <div className="w-2 h-2 bg-luker-red rounded-full"></div>
                       Proyectos Especiales
                     </div>
-                    <div className="flex items-center gap-2 text-gray-700">
+                    <div className="flex items-center gap-2 text-foreground/85">
                       <div className="w-2 h-2 bg-luker-brown rounded-full"></div>
                       Estrategia
                     </div>
-                    <div className="flex items-center gap-2 text-gray-700">
+                    <div className="flex items-center gap-2 text-foreground/85">
                       <div className="w-2 h-2 bg-luker-teal rounded-full"></div>
                       Comunicaciones
                     </div>
-                    <div className="flex items-center gap-2 text-gray-700">
+                    <div className="flex items-center gap-2 text-foreground/85">
                       <div className="w-2 h-2 bg-luker-green rounded-full"></div>
                       Financiero
                     </div>
-                    <div className="flex items-center gap-2 text-gray-700">
+                    <div className="flex items-center gap-2 text-foreground/85">
                       <div className="w-2 h-2 bg-luker-brown rounded-full"></div>
                       Contexto Socioeconómico
                     </div>
@@ -235,7 +235,7 @@ const About = () => {
               <h3 className="text-2xl font-bold text-luker-brown font-heading">
                 ¿Listo para explorar los datos?
               </h3>
-              <p className="text-gray-600 max-w-2xl mx-auto">
+              <p className="text-muted-foreground max-w-2xl mx-auto">
                 Navega por los diferentes módulos para acceder a la información que necesitas
               </p>
               <div className="flex flex-wrap gap-4 justify-center pt-4">

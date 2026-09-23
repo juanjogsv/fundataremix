@@ -53,7 +53,7 @@ const RuralGeneracionR = () => {
     return (
       <div className="grid grid-cols-1 gap-6">
         {[1, 2, 3, 4, 5].map((i) => (
-          <Card key={i} className="bg-white border-0 shadow-sm">
+          <Card key={i} className="bg-card border-0 shadow-sm">
             <CardContent className="p-8 flex flex-col items-center space-y-4">
               <Skeleton className="w-16 h-16 rounded-full" />
               <Skeleton className="h-4 w-48" />

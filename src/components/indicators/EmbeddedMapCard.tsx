@@ -10,7 +10,7 @@ import 'maplibre-gl/dist/maplibre-gl.css';
 import type { Feature, FeatureCollection, Point } from 'geojson';
 
 const MAP_STYLE = 'https://basemaps.cartocdn.com/gl/positron-gl-style/style.json';
-const MARKER_COLOR = '#6366f1';
+const MARKER_COLOR = '#009EAE';
 
 interface MunicipalityData {
   cod_entidad: string;
@@ -228,19 +228,19 @@ export const EmbeddedMapCard = () => {
             programasTable = `
               <table style="width: 100%; border-collapse: collapse; font-size: 11px; margin-top: 6px;">
                 <thead>
-                  <tr style="background: #f3f4f6;">
-                    <th style="text-align: left; padding: 4px 6px; border-bottom: 1px solid #e5e7eb;">Proyecto</th>
-                    <th style="text-align: right; padding: 4px 6px; border-bottom: 1px solid #e5e7eb;">Benef.</th>
+                  <tr style="background: #EFEAE1; color: #623E19;">
+                    <th style="text-align: left; padding: 4px 6px; border-bottom: 1px solid rgba(98,62,25,.18);">Proyecto</th>
+                    <th style="text-align: right; padding: 4px 6px; border-bottom: 1px solid rgba(98,62,25,.18);">Benef.</th>
                   </tr>
                 </thead>
                 <tbody>
                   ${detalles.slice(0, 5).map((d, i) => `
-                    <tr style="background: ${i % 2 === 0 ? '#fff' : '#f9fafb'};">
+                    <tr style="background: ${i % 2 === 0 ? '#fff' : '#FAF8F3'}; color: #623E19;">
                       <td style="padding: 3px 6px; font-size: 10px;">${d.programa}</td>
-                      <td style="padding: 3px 6px; text-align: right; font-weight: 600; color: #059669;">${d.valor.toLocaleString()}</td>
+                      <td style="padding: 3px 6px; text-align: right; font-weight: 700; color: #007B88;">${d.valor.toLocaleString()}</td>
                     </tr>
                   `).join('')}
-                  ${detalles.length > 5 ? `<tr><td colspan="2" style="padding: 3px 6px; font-size: 10px; color: #6b7280;">+${detalles.length - 5} más...</td></tr>` : ''}
+                  ${detalles.length > 5 ? `<tr><td colspan="2" style="padding: 3px 6px; font-size: 10px; color: rgba(98,62,25,.65);">+${detalles.length - 5} más...</td></tr>` : ''}
                 </tbody>
               </table>
             `;
@@ -253,9 +253,9 @@ export const EmbeddedMapCard = () => {
           .setLngLat(coordinates)
           .setHTML(`
             <div style="padding: 8px; min-width: 200px;">
-              <h3 style="font-size: 14px; font-weight: 600; margin: 0 0 2px 0;">${props?.entidad}</h3>
-              <p style="font-size: 11px; color: #666; margin: 0 0 8px 0;">${props?.departamento}</p>
-              <div style="background: linear-gradient(135deg, #059669 0%, #10b981 100%); border-radius: 6px; padding: 8px; color: white;">
+              <h3 style="font-size: 14px; font-weight: 700; margin: 0 0 2px 0; color: #623E19;">${props?.entidad}</h3>
+              <p style="font-size: 11px; color: rgba(98,62,25,.72); margin: 0 0 8px 0;">${props?.departamento}</p>
+              <div style="background: #009EAE; border-radius: 6px; padding: 8px; color: white;">
                 <div style="font-size: 20px; font-weight: 700;">${Number(props?.totalBeneficiarios).toLocaleString()}</div>
                 <div style="font-size: 10px; opacity: 0.9;">Beneficiarios</div>
               </div>
@@ -291,9 +291,9 @@ export const EmbeddedMapCard = () => {
   const totalBeneficiarios = (municipalitiesData as MunicipalityData[]).reduce((acc, m) => acc + m.totalBeneficiarios, 0);
 
   return (
-    <Card className="bg-white border border-gray-100 shadow-lg rounded-2xl overflow-hidden h-full flex flex-col">
+    <Card className="overflow-hidden h-full flex flex-col">
       <CardHeader className="pb-2 flex flex-row items-center justify-between">
-        <CardTitle className="text-base font-semibold text-gray-800 flex items-center gap-2">
+        <CardTitle className="text-base font-semibold text-foreground flex items-center gap-2">
           <MapPin className="h-4 w-4 text-luker-green" />
           Mapa de Participantes
         </CardTitle>
@@ -301,21 +301,21 @@ export const EmbeddedMapCard = () => {
           href="/mapa"
           target="_blank"
           rel="noopener noreferrer"
-          className="flex items-center gap-1 text-xs text-gray-500 hover:text-luker-green transition-colors"
+          className="flex items-center gap-1 text-xs text-muted-foreground hover:text-luker-green transition-colors"
         >
           <ExternalLink className="h-3 w-3" />
           Ver completo
         </a>
       </CardHeader>
       <CardContent className="p-0 flex-1 flex flex-col">
-        <div className="px-4 pb-2 flex items-center gap-4 text-xs text-gray-500">
-          <span className="font-medium text-gray-700">{municipalitiesData.length}</span> municipios
+        <div className="px-4 pb-2 flex items-center gap-4 text-xs text-muted-foreground">
+          <span className="font-medium text-foreground/85">{municipalitiesData.length}</span> municipios
           <span className="font-medium text-luker-green">{totalBeneficiarios.toLocaleString()}</span> participantes
         </div>
         <div className="relative flex-1 min-h-[280px]">
           {(isLoading || isDataLoading) && (
-            <div className="absolute inset-0 flex items-center justify-center bg-gray-50/80 z-10">
-              <Loader2 className="h-5 w-5 animate-spin text-gray-400" />
+            <div className="absolute inset-0 flex items-center justify-center bg-card/80 z-10">
+              <Loader2 className="h-5 w-5 animate-spin text-muted-foreground/80" />
             </div>
           )}
           <div ref={mapContainer} className="absolute inset-0" />

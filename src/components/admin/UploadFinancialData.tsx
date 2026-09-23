@@ -357,15 +357,15 @@ export const UploadFinancialData = () => {
   };
 
   return (
-    <Card className="bg-white border-gray-200/80 shadow-sm">
-      <CardHeader className="border-b border-gray-100">
+    <Card className="bg-card border-border/80 shadow-sm">
+      <CardHeader className="border-b border-border">
         <CardTitle className="text-lg text-luker-brown flex items-center gap-2">
           <FileSpreadsheet className="h-5 w-5" />
           Cargar Ejecución Mensual Financiera
         </CardTitle>
       </CardHeader>
       <CardContent className="p-6 space-y-4">
-        <p className="text-sm text-gray-600">
+        <p className="text-sm text-muted-foreground">
           Sube el archivo de ejecución mensual (formato .xls o .xlsx). El sistema extraerá
           automáticamente el mes y año del encabezado de la hoja RESUMEN.
         </p>
@@ -395,9 +395,9 @@ export const UploadFinancialData = () => {
         )}
 
         {file && !parsedData && (
-          <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4 flex items-center gap-2">
-            <AlertCircle className="h-5 w-5 text-yellow-600" />
-            <span className="text-sm text-yellow-700">
+          <div className="bg-kit-orange/10 border border-kit-orange/40 rounded-lg p-4 flex items-center gap-2">
+            <AlertCircle className="h-5 w-5 text-kit-orangeDeep" />
+            <span className="text-sm text-foreground/80">
               Procesando archivo... Si no se detecta la estructura esperada, verifica que el archivo
               contenga la hoja RESUMEN con el cuadro de ejecución por proyectos.
             </span>

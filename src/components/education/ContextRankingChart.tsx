@@ -108,7 +108,7 @@ const ContextRankingChart = ({ code, title, accentVar, year, ascending = false }
   const chartHeight = useMemo(() => Math.max(300, compData.length * 32), [compData.length]);
 
   return (
-    <Card className="bg-gradient-to-br from-white to-gray-50/50 border-gray-200">
+    <Card className="bg-card border-border">
       <CardHeader>
         <div className="flex items-center justify-between flex-wrap gap-2">
           <div className="flex items-center gap-3">
@@ -116,7 +116,7 @@ const ContextRankingChart = ({ code, title, accentVar, year, ascending = false }
             <CardTitle className="text-xl text-luker-brown">
               {title}{" "}
               {mode === "comparativo" && resolvedYear ? (
-                <span className="text-sm font-normal text-gray-500">({resolvedYear})</span>
+                <span className="text-sm font-normal text-muted-foreground">({resolvedYear})</span>
               ) : null}
             </CardTitle>
           </div>
@@ -141,10 +141,10 @@ const ContextRankingChart = ({ code, title, accentVar, year, ascending = false }
       </CardHeader>
       <CardContent ref={chartRef}>
         {loading ? (
-          <div className="h-80 bg-gray-100 animate-pulse rounded" />
+          <div className="h-80 bg-muted animate-pulse rounded" />
         ) : mode === "historico" ? (
           histData.length === 0 ? (
-            <div className="p-8 text-center text-gray-500">No hay datos históricos para Manizales.</div>
+            <div className="p-8 text-center text-muted-foreground">No hay datos históricos para Manizales.</div>
           ) : (
             <ResponsiveContainer width="100%" height={340}>
               <LineChart data={histData} margin={{ top: 20, right: 30, left: 10, bottom: 5 }}>
@@ -171,7 +171,7 @@ const ContextRankingChart = ({ code, title, accentVar, year, ascending = false }
             </ResponsiveContainer>
           )
         ) : compData.length === 0 ? (
-          <div className="p-8 text-center text-gray-500">No hay datos disponibles para mostrar.</div>
+          <div className="p-8 text-center text-muted-foreground">No hay datos disponibles para mostrar.</div>
         ) : (
           <ResponsiveContainer width="100%" height={chartHeight}>
             <BarChart data={compData} layout="vertical" margin={{ top: 5, right: 50, left: 20, bottom: 5 }}>

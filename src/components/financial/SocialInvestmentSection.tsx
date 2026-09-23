@@ -299,10 +299,10 @@ export const SocialInvestmentSection = () => {
     if (active && payload && payload.length) {
       const data = payload[0].payload;
       return (
-        <div className="bg-white p-4 rounded-lg shadow-xl border-2 border-luker-brown/20">
+        <div className="bg-card p-4 rounded-lg shadow-xl border-2 border-luker-brown/20">
           <p className="text-base font-bold text-luker-brown mb-2">{data.name}</p>
           <div className="space-y-1">
-            <p className="text-sm text-gray-700">
+            <p className="text-sm text-foreground/85">
               <span className="font-semibold">Presupuesto:</span> {formatCurrency(data.value)}
             </p>
             <p className="text-sm font-bold text-luker-green">
@@ -331,7 +331,7 @@ export const SocialInvestmentSection = () => {
       <div className="flex items-center justify-center py-12">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-luker-brown mx-auto mb-4"></div>
-          <p className="text-gray-600">Cargando datos financieros...</p>
+          <p className="text-muted-foreground">Cargando datos financieros...</p>
         </div>
       </div>
     );
@@ -339,12 +339,12 @@ export const SocialInvestmentSection = () => {
 
   if (!hasMonthlyData && legacyInvestments.length === 0) {
     return (
-      <Card className="bg-yellow-50 border-yellow-200">
+      <Card className="bg-kit-orange/10 border-kit-orange/40">
         <CardContent className="p-6 flex items-center gap-3">
-          <AlertCircle className="h-6 w-6 text-yellow-600" />
+          <AlertCircle className="h-6 w-6 text-kit-orangeDeep" />
           <div>
-            <p className="font-semibold text-yellow-800">No hay datos disponibles</p>
-            <p className="text-sm text-yellow-700">
+            <p className="font-semibold text-foreground">No hay datos disponibles</p>
+            <p className="text-sm text-foreground/80">
               Carga un archivo de ejecución mensual desde el panel de administración.
             </p>
           </div>
@@ -368,13 +368,13 @@ export const SocialInvestmentSection = () => {
 
       {/* Resumen Ejecutivo */}
       <section className="grid md:grid-cols-3 gap-6">
-        <Card className="bg-white border-gray-200/80 shadow-sm">
+        <Card className="bg-card border-border/80 shadow-sm">
           <CardContent className="p-6 flex items-start gap-4">
             <div className="p-3 bg-luker-green/10 rounded-xl">
               <DollarSign className="h-6 w-6 text-luker-green" />
             </div>
             <div>
-              <p className="text-sm text-gray-600 mb-1">Presupuesto</p>
+              <p className="text-sm text-muted-foreground mb-1">Presupuesto</p>
               <h3 className="text-2xl font-bold text-luker-brown">
                 {formatCurrencyMillions(getTotalBudget())}
               </h3>
@@ -382,13 +382,13 @@ export const SocialInvestmentSection = () => {
           </CardContent>
         </Card>
 
-        <Card className="bg-white border-gray-200/80 shadow-sm">
+        <Card className="bg-card border-border/80 shadow-sm">
           <CardContent className="p-6 flex items-start gap-4">
             <div className="p-3 bg-luker-orange/10 rounded-xl">
               <TrendingUp className="h-6 w-6 text-luker-orange" />
             </div>
             <div>
-              <p className="text-sm text-gray-600 mb-1">Total Ejecutado</p>
+              <p className="text-sm text-muted-foreground mb-1">Total Ejecutado</p>
               <h3 className="text-2xl font-bold text-luker-brown">
                 {formatCurrencyMillions(getTotalExecuted())}
               </h3>
@@ -396,13 +396,13 @@ export const SocialInvestmentSection = () => {
           </CardContent>
         </Card>
 
-        <Card className="bg-white border-gray-200/80 shadow-sm">
+        <Card className="bg-card border-border/80 shadow-sm">
           <CardContent className="p-6 flex items-start gap-4">
             <div className="p-3 bg-luker-teal/10 rounded-xl">
               <FileText className="h-6 w-6 text-luker-teal" />
             </div>
             <div>
-              <p className="text-sm text-gray-600 mb-1">% Ejecución General</p>
+              <p className="text-sm text-muted-foreground mb-1">% Ejecución General</p>
               <h3 className="text-2xl font-bold text-luker-brown">
                 {getOverallExecutionPercentage()}%
               </h3>
@@ -416,15 +416,15 @@ export const SocialInvestmentSection = () => {
         <section className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {/* Gráfico de Torta - Distribución del Presupuesto */}
           {pieChartData.length > 0 && (
-            <Card className="bg-white border-gray-200/80 shadow-lg">
-              <CardHeader className="border-b border-gray-100">
+            <Card className="bg-card border-border/80 shadow-lg">
+              <CardHeader className="border-b border-border">
                 <CardTitle className="text-xl text-luker-brown font-heading flex items-center gap-2">
                   <div className="w-1 h-6 bg-luker-green rounded-full"></div>
                   Distribución del Presupuesto
                 </CardTitle>
               </CardHeader>
               <CardContent className="pt-2">
-                <div className="bg-gradient-to-br from-gray-50/50 to-white rounded-xl p-2">
+                <div className="bg-card rounded-xl p-2">
                   <ResponsiveContainer width="100%" height={350}>
                     <PieChart>
                       <Pie
@@ -463,7 +463,7 @@ export const SocialInvestmentSection = () => {
                         formatter={(value, entry: any) => {
                           const item = pieChartData.find(d => d.name === value);
                           return (
-                            <span className="text-xs font-medium text-gray-700">
+                            <span className="text-xs font-medium text-foreground/85">
                               {value} ({item?.percentage}%)
                             </span>
                           );
@@ -478,15 +478,15 @@ export const SocialInvestmentSection = () => {
 
           {/* Ejecución Presupuestal Histórica */}
           {historicalExecution.length > 0 && (
-            <Card className="bg-white border-gray-200/80 shadow-lg">
-              <CardHeader className="border-b border-gray-100">
+            <Card className="bg-card border-border/80 shadow-lg">
+              <CardHeader className="border-b border-border">
                 <CardTitle className="text-xl text-luker-brown font-heading flex items-center gap-2">
                   <div className="w-1 h-6 bg-luker-teal rounded-full"></div>
                   Ejecución presupuestal por mes {selectedMonth?.year ? `- ${selectedMonth.year}` : ""}
                 </CardTitle>
               </CardHeader>
               <CardContent className="pt-4">
-                <div className="bg-gradient-to-br from-gray-50/50 to-white rounded-xl p-2">
+                <div className="bg-card rounded-xl p-2">
                   {(() => {
                     const chartYear = selectedMonth?.year ?? (historicalExecution[historicalExecution.length - 1]?.year);
                     const chartData = historicalExecution
@@ -561,8 +561,8 @@ export const SocialInvestmentSection = () => {
       {/* Tabla Detallada con Búsqueda */}
       {filteredInvestments.length > 0 && (
         <section>
-          <Card className="bg-white border-gray-200/80 shadow-lg">
-            <CardHeader className="border-b border-gray-100">
+          <Card className="bg-card border-border/80 shadow-lg">
+            <CardHeader className="border-b border-border">
               <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
                 <div className="flex-1">
                   <CardTitle className="text-2xl text-luker-brown font-heading flex items-center gap-2">
@@ -571,13 +571,13 @@ export const SocialInvestmentSection = () => {
                   </CardTitle>
                 </div>
                 <div className="relative w-full md:w-96">
-                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
+                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-muted-foreground/80" />
                   <Input
                     type="text"
                     placeholder="Buscar por proyecto o área..."
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
-                    className="pl-10 h-11 border-gray-300 focus:border-luker-green focus:ring-luker-green rounded-lg"
+                    className="pl-10 h-11 border-border focus:border-luker-green focus:ring-luker-green rounded-lg"
                   />
                 </div>
               </div>
@@ -586,7 +586,7 @@ export const SocialInvestmentSection = () => {
               <div className="overflow-x-auto">
                 <Table>
                   <TableHeader>
-                    <TableRow className="bg-gradient-to-r from-gray-50 to-gray-100/80 border-b-2 border-luker-brown/10">
+                    <TableRow className="bg-muted/50 border-b-2 border-luker-brown/10">
                       <TableHead className="font-bold text-luker-brown text-sm uppercase tracking-wide">
                         Proyecto
                       </TableHead>
@@ -605,7 +605,7 @@ export const SocialInvestmentSection = () => {
                     {filteredInvestments.length === 0 ? (
                       <TableRow>
                         <TableCell colSpan={4} className="text-center py-12">
-                          <div className="text-gray-400">
+                          <div className="text-muted-foreground/80">
                             <Search className="h-12 w-12 mx-auto mb-3 opacity-30" />
                             <p className="text-sm">No se encontraron resultados para "{searchTerm}"</p>
                           </div>
@@ -617,11 +617,11 @@ export const SocialInvestmentSection = () => {
                           key={investment.id}
                           className={`hover:bg-luker-green/5 transition-colors ${
                             investment.is_parent 
-                              ? 'bg-gradient-to-r from-luker-brown/5 to-luker-brown/3 border-l-4 border-luker-brown font-semibold' 
+                              ? 'bg-muted/50 border-l-4 border-luker-brown font-semibold' 
                               : 'border-l-4 border-transparent'
                           }`}
                         >
-                          <TableCell className={investment.is_parent ? 'font-bold text-luker-brown text-base' : 'pl-8 text-gray-700'}>
+                          <TableCell className={investment.is_parent ? 'font-bold text-luker-brown text-base' : 'pl-8 text-foreground/85'}>
                             {investment.project_name}
                           </TableCell>
                           <TableCell className="text-right font-mono text-luker-brown font-semibold">
@@ -637,12 +637,12 @@ export const SocialInvestmentSection = () => {
                                 : 0;
                               return (
                                 <div className="flex items-center justify-center gap-3">
-                                  <div className="w-24 bg-gray-200 rounded-full h-2.5 overflow-hidden">
+                                  <div className="w-24 bg-muted rounded-full h-2.5 overflow-hidden">
                                     <div
                                       className={`h-2.5 rounded-full transition-all duration-300 ${
-                                        calcPercentage >= 75 ? 'bg-gradient-to-r from-luker-green to-green-500' :
-                                        calcPercentage >= 50 ? 'bg-gradient-to-r from-luker-orange to-orange-500' :
-                                        'bg-gradient-to-r from-luker-red to-red-500'
+                                        calcPercentage >= 75 ? 'bg-kit-lime' :
+                                        calcPercentage >= 50 ? 'bg-kit-orange' :
+                                        'bg-kit-coral'
                                       }`}
                                       style={{ width: `${Math.min(calcPercentage, 100)}%` }}
                                     ></div>

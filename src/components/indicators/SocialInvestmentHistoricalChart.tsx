@@ -57,7 +57,7 @@ const SocialInvestmentHistoricalChart = () => {
 
   if (isLoading) {
     return (
-      <Card className="bg-white/90 backdrop-blur-sm border border-gray-200/50 shadow-lg">
+      <Card className="bg-card/90 backdrop-blur-sm border border-border/50 shadow-lg">
         <CardContent className="p-6">
           <div className="flex items-center justify-center h-64">
             <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-luker-green"></div>
@@ -68,7 +68,7 @@ const SocialInvestmentHistoricalChart = () => {
   }
 
   return (
-    <Card className="bg-white/90 backdrop-blur-sm border border-gray-200/50 shadow-lg relative">
+    <Card className="bg-card/90 backdrop-blur-sm border border-border/50 shadow-lg relative">
       <div className="absolute top-4 right-4 z-10">
         <ChartDownloadButton chartRef={chartRef} title="Inversión Social Histórica" />
       </div>
@@ -76,19 +76,19 @@ const SocialInvestmentHistoricalChart = () => {
       <CardHeader className="pb-2">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="p-2 rounded-lg bg-gradient-to-br from-kit-lime to-kit-teal">
+            <div className="p-2 rounded-lg bg-kit-lime">
               <TrendingUp className="h-5 w-5 text-white" />
             </div>
             <div>
               <CardTitle className="text-lg font-bold text-luker-brown">
                 Inversión Social Histórica
               </CardTitle>
-              <p className="text-sm text-gray-500">2012 - 2024</p>
+              <p className="text-sm text-muted-foreground">2012 - 2024</p>
             </div>
           </div>
           <div className="text-right">
             <p className="text-2xl font-bold text-luker-green">{formatCurrency(grandTotal)}</p>
-            <p className="text-xs text-gray-500">Total acumulado</p>
+            <p className="text-xs text-muted-foreground">Total acumulado</p>
           </div>
         </div>
       </CardHeader>
@@ -129,8 +129,8 @@ const SocialInvestmentHistoricalChart = () => {
                     const terceros = payload.find(p => p.dataKey === "Terceros")?.value as number || 0;
                     const total = propios + terceros;
                     return (
-                      <div className="bg-white/95 border border-gray-200 rounded-lg p-3 shadow-lg">
-                        <p className="font-semibold text-gray-800 mb-2">Año {label}</p>
+                      <div className="bg-card/95 border border-border rounded-lg p-3 shadow-lg">
+                        <p className="font-semibold text-foreground mb-2">Año {label}</p>
                         <div className="space-y-1 text-sm">
                           <p className="flex justify-between gap-4">
                             <span className="text-kit-limeDeep">● Propios:</span>
@@ -140,9 +140,9 @@ const SocialInvestmentHistoricalChart = () => {
                             <span className="text-kit-coralDeep">● Terceros:</span>
                             <span className="font-medium">${terceros.toFixed(1)} MM</span>
                           </p>
-                          <div className="border-t border-gray-200 pt-1 mt-1">
+                          <div className="border-t border-border pt-1 mt-1">
                             <p className="flex justify-between gap-4 font-semibold">
-                              <span className="text-gray-700">Total:</span>
+                              <span className="text-foreground/85">Total:</span>
                               <span className="text-luker-brown">${total.toFixed(1)} MM</span>
                             </p>
                           </div>

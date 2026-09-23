@@ -113,21 +113,21 @@ const EducationDesertionRanking = () => {
     return (
       <Card className="animate-pulse">
         <CardHeader>
-          <div className="h-6 bg-gray-200 rounded w-3/4"></div>
+          <div className="h-6 bg-muted rounded w-3/4"></div>
         </CardHeader>
         <CardContent>
-          <div className="h-80 bg-gray-200 rounded"></div>
+          <div className="h-80 bg-muted rounded"></div>
         </CardContent>
       </Card>
     );
   }
 
   return (
-    <Card className="bg-gradient-to-br from-white to-gray-50/50 border-gray-200">
+    <Card className="bg-card border-border">
       <CardHeader>
         <div className="flex items-center justify-between flex-wrap gap-4">
           <div className="flex items-center gap-3">
-            <TrendingDown className="h-6 w-6 text-red-600" />
+            <TrendingDown className="h-6 w-6 text-kit-coralDeep" />
             <CardTitle className="text-xl text-luker-brown">
               Ranking de Entidades: Tasa de Deserción Escolar
             </CardTitle>
@@ -157,7 +157,7 @@ const EducationDesertionRanking = () => {
       </CardHeader>
       <CardContent ref={chartRef}>
         {data.length === 0 ? (
-          <div className="p-8 text-center text-gray-500">
+          <div className="p-8 text-center text-muted-foreground">
             No hay datos disponibles para mostrar.
           </div>
         ) : (

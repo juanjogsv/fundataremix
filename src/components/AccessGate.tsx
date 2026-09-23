@@ -6,7 +6,7 @@ import { Card } from "@/components/ui/card";
 import { Shield, Loader2 } from "lucide-react";
 import lukerLogo from "@/assets/fundacion-luker-color-letra-cafe-horizontal.png.asset.json";
 
-const lukerLogoUrl = `https://id-preview--86b2a9c4-6838-4f82-a3c4-21cb241b504c.lovable.app${lukerLogo.url}`;
+const lukerLogoUrl = lukerLogo.url;
 
 const LOCAL_FLAG = "fl_access_granted_v1";
 
@@ -88,11 +88,11 @@ export const AccessGate = ({ children }: { children: React.ReactNode }) => {
             <Shield className="h-4 w-4 text-luker-green" />
             <span className="text-sm font-semibold">Acceso restringido</span>
           </div>
-          <p className="text-sm text-gray-600 leading-relaxed">
+          <p className="text-sm text-muted-foreground leading-relaxed">
             Esta plataforma es de uso interno. Ingresa el código compartido para
             continuar.
             <br />
-            <span className="text-xs text-gray-500">
+            <span className="text-xs text-muted-foreground">
               ¿Buscas los datos públicos? Visita{" "}
               <a
                 href="/datosabiertos"
@@ -116,7 +116,7 @@ export const AccessGate = ({ children }: { children: React.ReactNode }) => {
             className="text-center tracking-widest"
           />
           {error && (
-            <p className="text-sm text-red-600 text-center">{error}</p>
+            <p className="text-sm text-kit-coralDeep text-center">{error}</p>
           )}
           <Button
             type="submit"

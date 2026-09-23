@@ -171,13 +171,13 @@ const UploadMCVData = () => {
             onChange={handleFileChange}
             disabled={loading}
           />
-          <p className="text-xs text-gray-500">
+          <p className="text-xs text-muted-foreground">
             Selecciona el archivo Indicadores_FunLuker_-_MCV.xlsx
           </p>
         </div>
 
         {file && (
-          <div className="flex items-center gap-2 text-sm text-gray-600 bg-gray-50 p-2 rounded">
+          <div className="flex items-center gap-2 text-sm text-muted-foreground bg-card p-2 rounded">
             <FileSpreadsheet className="h-4 w-4" />
             <span>{file.name}</span>
           </div>
@@ -189,7 +189,7 @@ const UploadMCVData = () => {
               <span>Cargando datos...</span>
               <span>{progress.current} / {progress.total}</span>
             </div>
-            <div className="w-full bg-gray-200 rounded-full h-2">
+            <div className="w-full bg-muted rounded-full h-2">
               <div 
                 className="bg-luker-blue h-2 rounded-full transition-all"
                 style={{ width: `${(progress.current / progress.total) * 100}%` }}
@@ -200,7 +200,7 @@ const UploadMCVData = () => {
 
         {result && (
           <div className={`flex items-center gap-2 p-3 rounded ${
-            result.errors === 0 ? "bg-green-50 text-green-700" : "bg-yellow-50 text-yellow-700"
+            result.errors === 0 ? "bg-kit-lime/10 text-green-700" : "bg-kit-orange/10 text-foreground/80"
           }`}>
             {result.errors === 0 ? (
               <Check className="h-5 w-5" />

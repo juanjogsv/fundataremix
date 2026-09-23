@@ -99,7 +99,7 @@ const EducationUTCPrograms = () => {
 
   return (
     <Card className="border-luker-green/20 shadow-lg">
-      <CardHeader className="bg-gradient-to-r from-luker-green/5 to-luker-teal/5">
+      <CardHeader className="bg-card border-b border-border">
         <CardTitle className="text-xl flex items-center gap-2 text-luker-green">
           <BookOpen className="h-5 w-5 text-luker-teal" />
           Matrícula Técnica UTC por Programa

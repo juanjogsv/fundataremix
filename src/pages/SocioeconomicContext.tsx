@@ -145,7 +145,7 @@ const SocioeconomicContext = () => {
                 <TabsTrigger
                   key={section.id}
                   value={section.id}
-                  className="flex items-center gap-2 data-[state=active]:bg-kit-teal data-[state=active]:text-primary-foreground"
+                  className="flex items-center gap-2"
                 >
                   <Icon className="h-4 w-4" />
                   <span className="hidden md:inline">{section.label}</span>

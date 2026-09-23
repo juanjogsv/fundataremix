@@ -46,12 +46,12 @@ interface Document {
 
 // Category colors matching section colors
 const categoryColors: Record<string, string> = {
-  "Educación": "#7AC143",
-  "Emprendimiento": "#00A0AF",
-  "Desarrollo Rural": "#8B4513",
-  "Financiero": "#FB8C00",
-  "Especiales": "#EF3E42",
-  "General": "#572700",
+  "Educación": "#8EBC22",
+  "Emprendimiento": "#009EAE",
+  "Desarrollo Rural": "#623E19",
+  "Financiero": "#FBB03F",
+  "Especiales": "#FF7C80",
+  "General": "#623E19",
 };
 
 const getCategoryColor = (categoria: string | null): string => {

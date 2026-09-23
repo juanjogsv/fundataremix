@@ -8,3 +8,6 @@
 - [x] Limpiar estilos heredados fuera del kit
 - [x] Validar escritorio, móvil, funcionalidad y Datos Abiertos
 - [x] Aplicar y validar tarjetas editoriales de módulos según la referencia aprobada
+- [ ] Alinear sistema visual, estructura, componentes y páginas con el kit activo
+- [ ] Actualizar y activar la guía Fundación Luker con las reglas consolidadas
+- [ ] Validar todas las rutas, responsive y regresión de Datos Abiertos

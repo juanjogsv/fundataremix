@@ -451,9 +451,9 @@ const MCVSubsection = ({
   if (data.length === 0) {
     return (
       <Card className="p-8 text-center">
-        <Icon className="h-12 w-12 mx-auto text-gray-400 mb-4" />
-        <h3 className="text-lg font-medium text-gray-600 mb-2">Sin datos disponibles</h3>
-        <p className="text-gray-500">
+        <Icon className="h-12 w-12 mx-auto text-muted-foreground/80 mb-4" />
+        <h3 className="text-lg font-medium text-muted-foreground mb-2">Sin datos disponibles</h3>
+        <p className="text-muted-foreground">
           No hay datos de {title} para {selectedEntity}.
           <br />
           Carga los datos desde el archivo MCV en la sección de Administración.
@@ -499,7 +499,7 @@ const MCVSubsection = ({
                     <CardTitle className="text-base font-semibold text-luker-brown">
                       {compareCity === "all" ? "Comparación de ciudades" : "Serie histórica"}
                     </CardTitle>
-                    <p className="text-sm text-gray-500">
+                    <p className="text-sm text-muted-foreground">
                       {compareCity === "all" 
                         ? `Ranking de 23 ciudades • ${selectedYear ?? allCitiesData[0]?.year ?? ""}` 
                         : `${selectedEntity}${compareCity !== "none" ? ` vs ${compareCity}` : ""}`}
@@ -529,7 +529,7 @@ const MCVSubsection = ({
               </div>
               <div className="flex items-center gap-4 flex-wrap">
                 <div className="flex items-center gap-2">
-                  <span className="text-sm text-gray-500">Indicador:</span>
+                  <span className="text-sm text-muted-foreground">Indicador:</span>
                   <Select value={selectedIndicator} onValueChange={setSelectedIndicator}>
                     <SelectTrigger className="w-64">
                       <SelectValue placeholder="Seleccionar indicador" />
@@ -544,7 +544,7 @@ const MCVSubsection = ({
                   </Select>
                 </div>
                 <div className="flex items-center gap-2">
-                  <span className="text-sm text-gray-500">Comparar con:</span>
+                  <span className="text-sm text-muted-foreground">Comparar con:</span>
                   <Select value={compareCity} onValueChange={setCompareCity}>
                     <SelectTrigger className="w-48">
                       <SelectValue placeholder="Seleccionar ciudad" />
@@ -562,7 +562,7 @@ const MCVSubsection = ({
                 </div>
                 {compareCity === "all" && availableYears.length > 0 && (
                   <div className="flex items-center gap-2">
-                    <span className="text-sm text-gray-500">Año:</span>
+                    <span className="text-sm text-muted-foreground">Año:</span>
                     <Select 
                       value={selectedYear?.toString() ?? ""} 
                       onValueChange={(val) => setSelectedYear(parseInt(val))}
@@ -720,7 +720,7 @@ const MCVSubsection = ({
               </div>
             )}
             {latestSelectedIndicator?.fuente && (
-              <p className="text-xs text-gray-500 mt-2 text-right">
+              <p className="text-xs text-muted-foreground mt-2 text-right">
                 Fuente: {latestSelectedIndicator.fuente}
               </p>
             )}

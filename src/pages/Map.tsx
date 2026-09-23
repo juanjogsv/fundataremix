@@ -311,16 +311,16 @@ const Map = () => {
             programasTable = `
               <table style="width: 100%; border-collapse: collapse; font-size: 12px; margin-top: 8px;">
                 <thead>
-                  <tr style="background: #f3f4f6;">
-                    <th style="text-align: left; padding: 8px; border-bottom: 2px solid #e5e7eb; color: #374151;">Proyecto</th>
-                    <th style="text-align: right; padding: 8px; border-bottom: 2px solid #e5e7eb; color: #374151;">Beneficiarios</th>
+                  <tr style="background: #EFEAE1;">
+                    <th style="text-align: left; padding: 8px; border-bottom: 2px solid rgba(98,62,25,.22); color: #623E19;">Proyecto</th>
+                    <th style="text-align: right; padding: 8px; border-bottom: 2px solid rgba(98,62,25,.22); color: #623E19;">Beneficiarios</th>
                   </tr>
                 </thead>
                 <tbody>
                   ${detalles.map((d, i) => `
-                    <tr style="background: ${i % 2 === 0 ? '#ffffff' : '#f9fafb'};">
-                      <td style="padding: 6px 8px; border-bottom: 1px solid #e5e7eb; color: #4b5563;">${d.programa}</td>
-                      <td style="padding: 6px 8px; border-bottom: 1px solid #e5e7eb; text-align: right; font-weight: 600; color: #059669;">${d.valor.toLocaleString()}</td>
+                    <tr style="background: ${i % 2 === 0 ? '#ffffff' : '#FAF8F3'};">
+                      <td style="padding: 6px 8px; border-bottom: 1px solid rgba(98,62,25,.16); color: #623E19;">${d.programa}</td>
+                      <td style="padding: 6px 8px; border-bottom: 1px solid rgba(98,62,25,.16); text-align: right; font-weight: 700; color: #007B88;">${d.valor.toLocaleString()}</td>
                     </tr>
                   `).join('')}
                 </tbody>
@@ -335,13 +335,13 @@ const Map = () => {
           .setLngLat(coordinates)
           .setHTML(`
             <div style="padding: 12px; min-width: 300px; max-height: 400px; overflow-y: auto;">
-              <h3 style="font-size: 18px; font-weight: 600; margin: 0 0 4px 0; color: #1a1a1a;">
+              <h3 style="font-size: 18px; font-weight: 700; margin: 0 0 4px 0; color: #623E19;">
                 ${props?.entidad}
               </h3>
-              <p style="font-size: 13px; color: #666; margin: 0 0 12px 0;">
+              <p style="font-size: 13px; color: rgba(98,62,25,.75); margin: 0 0 12px 0;">
                 ${props?.departamento}
               </p>
-              <div style="background: linear-gradient(135deg, #059669 0%, #10b981 100%); border-radius: 8px; padding: 12px; margin-bottom: 12px; color: white;">
+              <div style="background: #009EAE; border-radius: 8px; padding: 12px; margin-bottom: 12px; color: white;">
                 <div style="font-size: 28px; font-weight: 700;">
                   ${Number(props?.totalBeneficiarios).toLocaleString()}
                 </div>
@@ -349,11 +349,11 @@ const Map = () => {
                   Beneficiarios totales
                 </div>
               </div>
-              <div style="font-size: 13px; font-weight: 600; color: #374151; margin-bottom: 4px;">
+              <div style="font-size: 13px; font-weight: 700; color: #623E19; margin-bottom: 4px;">
                 📋 Desglose por Proyecto
               </div>
-              ${programasTable || '<p style="color: #9ca3af; font-size: 12px;">Sin datos detallados</p>'}
-              <div style="margin-top: 12px; padding-top: 8px; border-top: 1px solid #eee; font-size: 11px; color: #aaa;">
+              ${programasTable || '<p style="color: rgba(98,62,25,.58); font-size: 12px;">Sin datos detallados</p>'}
+              <div style="margin-top: 12px; padding-top: 8px; border-top: 1px solid rgba(98,62,25,.16); font-size: 11px; color: rgba(98,62,25,.58);">
                 📍 Código DANE: ${props?.cod_entidad}
               </div>
             </div>
