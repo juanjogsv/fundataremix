@@ -37,7 +37,7 @@ All colors MUST be HSL.
     --input: 34 23% 79%;
     --ring: 185 100% 34%;
     
-    --radius: 0.75rem;
+    --radius: 0.625rem;
     
     /* Fundación Luker brand colors (charts & rankings — DO NOT change) - HSL format */
     --luker-brown: 28 100% 8%;
@@ -140,6 +140,196 @@ All colors MUST be HSL.
 
   body {
     @apply bg-background text-foreground;
+    letter-spacing: 0;
+  }
+}
+
+@layer components {
+  .mi-junta-site {
+    min-height: 100vh;
+    background: hsl(var(--background));
+    color: hsl(var(--foreground));
+  }
+
+  .mi-junta-site > [class*="min-h-screen"] {
+    min-height: auto;
+  }
+
+  .mi-junta-site [data-ui="card"] {
+    border-color: hsl(var(--kit-brown) / 0.16);
+    background-color: hsl(var(--kit-surface));
+    box-shadow: var(--shadow-card);
+  }
+
+  .mi-junta-site [data-ui="card"] [data-ui="card"] {
+    box-shadow: none;
+  }
+
+  .mi-junta-site [data-ui="tabs-list"] {
+    border: 0;
+    border-bottom: 1px solid hsl(var(--kit-brown) / 0.2);
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+    padding: 0;
+  }
+
+  .mi-junta-site [data-ui="tabs-trigger"] {
+    border-radius: 0.5rem 0.5rem 0 0;
+    box-shadow: none;
+  }
+
+  .mi-junta-site .bg-white {
+    background-color: hsl(var(--kit-surface));
+  }
+
+  .mi-junta-site .text-gray-700,
+  .mi-junta-site .text-gray-600 {
+    color: hsl(var(--kit-brown) / 0.82);
+  }
+
+  .mi-junta-site .text-gray-500,
+  .mi-junta-site .text-gray-400 {
+    color: hsl(var(--kit-brown) / 0.62);
+  }
+
+  .mi-junta-site .border-gray-200,
+  .mi-junta-site .border-gray-300 {
+    border-color: hsl(var(--kit-brown) / 0.18);
+  }
+
+  .institutional-page-header {
+    --module-accent: var(--kit-teal);
+    position: relative;
+    z-index: 20;
+    border-bottom: 1px solid hsl(var(--kit-brown) / 0.2);
+    background: hsl(var(--kit-cream));
+  }
+
+  .institutional-page-header[data-accent="coral"] { --module-accent: var(--kit-coral); }
+  .institutional-page-header[data-accent="lime"] { --module-accent: var(--kit-lime); }
+  .institutional-page-header[data-accent="orange"] { --module-accent: var(--kit-orange); }
+  .institutional-page-header[data-accent="brown"] { --module-accent: var(--kit-brown); }
+
+  .institutional-page-header__bar,
+  .institutional-page-header__title-row {
+    width: min(100% - 2rem, 1400px);
+    margin-inline: auto;
+  }
+
+  .institutional-page-header__bar {
+    padding-block: 0.75rem;
+  }
+
+  .institutional-page-header__nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+
+  .institutional-back-button {
+    color: hsl(var(--kit-brown));
+  }
+
+  .institutional-back-button:hover {
+    background: hsl(var(--module-accent) / 0.18);
+  }
+
+  .institutional-page-header__kicker {
+    font-size: 0.68rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    color: hsl(var(--kit-brown) / 0.65);
+  }
+
+  .institutional-page-header__logo {
+    width: auto;
+    height: 2.25rem;
+    object-fit: contain;
+  }
+
+  .institutional-page-header__title-row {
+    display: grid;
+    grid-template-columns: auto minmax(0, auto) 1fr;
+    align-items: end;
+    gap: 1rem;
+    padding-block: 0.75rem 1.4rem;
+  }
+
+  .institutional-page-header__number {
+    display: grid;
+    width: 3.4rem;
+    height: 3.4rem;
+    place-items: center;
+    border-radius: var(--radius);
+    background: hsl(var(--module-accent));
+    color: hsl(var(--kit-brown));
+  }
+
+  .institutional-page-header__number svg {
+    width: 1.65rem;
+    height: 1.65rem;
+  }
+
+  .institutional-page-header__title {
+    font-size: clamp(1.85rem, 4vw, 3.5rem);
+    font-weight: 800;
+    line-height: 0.95;
+  }
+
+  .institutional-page-header__subtitle {
+    margin-top: 0.5rem;
+    color: hsl(var(--kit-brown) / 0.72);
+  }
+
+  .institutional-page-header__rule {
+    height: 2px;
+    margin-bottom: 0.35rem;
+    background: hsl(var(--module-accent));
+  }
+
+  .institutional-footer {
+    margin-top: 5rem;
+    background: hsl(var(--kit-brown));
+    color: hsl(var(--kit-cream));
+  }
+
+  .institutional-footer__inner {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: 2rem;
+    width: min(100% - 2rem, 1400px);
+    margin-inline: auto;
+    padding-block: 2.5rem;
+  }
+
+  .institutional-footer__logo { width: 9rem; height: auto; }
+  .institutional-footer__title { font-size: 1.25rem; font-weight: 800; }
+  .institutional-footer__copy,
+  .institutional-footer__legal { color: hsl(var(--kit-cream) / 0.78); font-size: 0.78rem; }
+  .institutional-footer__legal { text-align: right; }
+
+  .institutional-color-strip {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    height: 0.55rem;
+  }
+  .institutional-color-strip span:nth-child(1) { background: hsl(var(--kit-coral)); }
+  .institutional-color-strip span:nth-child(2) { background: hsl(var(--kit-lime)); }
+  .institutional-color-strip span:nth-child(3) { background: hsl(var(--kit-teal)); }
+  .institutional-color-strip span:nth-child(4) { background: hsl(var(--kit-orange)); }
+
+  @media (max-width: 639px) {
+    .institutional-page-header__title-row {
+      grid-template-columns: auto minmax(0, 1fr);
+      gap: 0.75rem;
+    }
+    .institutional-page-header__number { width: 2.75rem; height: 2.75rem; }
+    .institutional-page-header__rule { display: none; }
+    .institutional-footer__inner { grid-template-columns: 1fr; gap: 1rem; }
+    .institutional-footer__legal { text-align: left; }
   }
 }
 
