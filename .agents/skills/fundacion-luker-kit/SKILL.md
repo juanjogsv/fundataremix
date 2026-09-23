@@ -45,6 +45,19 @@ Reglas de color:
 - Franja cromática inferior (coral, verde, turquesa, naranja) como cierre de página.
 - Footer en café con texto crema.
 
+## Tarjetas de módulos (referencia visual)
+
+- Cada módulo es una tarjeta independiente blanca sobre fondo crema, con borde fino café de baja opacidad, radio `0.625rem` y sombra café muy suave. No unir las tarjetas en una tabla ni compartir bordes entre ellas.
+- Usar una composición vertical editorial: ícono lineal arriba a la izquierda, flecha diagonal pequeña arriba a la derecha, título y descripción en el centro, divisor fino antes de la acción y CTA en mayúsculas abajo a la izquierda.
+- Mostrar el número del módulo como marca de agua grande, parcialmente recortada en la esquina inferior derecha y con opacidad muy baja. Mantenerlo detrás del contenido para que nunca compita con el CTA.
+- Presentar el ícono sin círculo, pastilla ni fondo sólido: solo trazo lineal en el acento de la tarjeta. Mantener la flecha y el CTA en café.
+- Rotar el acento en el orden coral → verde → turquesa → naranja. Aplicarlo al ícono y a detalles discretos, nunca como relleno total de la tarjeta.
+- Mantener mucho aire interior, alineación izquierda y una altura mínima estable. Permitir que los títulos largos envuelvan sin desplazar el divisor o el CTA.
+- En `hover` y `focus-visible`, elevar la tarjeta sutilmente y aplicar el acento como borde, indicador o fondo de baja intensidad. Conservar título, descripción, flecha y CTA en café.
+- Usar una cuadrícula uniforme con separación visible: 5 columnas amplias, 2 medianas y 1 móvil. Todas las tarjetas conservan la misma altura y área táctil.
+- Aplicar `animate-fade-in` con retardo escalonado de 80 ms y `animation-fill-mode: both`; respetar `prefers-reduced-motion`.
+- Superponer controles administrativos sobre la tarjeta sin alterar su composición base.
+
 ## Estructura de página preferida
 
 Landing/directorio: hero asimétrico con textura tipográfica → sección de tarjetas/módulos → bloque de cifras de impacto → footer institucional con franja cromática.
