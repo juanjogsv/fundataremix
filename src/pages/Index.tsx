@@ -97,7 +97,7 @@ const Index = () => {
                   key={section.id}
                   variant="ghost"
                   onClick={() => navigate(section.path)}
-                  className="home-module animate-fade-in"
+                  className="home-module animate-fade-in !grid"
                   data-accent={section.accent}
                   style={{ animationDelay: `${index * 80}ms`, animationFillMode: "both" }}
                 >
