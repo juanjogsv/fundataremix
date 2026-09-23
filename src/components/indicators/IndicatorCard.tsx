@@ -102,7 +102,7 @@ export const IndicatorCard = ({ value, unit, goal, percentage, keyword, area, in
   }
 
   return (
-    <Card className="bg-gradient-to-br from-white to-gray-50/30 border-gray-200/60 shadow-sm hover:shadow-lg transition-all duration-300 relative overflow-hidden group h-full">
+    <Card className="bg-card border-border shadow-card hover:shadow-hover transition-all duration-300 relative overflow-hidden group h-full">
       {/* Icon decorator */}
       <div className="absolute top-4 right-4 opacity-10 group-hover:opacity-20 transition-opacity">
         <Plus className="h-6 w-6 text-luker-teal rotate-45" />

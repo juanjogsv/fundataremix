@@ -50,8 +50,8 @@ export const RadialProgressCard = ({
   const progressColor = getProgressColor(percentage);
 
   return (
-    <Card className="bg-gradient-to-br from-white to-gray-50/30 border-gray-200/60 shadow-sm hover:shadow-lg transition-all duration-300 p-3 sm:p-4 pt-4 sm:pt-5 flex flex-col items-center justify-center h-full w-full">
-      <h3 className="text-[10px] sm:text-sm font-semibold text-gray-700 mb-1 sm:mb-2 text-center leading-tight px-1">
+    <Card className="bg-card border-border shadow-card hover:shadow-hover transition-all duration-300 p-3 sm:p-4 pt-4 sm:pt-5 flex flex-col items-center justify-center h-full w-full">
+      <h3 className="text-[10px] sm:text-sm font-semibold text-foreground mb-1 sm:mb-2 text-center leading-tight px-1">
         {title}
       </h3>
       <div className="relative w-[110px] h-[110px] sm:w-[140px] sm:h-[140px]">
