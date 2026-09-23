@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
 import {
   ArrowRight,
+  ArrowUpRight,
   BarChart3,
   Calendar,
   DollarSign,
@@ -96,17 +97,21 @@ const Index = () => {
                   key={section.id}
                   variant="ghost"
                   onClick={() => navigate(section.path)}
-                  className="home-module animate-fade-in"
+                  className="home-module animate-fade-in !grid"
                   data-accent={section.accent}
                   style={{ animationDelay: `${index * 80}ms`, animationFillMode: "both" }}
                 >
-                  <span className="home-module__number">{String(section.id).padStart(2, "0")}</span>
                   <span className="home-module__icon"><Icon /></span>
+                  <ArrowUpRight className="home-module__arrow" aria-hidden="true" />
                   <span className="home-module__copy">
                     <strong>{section.title}</strong>
                     <small>{section.description}</small>
                   </span>
-                  <ArrowRight className="home-module__arrow" />
+                  <span className="home-module__footer">
+                    <span>Acceder</span>
+                    <ArrowUpRight aria-hidden="true" />
+                  </span>
+                  <span className="home-module__number" aria-hidden="true">{String(section.id).padStart(2, "0")}</span>
                 </Button>
               );
             })}
