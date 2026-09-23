@@ -342,7 +342,7 @@ const EducationATL = () => {
               Selecciona una institución para ver la evolución
             </label>
             <Select value={selectedInstitutionCard4} onValueChange={setSelectedInstitutionCard4}>
-              <SelectTrigger className="w-full md:w-[360px] border-luker-teal/30 bg-background">
+              <SelectTrigger className="w-full md:w-[360px] border-luker-teal/30">
                 <SelectValue placeholder="Selecciona una institución" />
               </SelectTrigger>
               <SelectContent>
@@ -421,7 +421,7 @@ const EducationATL = () => {
               Selecciona una institución para ver la evolución
             </label>
             <Select value={selectedInstitutionCard5} onValueChange={setSelectedInstitutionCard5}>
-              <SelectTrigger className="w-full md:w-[360px] border-luker-teal/30 bg-background">
+              <SelectTrigger className="w-full md:w-[360px] border-luker-teal/30">
                 <SelectValue placeholder="Selecciona una institución" />
               </SelectTrigger>
               <SelectContent>
