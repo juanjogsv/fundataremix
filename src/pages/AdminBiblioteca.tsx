@@ -223,15 +223,15 @@ const AdminBiblioteca = () => {
   if (!user || !isAdmin) return null;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-background to-secondary/10 p-4 md:p-8">
+    <div className="min-h-screen bg-background p-4 md:p-8">
       <div className="max-w-7xl mx-auto space-y-6">
         {/* Header */}
-        <div className="flex items-center gap-4 pb-4 border-b border-border/50">
+        <div className="flex items-center gap-4 pb-6 border-b-4 border-kit-coral">
           <Button variant="ghost" size="icon" onClick={() => window.close()} title="Cerrar">
             <ArrowLeft className="h-5 w-5" />
           </Button>
           <div className="flex-1">
-            <h1 className="text-2xl md:text-3xl font-bold text-foreground">
+            <h1 className="text-3xl md:text-5xl font-extrabold text-foreground">
               Gestionar Biblioteca
             </h1>
             <p className="text-muted-foreground text-sm">

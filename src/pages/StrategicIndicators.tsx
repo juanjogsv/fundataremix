@@ -12,9 +12,6 @@ import { ParticipantsCompactCard } from "@/components/indicators/BeneficiariesCo
 import { useStrategicDamaOverrides } from "@/hooks/useStrategicDamaOverrides";
 
 
-import lukerPattern1 from "@/assets/luker-pattern-1.png";
-import lukerPattern2 from "@/assets/luker-pattern-2.png";
-
 interface Indicator {
   id: string;
   indicator_name: string;

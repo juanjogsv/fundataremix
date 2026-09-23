@@ -216,7 +216,7 @@ const Admin = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-background to-secondary/10 p-4 md:p-8">
+    <div className="min-h-screen bg-background p-4 md:p-8">
       <div className="max-w-7xl mx-auto space-y-8">
         {/* Header */}
         <div className="flex items-center gap-4 pb-6 border-b border-border/50">
@@ -229,7 +229,7 @@ const Admin = () => {
             <ArrowLeft className="h-5 w-5" />
           </Button>
           <div className="flex-1">
-            <h1 className="text-3xl md:text-5xl font-bold bg-primary text-primary-foreground bg-clip-text text-transparent animate-gradient">
+            <h1 className="text-3xl md:text-5xl font-extrabold text-foreground">
               Panel de Administración
             </h1>
             <p className="text-muted-foreground mt-2 text-sm md:text-base">
@@ -324,12 +324,9 @@ const Admin = () => {
             return (
               <Card 
                 key={module.id} 
-                className="group relative overflow-hidden hover:shadow-2xl hover:shadow-primary/10 transition-all duration-300 hover:-translate-y-1 border-border/50 backdrop-blur-sm bg-card/80"
+                className="group relative overflow-hidden hover:shadow-hover transition-all duration-300 hover:-translate-y-1 border-border bg-card"
                 style={{ animationDelay: `${index * 50}ms` }}
               >
-                {/* Card gradient overlay */}
-                <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-accent/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                
                 <CardHeader className="relative pb-3">
                   <div className="flex items-start gap-3">
                     <div className="p-2 rounded-lg bg-primary/10 group-hover:bg-primary/20 transition-colors">
