@@ -405,7 +405,7 @@ const Map = () => {
       <div className="container mx-auto px-4 sm:px-6 py-8 sm:py-10 max-w-[1400px] space-y-8">
 
         {/* Filters */}
-        <div className="border-b border-border pb-5">
+        <div className="rounded-[var(--radius)] border border-border bg-[hsl(var(--filter-surface))] shadow-card">
           <CardContent className="py-4">
             <div className="flex flex-wrap items-center gap-4">
               <div className="flex items-center gap-2">

@@ -117,7 +117,7 @@ const SocioeconomicContext = () => {
 
       <div className="container mx-auto px-4 sm:px-6 py-8 sm:py-10 max-w-[1400px]">
         {/* Global Entity Filter */}
-        <div className="mb-8 flex flex-wrap items-center gap-4 border-b border-border pb-5">
+        <div className="mb-8 flex flex-wrap items-center gap-4 rounded-[var(--radius)] border border-border bg-[hsl(var(--filter-surface))] p-4 shadow-card">
           <div className="flex items-center gap-2">
             <TrendingUp className="h-5 w-5 text-luker-teal" />
             <span className="font-bold text-foreground">Ciudad:</span>
