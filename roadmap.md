@@ -7,3 +7,4 @@
 - [x] Aplicar estructura a páginas operativas y administración
 - [x] Limpiar estilos heredados fuera del kit
 - [x] Validar escritorio, móvil, funcionalidad y Datos Abiertos
+- [ ] Aplicar y validar tarjetas editoriales de módulos según la referencia aprobada

@@ -238,8 +238,7 @@ All colors MUST be HSL.
   .home-directory__grid {
     display: grid;
     grid-template-columns: repeat(5, minmax(0, 1fr));
-    border-top: 1px solid hsl(var(--kit-brown) / 0.22);
-    border-left: 1px solid hsl(var(--kit-brown) / 0.22);
+    gap: 1rem;
   }
 
   .home-module {
@@ -247,32 +246,22 @@ All colors MUST be HSL.
     position: relative;
     display: grid;
     min-width: 0;
-    min-height: 13rem;
+    min-height: 22rem;
     height: auto;
     grid-template-columns: 1fr auto;
     grid-template-rows: auto 1fr auto;
     align-items: start;
     justify-items: start;
-    gap: 1rem;
+    gap: 1.5rem;
     overflow: hidden;
-    border-right: 1px solid hsl(var(--kit-brown) / 0.22);
-    border-bottom: 1px solid hsl(var(--kit-brown) / 0.22);
-    border-radius: 0;
-    padding: 1.5rem;
+    border: 1px solid hsl(var(--kit-brown) / 0.16);
+    border-radius: var(--radius);
+    background: hsl(var(--kit-surface));
+    padding: 2rem;
+    box-shadow: var(--shadow-card);
     text-align: left;
     white-space: normal;
     transition: background-color 200ms ease-out, box-shadow 200ms ease-out, transform 200ms ease-out;
-  }
-
-  .home-module::before {
-    position: absolute;
-    inset: 0 auto 0 0;
-    width: 0.3rem;
-    background: hsl(var(--module-accent));
-    content: "";
-    opacity: 0;
-    transform: scaleY(0.55);
-    transition: opacity 200ms ease-out, transform 200ms ease-out;
   }
 
   .home-module[data-accent="coral"] { --module-accent: var(--kit-coral); }
@@ -282,28 +271,24 @@ All colors MUST be HSL.
   .home-directory .home-module:hover,
   .home-directory .home-module:focus-visible {
     z-index: 1;
-    background: hsl(var(--module-accent) / 0.16);
+    border-color: hsl(var(--module-accent) / 0.62);
+    background: hsl(var(--module-accent) / 0.08);
     color: hsl(var(--kit-brown));
-    box-shadow: inset 0 0 0 2px hsl(var(--module-accent));
+    box-shadow: var(--shadow-hover);
     transform: translateY(-2px);
   }
-  .home-directory .home-module:active { background: hsl(var(--module-accent) / 0.24); transform: translateY(0); }
-  .home-module:hover::before,
-  .home-module:focus-visible::before { opacity: 1; transform: scaleY(1); }
-  .home-module__number { color: hsl(var(--module-accent)); font-size: 0.72rem; font-weight: 800; }
-  .home-module:hover .home-module__number,
-  .home-module:focus-visible .home-module__number { color: hsl(var(--kit-brown)); }
-  .home-module__icon { display: grid; width: 2.5rem; height: 2.5rem; place-items: center; border-radius: var(--radius); background: hsl(var(--module-accent)); color: hsl(var(--kit-brown)); }
-  .home-module[data-accent="brown"] .home-module__icon { color: hsl(var(--kit-cream)); }
-  .home-module__icon svg { width: 1.25rem; height: 1.25rem; }
-  .home-module:hover .home-module__icon,
-  .home-module:focus-visible .home-module__icon { box-shadow: 0 0 0 3px hsl(var(--kit-surface)); }
-  .home-module__copy { display: flex; width: 100%; min-width: 0; align-self: end; flex-direction: column; grid-column: 1 / -1; gap: 0.35rem; padding-right: 0.25rem; }
-  .home-module__copy strong { display: block; max-width: 100%; overflow-wrap: anywhere; font-size: 0.98rem; line-height: 1.22; }
-  .home-module__copy small { color: hsl(var(--kit-brown) / 0.62); font-weight: 500; }
+  .home-directory .home-module:active { background: hsl(var(--module-accent) / 0.14); transform: translateY(0); }
+  .home-module__icon { display: grid; place-items: center; color: hsl(var(--module-accent)); }
+  .home-module__icon svg { width: 3.15rem; height: 3.15rem; stroke-width: 1.75; }
+  .home-module__copy { display: flex; width: 100%; min-width: 0; align-self: end; flex-direction: column; grid-column: 1 / -1; gap: 0.85rem; }
+  .home-module__copy strong { display: block; max-width: 100%; overflow-wrap: anywhere; color: hsl(var(--kit-brown)); font-size: 1.12rem; line-height: 1.24; }
+  .home-module__copy small { color: hsl(var(--kit-brown) / 0.68); font-size: 0.86rem; font-weight: 500; line-height: 1.55; }
   .home-module:hover .home-module__copy small,
   .home-module:focus-visible .home-module__copy small { color: hsl(var(--kit-brown) / 0.78); }
-  .home-module__arrow { position: absolute; top: 1.5rem; right: 1.5rem; width: 1.1rem; }
+  .home-module__arrow { position: absolute; top: 2rem; right: 2rem; width: 1.25rem; height: 1.25rem; color: hsl(var(--kit-brown) / 0.58); stroke-width: 1.8; }
+  .home-module__footer { position: relative; z-index: 1; display: flex; width: 100%; align-items: center; gap: 0.65rem; grid-column: 1 / -1; border-top: 1px solid hsl(var(--kit-brown) / 0.34); padding-top: 1.25rem; color: hsl(var(--kit-brown)); font-size: 0.78rem; font-weight: 700; text-transform: uppercase; }
+  .home-module__footer svg { width: 1rem; height: 1rem; }
+  .home-module__number { position: absolute; right: -0.22em; bottom: -0.28em; z-index: 0; color: hsl(var(--kit-brown) / 0.045); font-size: 8rem; font-weight: 800; line-height: 1; pointer-events: none; }
 
   .home-impact { display: grid; grid-template-columns: 0.75fr 1.25fr; gap: 4rem; border-top: 2px solid hsl(var(--kit-brown)); padding-block: 4rem 5rem; }
   .home-impact__stats { display: grid; grid-template-columns: repeat(3, 1fr); }
@@ -341,7 +326,8 @@ All colors MUST be HSL.
     .home-directory { padding-block: 4rem; }
     .home-section-heading { grid-template-columns: 1fr; gap: 1.5rem; }
     .home-directory__grid { grid-template-columns: 1fr; }
-    .home-module { min-height: 9.5rem; }
+    .home-module { min-height: 21rem; padding: 1.75rem; }
+    .home-module__arrow { top: 1.75rem; right: 1.75rem; }
     .home-impact__stats { grid-template-columns: 1fr; }
     .home-impact__stats article { min-height: 8rem; border-left: 0; border-top: 1px solid hsl(var(--kit-brown) / 0.2); padding-inline: 0; }
     .home-links { align-items: flex-start; flex-direction: column; }
