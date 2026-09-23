@@ -298,7 +298,7 @@ All colors MUST be HSL.
   .home-module__icon svg { width: 1.25rem; height: 1.25rem; }
   .home-module:hover .home-module__icon,
   .home-module:focus-visible .home-module__icon { box-shadow: 0 0 0 3px hsl(var(--kit-surface)); }
-  .home-module__copy { display: flex; width: 100%; min-width: 0; align-self: end; flex-direction: column; gap: 0.35rem; padding-right: 0.25rem; }
+  .home-module__copy { display: flex; width: 100%; min-width: 0; align-self: end; flex-direction: column; grid-column: 1 / -1; gap: 0.35rem; padding-right: 0.25rem; }
   .home-module__copy strong { display: block; max-width: 100%; overflow-wrap: anywhere; font-size: 0.98rem; line-height: 1.22; }
   .home-module__copy small { color: hsl(var(--kit-brown) / 0.62); font-weight: 500; }
   .home-module:hover .home-module__copy small,
