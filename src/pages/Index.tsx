@@ -20,7 +20,7 @@ import {
 import lukerLogo from "@/assets/fundacion-luker-color-letra-cafe-horizontal.png.asset.json";
 import heroPeople from "@/assets/mi-junta-hero-people.png";
 
-const lukerLogoUrl = `https://id-preview--86b2a9c4-6838-4f82-a3c4-21cb241b504c.lovable.app${lukerLogo.url}`;
+const lukerLogoUrl = lukerLogo.url;
 
 const sections = [
   { id: 1, title: "Indicadores Estratégicos", icon: BarChart3, path: "/indicadores", accent: "teal", description: "Seguimiento de KPIs" },
@@ -69,7 +69,7 @@ const Index = () => {
           <div className="home-hero__letter" aria-hidden="true">L</div>
           <div className="home-hero__copy animate-fade-in">
             <p className="home-kicker">Plataforma de gestión estratégica</p>
-            <h1>Transformamos vidas a través de la <span>educación</span></h1>
+              <h1 id="page-title" tabIndex={-1}>Transformamos vidas a través de la <span>educación</span></h1>
             <p className="home-hero__lead">
               Movilizamos palancas para que niños y jóvenes potencien su desarrollo para una vida productiva gratificante.
             </p>

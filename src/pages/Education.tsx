@@ -74,7 +74,6 @@ const Education = () => {
         subtitle="Aprendizaje, permanencia y oportunidades para la vida"
         icon={GraduationCap}
         iconBgColor="bg-luker-teal"
-        gradientColors="from-luker-teal via-luker-green to-luker-orange"
       />
 
       <div className="container mx-auto px-4 sm:px-6 py-8 sm:py-10 max-w-[1400px]">

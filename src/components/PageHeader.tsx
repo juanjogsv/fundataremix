@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Link, useNavigate } from "react-router-dom";
 import logoImage from "@/assets/fundacion-luker-color-letra-cafe-horizontal.png.asset.json";
 
-const logoImageUrl = `https://id-preview--86b2a9c4-6838-4f82-a3c4-21cb241b504c.lovable.app${logoImage.url}`;
+const logoImageUrl = logoImage.url;
 
 interface PageHeaderProps {
   title: string;
