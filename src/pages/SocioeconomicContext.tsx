@@ -112,15 +112,15 @@ const SocioeconomicContext = () => {
         mobileTitle="Contexto"
         icon={TrendingUp}
         iconBgColor="bg-luker-teal"
-        gradientColors="from-luker-teal via-luker-green to-luker-orange"
+        subtitle="Una lectura comparada de Manizales y otras ciudades"
       />
 
-      <div className="container mx-auto px-4 md:px-6 py-6 md:py-8">
+      <div className="container mx-auto px-4 sm:px-6 py-8 sm:py-10 max-w-[1400px]">
         {/* Global Entity Filter */}
-        <div className="mb-6 flex items-center gap-4 p-4 bg-white rounded-lg border border-gray-200 shadow-sm">
+        <div className="mb-8 flex flex-wrap items-center gap-4 border-b border-border pb-5">
           <div className="flex items-center gap-2">
             <TrendingUp className="h-5 w-5 text-luker-teal" />
-            <span className="font-medium text-gray-700">Ciudad:</span>
+            <span className="font-bold text-foreground">Ciudad:</span>
           </div>
           <Select value={selectedEntity} onValueChange={setSelectedEntity}>
             <SelectTrigger className="w-64">
@@ -138,14 +138,14 @@ const SocioeconomicContext = () => {
 
         {/* Subsections Navigation */}
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-          <TabsList className="w-full h-auto flex-wrap justify-start gap-2 bg-white border border-gray-200 p-2">
+          <TabsList className="w-full h-auto flex-nowrap overflow-x-auto justify-start gap-2">
             {subsections.map((section) => {
               const Icon = section.icon;
               return (
                 <TabsTrigger
                   key={section.id}
                   value={section.id}
-                  className="flex items-center gap-2 data-[state=active]:bg-luker-orange data-[state=active]:text-white"
+                  className="flex items-center gap-2 data-[state=active]:bg-kit-teal data-[state=active]:text-primary-foreground"
                 >
                   <Icon className="h-4 w-4" />
                   <span className="hidden md:inline">{section.label}</span>

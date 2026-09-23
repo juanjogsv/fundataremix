@@ -182,42 +182,25 @@ const StrategicIndicators = () => {
     .filter(Boolean) as (Indicator & { displayName: string })[];
 
   return (
-    <div className="min-h-screen relative overflow-hidden bg-background">
-      {/* Background decorative elements - matching home style */}
-      <div className="absolute inset-0 bg-gradient-to-br from-luker-green/5 via-luker-orange/5 to-luker-teal/10" />
-      <div className="absolute top-0 right-0 w-96 h-96 bg-luker-green/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
-      <div className="absolute bottom-0 left-0 w-80 h-80 bg-luker-orange/10 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2" />
-      <div className="absolute top-1/2 left-1/2 w-64 h-64 bg-luker-teal/5 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2" />
-
-      {/* Decorative pattern - bottom right only */}
-      <div 
-        className="absolute bottom-0 right-0 w-32 h-32 opacity-[0.03] pointer-events-none"
-        style={{ 
-          backgroundImage: `url(${lukerPattern2})`,
-          backgroundSize: 'contain',
-          backgroundRepeat: 'no-repeat',
-        }}
+    <div className="min-h-screen bg-background">
+      <PageHeader
+        title="Indicadores Estratégicos"
+        mobileTitle="Indicadores"
+        subtitle="Seguimiento a las metas que orientan nuestra gestión"
+        icon={TrendingUp}
+        iconBgColor="bg-kit-teal"
       />
-
-      <div className="container mx-auto px-6 py-8 max-w-[1600px] relative z-10">
-        {/* Header */}
-        <PageHeader
-          title="Indicadores Estratégicos"
-          mobileTitle="Indicadores"
-          icon={TrendingUp}
-          iconBgColor="bg-kit-teal"
-          gradientColors="from-kit-teal to-kit-lime"
-        />
+      <div className="container mx-auto px-4 sm:px-6 py-8 sm:py-10 max-w-[1400px]">
 
         {/* Tabs for subsections */}
         <Tabs defaultValue="indicadores" className="mt-6">
-          <TabsList className="grid w-full max-w-md mx-auto grid-cols-2 mb-6">
-            <TabsTrigger value="indicadores" className="flex items-center gap-2">
+          <TabsList className="grid w-full max-w-md grid-cols-2 mb-8">
+            <TabsTrigger value="indicadores" className="flex items-center gap-2 data-[state=active]:bg-kit-teal data-[state=active]:text-primary-foreground">
               <TrendingUp className="h-4 w-4" />
               <span className="hidden sm:inline">Indicadores Estratégicos</span>
               <span className="sm:hidden">Indicadores</span>
             </TabsTrigger>
-            <TabsTrigger value="tablero" className="flex items-center gap-2">
+            <TabsTrigger value="tablero" className="flex items-center gap-2 data-[state=active]:bg-kit-teal data-[state=active]:text-primary-foreground">
               <LayoutDashboard className="h-4 w-4" />
               <span>Tablero General</span>
             </TabsTrigger>
