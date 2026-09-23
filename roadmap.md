@@ -6,4 +6,4 @@
 - [x] Aplicar estructura a módulos de datos principales
 - [x] Aplicar estructura a páginas operativas y administración
 - [x] Limpiar estilos heredados fuera del kit
-- [ ] Validar escritorio, móvil, funcionalidad y Datos Abiertos
+- [x] Validar escritorio, móvil, funcionalidad y Datos Abiertos
