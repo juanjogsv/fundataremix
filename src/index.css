@@ -235,7 +235,12 @@ All colors MUST be HSL.
   .home-section-heading h2,
   .home-impact h2 { max-width: 14ch; margin-top: 0.8rem; font-size: clamp(2.4rem, 4.5vw, 4.5rem); font-weight: 800; line-height: 0.98; }
   .home-section-heading > p { border-left: 2px solid hsl(var(--kit-orange)); padding-left: 1.5rem; color: hsl(var(--kit-brown) / 0.72); line-height: 1.6; }
-  .home-directory__grid { display: grid; grid-template-columns: repeat(4, 1fr); border-top: 1px solid hsl(var(--kit-brown) / 0.22); border-left: 1px solid hsl(var(--kit-brown) / 0.22); }
+  .home-directory__grid {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    border-top: 1px solid hsl(var(--kit-brown) / 0.22);
+    border-left: 1px solid hsl(var(--kit-brown) / 0.22);
+  }
 
   .home-module {
     --module-accent: var(--kit-teal);
@@ -256,25 +261,48 @@ All colors MUST be HSL.
     padding: 1.5rem;
     text-align: left;
     white-space: normal;
+    transition: background-color 200ms ease-out, box-shadow 200ms ease-out, transform 200ms ease-out;
+  }
+
+  .home-module::before {
+    position: absolute;
+    inset: 0 auto 0 0;
+    width: 0.3rem;
+    background: hsl(var(--module-accent));
+    content: "";
+    opacity: 0;
+    transform: scaleY(0.55);
+    transition: opacity 200ms ease-out, transform 200ms ease-out;
   }
 
   .home-module[data-accent="coral"] { --module-accent: var(--kit-coral); }
   .home-module[data-accent="lime"] { --module-accent: var(--kit-lime); }
   .home-module[data-accent="orange"] { --module-accent: var(--kit-orange); }
   .home-module[data-accent="brown"] { --module-accent: var(--kit-brown); }
-  .home-module[data-featured="true"] { grid-column: span 2; }
-  .home-module:hover { background: hsl(var(--module-accent)); color: hsl(var(--kit-brown)); }
-  .home-module[data-accent="brown"]:hover { color: hsl(var(--kit-cream)); }
+  .home-module:hover,
+  .home-module:focus-visible {
+    z-index: 1;
+    background: hsl(var(--module-accent) / 0.16);
+    color: hsl(var(--kit-brown));
+    box-shadow: inset 0 0 0 2px hsl(var(--module-accent));
+    transform: translateY(-2px);
+  }
+  .home-module:active { background: hsl(var(--module-accent) / 0.24); transform: translateY(0); }
+  .home-module:hover::before,
+  .home-module:focus-visible::before { opacity: 1; transform: scaleY(1); }
   .home-module__number { color: hsl(var(--module-accent)); font-size: 0.72rem; font-weight: 800; }
-  .home-module:hover .home-module__number { color: currentColor; }
+  .home-module:hover .home-module__number,
+  .home-module:focus-visible .home-module__number { color: hsl(var(--kit-brown)); }
   .home-module__icon { display: grid; width: 2.5rem; height: 2.5rem; place-items: center; border-radius: var(--radius); background: hsl(var(--module-accent)); color: hsl(var(--kit-brown)); }
   .home-module[data-accent="brown"] .home-module__icon { color: hsl(var(--kit-cream)); }
   .home-module__icon svg { width: 1.25rem; height: 1.25rem; }
-  .home-module:hover .home-module__icon { background: hsl(var(--kit-cream)); color: hsl(var(--kit-brown)); }
-  .home-module__copy { display: flex; align-self: end; flex-direction: column; gap: 0.35rem; }
-  .home-module__copy strong { max-width: 16ch; font-size: 1.1rem; line-height: 1.18; }
+  .home-module:hover .home-module__icon,
+  .home-module:focus-visible .home-module__icon { box-shadow: 0 0 0 3px hsl(var(--kit-surface)); }
+  .home-module__copy { display: flex; min-width: 0; align-self: end; flex-direction: column; gap: 0.35rem; }
+  .home-module__copy strong { max-width: 100%; overflow-wrap: anywhere; font-size: 1rem; line-height: 1.22; }
   .home-module__copy small { color: hsl(var(--kit-brown) / 0.62); font-weight: 500; }
-  .home-module[data-accent="brown"]:hover small { color: hsl(var(--kit-cream) / 0.78); }
+  .home-module:hover .home-module__copy small,
+  .home-module:focus-visible .home-module__copy small { color: hsl(var(--kit-brown) / 0.78); }
   .home-module__arrow { position: absolute; right: 1.5rem; bottom: 1.5rem; width: 1.1rem; }
 
   .home-impact { display: grid; grid-template-columns: 0.75fr 1.25fr; gap: 4rem; border-top: 2px solid hsl(var(--kit-brown)); padding-block: 4rem 5rem; }
@@ -290,10 +318,13 @@ All colors MUST be HSL.
   .home-links nav { display: flex; gap: 1rem; }
   .home-links button { color: hsl(var(--kit-brown)); }
 
+  @media (max-width: 1179px) {
+    .home-directory__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+
   @media (max-width: 900px) {
     .home-hero { grid-template-columns: 1fr 0.8fr; }
     .home-hero__copy { padding-left: 1rem; }
-    .home-directory__grid { grid-template-columns: repeat(2, 1fr); }
     .home-impact { grid-template-columns: 1fr; }
   }
 
@@ -310,7 +341,6 @@ All colors MUST be HSL.
     .home-directory { padding-block: 4rem; }
     .home-section-heading { grid-template-columns: 1fr; gap: 1.5rem; }
     .home-directory__grid { grid-template-columns: 1fr; }
-    .home-module[data-featured="true"] { grid-column: auto; }
     .home-module { min-height: 9.5rem; }
     .home-impact__stats { grid-template-columns: 1fr; }
     .home-impact__stats article { min-height: 8rem; border-left: 0; border-top: 1px solid hsl(var(--kit-brown) / 0.2); padding-inline: 0; }
@@ -350,6 +380,22 @@ All colors MUST be HSL.
   .mi-junta-site [data-ui="tabs-trigger"] {
     border-radius: 0.5rem 0.5rem 0 0;
     box-shadow: none;
+  }
+
+  .mi-junta-site [data-ui="tabs-trigger"]:hover {
+    background: hsl(var(--kit-brown) / 0.08);
+    color: hsl(var(--kit-brown));
+  }
+
+  .mi-junta-site [data-ui="tabs-trigger"][data-state="active"] {
+    background: hsl(var(--kit-surface));
+    color: hsl(var(--kit-brown));
+    box-shadow: inset 0 -3px 0 hsl(var(--module-accent, var(--kit-teal)));
+  }
+
+  .mi-junta-site [data-ui="tabs-trigger"]:focus-visible {
+    outline: 2px solid hsl(var(--ring));
+    outline-offset: 2px;
   }
 
   .mi-junta-site .bg-white {
@@ -503,6 +549,14 @@ All colors MUST be HSL.
     .institutional-page-header__rule { display: none; }
     .institutional-footer__inner { grid-template-columns: 1fr; gap: 1rem; }
     .institutional-footer__legal { text-align: left; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .home-module,
+    .home-module::before { transition: none; }
+    .home-module:hover,
+    .home-module:focus-visible,
+    .home-module:active { transform: none; }
   }
 }
 
