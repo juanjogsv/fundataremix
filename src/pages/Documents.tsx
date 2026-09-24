@@ -155,7 +155,7 @@ const Documents = () => {
   return (
     <div className="min-h-screen bg-background">
       <PageHeader title="Documentos y Biblioteca" mobileTitle="Documentos" subtitle="Memoria institucional, publicaciones y conocimiento" icon={FolderOpen} iconBgColor="bg-kit-brown" />
-      <div className="container mx-auto px-4 sm:px-6 py-8 sm:py-10 max-w-[1400px] space-y-8">
+      <div className="luker-container py-8 sm:py-10 space-y-8">
 
         <Tabs defaultValue="documentos" className="w-full">
           <TabsList className="grid w-full max-w-2xl grid-cols-3">

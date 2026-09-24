@@ -95,7 +95,7 @@ const AreaIndicators = () => {
   return (
     <div className="min-h-screen bg-background">
       <PageHeader title={config.title} subtitle="Indicadores de seguimiento y gestión" icon={TrendingUp} iconBgColor={config.accent} />
-      <div className="container mx-auto px-4 sm:px-6 py-8 sm:py-10 max-w-[1400px] space-y-8">
+      <div className="luker-container py-8 sm:py-10 space-y-8">
 
         {loading ? (
           <div className="text-center py-12">

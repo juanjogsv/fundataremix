@@ -13,7 +13,7 @@ const About = () => {
   return (
     <div className="min-h-screen bg-background">
       <PageHeader title="Acerca de la Plataforma" mobileTitle="Acerca de" subtitle="El propósito y los principios que orientan Mi Junta" icon={Target} iconBgColor="bg-kit-coral" />
-      <div className="container mx-auto px-4 sm:px-6 py-8 sm:py-10 max-w-[1400px]">
+      <div className="luker-container py-8 sm:py-10">
 
         {/* Mission Section */}
         <section className="mb-12">
