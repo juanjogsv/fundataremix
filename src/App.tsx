@@ -117,6 +117,8 @@ const DynamicTitle = () => {
   return (
     <Helmet>
       <title>{title}</title>
+      <link rel="icon" type="image/png" sizes="512x512" href="/favicon.png?v=4" />
+      <link rel="apple-touch-icon" href="/favicon.png?v=4" />
       <meta property="og:title" content={title} />
       <meta name="twitter:title" content={title} />
       <meta property="og:description" content={description} />
