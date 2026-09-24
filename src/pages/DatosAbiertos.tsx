@@ -131,7 +131,7 @@ const SectionShell = ({
   children: React.ReactNode;
 }) => (
   <section id={id} data-accent={accent} className="da-section scroll-mt-36 py-12 md:py-20">
-    <div className="container mx-auto px-5 md:px-8">
+    <div className="da-shell">
       <div className="da-section-heading mb-8 md:mb-10">
         <span className="da-section-number" aria-hidden="true">{index}</span>
         <div className="da-section-icon">
@@ -159,7 +159,7 @@ const DatosAbiertos = () => {
     <div className="datos-abiertos min-h-screen font-sans">
       {/* Header público */}
       <header className="da-header sticky top-0 z-50">
-        <div className="container mx-auto flex h-16 items-center justify-between px-5 md:h-[72px] md:px-8">
+        <div className="da-shell flex h-16 items-center justify-between md:h-[72px]">
           <div className="flex items-center gap-4">
             <img src={lukerLogoBrownUrl} alt="Fundación Luker" className="h-10 w-auto object-contain md:h-12" />
             <div className="da-header-divider hidden h-8 w-px sm:block" />
@@ -176,7 +176,7 @@ const DatosAbiertos = () => {
       <section className="da-hero relative overflow-hidden">
         <span className="da-hero-letter da-hero-letter-left" aria-hidden="true">d</span>
         <span className="da-hero-letter da-hero-letter-right" aria-hidden="true">a</span>
-        <div className="container relative z-10 mx-auto grid min-h-[440px] items-center gap-8 px-5 py-12 md:grid-cols-[1.2fr_0.8fr] md:px-8 md:py-16">
+        <div className="da-shell relative z-10 grid min-h-[440px] items-center gap-8 py-12 md:grid-cols-[1.2fr_0.8fr] md:py-16">
           <div className="max-w-3xl">
             <p className="da-kicker mb-5">Transparencia y rendición de cuentas</p>
             <h1 className="font-heading text-5xl font-black leading-[0.98] md:text-7xl">
@@ -197,8 +197,8 @@ const DatosAbiertos = () => {
 
       {/* Barra sticky de accesos rápidos */}
       <nav aria-label="Secciones de datos abiertos" className="da-quick-nav sticky top-16 z-40 md:top-[72px]">
-        <div className="container mx-auto px-5 py-3 md:px-8">
-          <div className="mx-auto flex max-w-7xl flex-nowrap gap-2 overflow-x-auto">
+        <div className="da-shell py-3">
+          <div className="flex flex-nowrap gap-2 overflow-x-auto">
             {sections.map((s) => {
               const Icon = s.icon;
               return (
@@ -346,7 +346,7 @@ const DatosAbiertos = () => {
 
       {/* Footer */}
       <footer className="da-footer py-10">
-        <div className="container mx-auto px-5 md:px-8">
+        <div className="da-shell">
           <div className="flex flex-col items-start justify-between gap-6 md:flex-row md:items-end">
             <div>
               <img src={lukerLogoWhiteUrl} alt="Fundación Luker" className="mb-4 h-12 w-auto object-contain" />
