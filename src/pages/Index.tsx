@@ -17,7 +17,7 @@ import {
   Sprout,
   TrendingUp,
 } from "lucide-react";
-import heroPeople from "@/assets/mi-junta-hero-people-v2.png";
+const heroPeople = "/hero-people.webp";
 
 const sections = [
   { id: 1, title: "Indicadores Estratégicos", icon: BarChart3, path: "/indicadores", accent: "teal", description: "Seguimiento de KPIs" },
