@@ -1098,7 +1098,7 @@ const EducationSaberOnce = () => {
           ) : (
             <div className="space-y-4">
               {/* Filters */}
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
                 <div className="space-y-2">
                   <label className="text-sm font-medium text-foreground/85">Área Temática</label>
                   <Select value={selectedEvolutionIndicator} onValueChange={setSelectedEvolutionIndicator}>
@@ -1108,6 +1108,22 @@ const EducationSaberOnce = () => {
                     <SelectContent>
                       {SABER_OPTIONS.map((opt) => (
                         <SelectItem key={opt.code} value={opt.code}>
+                          {opt.label}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                <div className="space-y-2">
+                  <label className="text-sm font-medium text-foreground/85">Ciclos</label>
+                  <Select value={selectedEvolutionCiclo} onValueChange={setSelectedEvolutionCiclo}>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Seleccione ciclo" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {CICLOS_OPTIONS.map((opt) => (
+                        <SelectItem key={opt.value} value={opt.value}>
                           {opt.label}
                         </SelectItem>
                       ))}
