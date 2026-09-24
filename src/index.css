@@ -706,11 +706,11 @@ All colors MUST be HSL.
     color: hsl(var(--da-brown));
   }
 
-  /* Ancho elástico: usa todo el ancho disponible con márgenes de seguridad */
+  /* Ancho elástico con una zona de lectura amplia y cómoda */
   .datos-abiertos .da-shell {
     width: 100%;
     margin-inline: auto;
-    max-width: 1920px;
+    max-width: 1600px;
     padding-inline: 1.25rem;
   }
 
@@ -719,7 +719,11 @@ All colors MUST be HSL.
   }
 
   @media (min-width: 1024px) {
-    .datos-abiertos .da-shell { padding-inline: 3rem; }
+    .datos-abiertos .da-shell { padding-inline: 4rem; }
+  }
+
+  @media (min-width: 1440px) {
+    .datos-abiertos .da-shell { padding-inline: 5rem; }
   }
 
   .datos-abiertos .da-header {
@@ -756,6 +760,10 @@ All colors MUST be HSL.
   .datos-abiertos .da-hero h1 span,
   .datos-abiertos .da-hero p {
     color: hsl(var(--da-brown));
+  }
+
+  .datos-abiertos .da-hero h1 {
+    letter-spacing: 0;
   }
 
   .datos-abiertos .da-kicker {
@@ -859,7 +867,7 @@ All colors MUST be HSL.
   .datos-abiertos .da-section-heading {
     align-items: center;
     display: grid;
-    gap: 1rem;
+    gap: 1.25rem;
     grid-template-columns: auto auto 1fr;
     position: relative;
   }
@@ -902,11 +910,15 @@ All colors MUST be HSL.
     border-color: hsl(var(--da-brown) / 0.18);
     background: hsl(var(--da-surface));
     border-radius: 0.6rem;
+    scrollbar-color: hsl(var(--da-brown) / 0.3) transparent;
+    scrollbar-width: thin;
   }
 
   .datos-abiertos .da-section [role="tab"] {
     border-radius: 0.45rem;
     color: hsl(var(--da-brown));
+    line-height: 1.35;
+    white-space: nowrap;
   }
 
   /* Pestaña activa: superficie blanca + subrayado con el color temático de la sección */
@@ -955,6 +967,7 @@ All colors MUST be HSL.
     }
 
     .datos-abiertos .da-section-heading {
+      gap: 0.875rem;
       grid-template-columns: auto 1fr;
     }
 
@@ -964,6 +977,10 @@ All colors MUST be HSL.
 
     .datos-abiertos .da-section-heading h2 {
       overflow-wrap: anywhere;
+    }
+
+    .datos-abiertos .da-section [role="tablist"] {
+      margin-inline: -0.25rem;
     }
   }
 
