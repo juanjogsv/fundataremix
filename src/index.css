@@ -973,3 +973,18 @@ All colors MUST be HSL.
     }
   }
 }
+
+/* Pestañas de Mi Junta: la línea activa toma el color del módulo de la página */
+:where(div, main, section):has(> .institutional-page-header[data-accent="coral"]) { --module-accent: var(--kit-coral); }
+:where(div, main, section):has(> .institutional-page-header[data-accent="lime"]) { --module-accent: var(--kit-lime); }
+:where(div, main, section):has(> .institutional-page-header[data-accent="orange"]) { --module-accent: var(--kit-orange); }
+:where(div, main, section):has(> .institutional-page-header[data-accent="brown"]) { --module-accent: var(--kit-brown); }
+:where(div, main, section):has(> .institutional-page-header[data-accent="teal"]) { --module-accent: var(--kit-teal); }
+
+/* Prueba Datos Abiertos: pestaña principal seleccionada con fondo de acento y texto blanco */
+.datos-abiertos .da-section [data-ui="tabs-trigger"][data-state="active"] {
+  background: hsl(var(--module-accent));
+  color: #fff;
+  box-shadow: none;
+}
+.datos-abiertos .da-section [data-ui="tabs-trigger"][data-state="active"] svg { color: #fff; }
