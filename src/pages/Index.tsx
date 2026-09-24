@@ -70,7 +70,7 @@ const Index = () => {
           </div>
           <div className="home-hero__visual animate-scale-in">
             <div className="home-hero__accent" aria-hidden="true" />
-            <img src={heroPeople} alt="Educadora, estudiante y joven universitario de la comunidad" width={1200} height={1400} />
+            <img src={heroPeople} alt="Educadora, estudiante y joven universitario de la comunidad" width={1200} height={1400} fetchPriority="high" decoding="async" />
           </div>
         </section>
 
