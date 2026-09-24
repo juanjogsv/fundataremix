@@ -1,118 +1,149 @@
 ---
 name: fundacion-luker-kit
-description: Kit de diseño visual de Fundación Luker. Aplicar siempre que el usuario pida diseñar, rediseñar o crear interfaces, documentos, presentaciones o piezas visuales relacionadas con Fundación Luker, Funluker, Datos Funluker o cualquier proyecto que deba seguir su identidad de marca.
+description: Use when creating, redesigning or extending any page, screen, component, landing, dashboard or directory for Fundación Luker, Funluker, Datos Funluker, META-FL or its programs. Úsala al crear o modificar interfaces, navegación, layouts, hero, banners, tarjetas, botones, filtros, tablas, formularios, animaciones o estados de UI para que todas las páginas compartan el mismo diseño y UX según el kit oficial de marca. Not for backend-only work (DB, RLS, edge functions) nor for documents, PDFs or slides.
 ---
 
-# Kit de Diseño Fundación Luker
+# Kit de Diseño y UX · Fundación Luker
 
-Identidad visual editorial e institucional. Cálida, cercana y con propósito social; nunca corporativa fría ni genérica.
+Objetivo: que cualquier página nueva sea indistinguible en diseño, navegación, animación y comportamiento de las existentes, y fiel al kit oficial de marca. Estética institucional, cálida, cercana e inclusiva, orientada a educación y desarrollo comunitario.
 
-## Paleta de colores (exacta, no sustituir)
+## Flujo obligatorio (seguir en orden)
 
-| Color | Hex | Uso |
+1. **Revisar lo que ya existe.** Buscar el CSS global, el layout/shell, header, footer y `components/`. Si existen, REUTILIZARLOS; no crear variantes paralelas.
+2. **Instalar la base si falta.** Copiar íntegro `references/tokens.css` al CSS global. No redefinir colores, radios ni animaciones en componentes sueltos.
+3. **Verificar recursos de marca** (ver "Recursos"). Si falta alguno, usar el respaldo indicado y avisarlo al final; nunca dibujar ni recrear logo, números o textura.
+4. **Montar la página dentro del `AppShell`** (header + `<main>` + footer). Ver `references/layout-navegacion.md`.
+5. **Construir con los componentes del kit.** Ver `references/componentes.md`.
+6. **Pasar la checklist** de `references/checklist-ux.md` e informar qué no se pudo verificar.
+
+## Color
+
+| Token | Hex | Rol |
 |---|---|---|
-| Crema | `#EFEAE1` | Fondo principal de todas las superficies |
-| Café | `#623E19` | Texto principal, títulos, footer |
-| Coral | `#FF7C80` | Acentos, íconos, estados hover, elementos destacados |
-| Verde | `#8EBC22` | Color primario de acción (botones, indicadores positivos) |
-| Turquesa | `#009EAE` | Acento secundario, datos, enlaces destacados |
-| Naranja | `#FBB03F` | Acentos cálidos, cifras, detalles |
+| `--luker-cream` | `#EFEAE1` | Fondo general, superficies neutras, estado deshabilitado |
+| `--luker-brown` | `#623E19` | Texto, títulos, footer, botón primario por defecto |
+| `--luker-coral` | `#FF7C80` | Acento · fondo plano de banners |
+| `--luker-green` | `#8EBC22` | Acento · estados "activo"/positivos |
+| `--luker-teal` | `#009EAE` | Acento · información, datos, foco |
+| `--luker-orange` | `#FBB03F` | Acento · alertas, cifras, detalles |
 
-Reglas de color:
-- Fondo siempre crema o blanco; nunca fondos oscuros como base (el café solo en secciones puntuales como footer).
-- Los acentos (coral, verde, turquesa, naranja) se rotan entre elementos repetidos (tarjetas, íconos) para dar variedad vibrante.
-- Prohibido: morados, índigos, azules corporativos y gradientes genéricos fuera de esta paleta.
-- En CSS usar formato oklch; referencia de conversión ya validada: crema `oklch(0.9385 0.0132 82.4)`, café `oklch(0.3983 0.0718 63.67)`, coral `oklch(0.7387 0.1598 19.89)`, verde `oklch(0.7358 0.177 125.92)`, turquesa `oklch(0.6393 0.1097 207.45)`, naranja `oklch(0.8103 0.1505 73.15)`.
+- **Superficies:** página en crema o blanco; tarjetas, filtros, tablas y modales en blanco.
+- **Fondos planos de color** (coral, verde, turquesa, naranja, café) SOLO en hero, banners y bloques destacados, siempre con la textura de letras y/o foto recortada. Nunca gradientes.
+- **Rotación de acentos** en elementos repetidos: coral → verde → turquesa → naranja (`i % 4`).
+- Prohibido: morados, índigos, azules corporativos, grises fríos, gradientes, modo oscuro.
+
+### Contraste (obligatorio, WCAG AA)
+| Combinación | Ratio | Uso permitido |
+|---|---|---|
+| Café sobre crema / blanco | 7.9 / 9.5 | Todo texto |
+| Blanco sobre café | 9.5 | Todo texto |
+| Café sobre naranja | 5.1 | Todo texto |
+| Café sobre verde | 4.2 | Solo texto grande (≥ 24 px, o ≥ 18.7 px en negrita) |
+| Café sobre coral | 3.8 | Solo texto grande |
+| Blanco sobre turquesa | 3.2 | Solo texto grande |
+| Blanco sobre coral / verde / naranja | 2.5 / 2.2 / 1.8 | Nunca para texto |
+| Acentos como texto sobre blanco/crema | 1.8–3.2 | Nunca para texto de lectura |
+
+**Regla de forma y texto (obligatoria):** ninguna ilustración, ícono, forma, insignia, pestaña activa o fondo puede tener el mismo color que el texto o glifo que lleva encima. Si la forma es café (color del texto), su contenido va en blanco. Revisar especialmente los acentos café en rotaciones, encabezados y estados hover/activo.
+
+Consecuencia práctica: los acentos se usan como fondos, bordes, íconos, barras, etiquetas grandes y resaltados suaves; el texto casi siempre es café (o blanco sobre café).
 
 ## Tipografía
+- **Fuente web: Montserrat** (Google Fonts, pesos 300, 400, 500, 700, 900), equivalente web de Gotham, la tipografía impresa de marca (no hay licencia web de Gotham; no usarla ni cargarla). Correspondencia: Gotham Light → Montserrat 300, Medium → 500, Black → 900. Nunca otra fuente.
+- Escala única:
+  - Display / cifras: `clamp(2.5rem, 5vw, 4rem)`, Black · H1: `clamp(2rem, 4vw, 3rem)`, Black
+  - H2: `1.75rem`, Medium/Bold · H3: `1.25rem`, Medium
+  - Cuerpo: `1rem`/1.6, Light o Regular · Pequeño: `0.875rem`
+  - Etiquetas/CTA/encabezados de sección: `0.75–0.875rem`, Medium, MAYÚSCULAS, `letter-spacing: 0.06em`
+- Un solo H1 por página; jerarquía sin saltos.
 
-- Montserrat en todo: títulos y cuerpo. Cargarla como webfont (Google Fonts) con pesos 400, 500, 600, 700, 800.
-- Títulos grandes y con peso 700–800; cifras de impacto en tamaño display (text-5xl en adelante).
-- Prohibido usar Inter, Poppins, serif o cualquier otra fuente.
+## Elementos gráficos de marca
+- **Franja cromática vertical:** barra de 12–16 px en el borde izquierdo de hero y banners, en 4 tramos iguales. El orden es libre, con tres condiciones: 4 colores distintos, siempre incluye el café, y nunca repite el color del fondo del bloque. Clase `.luker-stripe-v` (variables `--s1..--s4`).
+- **Franja horizontal** de cierre de página: `.luker-stripe`.
+- **Textura de letras:** letras y estrellas dispersas, rotadas, en tono sobre tono (blanco ~15 % sobre color, o gris muy claro sobre blanco). Solo como fondo decorativo (`aria-hidden`). Existe también en forma de **círculo de letras** detrás de la persona fotografiada.
+- **Números de marca:** numerales redondeados multicolor. Usarlos como SVG en cifras de impacto destacadas; si no están los archivos, usar la tipografía display en café.
 
-## Estilo visual
+## Imágenes e ilustraciones
+- **Combinación foto/gráfico** (tratamiento principal): fotografía recortada sin fondo (PNG/WebP transparente) de personas reales de contexto latinoamericano (niñez, jóvenes estudiantes, egresados, docentes), sobre fondo plano de color + círculo de letras detrás + franja vertical a la izquierda. La persona se ancla al borde inferior del bloque.
+- Fotos cálidas, naturales, luz de día, expresiones alegres. Nunca stock genérico con fondo, renders 3D ni tonos fríos.
+- **Ilustraciones:** editoriales vectoriales, **monocromáticas** (un solo color de línea), trazo orgánico, contornos definidos, detalles simplificados, proporciones naturales, expresiones cálidas, diversidad racial e inclusión. Nada abstracto, sin rellenos degradados.
+- Si no hay foto o ilustración real: contenedor con `aspect-ratio` fijo y `TODO: imagen de marca`; no generar personas ficticias sin aprobación.
 
-- Estética editorial/institucional: composiciones asimétricas, mucho aire, jerarquía clara.
-- Textura tipográfica de fondo: una letra "L" gigante en crema/café a muy baja opacidad como marca de agua en el hero.
-- Fotografías recortadas (sin fondo, transparent background) de personas reales del contexto latinoamericano: educadores, comunidades, territorio. Nunca ilustraciones genéricas de stock ni renders 3D.
-- Ilustraciones de apoyo en estilo lineal (stroke) con los colores del kit, no abstractas: escenas figurativas de territorio, aprendizaje o datos cuando se pidan.
-- Tarjetas blancas sobre crema, bordes redondeados generosos (radius 0.625rem base), sombras suaves en café: `0 16px 40px -24px color-mix(in oklab, var(--luker-brown) 34%, transparent)`.
-- En directorios de módulos, usar una cuadrícula uniforme: 5 columnas amplias, 2 medianas y 1 móvil. No combinar tarjetas de doble ancho si generan huecos o filas incompletas.
-- Mantener altura, alineación y área táctil consistentes; permitir que títulos largos envuelvan sin cortarse ni desplazar la cuadrícula.
-- En estados `hover`, foco y pulsación, conservar el texto café: aplicar el acento como fondo suave (aprox. 16–24%), borde o indicador lateral. No rellenar todo el control con un acento si compromete contraste.
-- Hacer equivalentes `hover` y `focus-visible`, añadir un foco perceptible y respetar `prefers-reduced-motion`.
-- En pestañas activas, usar superficie clara y subrayado del acento; nunca fondo y texto del mismo tono.
-- Todos los cuadros, barras y campos destinados a filtrar datos usan fondo blanco sólido, incluidos selectores y sus menús desplegables. Mantener borde café suave, texto café y foco turquesa; no usar crema ni acentos sólidos como fondo del filtro.
-- Franja cromática inferior (coral, verde, turquesa, naranja) como cierre de página.
-- Footer en café con texto crema.
+## Íconos
+- Glifo sólido o lineal simple **blanco dentro de un círculo sólido** del color de acento (tamaño 32–40 px) en resaltados, contenedores y tarjetas; o glifo suelto en café dentro de controles de UI. `lucide-react` es válido si se usa con este tratamiento.
+- Indicadores de forma: círculo, cuadrado, triángulo, rombo, estrella y anillo, en los colores del kit (leyendas, estados).
 
-## Tarjetas de módulos (referencia visual)
+## Movimiento (RESTRICTIVO · lista cerrada)
 
-- Cada módulo es una tarjeta independiente blanca sobre fondo crema, con borde fino café de baja opacidad, radio `0.625rem` y sombra café muy suave. No unir las tarjetas en una tabla ni compartir bordes entre ellas.
-- Usar una composición vertical editorial: ícono lineal arriba a la izquierda, flecha diagonal pequeña arriba a la derecha, título y descripción en el centro, divisor fino antes de la acción y CTA en mayúsculas abajo a la izquierda.
-- Mostrar el número del módulo como marca de agua grande, parcialmente recortada en la esquina inferior derecha y con opacidad muy baja. Mantenerlo detrás del contenido para que nunca compita con el CTA.
-- Presentar el ícono sin círculo, pastilla ni fondo sólido: solo trazo lineal en el acento de la tarjeta. Mantener la flecha y el CTA en café.
-- Rotar el acento en el orden coral → verde → turquesa → naranja. Aplicarlo al ícono y a detalles discretos, nunca como relleno total de la tarjeta.
-- Mantener mucho aire interior, alineación izquierda y una altura mínima estable. Permitir que los títulos largos envuelvan sin desplazar el divisor o el CTA.
-- En `hover` y `focus-visible`, elevar la tarjeta sutilmente y aplicar el acento como borde, indicador o fondo de baja intensidad. Conservar título, descripción, flecha y CTA en café.
-- Usar una cuadrícula uniforme con separación visible: 5 columnas amplias, 2 medianas y 1 móvil. Todas las tarjetas conservan la misma altura y área táctil.
-- Aplicar `animate-fade-in` con retardo escalonado de 80 ms y `animation-fill-mode: both`; respetar `prefers-reduced-motion`.
-- Superponer controles administrativos sobre la tarjeta sin alterar su composición base.
+El movimiento solo existe para dar feedback de interacción. El contenido de la página NO se anima.
 
-## Estructura de página preferida
+### Permitido (solo estas clases de `tokens.css`)
+| Situación | Clase | Comportamiento |
+|---|---|---|
+| Tarjeta clicable | `card-interactive` | Hover/foco: sube 2 px, fondo acento 8 %, borde acento 62 %, sombra mayor · Presionado: fondo acento 14 %, sin elevación · 200 ms |
+| Pestañas | `tabs-list` + `tab` | Hover: fondo café 8 % · Activa: fondo blanco + subrayado interior de 3 px en acento · 150 ms |
+| Campo de filtro / select | `filter-control` | Sin cambio en hover; solo foco turquesa |
+| Ítem de lista (select, dropdown) | `list-item` | Hover/foco: turquesa 10 %, instantáneo · Seleccionado: ícono Check + peso 600 |
+| Chip de filtro | `chip` (`aria-pressed`) | Seleccionado: fondo acento 18 %, borde acento, texto café, ícono Check · 150 ms |
+| Fila de tabla | `table-row` | Hover: turquesa 8 % · Seleccionada: turquesa 14 % + barra izquierda de 3 px · 150 ms |
+| Navegación | `nav-link` | Subrayado verde estático; ruta actual con `aria-current="page"`. Sin animación |
+| Enlace en texto | `text-link` | Subrayado verde fijo; en hover cambia a café. Sin animación |
+| Checkbox, radio, switch | shadcn por defecto | Cambio de estado instantáneo, sin animación |
+| Overlays: modal, popover, menú desplegable, menú móvil, toast | `animate-overlay-in` / `animate-overlay-out` | Aparece con opacidad y escala de 0.97 a 1 en 200 ms; desaparece con opacidad en 150 ms |
+| Acordeón | `accordion-down` / `accordion-up` de shadcn | 200 ms |
+| Carga de datos | `skeleton` | Pulso suave; si supera 10 s, pasar a estado de error |
+| Carga dentro de botón o en línea | `spinner` en `Loader2` de 16 px | Nunca spinner de página completa |
+| Iframe externo | `iframe-fade` | Fundido de 300 ms al terminar de cargar |
 
-Landing/directorio: hero asimétrico con textura tipográfica → sección de tarjetas/módulos → bloque de cifras de impacto → footer institucional con franja cromática.
+### Valores únicos
+- Duraciones: `--dur-fast` 150 ms (color de controles) y `--dur-base` 200 ms (tarjetas y overlays). Ninguna otra.
+- Curva: `--ease` (ease-out). Ninguna otra.
+- Propiedades animables: `color`, `background-color`, `border-color`, `box-shadow`, `opacity` y `transform` (solo `translateY(-2px)` y `scale(0.97→1)`). Nunca `width`, `height`, `margin`, `top/left` ni `filter`.
+- En componentes shadcn/Radix que traen `animate-in`/`animate-out` (Select, Dropdown, Popover, Dialog, Sheet, Toast): dejar solo `fade-in-0 zoom-in-[0.97]` y `fade-out-0`, con `duration-200`/`duration-150`. Quitar los `slide-in-from-*`.
+
+### Prohibido
+- Animar la entrada de contenido: secciones, tarjetas, hero, imágenes, textos, KPIs o gráficos al cargar o al hacer scroll. Sin retardos escalonados.
+- Transiciones entre rutas o páginas.
+- Hover con movimiento en elementos que no son clicables (tarjetas informativas, KPIs, imágenes sueltas).
+- Zoom o escala de imágenes en hover; subrayados animados.
+- Framer Motion, GSAP, AOS, Lottie o cualquier librería de animación.
+- Clases `animate-bounce`, `animate-ping`, `animate-spin` (salvo `spinner`), gradientes animados y cualquier bucle decorativo.
+- Keyframes nuevos o duraciones fuera de la escala.
+- Animar la textura de letras, la franja o el logo.
+
+### Movimiento reducido
+Todo se desactiva con `prefers-reduced-motion: reduce` (bloque global en `tokens.css`): se mantienen los cambios de color y desaparecen los desplazamientos.
+
+### Al trabajar sobre un proyecto existente
+Si se detectan animaciones fuera de esta lista (por ejemplo `animate-gradient`, `logo-spin` de la plantilla de Vite, `group-hover:scale-105`), reportarlas al usuario y proponer eliminarlas. No eliminarlas sin confirmación.
+
+## Accesibilidad y UX (mínimos)
+- Respetar la tabla de contraste. Áreas táctiles ≥ 44 × 44 px.
+- `hover` y `focus-visible` equivalentes; foco global: contorno turquesa de 2 px con separación de 2 px (`tokens.css`).
+- Navegación completa por teclado; modales atrapan foco y cierran con Esc.
+- `alt` descriptivo en español; decoraciones con `aria-hidden="true"`.
+- `lang="es"`; números y fechas en `es-CO` (17.984 · 23 sep 2026).
+
+## Estructura de página
+- **Landing / directorio:** hero de color plano (foto recortada + círculo de letras + franja vertical) → módulos → cifras de impacto → footer.
+- **Página interna:** encabezado (migas + H1 + descripción + acción) → filtros → contenido → relacionados → footer.
+- **Tablero:** encabezado → filtros → KPIs → gráficos → tabla → fuente y fecha de corte.
+
+## Recursos de marca (deben aportarse; no recrear)
+| Recurso | Ruta esperada | Respaldo si falta |
+|---|---|---|
+| Logo (SVG) | `/public/brand/logo.svg` | Texto "Fundación Luker" en café, Medium |
+| Textura de letras (SVG) | `/public/brand/textura-letras.svg` | Fondo plano sin textura |
+| Círculo de letras (SVG) | `/public/brand/circulo-letras.svg` | Omitir |
+| Números de marca (SVG 0–9) | `/public/brand/numeros/` | Tipografía display en café |
 
 ## Tono
+Cálido, humano, en español. Microcopy concreto: "Ver módulo", "Descargar reporte", "No hay resultados para estos filtros".
 
-Cálido, humano, orientado a educación, datos y transformación social. Español por defecto.
-
-## Tokens CSS de referencia (Tailwind v4)
-
-```css
-@theme inline {
-  --font-sans: "Montserrat", ui-sans-serif, system-ui, sans-serif;
-  --font-heading: "Montserrat", ui-sans-serif, system-ui, sans-serif;
-  --color-luker-cream: var(--luker-cream);
-  --color-luker-brown: var(--luker-brown);
-  --color-luker-coral: var(--luker-coral);
-  --color-luker-green: var(--luker-green);
-  --color-luker-orange: var(--luker-orange);
-  --color-luker-teal: var(--luker-teal);
-}
-
-:root {
-  --luker-cream: oklch(0.9385 0.0132 82.4);
-  --luker-brown: oklch(0.3983 0.0718 63.67);
-  --luker-coral: oklch(0.7387 0.1598 19.89);
-  --luker-green: oklch(0.7358 0.177 125.92);
-  --luker-teal: oklch(0.6393 0.1097 207.45);
-  --luker-orange: oklch(0.8103 0.1505 73.15);
-  --background: var(--luker-cream);
-  --foreground: var(--luker-brown);
-  --primary: var(--luker-green);
-  --primary-foreground: var(--luker-brown);
-  --accent: var(--luker-teal);
-}
-```
-
-## Animaciones (siempre las mismas)
-
-Animaciones suaves y discretas, acordes al tono institucional. Usar las utilidades estándar del proyecto (`animate-fade-in`, `animate-scale-in`, `hover-scale`, `story-link`), nunca animaciones bruscas, rebotes exagerados ni efectos tipo parallax pesado.
-
-- **Entrada de secciones y tarjetas:** `animate-fade-in` (suben 10px y aparecen, 0.3s). Aplicar con retardo escalonado en listas de tarjetas: `style={{ animationDelay: `${i * 80}ms` }}` y `animation-fill-mode: both`.
-- **Hero:** título y texto con `animate-fade-in`, la imagen recortada con `animate-scale-in` (0.2s, leve).
-- **Tarjetas e imágenes interactivas:** `hover-scale` (escala 1.05 al pasar el cursor, 200ms).
-- **Enlaces de navegación y texto:** `story-link` (subrayado animado en el color primario verde).
-- **Modales y diálogos:** entrada con `animate-scale-in`, salida con `animate-fade-out`.
-- **Indicadores de estado o carga:** `pulse` suave, nunca spinners agresivos sin marca.
-- Duraciones cortas (200–300ms), easing `ease-out`. Prohibido: animaciones infinitas decorativas, rotaciones, gradientes animados.
-
-## Imágenes e ilustraciones (reglas de uso)
-
-- **Hero:** siempre una fotografía recortada con fondo transparente (PNG) de personas reales del contexto latinoamericano (educadores, jóvenes, comunidades, trabajadores del campo), en composición asimétrica junto al título. Generar con fondo transparente, nunca fotos con marco rectangular ni stock genérico.
-- **Fotografías:** tonos cálidos y naturales, luz de día, coherencia con la paleta del kit. Evitar imágenes frías, azuladas o corporativas.
-- **Ilustraciones de apoyo:** estilo lineal (stroke) con los colores del kit, figurativas y concretas (territorio, aprendizaje, personas con datos). No usar ilustraciones abstractas salvo que el usuario las pida explícitamente.
-- **Cifras de impacto:** números grandes en Montserrat 700–800 con los colores de acento del kit rotados (coral, verde, turquesa, naranja).
-- **Iconos:** estilo lineal simple, en los colores del kit, sin librerías de íconos con estilo corporativo ajeno a la marca.
-- **Favicon y logo:** usar siempre el logo de Fundación Luker.
+## Evitar
+- Duplicar header, footer, botón o tarjeta existentes.
+- Hex sueltos o estilos en línea; siempre tokens.
+- Texto blanco sobre coral, verde o naranja; texto de lectura en color de acento.
+- Botones en forma de pastilla (el kit usa esquinas levemente redondeadas).
+- Recrear el logo, los números o la textura con código o IA.
+- Vistas sin estados de carga, vacío y error.
