@@ -130,16 +130,16 @@ const SectionShell = ({
   index: string;
   children: React.ReactNode;
 }) => (
-  <section id={id} data-accent={accent} className="da-section scroll-mt-36 py-12 md:py-20">
+  <section id={id} data-accent={accent} className="da-section scroll-mt-36 py-16 md:py-24">
     <div className="da-shell">
-      <div className="da-section-heading mb-8 md:mb-10">
+      <div className="da-section-heading mb-10 md:mb-14">
         <span className="da-section-number" aria-hidden="true">{index}</span>
         <div className="da-section-icon">
           <Icon className="h-6 w-6" />
         </div>
         <div>
           <p className="da-eyebrow">Explora los indicadores</p>
-          <h2 className="font-heading text-3xl font-extrabold leading-tight md:text-5xl">{title}</h2>
+          <h2 className="font-heading text-3xl font-extrabold leading-[1.15] md:text-5xl">{title}</h2>
         </div>
       </div>
       {children}
@@ -176,14 +176,14 @@ const DatosAbiertos = () => {
       <section className="da-hero relative overflow-hidden">
         <span className="da-hero-letter da-hero-letter-left" aria-hidden="true">d</span>
         <span className="da-hero-letter da-hero-letter-right" aria-hidden="true">a</span>
-        <div className="da-shell relative z-10 grid min-h-[440px] items-center gap-8 py-12 md:grid-cols-[1.2fr_0.8fr] md:py-16">
+        <div className="da-shell relative z-10 grid min-h-[520px] items-center gap-12 py-16 md:grid-cols-[minmax(0,1.35fr)_minmax(240px,0.65fr)] md:py-20 lg:min-h-[560px] lg:gap-16 lg:py-24">
           <div className="max-w-3xl">
             <p className="da-kicker mb-5">Transparencia y rendición de cuentas</p>
-            <h1 className="font-heading text-5xl font-black leading-[0.98] md:text-7xl">
+            <h1 className="font-heading text-5xl font-black leading-[1.06] md:text-7xl">
               Datos abiertos
               <span className="mt-2 block">Fundación Luker</span>
             </h1>
-            <p className="mt-7 max-w-2xl text-lg font-medium leading-relaxed md:text-xl">
+            <p className="mt-8 max-w-3xl text-lg font-medium leading-[1.75] md:text-xl">
               Información para aprender, decidir y transformar. Consulta libremente los principales indicadores y resultados de nuestros programas y la ciudad.
             </p>
           </div>
@@ -197,8 +197,8 @@ const DatosAbiertos = () => {
 
       {/* Barra sticky de accesos rápidos */}
       <nav aria-label="Secciones de datos abiertos" className="da-quick-nav sticky top-16 z-40 md:top-[72px]">
-        <div className="da-shell py-3">
-          <div className="flex flex-nowrap gap-2 overflow-x-auto">
+        <div className="da-shell py-4">
+          <div className="flex flex-nowrap gap-3 overflow-x-auto py-1">
             {sections.map((s) => {
               const Icon = s.icon;
               return (
@@ -207,7 +207,7 @@ const DatosAbiertos = () => {
                   variant="outline"
                   onClick={() => scrollToSection(s.id)}
                   data-accent={s.accent}
-                  className="da-quick-link h-10 shrink-0 gap-2 px-3 md:px-4"
+                  className="da-quick-link h-11 shrink-0 gap-2 px-4 md:h-12 md:px-5"
                 >
                   <Icon className="h-4 w-4" />
                   <span className="font-heading text-xs font-bold md:text-sm">
@@ -224,11 +224,11 @@ const DatosAbiertos = () => {
       {/* Educación */}
       <SectionShell id="educacion" title="Educación" icon={GraduationCap} accent="coral" index="01">
         <Tabs value={educationTab} onValueChange={setEducationTab} className="w-full">
-          <TabsList className="w-full h-auto flex-wrap justify-start gap-1 bg-card border border-border p-1">
+          <TabsList className="w-full h-auto flex-nowrap justify-start gap-2 overflow-x-auto bg-card border border-border p-2">
             {educationTabs.map((t) => {
               const Icon = t.icon;
               return (
-                <TabsTrigger key={t.id} value={t.id} className="flex items-center gap-2 min-h-11">
+                <TabsTrigger key={t.id} value={t.id} className="flex min-h-12 shrink-0 items-center gap-2 px-4">
                   <Icon className="h-4 w-4" />
                   <span className="hidden md:inline">{t.label}</span>
                   <span className="md:hidden">{t.mobile}</span>
@@ -252,11 +252,11 @@ const DatosAbiertos = () => {
       {/* Desarrollo Rural */}
       <SectionShell id="desarrollo-rural" title="Desarrollo Rural — El Efecto Cacao" icon={Sprout} accent="lime" index="03">
         <Tabs value={ruralTab} onValueChange={setRuralTab} className="w-full">
-          <TabsList className="w-full h-auto flex-wrap justify-start gap-1 bg-card border border-border p-1">
+          <TabsList className="w-full h-auto flex-nowrap justify-start gap-2 overflow-x-auto bg-card border border-border p-2">
             {ruralTabs.map((t) => {
               const Icon = t.icon;
               return (
-                <TabsTrigger key={t.id} value={t.id} className="flex items-center gap-2 min-h-11">
+                <TabsTrigger key={t.id} value={t.id} className="flex min-h-12 shrink-0 items-center gap-2 px-4">
                   <Icon className="h-4 w-4" />
                   <span className="hidden md:inline">{t.label}</span>
                   <span className="md:hidden">{t.mobile}</span>
@@ -275,11 +275,11 @@ const DatosAbiertos = () => {
       {/* Especiales */}
       <SectionShell id="especiales" title="Proyectos Especiales" icon={Star} accent="teal" index="04">
         <Tabs value={specialTab} onValueChange={setSpecialTab} className="w-full">
-          <TabsList className="w-full h-auto flex-wrap justify-start gap-1 bg-card border border-border p-1">
+          <TabsList className="w-full h-auto flex-nowrap justify-start gap-2 overflow-x-auto bg-card border border-border p-2">
             {specialTabs.map((t) => {
               const Icon = t.icon;
               return (
-              <TabsTrigger key={t.id} value={t.id} className="flex items-center gap-2 min-h-11">
+              <TabsTrigger key={t.id} value={t.id} className="flex min-h-12 shrink-0 items-center gap-2 px-4">
                   <Icon className="h-4 w-4" />
                   <span className="hidden md:inline">{t.label}</span>
                   <span className="md:hidden">{t.mobile}</span>
@@ -297,7 +297,7 @@ const DatosAbiertos = () => {
 
       {/* Contexto Socioeconómico */}
       <SectionShell id="socioeconomico" title="Contexto Socioeconómico" icon={TrendingUp} accent="brown" index="05">
-        <div className="mb-6 flex items-center gap-4 flex-wrap p-4 bg-card rounded-lg border border-border">
+        <div className="mb-8 flex flex-wrap items-center gap-6 bg-card p-5 md:p-6 rounded-lg border border-border">
           <div className="flex items-center gap-2">
             <TrendingUp className="h-5 w-5 text-luker-teal" />
             <span className="font-medium text-foreground">Ciudad:</span>
@@ -314,11 +314,11 @@ const DatosAbiertos = () => {
           </Select>
         </div>
         <Tabs value={mcvTab} onValueChange={setMcvTab} className="w-full">
-          <TabsList className="w-full h-auto flex-wrap justify-start gap-1 bg-card border border-border p-1">
+          <TabsList className="w-full h-auto flex-nowrap justify-start gap-2 overflow-x-auto bg-card border border-border p-2">
             {mcvSubsections.map((s) => {
               const Icon = s.icon;
               return (
-                <TabsTrigger key={s.id} value={s.id} className="flex items-center gap-2 min-h-11">
+                <TabsTrigger key={s.id} value={s.id} className="flex min-h-12 shrink-0 items-center gap-2 px-4">
                   <Icon className="h-4 w-4" />
                   <span className="hidden md:inline">{s.label}</span>
                   <span className="md:hidden">{s.mobile}</span>
