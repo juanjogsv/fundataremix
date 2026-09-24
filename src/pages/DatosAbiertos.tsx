@@ -176,14 +176,14 @@ const DatosAbiertos = () => {
       <section className="da-hero relative overflow-hidden">
         <span className="da-hero-letter da-hero-letter-left" aria-hidden="true">d</span>
         <span className="da-hero-letter da-hero-letter-right" aria-hidden="true">a</span>
-        <div className="da-shell relative z-10 grid min-h-[520px] items-center gap-12 py-16 md:grid-cols-[minmax(0,1.35fr)_minmax(240px,0.65fr)] md:py-20 lg:min-h-[560px] lg:gap-16 lg:py-24">
+        <div className="da-shell relative z-10 grid min-h-0 items-center gap-10 py-14 md:gap-12 md:py-16 lg:min-h-[560px] lg:grid-cols-[minmax(0,1.35fr)_minmax(240px,0.65fr)] lg:gap-16 lg:py-24">
           <div className="max-w-3xl">
             <p className="da-kicker mb-5">Transparencia y rendición de cuentas</p>
-            <h1 className="font-heading text-5xl font-black leading-[1.06] md:text-7xl">
+            <h1 className="font-heading text-5xl font-black leading-[1.06] md:text-6xl lg:text-7xl">
               Datos abiertos
               <span className="mt-2 block">Fundación Luker</span>
             </h1>
-            <p className="mt-8 max-w-3xl text-lg font-medium leading-[1.75] md:text-xl">
+            <p className="mt-7 max-w-3xl text-lg font-medium leading-[1.7] md:mt-8 md:text-xl">
               Información para aprender, decidir y transformar. Consulta libremente los principales indicadores y resultados de nuestros programas y la ciudad.
             </p>
           </div>
@@ -198,7 +198,7 @@ const DatosAbiertos = () => {
       {/* Barra sticky de accesos rápidos */}
       <nav aria-label="Secciones de datos abiertos" className="da-quick-nav sticky top-16 z-40 md:top-[72px]">
         <div className="da-shell py-4">
-          <div className="flex flex-nowrap gap-3 overflow-x-auto py-1">
+          <div className="da-scroll-row flex flex-nowrap gap-3 overflow-x-auto py-1">
             {sections.map((s) => {
               const Icon = s.icon;
               return (
@@ -224,7 +224,7 @@ const DatosAbiertos = () => {
       {/* Educación */}
       <SectionShell id="educacion" title="Educación" icon={GraduationCap} accent="coral" index="01">
         <Tabs value={educationTab} onValueChange={setEducationTab} className="w-full">
-          <TabsList className="w-full h-auto flex-nowrap justify-start gap-2 overflow-x-auto bg-card border border-border p-2">
+          <TabsList className="da-scroll-row w-full h-auto flex-nowrap justify-start gap-2 overflow-x-auto bg-card border border-border p-2">
             {educationTabs.map((t) => {
               const Icon = t.icon;
               return (
@@ -252,7 +252,7 @@ const DatosAbiertos = () => {
       {/* Desarrollo Rural */}
       <SectionShell id="desarrollo-rural" title="Desarrollo Rural — El Efecto Cacao" icon={Sprout} accent="lime" index="03">
         <Tabs value={ruralTab} onValueChange={setRuralTab} className="w-full">
-          <TabsList className="w-full h-auto flex-nowrap justify-start gap-2 overflow-x-auto bg-card border border-border p-2">
+          <TabsList className="da-scroll-row w-full h-auto flex-nowrap justify-start gap-2 overflow-x-auto bg-card border border-border p-2">
             {ruralTabs.map((t) => {
               const Icon = t.icon;
               return (
@@ -275,7 +275,7 @@ const DatosAbiertos = () => {
       {/* Especiales */}
       <SectionShell id="especiales" title="Proyectos Especiales" icon={Star} accent="teal" index="04">
         <Tabs value={specialTab} onValueChange={setSpecialTab} className="w-full">
-          <TabsList className="w-full h-auto flex-nowrap justify-start gap-2 overflow-x-auto bg-card border border-border p-2">
+          <TabsList className="da-scroll-row w-full h-auto flex-nowrap justify-start gap-2 overflow-x-auto bg-card border border-border p-2">
             {specialTabs.map((t) => {
               const Icon = t.icon;
               return (
@@ -314,7 +314,7 @@ const DatosAbiertos = () => {
           </Select>
         </div>
         <Tabs value={mcvTab} onValueChange={setMcvTab} className="w-full">
-          <TabsList className="w-full h-auto flex-nowrap justify-start gap-2 overflow-x-auto bg-card border border-border p-2">
+          <TabsList className="da-scroll-row w-full h-auto flex-nowrap justify-start gap-2 overflow-x-auto bg-card border border-border p-2">
             {mcvSubsections.map((s) => {
               const Icon = s.icon;
               return (

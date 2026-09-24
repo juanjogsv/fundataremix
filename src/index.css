@@ -833,6 +833,17 @@ All colors MUST be HSL.
     backdrop-filter: blur(14px);
   }
 
+  .datos-abiertos .da-scroll-row {
+    overscroll-behavior-inline: contain;
+    scroll-padding-inline: 0.5rem;
+    scroll-snap-type: inline proximity;
+    touch-action: pan-x;
+  }
+
+  .datos-abiertos .da-scroll-row > * {
+    scroll-snap-align: start;
+  }
+
   .datos-abiertos .da-quick-link {
     --da-accent: var(--da-coral);
     border-color: hsl(var(--da-accent));
@@ -950,20 +961,46 @@ All colors MUST be HSL.
     color: hsl(var(--da-cream));
   }
 
+  @media (max-width: 1023px) {
+    .datos-abiertos .da-hero-index {
+      align-items: center;
+      border-left: 0;
+      border-top: 2px solid hsl(var(--da-coral));
+      display: grid;
+      gap: 0.5rem 1.25rem;
+      grid-template-columns: auto 1fr auto;
+      justify-self: stretch;
+      padding: 1.5rem 0 0;
+    }
+
+    .datos-abiertos .da-hero-index-number {
+      font-size: clamp(4rem, 12vw, 6rem);
+      grid-row: 1 / span 2;
+    }
+
+    .datos-abiertos .da-hero-index-label {
+      margin-top: 0;
+    }
+
+    .datos-abiertos .da-hero-index svg {
+      grid-column: 3;
+      grid-row: 1 / span 2;
+      margin-top: 0;
+    }
+  }
+
   @media (max-width: 767px) {
     .datos-abiertos .da-public-label {
       padding: 0.35rem 0.55rem;
     }
 
     .datos-abiertos .da-hero-index {
-      border-left: 0;
-      border-top: 2px solid hsl(var(--da-brown));
-      justify-self: stretch;
-      padding: 1.5rem 0 0;
+      gap: 0.35rem 0.875rem;
+      grid-template-columns: auto minmax(0, 1fr) auto;
     }
 
     .datos-abiertos .da-hero-index-number {
-      font-size: 4.5rem;
+      font-size: 4rem;
     }
 
     .datos-abiertos .da-section-heading {
@@ -981,6 +1018,10 @@ All colors MUST be HSL.
 
     .datos-abiertos .da-section [role="tablist"] {
       margin-inline: -0.25rem;
+    }
+
+    .datos-abiertos .da-scroll-row {
+      padding-right: 2.5rem;
     }
   }
 
