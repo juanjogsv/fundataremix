@@ -240,7 +240,7 @@ const Admin = () => {
             <Button
               variant="default"
               onClick={() => document.getElementById("dama-panel")?.scrollIntoView({ behavior: "smooth" })}
-              className="gap-2 bg-luker-teal hover:bg-luker-teal/90"
+              className="gap-2"
             >
               <Database className="h-4 w-4" />
               Panel Maestro DAMA

@@ -152,7 +152,7 @@ export default function BdFundataSyncPanel() {
         ) : null}
 
         <div className="flex flex-wrap gap-2">
-          <Button onClick={() => runSync(false)} disabled={syncing} className="bg-luker-teal hover:bg-luker-teal/90">
+          <Button onClick={() => runSync(false)} disabled={syncing}>
             {syncing ? <Loader2 className="h-4 w-4 animate-spin mr-2" /> : <RefreshCw className="h-4 w-4 mr-2" />}
             Sincronizar datos válidos
           </Button>

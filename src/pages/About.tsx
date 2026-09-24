@@ -241,7 +241,6 @@ const About = () => {
               <div className="flex flex-wrap gap-4 justify-center pt-4">
                 <Button 
                   onClick={() => navigate("/indicadores")}
-                  className="bg-luker-green hover:bg-luker-green/90 text-white"
                 >
                   Ver Indicadores Estratégicos
                 </Button>

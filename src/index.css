@@ -45,6 +45,7 @@ All colors MUST be HSL.
     --luker-green: 78 69% 44%;
     --luker-red: 358 100% 74%;
     --luker-teal: 185 100% 34%;
+    --luker-teal-color: oklch(0.6393 0.1097 207.45);
     
     /* Kit palette (page 15) — module accents */
     --kit-cream: 39 29% 91%;
