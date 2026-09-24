@@ -32,7 +32,7 @@ export const PageHeader = ({
   const accent = accentFromClass(iconBgColor);
 
   return (
-    <header className="institutional-page-header" data-accent={accent}>
+    <section className="institutional-page-header" data-accent={accent} aria-labelledby="page-title">
       <div className="institutional-page-header__bar">
         <div className="institutional-page-header__nav">
           <div className="flex items-center gap-3 min-w-0">
@@ -72,6 +72,6 @@ export const PageHeader = ({
         </div>
         <div className="institutional-page-header__rule" />
       </div>
-    </header>
+    </section>
   );
 };
