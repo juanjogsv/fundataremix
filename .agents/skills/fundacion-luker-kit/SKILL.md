@@ -84,6 +84,7 @@ El movimiento solo existe para dar feedback de interacción. El contenido de la 
 ### Permitido (solo estas clases de `tokens.css`)
 | Situación | Clase | Comportamiento |
 |---|---|---|
+| Tarjeta clicable | `card-interactive` | Hover/foco: sube 2 px, fondo acento 8 %, borde acento 62 %, sombra mayor · Presionado: fondo acento 14 %, sin elevación · 200 ms |
 | Botón de área a explorar | `area-button` | Hover/foco: fondo acento del módulo al 100 %, texto e ícono en blanco · Presionado: mismo fondo, sin elevación · 150 ms · Excepción de contraste aprobada (ver sección Botones de áreas) |
 | Pestañas | `tabs-list` + `tab` | Hover: fondo café 8 % · Activa: fondo blanco + subrayado interior de 3 px en acento · 150 ms |
 | Campo de filtro / select | `filter-control` | Sin cambio en hover; solo foco turquesa |
