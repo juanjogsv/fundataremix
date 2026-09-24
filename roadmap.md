@@ -1,15 +1,5 @@
 # Roadmap
 
-- [x] Consolidar tokens, sombras, radios y estilos editoriales globales
-- [x] Crear estructura compartida: encabezado, navegación, secciones y footer
-- [x] Reconstruir portada con composición asimétrica, imagen y cifras
-- [x] Aplicar estructura a módulos de datos principales
-- [x] Aplicar estructura a páginas operativas y administración
-- [x] Limpiar estilos heredados fuera del kit
-- [x] Validar escritorio, móvil, funcionalidad y Datos Abiertos
-- [x] Aplicar y validar tarjetas editoriales de módulos según la referencia aprobada
-- [x] Ajustar el banner principal de la portada al kit, incluido el tamaño exacto del logo
-- [x] Aplicar las medidas responsive exactas de portada solicitadas y validarlas en cinco resoluciones
-- [x] Alinear sistema visual, estructura y componentes compartidos con el kit activo
-- [ ] Actualizar y activar la guía Fundación Luker con las reglas consolidadas
-- [ ] Validar todas las rutas, responsive y regresión de Datos Abiertos
+## En curso
+- [ ] Renombrar primer botón de la portada: "Explorar indicadores" → "Explorar módulos", y hacer que al hacer clic despliegue (scroll) hasta la sección de módulos, replicando el comportamiento de "explorar sistemas" en el proyecto Hub (3077b16f-bd6b-4e5c-a7f9-2b59f8077f64).
+- [ ] Aplicar el draft del skill fundacion-luker-kit (regla permanente de botones de áreas, cancelada por mensaje nuevo).
