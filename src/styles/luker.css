@@ -39,3 +39,43 @@ html { scroll-padding-top: var(--luker-header-h); }
 
 .luker-strip { display: flex; height: var(--luker-strip-h); }
 .luker-strip > span { flex: 1 1 0; }
+/* ===== Kit Fundación Luker · patrones de interacción (tokens.css adaptado) ===== */
+:root {
+  --lk-brown: oklch(0.3983 0.0718 63.67);
+  --lk-cream: oklch(0.9385 0.0132 82.4);
+  --lk-teal: oklch(0.6393 0.1097 207.45);
+  --lk-green: oklch(0.7358 0.177 125.92);
+  --lk-border: color-mix(in oklab, var(--lk-brown) 14%, transparent);
+  --lk-border-strong: color-mix(in oklab, var(--lk-brown) 28%, transparent);
+  --lk-muted: color-mix(in oklab, var(--lk-brown) 72%, transparent);
+  --dur-fast: 150ms;
+  --dur-base: 200ms;
+  --ease: cubic-bezier(0, 0, 0.2, 1);
+  --kit-accent: var(--lk-teal);
+}
+
+.chip { display: inline-flex; align-items: center; gap: .375rem; min-height: 36px; padding: 0 .75rem;
+  border: 1px solid var(--lk-border-strong); border-radius: .375rem; background: #fff;
+  color: var(--lk-muted); font-size: .8125rem; font-weight: 500; cursor: pointer;
+  transition: background-color var(--dur-fast) var(--ease), border-color var(--dur-fast) var(--ease), color var(--dur-fast) var(--ease); }
+.chip:hover { background: color-mix(in oklab, var(--lk-brown) 6%, #fff); color: var(--lk-brown); }
+.chip[aria-pressed="true"] { background: color-mix(in oklab, var(--kit-accent) 18%, #fff);
+  border-color: var(--kit-accent); color: var(--lk-brown); }
+
+.table-row { border-bottom: 1px solid var(--lk-border); transition: background-color var(--dur-fast) var(--ease); }
+.table-row:hover { background: color-mix(in oklab, var(--lk-teal) 8%, #fff); }
+.table-row[data-state="selected"], .table-row[aria-selected="true"] {
+  background: color-mix(in oklab, var(--lk-teal) 14%, #fff); box-shadow: inset 3px 0 0 var(--lk-teal); }
+
+.text-link { color: var(--lk-brown); text-decoration: underline; text-decoration-color: var(--lk-green);
+  text-decoration-thickness: 2px; text-underline-offset: 3px; }
+.text-link:hover { text-decoration-color: var(--lk-brown); }
+
+.skeleton { background: color-mix(in oklab, var(--lk-brown) 8%, #fff); border-radius: .625rem; }
+
+.iframe-fade { opacity: 0; transition: opacity 300ms var(--ease); }
+.iframe-fade[data-loaded="true"] { opacity: 1; }
+
+@media (prefers-reduced-motion: reduce) {
+  .chip, .table-row, .iframe-fade { transition: none; }
+}
