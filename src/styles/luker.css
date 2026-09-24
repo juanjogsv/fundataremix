@@ -83,8 +83,26 @@ html { scroll-padding-top: var(--luker-header-h); }
 /* Regla de contraste: si la forma tiene el mismo color que el texto (café), el contenido va en blanco */
 .institutional-page-header[data-accent="brown"] .institutional-page-header__number,
 .datos-abiertos [data-accent="brown"] .da-section-icon,
-.datos-abiertos [data-accent="brown"] [role="tab"][data-state="active"],
 .datos-abiertos .da-quick-link[data-accent="brown"]:hover,
 .datos-abiertos .da-quick-link[data-accent="brown"]:focus-visible {
   color: #fff;
+}
+
+/* ===== Gráficas siempre encuadradas en blanco sólido (nunca transparente) ===== */
+[data-ui="card"]:has(.recharts-wrapper),
+[data-ui="card"]:has(.recharts-responsive-container) {
+  background-color: #fff;
+  background-image: none;
+  backdrop-filter: none;
+  border: 1px solid var(--lk-border);
+  border-radius: 0.625rem;
+  box-shadow: 0 2px 8px -2px color-mix(in oklab, var(--lk-brown) 8%, transparent);
+}
+
+[data-ui="card"]:has(.recharts-wrapper) [data-ui="card-header"],
+[data-ui="card"]:has(.recharts-wrapper) [data-ui="card-content"],
+[data-ui="card"]:has(.recharts-responsive-container) [data-ui="card-header"],
+[data-ui="card"]:has(.recharts-responsive-container) [data-ui="card-content"] {
+  background-color: transparent;
+  backdrop-filter: none;
 }
