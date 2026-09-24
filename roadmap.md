@@ -6,3 +6,4 @@
 - [x] Corregir superposición del título del hero con la imagen en pantallas grandes: el H1 ahora escala con el ancho real del panel (cqw) en escritorio y con 10vw en móvil; verificado en 390/768/1024/1366/1920/2560 px sin desbordes ni solapamiento. Build OK.
 - [x] Reemplazar el cultivador de cacao por un joven universitario en la imagen del hero (src/assets/mi-junta-hero-people-v2.png, fondo transparente); se eliminó la imagen anterior y se actualizó el alt.
 - [x] Dar más amplitud a Datos Abiertos: mayor escala y separación en el panel inicial, secciones y navegación; pestañas de una sola fila con desplazamiento horizontal para evitar compresión; ancho editorial máximo de 1600 px.
+- [x] Corregir el responsive de Datos Abiertos: panel inicial apilado hasta 1024 px, indicador “05” compacto, tipografía escalonada y navegación/pestañas con desplazamiento táctil y ajuste por elemento.
