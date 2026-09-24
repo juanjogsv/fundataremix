@@ -26,10 +26,11 @@ const EducationSaberOnce = () => {
     { code: "SABER_03", label: "Inglés" },
   ];
 
-  const getCategoryLabel = (category: string) => {
-    if (category === "Solo once") return "Sin ciclos";
-    return category;
-  };
+  const CICLOS_OPTIONS = [
+    { value: "Total", label: "Total" },
+    { value: "Solo ciclos", label: "Solo ciclos" },
+    { value: "Solo once", label: "Sin ciclos" },
+  ];
 
   const SEXO_OPTIONS = ["Total", "Hombre", "Mujer"];
   const NATURALEZA_OPTIONS = ["Total", "Oficial", "No oficial"];
@@ -81,12 +82,6 @@ const EducationSaberOnce = () => {
   // (Legacy education_indicators query removed — UI uses SABER_OPTIONS hardcoded list)
   const indicators: any[] | null = null;
 
-
-  const availableCategoriesCard1 = useMemo(() => {
-    const cats = Array.from(new Set((damaSaberData || []).map(d => d.categoria).filter(Boolean))) as string[];
-    const ordered = ["Total", "Oficial", "No oficial", "Urbano", "Rural", "Hombre", "Mujer", "Planteles oficiales", "Planteles privados"];
-    return ordered.filter(c => cats.includes(c)).concat(cats.filter(c => !ordered.includes(c)));
-  }, [damaSaberData]);
 
   const normalize = (v: any) => (v ?? "").toString().trim().toLowerCase();
   // categoria_2 en datos_maestros viene como "" cuando no aplica; tratarlo como "total"
@@ -620,15 +615,15 @@ const EducationSaberOnce = () => {
                 </div>
 
                 <div className="space-y-2">
-                  <label className="text-sm font-medium text-foreground/85">Categoría/Sector</label>
+                  <label className="text-sm font-medium text-foreground/85">Ciclos</label>
                   <Select value={selectedCategory} onValueChange={setSelectedCategory}>
                     <SelectTrigger>
-                      <SelectValue placeholder="Seleccione categoría" />
+                      <SelectValue placeholder="Seleccione ciclo" />
                     </SelectTrigger>
                     <SelectContent>
-                      {availableCategoriesCard1.map((category) => (
-                        <SelectItem key={category} value={category}>
-                          {getCategoryLabel(category)}
+                      {CICLOS_OPTIONS.map((opt) => (
+                        <SelectItem key={opt.value} value={opt.value}>
+                          {opt.label}
                         </SelectItem>
                       ))}
                     </SelectContent>
