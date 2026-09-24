@@ -140,6 +140,7 @@ const EducationSaberOnce = () => {
   // ===== Card 2 (NUEVA): Comparativo histórico Oficial vs No oficial =====
   const [selectedCompCity, setSelectedCompCity] = useState<string>("17001");
   const [selectedCompIndicator, setSelectedCompIndicator] = useState<string>("SABER_02");
+  const [selectedCompCiclo, setSelectedCompCiclo] = useState<string>("Total");
 
   const { data: compRawData, isLoading: isLoadingComp } = useQuery({
     queryKey: ["dama-saber-comp-naturaleza", selectedCompIndicator, selectedCompCity],
@@ -221,7 +222,7 @@ const EducationSaberOnce = () => {
     const grouped: Record<number, { oficial: number[]; no_oficial: number[] }> = {};
     compRawData.forEach(d => {
       if (d.anio == null || d.valor == null) return;
-      if (normalize(d.categoria) !== "total") return;
+      if (normalize(d.categoria) !== normalize(selectedCompCiclo)) return;
       const cat2 = normCat2((d as any).categoria_2);
       if (!grouped[d.anio]) grouped[d.anio] = { oficial: [], no_oficial: [] };
       if (cat2 === "oficial") grouped[d.anio].oficial.push(Number(d.valor));
@@ -230,18 +231,19 @@ const EducationSaberOnce = () => {
     const years = Object.keys(grouped).map(Number).sort((a, b) => a - b);
     return years.map(year => {
       const g = grouped[year];
-      const avg = (arr: number[]) => arr.length ? Math.round(arr.reduce((a, b) => a + b, 0) / arr.length) : null;
-      const oficialVal = avg(g.oficial);
-      const noOficialVal = avg(g.no_oficial);
-      const diff = (noOficialVal != null && oficialVal != null) ? oficialVal - noOficialVal : null;
+      const avg = (arr: number[]) => arr.length ? arr.reduce((a, b) => a + b, 0) / arr.length : null;
+      const oficialRaw = avg(g.oficial);
+      const noOficialRaw = avg(g.no_oficial);
+      // Brecha calculada sobre valores sin redondear (misma fórmula que el ranking)
+      const diff = (noOficialRaw != null && oficialRaw != null) ? Math.round(oficialRaw - noOficialRaw) : null;
       return {
         año: year.toString(),
-        Oficial: oficialVal,
-        "No oficial": noOficialVal,
+        Oficial: oficialRaw != null ? Math.round(oficialRaw) : null,
+        "No oficial": noOficialRaw != null ? Math.round(noOficialRaw) : null,
         Diferencia: diff,
       };
     }).filter(r => r.Oficial !== null || r["No oficial"] !== null);
-  }, [compRawData]);
+  }, [compRawData, selectedCompCiclo]);
 
   // Estadísticas de brecha para el resumen
   const gapStats = useMemo(() => {
@@ -356,6 +358,7 @@ const EducationSaberOnce = () => {
           if (d.valor == null) return;
           const cat2 = normCat2((d as any).categoria_2);
           if (cat2 !== "oficial" && cat2 !== "no oficial") return;
+          if (normalize(d.categoria) !== normalize(selectedRankingCategory)) return;
           if (!perCity[code]) perCity[code] = { oficial: [], noOficial: [] };
           if (cat2 === "oficial") perCity[code].oficial.push(Number(d.valor));
           else perCity[code].noOficial.push(Number(d.valor));
@@ -728,7 +731,7 @@ const EducationSaberOnce = () => {
             <Skeleton className="h-96 w-full" />
           ) : (
             <div className="space-y-4">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div className="space-y-2">
                   <label className="text-sm font-medium text-foreground/85">Ciudad</label>
                   <Select value={selectedCompCity} onValueChange={setSelectedCompCity}>
@@ -752,6 +755,19 @@ const EducationSaberOnce = () => {
                     <SelectContent>
                       {SABER_OPTIONS.map((opt) => (
                         <SelectItem key={opt.code} value={opt.code}>{opt.label}</SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+                <div className="space-y-2">
+                  <label className="text-sm font-medium text-foreground/85">Ciclos</label>
+                  <Select value={selectedCompCiclo} onValueChange={setSelectedCompCiclo}>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Seleccione ciclo" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {CICLOS_OPTIONS.map((opt) => (
+                        <SelectItem key={opt.value} value={opt.value}>{opt.label}</SelectItem>
                       ))}
                     </SelectContent>
                   </Select>
