@@ -1138,12 +1138,9 @@ const EducationSaberOnce = () => {
                       <button
                         key={city}
                         onClick={() => toggleCity(city)}
-                        className={`px-3 py-1.5 rounded-full text-sm font-medium transition-all flex items-center gap-1.5 ${
-                          selectedCities.includes(city)
-                            ? 'text-white shadow-sm'
-                            : 'bg-card text-muted-foreground hover:bg-muted border'
-                        }`}
-                        style={selectedCities.includes(city) ? { backgroundColor: cityColors[city] } : {}}
+                        aria-pressed={selectedCities.includes(city)}
+                        className="chip"
+                        style={selectedCities.includes(city) ? ({ "--kit-accent": cityColors[city] } as React.CSSProperties) : undefined}
                       >
                         {selectedCities.includes(city) && <Check className="h-3 w-3" />}
                         {city}

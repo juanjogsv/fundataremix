@@ -224,11 +224,11 @@ const DatosAbiertos = () => {
       {/* Educación */}
       <SectionShell id="educacion" title="Educación" icon={GraduationCap} accent="coral" index="01">
         <Tabs value={educationTab} onValueChange={setEducationTab} className="w-full">
-          <TabsList className="w-full h-auto flex-wrap justify-start gap-2 bg-white border border-gray-200 p-2">
+          <TabsList className="w-full h-auto flex-wrap justify-start gap-1 bg-card border border-border p-1">
             {educationTabs.map((t) => {
               const Icon = t.icon;
               return (
-                <TabsTrigger key={t.id} value={t.id} className="flex items-center gap-2 data-[state=active]:bg-luker-red data-[state=active]:text-white">
+                <TabsTrigger key={t.id} value={t.id} className="flex items-center gap-2 min-h-11">
                   <Icon className="h-4 w-4" />
                   <span className="hidden md:inline">{t.label}</span>
                   <span className="md:hidden">{t.mobile}</span>
@@ -252,11 +252,11 @@ const DatosAbiertos = () => {
       {/* Desarrollo Rural */}
       <SectionShell id="desarrollo-rural" title="Desarrollo Rural — El Efecto Cacao" icon={Sprout} accent="lime" index="03">
         <Tabs value={ruralTab} onValueChange={setRuralTab} className="w-full">
-          <TabsList className="w-full h-auto flex-wrap justify-start gap-2 bg-white border border-gray-200 p-2">
+          <TabsList className="w-full h-auto flex-wrap justify-start gap-1 bg-card border border-border p-1">
             {ruralTabs.map((t) => {
               const Icon = t.icon;
               return (
-                <TabsTrigger key={t.id} value={t.id} className="flex items-center gap-2 data-[state=active]:bg-luker-green data-[state=active]:text-white">
+                <TabsTrigger key={t.id} value={t.id} className="flex items-center gap-2 min-h-11">
                   <Icon className="h-4 w-4" />
                   <span className="hidden md:inline">{t.label}</span>
                   <span className="md:hidden">{t.mobile}</span>
@@ -275,11 +275,11 @@ const DatosAbiertos = () => {
       {/* Especiales */}
       <SectionShell id="especiales" title="Proyectos Especiales" icon={Star} accent="teal" index="04">
         <Tabs value={specialTab} onValueChange={setSpecialTab} className="w-full">
-          <TabsList className="w-full h-auto flex-wrap justify-start gap-2 bg-white border border-gray-200 p-2">
+          <TabsList className="w-full h-auto flex-wrap justify-start gap-1 bg-card border border-border p-1">
             {specialTabs.map((t) => {
               const Icon = t.icon;
               return (
-              <TabsTrigger key={t.id} value={t.id} className="flex items-center gap-2 data-[state=active]:bg-luker-teal data-[state=active]:text-primary-foreground">
+              <TabsTrigger key={t.id} value={t.id} className="flex items-center gap-2 min-h-11">
                   <Icon className="h-4 w-4" />
                   <span className="hidden md:inline">{t.label}</span>
                   <span className="md:hidden">{t.mobile}</span>
@@ -297,10 +297,10 @@ const DatosAbiertos = () => {
 
       {/* Contexto Socioeconómico */}
       <SectionShell id="socioeconomico" title="Contexto Socioeconómico" icon={TrendingUp} accent="brown" index="05">
-        <div className="mb-6 flex items-center gap-4 p-4 bg-white rounded-lg border border-gray-200 shadow-sm">
+        <div className="mb-6 flex items-center gap-4 flex-wrap p-4 bg-card rounded-lg border border-border">
           <div className="flex items-center gap-2">
             <TrendingUp className="h-5 w-5 text-luker-teal" />
-            <span className="font-medium text-gray-700">Ciudad:</span>
+            <span className="font-medium text-foreground">Ciudad:</span>
           </div>
           <Select value={mcvEntity} onValueChange={setMcvEntity}>
             <SelectTrigger className="w-64">
@@ -314,11 +314,11 @@ const DatosAbiertos = () => {
           </Select>
         </div>
         <Tabs value={mcvTab} onValueChange={setMcvTab} className="w-full">
-          <TabsList className="w-full h-auto flex-wrap justify-start gap-2 bg-white border border-gray-200 p-2">
+          <TabsList className="w-full h-auto flex-wrap justify-start gap-1 bg-card border border-border p-1">
             {mcvSubsections.map((s) => {
               const Icon = s.icon;
               return (
-                <TabsTrigger key={s.id} value={s.id} className="flex items-center gap-2 data-[state=active]:bg-luker-orange data-[state=active]:text-white">
+                <TabsTrigger key={s.id} value={s.id} className="flex items-center gap-2 min-h-11">
                   <Icon className="h-4 w-4" />
                   <span className="hidden md:inline">{s.label}</span>
                   <span className="md:hidden">{s.mobile}</span>
