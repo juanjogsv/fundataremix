@@ -214,13 +214,13 @@ const EducationBeneficiaries = () => {
   return (
     <div className="space-y-6">
       {/* Header with Filter */}
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <div className="flex items-center gap-2">
           <Users className="h-6 w-6 text-luker-red" />
           <h2 className="text-2xl font-bold text-luker-brown">Histórico de Participantes</h2>
         </div>
         <Select value={selectedProgram} onValueChange={setSelectedProgram}>
-          <SelectTrigger className="w-[250px] bg-card border-border">
+          <SelectTrigger className="w-full sm:w-[250px] bg-card border-border">
             <SelectValue placeholder="Seleccionar programa" />
           </SelectTrigger>
           <SelectContent className="bg-card">
@@ -311,13 +311,13 @@ const EducationBeneficiaries = () => {
       </Card>
 
       {/* Schools Section Header with Filter */}
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <div className="flex items-center gap-2">
           <School className="h-6 w-6 text-luker-green" />
           <h2 className="text-2xl font-bold text-luker-brown">Histórico de Colegios</h2>
         </div>
         <Select value={selectedSchoolProgram} onValueChange={setSelectedSchoolProgram}>
-          <SelectTrigger className="w-[250px] bg-card border-border">
+          <SelectTrigger className="w-full sm:w-[250px] bg-card border-border">
             <SelectValue placeholder="Seleccionar programa" />
           </SelectTrigger>
           <SelectContent className="bg-card">

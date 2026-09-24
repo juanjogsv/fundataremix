@@ -122,7 +122,7 @@ const RuralBeneficiarios = () => {
         {/* Generación R Chart */}
         <Card className="overflow-hidden">
           <CardHeader className="pb-2">
-            <div className="flex items-center justify-between">
+            <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
               <div className="flex items-center gap-2">
                 <div className="p-2 rounded-lg" style={{ backgroundColor: "#FBB04020" }}>
                   <Users className="h-5 w-5" style={{ color: "#FBB040" }} />
@@ -132,7 +132,7 @@ const RuralBeneficiarios = () => {
                 </CardTitle>
               </div>
               <Select value={selectedEntityGenR} onValueChange={setSelectedEntityGenR}>
-                <SelectTrigger className="w-48">
+                <SelectTrigger className="w-full sm:w-48">
                   <SelectValue placeholder="Filtrar por entidad" />
                 </SelectTrigger>
                 <SelectContent>
@@ -196,7 +196,7 @@ const RuralBeneficiarios = () => {
         {/* Cacao Effect Chart */}
         <Card className="overflow-hidden">
           <CardHeader className="pb-2">
-            <div className="flex items-center justify-between">
+            <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
               <div className="flex items-center gap-2">
                 <div className="p-2 rounded-lg" style={{ backgroundColor: "#7AC14320" }}>
                   <Leaf className="h-5 w-5" style={{ color: "#7AC143" }} />
@@ -206,7 +206,7 @@ const RuralBeneficiarios = () => {
                 </CardTitle>
               </div>
               <Select value={selectedEntityCacao} onValueChange={setSelectedEntityCacao}>
-                <SelectTrigger className="w-48">
+                <SelectTrigger className="w-full sm:w-48">
                   <SelectValue placeholder="Filtrar por entidad" />
                 </SelectTrigger>
                 <SelectContent>

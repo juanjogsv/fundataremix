@@ -198,7 +198,7 @@ const DatosAbiertos = () => {
       {/* Barra sticky de accesos rápidos */}
       <nav aria-label="Secciones de datos abiertos" className="da-quick-nav sticky top-16 z-40 md:top-[72px]">
         <div className="da-shell py-4">
-          <div className="da-scroll-row flex flex-nowrap gap-3 overflow-x-auto py-1">
+          <div className="da-quick-grid grid grid-cols-2 gap-2.5 py-1 sm:grid-cols-3 lg:flex lg:flex-wrap lg:gap-3">
             {sections.map((s) => {
               const Icon = s.icon;
               return (
@@ -207,10 +207,10 @@ const DatosAbiertos = () => {
                   variant="outline"
                   onClick={() => scrollToSection(s.id)}
                   data-accent={s.accent}
-                  className="da-quick-link h-11 shrink-0 gap-2 px-4 md:h-12 md:px-5"
+                  className="da-quick-link h-auto min-h-11 w-full justify-start gap-2 whitespace-normal px-3 py-2 text-left md:min-h-12 md:px-5 lg:w-auto"
                 >
                   <Icon className="h-4 w-4" />
-                  <span className="font-heading text-xs font-bold md:text-sm">
+                  <span className="font-heading text-xs font-bold leading-tight md:text-sm">
                     {s.title}
                   </span>
                 </Button>
@@ -297,13 +297,13 @@ const DatosAbiertos = () => {
 
       {/* Contexto Socioeconómico */}
       <SectionShell id="socioeconomico" title="Contexto Socioeconómico" icon={TrendingUp} accent="brown" index="05">
-        <div className="mb-8 flex flex-wrap items-center gap-6 bg-card p-5 md:p-6 rounded-lg border border-border">
+        <div className="mb-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:gap-6 bg-card p-5 md:p-6 rounded-lg border border-border">
           <div className="flex items-center gap-2">
             <TrendingUp className="h-5 w-5 text-luker-teal" />
             <span className="font-medium text-foreground">Ciudad:</span>
           </div>
           <Select value={mcvEntity} onValueChange={setMcvEntity}>
-            <SelectTrigger className="w-64">
+            <SelectTrigger className="w-full sm:w-64">
               <SelectValue placeholder="Seleccionar ciudad" />
             </SelectTrigger>
             <SelectContent>
