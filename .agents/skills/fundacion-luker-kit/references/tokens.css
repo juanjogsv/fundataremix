@@ -1,0 +1,206 @@
+/* ==========================================================
+   Fundación Luker · Tokens, animaciones y utilidades base
+   Copiar ÍNTEGRO en el CSS global (src/index.css).
+   Funciona con Tailwind v3 o v4: son clases CSS normales.
+   Fuente web: Montserrat (equivalente de Gotham; no hay licencia web de Gotham).
+   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+   ========================================================== */
+
+:root {
+  /* Paleta (hex oficial → oklch validado) */
+  --luker-cream:  oklch(0.9385 0.0132 82.4);   /* #EFEAE1 */
+  --luker-brown:  oklch(0.3983 0.0718 63.67);  /* #623E19 */
+  --luker-coral:  oklch(0.7387 0.1598 19.89);  /* #FF7C80 */
+  --luker-green:  oklch(0.7358 0.177 125.92);  /* #8EBC22 */
+  --luker-teal:   oklch(0.6393 0.1097 207.45); /* #009EAE */
+  --luker-orange: oklch(0.8103 0.1505 73.15);  /* #FBB03F */
+  --luker-white:  #FFFFFF;
+
+  /* Semánticos */
+  --background: var(--luker-cream);
+  --foreground: var(--luker-brown);
+  --surface: var(--luker-white);
+  --muted-foreground: color-mix(in oklab, var(--luker-brown) 72%, transparent);
+  --border: color-mix(in oklab, var(--luker-brown) 14%, transparent);
+  --border-strong: color-mix(in oklab, var(--luker-brown) 28%, transparent);
+  --focus: var(--luker-teal);
+
+  /* Forma y profundidad */
+  --radius: 0.625rem;        /* tarjetas, contenedores, modales */
+  --radius-sm: 0.375rem;     /* botones, campos, etiquetas (no pastilla) */
+  --font-brand: "Montserrat", ui-sans-serif, system-ui, sans-serif;
+  --luker-shadow: 0 16px 40px -24px color-mix(in oklab, var(--luker-brown) 34%, transparent);
+  --luker-shadow-hover: 0 22px 48px -22px color-mix(in oklab, var(--luker-brown) 44%, transparent);
+
+  /* Layout */
+  --header-h: 4.5rem;          /* 72px */
+  --container: 80rem;          /* 1280px */
+
+  /* Movimiento: SOLO estos valores. No crear otros. */
+  --dur-fast: 150ms;   /* cambios de color en controles (pestañas, filas, ítems, chips, botones) */
+  --dur-base: 200ms;   /* tarjetas, overlays, acordeón */
+  --ease: cubic-bezier(0, 0, 0.2, 1); /* ease-out */
+
+  /* Acento activo (se sobreescribe por tarjeta: style={{'--accent': ...}}) */
+  --accent: var(--luker-coral);
+}
+
+html { font-family: var(--font-brand); background: var(--background); color: var(--foreground); scroll-padding-top: calc(var(--header-h) + 1rem); }
+body { background: var(--background); color: var(--foreground); -webkit-font-smoothing: antialiased; }
+
+/* Rotación de acentos: aplicar accent-0..3 con (i % 4) */
+.accent-0 { --accent: var(--luker-coral); }
+.accent-1 { --accent: var(--luker-green); }
+.accent-2 { --accent: var(--luker-teal); }
+.accent-3 { --accent: var(--luker-orange); }
+.accent-soft { background: color-mix(in oklab, var(--accent) 18%, var(--surface)); }
+
+/* ---------- Botones (estados del kit: normal · hover más claro · activo más oscuro · deshabilitado crema) ---------- */
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: .5rem; min-height: 44px; padding: 0 1.25rem;
+  border-radius: var(--radius-sm); font-weight: 500; font-size: .9375rem; border: 1.5px solid transparent;
+  transition: background-color var(--dur-fast) var(--ease), border-color var(--dur-fast) var(--ease); cursor: pointer; }
+.btn-solid { --btn: var(--luker-brown); --btn-fg: var(--luker-white); background: var(--btn); color: var(--btn-fg); }
+.btn-solid:hover { background: color-mix(in oklab, var(--btn) 80%, white); }
+.btn-solid:active { background: color-mix(in oklab, var(--btn) 88%, black); }
+/* Variantes de color: texto café; usar solo con texto grande (ver tabla de contraste) salvo naranja */
+.btn-orange { --btn: var(--luker-orange); --btn-fg: var(--luker-brown); }
+.btn-green  { --btn: var(--luker-green);  --btn-fg: var(--luker-brown); }
+.btn-coral  { --btn: var(--luker-coral);  --btn-fg: var(--luker-brown); }
+.btn-outline { background: var(--luker-white); color: var(--luker-brown); border-color: var(--accent); }
+.btn-outline:hover { background: color-mix(in oklab, var(--accent) 14%, white); }
+.btn:disabled, .btn[aria-disabled="true"] { background: var(--luker-cream); color: color-mix(in oklab, var(--luker-brown) 55%, transparent);
+  border-color: transparent; cursor: not-allowed; }
+
+/* ---------- Contenedores, divisores, resaltados, etiquetas ---------- */
+.box { background: var(--luker-white); border: 1.5px solid var(--accent); border-radius: var(--radius); padding: 1rem 1.25rem; }
+.box-dashed { border-style: dashed; }
+.box-square { border-radius: 0; }
+.divider { border: 0; border-top: 1.5px solid var(--border-strong); }
+.divider-dashed { border-top-style: dashed; } .divider-dotted { border-top-style: dotted; }
+.highlight { background: color-mix(in oklab, var(--accent) 16%, white); border-radius: var(--radius-sm); padding: .75rem 1rem;
+  display: flex; align-items: center; gap: .75rem; color: var(--luker-brown); }
+.icon-badge { width: 2.25rem; height: 2.25rem; border-radius: 9999px; background: var(--accent); color: var(--luker-white);
+  display: inline-grid; place-items: center; flex-shrink: 0; }
+.mark { background: color-mix(in oklab, var(--luker-coral) 24%, white); color: var(--luker-brown); padding: 0 .25em; border-radius: 3px; }
+/* Etiqueta: texto café (el blanco sobre acentos no alcanza contraste en tamaño pequeño) */
+.tag { display: inline-flex; align-items: center; padding: .125rem .5rem; border-radius: var(--radius-sm); font-size: .75rem; font-weight: 500;
+  background: var(--accent); color: var(--luker-brown); }
+.tag-brown { background: var(--luker-brown); color: var(--luker-white); }
+
+/* ---------- Fondos de marca ---------- */
+.bg-brand { position: relative; overflow: hidden; background: var(--accent); }
+.texture-letters { position: absolute; inset: 0; pointer-events: none; z-index: 0;
+  background: url("/brand/textura-letras.svg") center / cover no-repeat; opacity: .18; }
+
+/* ---------- Foco ---------- */
+.focus-ring:focus-visible,
+a:focus-visible, button:focus-visible, [role="tab"]:focus-visible,
+input:focus-visible, select:focus-visible, textarea:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+}
+
+/* ==========================================================
+   MOVIMIENTO · LISTA CERRADA
+   Solo existen las clases de este bloque. Prohibido cualquier otra
+   animación, keyframe, librería (Framer Motion, GSAP) o clase animate-*
+   de Tailwind, salvo las excepciones listadas en SKILL.md.
+   ========================================================== */
+@keyframes luker-overlay-in  { from { opacity: 0; transform: scale(0.97); } to { opacity: 1; transform: none; } }
+@keyframes luker-overlay-out { from { opacity: 1; } to { opacity: 0; } }
+@keyframes luker-pulse       { 0%,100% { opacity: 1; } 50% { opacity: 0.55; } }
+
+/* Overlays (modal, popover, menú de select/dropdown, menú móvil, toast) */
+.animate-overlay-in  { animation: luker-overlay-in  var(--dur-base) var(--ease) both; }
+.animate-overlay-out { animation: luker-overlay-out var(--dur-fast) var(--ease) both; }
+
+/* 1. Tarjeta interactiva (patrón de referencia) */
+.card-interactive { position: relative; background: var(--surface); color: var(--luker-brown);
+  border: 1px solid color-mix(in oklab, var(--luker-brown) 16%, transparent); border-radius: var(--radius);
+  box-shadow: 0 2px 8px -2px color-mix(in oklab, var(--luker-brown) 8%, transparent);
+  transition: background-color var(--dur-base) var(--ease), border-color var(--dur-base) var(--ease),
+    box-shadow var(--dur-base) var(--ease), transform var(--dur-base) var(--ease); }
+.card-interactive:hover, .card-interactive:focus-visible {
+  border-color: color-mix(in oklab, var(--accent) 62%, transparent);
+  background: color-mix(in oklab, var(--accent) 8%, var(--surface));
+  box-shadow: 0 8px 24px -4px color-mix(in oklab, var(--luker-brown) 18%, transparent);
+  transform: translateY(-2px); }
+.card-interactive:active { background: color-mix(in oklab, var(--accent) 14%, var(--surface)); transform: none; }
+
+/* 2. Pestañas */
+.tabs-list { display: flex; align-items: center; gap: .25rem; border-bottom: 1px solid color-mix(in oklab, var(--luker-brown) 20%, transparent); }
+.tab { min-height: 44px; padding: .5rem .75rem; border: 0; border-radius: .5rem .5rem 0 0; background: transparent;
+  color: var(--muted-foreground); font-size: .875rem; font-weight: 500;
+  transition: color var(--dur-fast) var(--ease), background-color var(--dur-fast) var(--ease), box-shadow var(--dur-fast) var(--ease); }
+.tab:hover { background: color-mix(in oklab, var(--luker-brown) 8%, transparent); color: var(--luker-brown); }
+.tab[data-state="active"], .tab[aria-selected="true"] { background: var(--surface); color: var(--luker-brown);
+  box-shadow: inset 0 -3px 0 var(--accent, var(--luker-teal)); }
+.tab:disabled { opacity: .5; pointer-events: none; }
+
+/* 3. Campo / trigger de filtro (blanco obligatorio, sin cambio en hover) */
+.filter-control { display: flex; align-items: center; justify-content: space-between; min-height: 44px; width: 100%;
+  padding: .5rem .75rem; border: 1px solid var(--border-strong); border-radius: .5rem; background: var(--luker-white);
+  color: var(--luker-brown); font-size: .875rem; }
+.filter-control:disabled { cursor: not-allowed; background: var(--luker-cream); opacity: .7; }
+
+/* 4. Ítem de lista (select, dropdown, combobox, menú contextual): hover/foco turquesa 10 %, sin animación */
+.list-item { display: flex; align-items: center; min-height: 44px; width: 100%; padding: .5rem .5rem .5rem 2rem;
+  border-radius: .25rem; font-size: .875rem; color: var(--luker-brown); outline: none; position: relative; }
+.list-item:hover, .list-item:focus, .list-item[data-highlighted] { background: color-mix(in oklab, var(--luker-teal) 10%, var(--luker-white)); }
+.list-item[data-state="checked"], .list-item[aria-selected="true"] { font-weight: 600; } /* + ícono Check a la izquierda */
+.list-item[data-disabled], .list-item[aria-disabled="true"] { opacity: .5; pointer-events: none; }
+
+/* 5. Chip seleccionable (filtros rápidos) */
+.chip { display: inline-flex; align-items: center; gap: .375rem; min-height: 36px; padding: 0 .75rem;
+  border: 1px solid var(--border-strong); border-radius: var(--radius-sm); background: var(--surface);
+  color: var(--muted-foreground); font-size: .8125rem; font-weight: 500; cursor: pointer;
+  transition: background-color var(--dur-fast) var(--ease), border-color var(--dur-fast) var(--ease), color var(--dur-fast) var(--ease); }
+.chip:hover { background: color-mix(in oklab, var(--luker-brown) 6%, var(--surface)); color: var(--luker-brown); }
+.chip[aria-pressed="true"], .chip[data-state="on"] { background: color-mix(in oklab, var(--accent) 18%, var(--surface));
+  border-color: var(--accent); color: var(--luker-brown); } /* + ícono Check 12 px */
+
+/* 6. Fila de tabla: hover y seleccionado se distinguen */
+.table-row { border-bottom: 1px solid var(--border); transition: background-color var(--dur-fast) var(--ease); }
+.table-row:hover { background: color-mix(in oklab, var(--luker-teal) 8%, var(--luker-white)); }
+.table-row[data-state="selected"], .table-row[aria-selected="true"] {
+  background: color-mix(in oklab, var(--luker-teal) 14%, var(--luker-white)); box-shadow: inset 3px 0 0 var(--luker-teal); }
+
+/* 7. Enlace de navegación: subrayado ESTÁTICO (sin animación) */
+.nav-link { display: inline-flex; align-items: center; min-height: 44px; font-size: .875rem; font-weight: 600;
+  color: var(--luker-brown); text-decoration: none; text-underline-offset: 8px; text-decoration-thickness: 2px; border-radius: .375rem; }
+.nav-link:hover { text-decoration-line: underline; text-decoration-color: color-mix(in oklab, var(--luker-green) 60%, transparent); }
+.nav-link[aria-current="page"] { text-decoration-line: underline; text-decoration-color: var(--luker-green); }
+
+/* Enlace de texto dentro de párrafos */
+.text-link { color: var(--luker-brown); text-decoration: underline; text-decoration-color: var(--luker-green);
+  text-decoration-thickness: 2px; text-underline-offset: 3px; }
+.text-link:hover { text-decoration-color: var(--luker-brown); }
+
+/* Carga */
+.skeleton { background: color-mix(in oklab, var(--luker-brown) 8%, var(--surface)); border-radius: var(--radius); animation: luker-pulse 1.6s ease-in-out infinite; }
+.spinner { animation: spin 1s linear infinite; } /* solo Loader2 16 px dentro de botones o en línea */
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* Iframe externo: evita el destello blanco al cargar */
+.iframe-fade { opacity: 0; transition: opacity 300ms var(--ease); }
+.iframe-fade[data-loaded="true"] { opacity: 1; }
+
+/* Franja cromática de cierre */
+.luker-stripe { height: 6px; background: linear-gradient(90deg,
+  var(--luker-coral) 0 25%, var(--luker-green) 25% 50%, var(--luker-teal) 50% 75%, var(--luker-orange) 75% 100%); }
+
+/* Franja vertical (borde izquierdo de hero y banners) */
+.luker-stripe-v { position: absolute; left: 0; top: 0; bottom: 0; width: 14px; z-index: 1;
+  background: linear-gradient(180deg, var(--s1, var(--luker-teal)) 0 25%, var(--s2, var(--luker-brown)) 25% 50%,
+    var(--s3, var(--luker-coral)) 50% 75%, var(--s4, var(--luker-green)) 75% 100%); }
+
+/* Número de módulo como marca de agua */
+.luker-watermark { position: absolute; pointer-events: none; user-select: none; font-weight: 900; line-height: 0.8;
+  color: var(--luker-brown); opacity: 0.05; z-index: 0; }
+
+/* ---------- Movimiento reducido ---------- */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important; scroll-behavior: auto !important; }
+  .card-interactive:hover, .card-interactive:focus-visible, .card-interactive:active { transform: none; }
+}
