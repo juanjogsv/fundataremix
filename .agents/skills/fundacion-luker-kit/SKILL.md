@@ -148,7 +148,7 @@ Cálido, humano, en español. Microcopy concreto: "Ver módulo", "Descargar repo
 ## Evitar
 - Duplicar header, footer, botón o tarjeta existentes.
 - Hex sueltos o estilos en línea; siempre tokens.
-- Texto blanco sobre coral, verde o naranja; texto de lectura en color de acento.
+- Texto blanco sobre coral, verde o naranja; texto de lectura en color de acento. Única excepción: el botón de área a explorar en hover/activo (regla aprobada, ver sección Botones de áreas).
 - Botones en forma de pastilla (el kit usa esquinas levemente redondeadas).
 - Recrear el logo, los números o la textura con código o IA.
 - Vistas sin estados de carga, vacío y error.
