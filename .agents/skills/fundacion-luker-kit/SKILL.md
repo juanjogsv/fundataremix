@@ -85,6 +85,7 @@ El movimiento solo existe para dar feedback de interacción. El contenido de la 
 | Situación | Clase | Comportamiento |
 |---|---|---|
 | Tarjeta clicable | `card-interactive` | Hover/foco: sube 2 px, fondo acento 8 %, borde acento 62 %, sombra mayor · Presionado: fondo acento 14 %, sin elevación · 200 ms |
+| Botón de área a explorar | `area-button` | Hover/foco: fondo acento del módulo al 100 %, texto e ícono en blanco · Presionado: mismo fondo, sin elevación · 150 ms · Excepción de contraste aprobada (ver sección Botones de áreas) |
 | Pestañas | `tabs-list` + `tab` | Hover: fondo café 8 % · Activa: fondo blanco + subrayado interior de 3 px en acento · 150 ms |
 | Campo de filtro / select | `filter-control` | Sin cambio en hover; solo foco turquesa |
 | Ítem de lista (select, dropdown) | `list-item` | Hover/foco: turquesa 10 %, instantáneo · Seleccionado: ícono Check + peso 600 |
@@ -147,7 +148,7 @@ Cálido, humano, en español. Microcopy concreto: "Ver módulo", "Descargar repo
 ## Evitar
 - Duplicar header, footer, botón o tarjeta existentes.
 - Hex sueltos o estilos en línea; siempre tokens.
-- Texto blanco sobre coral, verde o naranja; texto de lectura en color de acento.
+- Texto blanco sobre coral, verde o naranja; texto de lectura en color de acento. Única excepción: el botón de área a explorar en hover/activo (regla aprobada, ver sección Botones de áreas).
 - Botones en forma de pastilla (el kit usa esquinas levemente redondeadas).
 - Recrear el logo, los números o la textura con código o IA.
 - Vistas sin estados de carga, vacío y error.
@@ -155,5 +156,9 @@ Cálido, humano, en español. Microcopy concreto: "Ver módulo", "Descargar repo
 ## Pestañas por módulo (Mi Junta)
 - La línea de la pestaña activa toma el color del módulo de la página (el mismo del encabezado): Educación coral, Emprendimiento y Calendario naranja, Rural verde, Proyectos/Indicadores/Mapa turquesa, Socioeconómico y Documentos café. Pestaña activa en blanco, texto café.
 
-## Prueba en Datos Abiertos
-- Solo en los botones de áreas a explorar (Educación, Emprendimiento…): al pasar o seleccionar, fondo del acento y texto blanco. Es una prueba: el texto blanco solo cumple contraste sobre café; sobre coral, verde, naranja y turquesa no cumple AA.
+## Botones de áreas a explorar (aprobado, regla permanente)
+- En tarjetas/botones que llevan a las áreas (Educación, Emprendimiento, Rural, Proyectos Especiales, Contexto Socioeconómico…), el botón queda en reposo con fondo blanco o crema, texto café y borde café suave.
+- En **hover, foco y presionado** el fondo se rellena con el **acento de su sección** (coral, naranja, verde, turquesa o café, `150 ms`, `--ease`, solo propiedades animables permitidas) y el texto cambia a **blanco**. La flecha/ícono cambia al mismo tiempo al blanco.
+- Cada botón usa el acento de su módulo, no la rotación cíclica.
+- **Excepción de contraste documentada (decisión aprobada por el usuario, 24 sep 2026):** el texto blanco sobre coral, verde, naranja y turquesa en estos botones no cumple AA, pero es la decisión final de marca. No "corregirlo" a café ni revocarlo sin pedido explícito. Sobre café el blanco cumple AA normalmente.
+- Este comportamiento aplica también a CTAs equivalentes de área en cualquier página nueva del kit; los botones comunes de acción (primario/secundario) siguen las reglas normales del kit (café/blanco).
