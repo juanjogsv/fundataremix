@@ -909,13 +909,14 @@ All colors MUST be HSL.
     color: hsl(var(--da-brown));
   }
 
+  /* Pestaña activa: superficie blanca + subrayado con el color temático de la sección */
   .datos-abiertos .da-section [role="tab"][data-state="active"] {
-    background: hsl(var(--da-accent));
+    background: hsl(0 0% 100%);
     color: hsl(var(--da-brown));
+    box-shadow: inset 0 -3px 0 hsl(var(--da-accent));
   }
 
   .datos-abiertos [data-accent="brown"] .da-section-icon,
-  .datos-abiertos [data-accent="brown"] [role="tab"][data-state="active"],
   .datos-abiertos .da-quick-link[data-accent="brown"]:hover,
   .datos-abiertos .da-quick-link[data-accent="brown"]:focus-visible {
     color: hsl(var(--da-cream));
