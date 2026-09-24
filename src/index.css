@@ -834,11 +834,11 @@ All colors MUST be HSL.
     box-shadow: none;
   }
 
-  .datos-abiertos [data-accent="coral"] { --da-accent: var(--da-coral); }
-  .datos-abiertos [data-accent="orange"] { --da-accent: var(--da-orange); }
-  .datos-abiertos [data-accent="lime"] { --da-accent: var(--da-lime); }
-  .datos-abiertos [data-accent="teal"] { --da-accent: var(--da-teal); }
-  .datos-abiertos [data-accent="brown"] { --da-accent: var(--da-brown); }
+  .datos-abiertos [data-accent="coral"] { --da-accent: var(--da-coral); --module-accent: var(--da-coral); }
+  .datos-abiertos [data-accent="orange"] { --da-accent: var(--da-orange); --module-accent: var(--da-orange); }
+  .datos-abiertos [data-accent="lime"] { --da-accent: var(--da-lime); --module-accent: var(--da-lime); }
+  .datos-abiertos [data-accent="teal"] { --da-accent: var(--da-teal); --module-accent: var(--da-teal); }
+  .datos-abiertos [data-accent="brown"] { --da-accent: var(--da-brown); --module-accent: var(--da-brown); }
 
   .datos-abiertos .da-quick-link:hover,
   .datos-abiertos .da-quick-link:focus-visible {
