@@ -26,10 +26,11 @@ const EducationSaberOnce = () => {
     { code: "SABER_03", label: "Inglés" },
   ];
 
-  const getCategoryLabel = (category: string) => {
-    if (category === "Solo once") return "Sin ciclos";
-    return category;
-  };
+  const CICLOS_OPTIONS = [
+    { value: "Total", label: "Total" },
+    { value: "Solo ciclos", label: "Solo ciclos" },
+    { value: "Solo once", label: "Sin ciclos" },
+  ];
 
   const SEXO_OPTIONS = ["Total", "Hombre", "Mujer"];
   const NATURALEZA_OPTIONS = ["Total", "Oficial", "No oficial"];
@@ -81,12 +82,6 @@ const EducationSaberOnce = () => {
   // (Legacy education_indicators query removed — UI uses SABER_OPTIONS hardcoded list)
   const indicators: any[] | null = null;
 
-
-  const availableCategoriesCard1 = useMemo(() => {
-    const cats = Array.from(new Set((damaSaberData || []).map(d => d.categoria).filter(Boolean))) as string[];
-    const ordered = ["Total", "Oficial", "No oficial", "Urbano", "Rural", "Hombre", "Mujer", "Planteles oficiales", "Planteles privados"];
-    return ordered.filter(c => cats.includes(c)).concat(cats.filter(c => !ordered.includes(c)));
-  }, [damaSaberData]);
 
   const normalize = (v: any) => (v ?? "").toString().trim().toLowerCase();
   // categoria_2 en datos_maestros viene como "" cuando no aplica; tratarlo como "total"
@@ -333,11 +328,6 @@ const EducationSaberOnce = () => {
     return years.sort((a, b) => b - a);
   }, [rankingData]);
 
-  const availableRankingCategories = useMemo(() => {
-    const cats = Array.from(new Set((rankingData || []).map(d => d.categoria).filter(Boolean))) as string[];
-    const ordered = ["Total", "Oficial", "No oficial", "Urbano", "Rural", "Hombre", "Mujer", "Planteles oficiales", "Planteles privados"];
-    return ordered.filter(c => cats.includes(c)).concat(cats.filter(c => !ordered.includes(c)));
-  }, [rankingData]);
 
   // Mantener seleccionado el último año disponible automáticamente
   const [userPickedRankingYear, setUserPickedRankingYear] = useState(false);
@@ -406,6 +396,7 @@ const EducationSaberOnce = () => {
   const [selectedEvolutionSexo, setSelectedEvolutionSexo] = useState("Total");
   const [selectedEvolutionNaturaleza, setSelectedEvolutionNaturaleza] = useState("Total");
   const [selectedEvolutionZona, setSelectedEvolutionZona] = useState("Total");
+  const [selectedEvolutionCiclo, setSelectedEvolutionCiclo] = useState("Total");
   const [selectedCities, setSelectedCities] = useState<string[]>(["Manizales"]);
 
   const handleEvolutionSexoChange = (v: string) => {
@@ -473,7 +464,7 @@ const EducationSaberOnce = () => {
     const cityYearVals: Record<string, Record<number, number[]>> = {};
     const targetCat2 = normalize(getEffectiveCat2(selectedEvolutionSexo, selectedEvolutionNaturaleza, selectedEvolutionZona));
     evolutionRawData
-      .filter(d => normalize(d.categoria) === "total" && normCat2((d as any).categoria_2) === targetCat2)
+      .filter(d => normalize(d.categoria) === normalize(selectedEvolutionCiclo) && normCat2((d as any).categoria_2) === targetCat2)
       .forEach(d => {
         const code = String(d.cod_entidad || "");
         if (code.length !== 5) return;
@@ -502,7 +493,7 @@ const EducationSaberOnce = () => {
       });
       return row;
     });
-  }, [evolutionRawData, damaEntities, selectedCities, selectedEvolutionSexo, selectedEvolutionNaturaleza, selectedEvolutionZona]);
+  }, [evolutionRawData, damaEntities, selectedCities, selectedEvolutionSexo, selectedEvolutionNaturaleza, selectedEvolutionZona, selectedEvolutionCiclo]);
 
   const toggleCity = (city: string) => {
     setSelectedCities(prev =>
@@ -620,15 +611,15 @@ const EducationSaberOnce = () => {
                 </div>
 
                 <div className="space-y-2">
-                  <label className="text-sm font-medium text-foreground/85">Categoría/Sector</label>
+                  <label className="text-sm font-medium text-foreground/85">Ciclos</label>
                   <Select value={selectedCategory} onValueChange={setSelectedCategory}>
                     <SelectTrigger>
-                      <SelectValue placeholder="Seleccione categoría" />
+                      <SelectValue placeholder="Seleccione ciclo" />
                     </SelectTrigger>
                     <SelectContent>
-                      {availableCategoriesCard1.map((category) => (
-                        <SelectItem key={category} value={category}>
-                          {getCategoryLabel(category)}
+                      {CICLOS_OPTIONS.map((opt) => (
+                        <SelectItem key={opt.value} value={opt.value}>
+                          {opt.label}
                         </SelectItem>
                       ))}
                     </SelectContent>
@@ -972,15 +963,15 @@ const EducationSaberOnce = () => {
                 </div>
 
                 <div className="space-y-2">
-                  <label className="text-sm font-medium text-foreground/85">Categoría/Sector</label>
+                  <label className="text-sm font-medium text-foreground/85">Ciclos</label>
                   <Select value={selectedRankingCategory} onValueChange={setSelectedRankingCategory}>
                     <SelectTrigger>
-                      <SelectValue placeholder="Seleccione categoría" />
+                      <SelectValue placeholder="Seleccione ciclo" />
                     </SelectTrigger>
                     <SelectContent>
-                      {availableRankingCategories.map((category) => (
-                        <SelectItem key={category} value={category}>
-                          {getCategoryLabel(category)}
+                      {CICLOS_OPTIONS.map((opt) => (
+                        <SelectItem key={opt.value} value={opt.value}>
+                          {opt.label}
                         </SelectItem>
                       ))}
                     </SelectContent>
@@ -1107,7 +1098,7 @@ const EducationSaberOnce = () => {
           ) : (
             <div className="space-y-4">
               {/* Filters */}
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
                 <div className="space-y-2">
                   <label className="text-sm font-medium text-foreground/85">Área Temática</label>
                   <Select value={selectedEvolutionIndicator} onValueChange={setSelectedEvolutionIndicator}>
@@ -1117,6 +1108,22 @@ const EducationSaberOnce = () => {
                     <SelectContent>
                       {SABER_OPTIONS.map((opt) => (
                         <SelectItem key={opt.code} value={opt.code}>
+                          {opt.label}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                <div className="space-y-2">
+                  <label className="text-sm font-medium text-foreground/85">Ciclos</label>
+                  <Select value={selectedEvolutionCiclo} onValueChange={setSelectedEvolutionCiclo}>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Seleccione ciclo" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {CICLOS_OPTIONS.map((opt) => (
+                        <SelectItem key={opt.value} value={opt.value}>
                           {opt.label}
                         </SelectItem>
                       ))}
