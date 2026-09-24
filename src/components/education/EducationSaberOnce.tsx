@@ -396,6 +396,7 @@ const EducationSaberOnce = () => {
   const [selectedEvolutionSexo, setSelectedEvolutionSexo] = useState("Total");
   const [selectedEvolutionNaturaleza, setSelectedEvolutionNaturaleza] = useState("Total");
   const [selectedEvolutionZona, setSelectedEvolutionZona] = useState("Total");
+  const [selectedEvolutionCiclo, setSelectedEvolutionCiclo] = useState("Total");
   const [selectedCities, setSelectedCities] = useState<string[]>(["Manizales"]);
 
   const handleEvolutionSexoChange = (v: string) => {
@@ -463,7 +464,7 @@ const EducationSaberOnce = () => {
     const cityYearVals: Record<string, Record<number, number[]>> = {};
     const targetCat2 = normalize(getEffectiveCat2(selectedEvolutionSexo, selectedEvolutionNaturaleza, selectedEvolutionZona));
     evolutionRawData
-      .filter(d => normalize(d.categoria) === "total" && normCat2((d as any).categoria_2) === targetCat2)
+      .filter(d => normalize(d.categoria) === normalize(selectedEvolutionCiclo) && normCat2((d as any).categoria_2) === targetCat2)
       .forEach(d => {
         const code = String(d.cod_entidad || "");
         if (code.length !== 5) return;
@@ -492,7 +493,7 @@ const EducationSaberOnce = () => {
       });
       return row;
     });
-  }, [evolutionRawData, damaEntities, selectedCities, selectedEvolutionSexo, selectedEvolutionNaturaleza, selectedEvolutionZona]);
+  }, [evolutionRawData, damaEntities, selectedCities, selectedEvolutionSexo, selectedEvolutionNaturaleza, selectedEvolutionZona, selectedEvolutionCiclo]);
 
   const toggleCity = (city: string) => {
     setSelectedCities(prev =>
