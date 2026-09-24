@@ -733,16 +733,20 @@ All colors MUST be HSL.
 
   .datos-abiertos .da-hero {
     border-bottom: 1px solid hsl(var(--da-brown) / 0.18);
-    background: hsl(var(--da-coral));
+    background: hsl(var(--da-cream));
   }
 
-  .datos-abiertos .da-hero h1 span {
-    color: hsl(var(--da-cream));
+  .datos-abiertos .da-hero h1,
+  .datos-abiertos .da-hero h1 span,
+  .datos-abiertos .da-hero p {
+    color: hsl(var(--da-brown));
   }
 
   .datos-abiertos .da-kicker {
     display: inline-flex;
-    border: 1px solid hsl(var(--da-brown));
+    border: 1px solid hsl(var(--da-coral) / 0.55);
+    background: hsl(var(--da-coral) / 0.16);
+    color: hsl(var(--da-brown));
     border-radius: 9999px;
     padding: 0.5rem 0.85rem;
     font-size: 0.72rem;
@@ -750,7 +754,7 @@ All colors MUST be HSL.
 
   .datos-abiertos .da-hero-letter {
     position: absolute;
-    color: hsl(var(--da-cream) / 0.2);
+    color: hsl(var(--da-brown) / 0.05);
     font-size: clamp(18rem, 38vw, 36rem);
     font-weight: 900;
     line-height: 0.7;
@@ -770,7 +774,7 @@ All colors MUST be HSL.
 
   .datos-abiertos .da-hero-index {
     align-items: flex-start;
-    border-left: 2px solid hsl(var(--da-brown));
+    border-left: 3px solid hsl(var(--da-coral));
     display: flex;
     flex-direction: column;
     justify-self: end;
@@ -779,17 +783,23 @@ All colors MUST be HSL.
   }
 
   .datos-abiertos .da-hero-index-number {
+    color: hsl(var(--da-brown));
     font-size: clamp(5rem, 10vw, 9rem);
     font-weight: 900;
     line-height: 0.8;
   }
 
   .datos-abiertos .da-hero-index-label {
+    color: hsl(var(--da-brown) / 0.72);
     font-size: 0.8rem;
     font-weight: 800;
     margin-top: 1rem;
     text-transform: uppercase;
     letter-spacing: 0.08em;
+  }
+
+  .datos-abiertos .da-hero-index svg {
+    color: hsl(var(--da-coral));
   }
 
   .datos-abiertos .da-quick-nav {
