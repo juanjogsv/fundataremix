@@ -328,11 +328,6 @@ const EducationSaberOnce = () => {
     return years.sort((a, b) => b - a);
   }, [rankingData]);
 
-  const availableRankingCategories = useMemo(() => {
-    const cats = Array.from(new Set((rankingData || []).map(d => d.categoria).filter(Boolean))) as string[];
-    const ordered = ["Total", "Oficial", "No oficial", "Urbano", "Rural", "Hombre", "Mujer", "Planteles oficiales", "Planteles privados"];
-    return ordered.filter(c => cats.includes(c)).concat(cats.filter(c => !ordered.includes(c)));
-  }, [rankingData]);
 
   // Mantener seleccionado el último año disponible automáticamente
   const [userPickedRankingYear, setUserPickedRankingYear] = useState(false);
@@ -967,15 +962,15 @@ const EducationSaberOnce = () => {
                 </div>
 
                 <div className="space-y-2">
-                  <label className="text-sm font-medium text-foreground/85">Categoría/Sector</label>
+                  <label className="text-sm font-medium text-foreground/85">Ciclos</label>
                   <Select value={selectedRankingCategory} onValueChange={setSelectedRankingCategory}>
                     <SelectTrigger>
-                      <SelectValue placeholder="Seleccione categoría" />
+                      <SelectValue placeholder="Seleccione ciclo" />
                     </SelectTrigger>
                     <SelectContent>
-                      {availableRankingCategories.map((category) => (
-                        <SelectItem key={category} value={category}>
-                          {getCategoryLabel(category)}
+                      {CICLOS_OPTIONS.map((opt) => (
+                        <SelectItem key={opt.value} value={opt.value}>
+                          {opt.label}
                         </SelectItem>
                       ))}
                     </SelectContent>
