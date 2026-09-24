@@ -78,6 +78,7 @@ html { scroll-padding-top: var(--luker-header-h); scroll-behavior: smooth; }
 
 @media (prefers-reduced-motion: reduce) {
   .chip, .table-row, .iframe-fade { transition: none; }
+  html { scroll-behavior: auto; }
 }
 
 /* Regla de contraste: si la forma tiene el mismo color que el texto (café), el contenido va en blanco */
