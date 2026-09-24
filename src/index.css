@@ -301,7 +301,7 @@ All colors MUST be HSL.
     .home-editorial__brand { min-width: 2.5rem; min-height: 2.75rem; max-width: 9rem; }
     .home-editorial__logo { max-width: 9rem; height: 2.5rem; }
     .home-hero { grid-template-rows: auto minmax(18rem, 21rem); padding-block: 3rem 4rem; }
-    .home-hero h1 { max-width: none; font-size: clamp(2.45rem, 11vw, 3.2rem); }
+    .home-hero h1 { max-width: none; font-size: clamp(2.25rem, 10vw, 3rem); }
     .home-hero__lead { font-size: 0.95rem; }
     .home-hero__visual { min-height: 18rem; }
     .home-hero__visual img { right: 0; width: 100%; height: 100%; transform: none; }
