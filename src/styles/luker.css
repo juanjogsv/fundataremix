@@ -106,3 +106,7 @@ html { scroll-padding-top: var(--luker-header-h); }
   background-color: transparent;
   backdrop-filter: none;
 }
+
+/* El H1 recibe foco al cambiar de página (accesibilidad) pero no debe mostrar recuadro con el ratón */
+h1:focus:not(:focus-visible) { outline: none; }
+.institutional-page-header__title:focus { outline: none; }
