@@ -217,7 +217,7 @@ const Admin = () => {
 
   return (
     <div className="min-h-screen bg-background p-4 md:p-8">
-      <div className="max-w-7xl mx-auto space-y-8">
+      <div className="luker-container space-y-8">
         {/* Header */}
         <div className="flex items-center gap-4 pb-6 border-b border-border/50">
           <Button 
@@ -240,7 +240,7 @@ const Admin = () => {
             <Button
               variant="default"
               onClick={() => document.getElementById("dama-panel")?.scrollIntoView({ behavior: "smooth" })}
-              className="gap-2 bg-luker-teal hover:bg-luker-teal/90"
+              className="gap-2"
             >
               <Database className="h-4 w-4" />
               Panel Maestro DAMA

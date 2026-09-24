@@ -25,7 +25,7 @@ import RuralDevelopment from "./pages/RuralDevelopment";
 import SpecialProjects from "./pages/SpecialProjects";
 import SocioeconomicContext from "./pages/SocioeconomicContext";
 import DatosAbiertos from "./pages/DatosAbiertos";
-import { InstitutionalFooter } from "./components/InstitutionalFooter";
+import { LukerLayout } from "./components/luker/LukerLayout";
 
 
 const queryClient = new QueryClient();
@@ -88,11 +88,9 @@ const GateWrapper = ({ children }: { children: React.ReactNode }) => {
   const isDatosAbiertos = isPublicHost() || location.pathname.startsWith("/datosabiertos");
   if (isDatosAbiertos) return <>{children}</>;
   return (
-    <div className="mi-junta-site">
-      <a href="#contenido" className="skip-link">Saltar al contenido</a>
-      <main id="contenido">{children}</main>
-      <InstitutionalFooter />
-    </div>
+    <LukerLayout currentPath={location.pathname} projectName="Mi Junta" adminHref="/auth">
+      {children}
+    </LukerLayout>
   );
 };
 

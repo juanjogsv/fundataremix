@@ -11,7 +11,7 @@ const Help = () => {
   return (
     <div className="min-h-screen bg-background">
       <PageHeader title="Centro de Ayuda" mobileTitle="Ayuda" subtitle="Respuestas para consultar y aprovechar la plataforma" icon={HelpCircle} iconBgColor="bg-kit-orange" />
-      <div className="container mx-auto px-4 sm:px-6 py-8 sm:py-10 max-w-5xl">
+      <div className="luker-container py-8 sm:py-10">
 
         {/* Quick Links */}
         <section className="grid md:grid-cols-3 gap-4 mb-12">
@@ -165,9 +165,7 @@ const Help = () => {
                 Nuestro equipo de soporte está disponible para ayudarte con cualquier pregunta o problema
               </p>
               <div className="flex flex-wrap gap-4 justify-center pt-4">
-                <Button 
-                  className="bg-luker-green hover:bg-luker-green/90 text-white"
-                >
+                <Button>
                   <Mail className="mr-2 h-4 w-4" />
                   Contactar Soporte
                 </Button>

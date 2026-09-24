@@ -187,7 +187,7 @@ const StrategicIndicators = () => {
         icon={TrendingUp}
         iconBgColor="bg-kit-teal"
       />
-      <div className="container mx-auto px-4 sm:px-6 py-8 sm:py-10 max-w-[1400px]">
+      <div className="luker-container py-8 sm:py-10">
 
         {/* Tabs for subsections */}
         <Tabs defaultValue="indicadores" className="mt-6">

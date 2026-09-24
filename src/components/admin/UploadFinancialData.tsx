@@ -407,7 +407,7 @@ export const UploadFinancialData = () => {
         <Button
           onClick={handleUpload}
           disabled={!parsedData || uploading}
-          className="w-full bg-luker-green hover:bg-luker-green/90"
+          className="w-full"
         >
           <Upload className="h-4 w-4 mr-2" />
           {uploading ? "Cargando..." : "Cargar Datos al Sistema"}

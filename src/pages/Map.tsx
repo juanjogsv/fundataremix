@@ -402,7 +402,7 @@ const Map = () => {
   return (
     <div className="min-h-screen bg-background">
       <PageHeader title="Mapa de Participantes" mobileTitle="Mapa" subtitle="Presencia territorial de los programas por municipio" icon={MapPin} iconBgColor="bg-kit-teal" />
-      <div className="container mx-auto px-4 sm:px-6 py-8 sm:py-10 max-w-[1400px] space-y-8">
+      <div className="luker-container py-8 sm:py-10 space-y-8">
 
         {/* Filters */}
         <div className="rounded-[var(--radius)] border border-border bg-[hsl(var(--filter-surface))] shadow-card">

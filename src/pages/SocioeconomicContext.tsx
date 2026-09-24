@@ -115,7 +115,7 @@ const SocioeconomicContext = () => {
         subtitle="Una lectura comparada de Manizales y otras ciudades"
       />
 
-      <div className="container mx-auto px-4 sm:px-6 py-8 sm:py-10 max-w-[1400px]">
+      <div className="luker-container py-8 sm:py-10">
         {/* Global Entity Filter */}
         <div className="mb-8 flex flex-wrap items-center gap-4 rounded-[var(--radius)] border border-border bg-[hsl(var(--filter-surface))] p-4 shadow-card">
           <div className="flex items-center gap-2">

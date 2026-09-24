@@ -121,7 +121,7 @@ export const AccessGate = ({ children }: { children: React.ReactNode }) => {
           <Button
             type="submit"
             disabled={submitting || !codigo.trim()}
-            className="w-full bg-luker-green hover:bg-luker-green/90"
+            className="w-full"
           >
             {submitting ? (
               <>

@@ -17,10 +17,7 @@ import {
   Sprout,
   TrendingUp,
 } from "lucide-react";
-import lukerLogo from "@/assets/fundacion-luker-color-letra-cafe-horizontal.png.asset.json";
 import heroPeople from "@/assets/mi-junta-hero-people.png";
-
-const lukerLogoUrl = lukerLogo.url;
 
 const sections = [
   { id: 1, title: "Indicadores Estratégicos", icon: BarChart3, path: "/indicadores", accent: "teal", description: "Seguimiento de KPIs" },
@@ -46,30 +43,22 @@ const Index = () => {
 
   return (
     <div className="home-editorial">
-      <header className="home-editorial__header">
-        <div className="home-editorial__header-inner">
-          <a href="/" className="home-editorial__brand" aria-label="Fundación Luker, ir al inicio">
-            <img src={lukerLogoUrl} alt="Fundación Luker" className="home-editorial__logo" />
-          </a>
-          {user && (
-            <div className="flex items-center gap-2">
-              {isAdmin && (
-                <Button variant="outline" size="sm" onClick={() => navigate("/admin")}>
-                  <Settings className="h-4 w-4 mr-2" />Admin
-                </Button>
-              )}
-              <Button variant="ghost" size="sm" onClick={handleSignOut}>
-                <LogOut className="h-4 w-4 mr-2" />Salir
-              </Button>
-            </div>
-          )}
-        </div>
-      </header>
-
-      <main>
+      <div>
         <section className="home-hero">
           <div className="home-hero__letter" aria-hidden="true">L</div>
           <div className="home-hero__copy animate-fade-in">
+            {user && (
+              <div className="home-session-actions">
+                {isAdmin && (
+                  <Button variant="outline" size="sm" onClick={() => navigate("/admin")}>
+                    <Settings className="h-4 w-4" />Admin
+                  </Button>
+                )}
+                <Button variant="ghost" size="sm" onClick={handleSignOut}>
+                  <LogOut className="h-4 w-4" />Salir
+                </Button>
+              </div>
+            )}
             <p className="home-kicker">Plataforma de gestión estratégica</p>
               <h1 id="page-title" tabIndex={-1}>Transformamos vidas a través de la <span>educación</span></h1>
             <p className="home-hero__lead">
@@ -139,7 +128,7 @@ const Index = () => {
             <Button variant="link" onClick={() => navigate("/about")}>Acerca de Mi Junta <ArrowRight className="h-4 w-4" /></Button>
           </nav>
         </section>
-      </main>
+      </div>
     </div>
   );
 };

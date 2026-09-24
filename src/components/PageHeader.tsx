@@ -1,9 +1,6 @@
 import { ArrowLeft, LucideIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link, useNavigate } from "react-router-dom";
-import logoImage from "@/assets/fundacion-luker-color-letra-cafe-horizontal.png.asset.json";
-
-const logoImageUrl = logoImage.url;
 
 interface PageHeaderProps {
   title: string;
@@ -32,34 +29,16 @@ export const PageHeader = ({
   const accent = accentFromClass(iconBgColor);
 
   return (
-    <header className="institutional-page-header" data-accent={accent}>
-      <div className="institutional-page-header__bar">
-        <div className="institutional-page-header__nav">
-          <div className="flex items-center gap-3 min-w-0">
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={() => navigate("/")}
-              className="institutional-back-button shrink-0"
-              aria-label="Volver al inicio"
-            >
-              <ArrowLeft className="h-5 w-5" />
-            </Button>
-            <span className="institutional-page-header__kicker">Mi Junta · Capítulo</span>
-          </div>
-          <img 
-            src={logoImageUrl} 
-            alt="Fundación Luker" 
-            className="institutional-page-header__logo"
-          />
-        </div>
-      </div>
+    <section className="institutional-page-header" data-accent={accent} aria-labelledby="page-title">
       <div className="institutional-page-header__title-row">
         <div className="institutional-page-header__number" aria-hidden="true">
           <Icon />
         </div>
         <div className="min-w-0">
           <nav aria-label="Migas de pan" className="institutional-page-header__breadcrumbs">
+            <Button variant="ghost" size="icon" onClick={() => navigate("/")} className="institutional-back-button" aria-label="Volver al inicio">
+              <ArrowLeft className="h-5 w-5" />
+            </Button>
             <Link to="/">Inicio</Link>
             <span aria-hidden="true">/</span>
             <span aria-current="page">{title}</span>
@@ -72,6 +51,6 @@ export const PageHeader = ({
         </div>
         <div className="institutional-page-header__rule" />
       </div>
-    </header>
+    </section>
   );
 };

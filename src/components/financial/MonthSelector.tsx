@@ -66,7 +66,7 @@ export const MonthSelector = ({
       <span className="text-sm font-medium text-muted-foreground">Período:</span>
 
       <Select value={String(selectedYear)} onValueChange={handleYearChange}>
-        <SelectTrigger className="w-[110px] border-luker-brown/20 focus:ring-luker-green">
+        <SelectTrigger className="w-28 border-luker-brown/20">
           <SelectValue placeholder="Año" />
         </SelectTrigger>
         <SelectContent>
@@ -82,7 +82,7 @@ export const MonthSelector = ({
         value={selectedMonth ? String(selectedMonth.month) : undefined}
         onValueChange={handleMonthChange}
       >
-        <SelectTrigger className="w-[160px] border-luker-brown/20 focus:ring-luker-green">
+        <SelectTrigger className="w-40 border-luker-brown/20">
           <SelectValue placeholder="Mes" />
         </SelectTrigger>
         <SelectContent>

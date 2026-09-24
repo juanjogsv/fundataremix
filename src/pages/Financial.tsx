@@ -33,7 +33,7 @@ const Financial = () => {
         subtitle="Presupuesto, ejecución y funcionamiento"
       />
 
-      <div className="container mx-auto px-4 sm:px-6 py-8 sm:py-10 max-w-[1400px]">
+      <div className="luker-container py-8 sm:py-10">
         {/* Subsections Navigation */}
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
           <TabsList className="w-full h-auto flex-wrap justify-start gap-2 mb-8">

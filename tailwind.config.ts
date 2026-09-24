@@ -62,7 +62,9 @@ export default {
           ring: "hsl(var(--sidebar-ring))",
         },
         luker: {
+          cream: "hsl(var(--kit-cream))",
           brown: "hsl(var(--luker-brown))",
+          coral: "hsl(var(--kit-coral))",
           green: "hsl(var(--luker-green))",
           red: "hsl(var(--luker-red))",
           teal: "hsl(var(--luker-teal))",
