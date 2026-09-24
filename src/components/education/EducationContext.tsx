@@ -19,10 +19,10 @@ const KPI_CONFIG: Array<{
 }> = [
   { code: "COBE_01", title: "Cobertura Neta Preescolar", icon: School,        bg: "bg-kit-coral/10",   iconBg: "bg-kit-coral/20",   text: "text-kit-coralDeep",  accentVar: "luker-orange" },
   { code: "COBE_02", title: "Cobertura Neta Primaria",   icon: BookOpen,      bg: "bg-kit-orange/10",  iconBg: "bg-kit-orange/20",  text: "text-kit-orangeDeep", accentVar: "luker-orange" },
-  { code: "COBE_03", title: "Cobertura Neta Secundaria", icon: GraduationCap, bg: "bg-kit-lime/10",  iconBg: "bg-green-100",  text: "text-kit-limeDeep", accentVar: "luker-green" },
+  { code: "COBE_03", title: "Cobertura Neta Secundaria", icon: GraduationCap, bg: "bg-kit-lime/10",  iconBg: "bg-kit-lime/20",  text: "text-kit-limeDeep", accentVar: "luker-green" },
   { code: "COBE_04", title: "Cobertura Neta Media",      icon: Users,         bg: "bg-kit-teal/5",    iconBg: "bg-kit-teal/15",    text: "text-kit-tealDeep",   accentVar: "luker-teal" },
   { code: "COBE_06", title: "Tasa de Tránsito",          icon: TrendingUp,    bg: "bg-card",  iconBg: "bg-muted",  text: "text-kit-brown", accentVar: "luker-teal" },
-  { code: "COBE_05", title: "Tasa de Deserción Escolar", icon: LogOut,        bg: "bg-kit-coral/10",    iconBg: "bg-red-100",    text: "text-kit-coralDeep",   accentVar: "luker-red", ascending: false },
+  { code: "COBE_05", title: "Tasa de Deserción Escolar", icon: LogOut,        bg: "bg-kit-coral/10",    iconBg: "bg-kit-coral/20",    text: "text-kit-coralDeep",   accentVar: "luker-red", ascending: false },
 ];
 
 const MANIZALES_COD = "17001";
