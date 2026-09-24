@@ -151,3 +151,9 @@ Cálido, humano, en español. Microcopy concreto: "Ver módulo", "Descargar repo
 - Botones en forma de pastilla (el kit usa esquinas levemente redondeadas).
 - Recrear el logo, los números o la textura con código o IA.
 - Vistas sin estados de carga, vacío y error.
+
+## Pestañas por módulo (Mi Junta)
+- La línea de la pestaña activa toma el color del módulo de la página (el mismo del encabezado): Educación coral, Emprendimiento y Calendario naranja, Rural verde, Proyectos/Indicadores/Mapa turquesa, Socioeconómico y Documentos café. Pestaña activa en blanco, texto café.
+
+## Prueba en Datos Abiertos
+- Solo en las pestañas principales de cada sección: la pestaña seleccionada lleva fondo del acento y texto blanco. Es una prueba: el texto blanco solo cumple contraste sobre café; sobre coral, verde, naranja y turquesa no cumple AA.
