@@ -64,7 +64,9 @@ const Index = () => {
             <p className="home-hero__lead">
               Movilizamos palancas para que niños y jóvenes potencien su desarrollo para una vida productiva gratificante.
             </p>
-            <Button className="home-hero__action" onClick={() => navigate("/indicadores")}>Explorar indicadores <ArrowRight className="h-4 w-4" /></Button>
+            <Button asChild className="home-hero__action">
+              <a href="#directory">Explorar módulos <ArrowRight className="h-4 w-4" /></a>
+            </Button>
           </div>
           <div className="home-hero__visual animate-scale-in">
             <div className="home-hero__accent" aria-hidden="true" />
@@ -72,7 +74,7 @@ const Index = () => {
           </div>
         </section>
 
-        <section className="home-directory" aria-labelledby="directory-title">
+        <section id="directory" className="home-directory" aria-labelledby="directory-title">
           <div className="home-section-heading">
             <div>
               <p className="home-kicker">Índice de contenidos</p>

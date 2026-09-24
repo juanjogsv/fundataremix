@@ -20,7 +20,7 @@
   }
 }
 
-html { scroll-padding-top: var(--luker-header-h); }
+html { scroll-padding-top: var(--luker-header-h); scroll-behavior: smooth; }
 
 .luker-container {
   width: 100%;
