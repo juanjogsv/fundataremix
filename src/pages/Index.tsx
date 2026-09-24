@@ -17,7 +17,7 @@ import {
   Sprout,
   TrendingUp,
 } from "lucide-react";
-import heroPeople from "@/assets/mi-junta-hero-people.png";
+import heroPeople from "@/assets/mi-junta-hero-people-v2.png";
 
 const sections = [
   { id: 1, title: "Indicadores Estratégicos", icon: BarChart3, path: "/indicadores", accent: "teal", description: "Seguimiento de KPIs" },
@@ -70,7 +70,7 @@ const Index = () => {
           </div>
           <div className="home-hero__visual animate-scale-in">
             <div className="home-hero__accent" aria-hidden="true" />
-            <img src={heroPeople} alt="Educadora, estudiante y productor rural de la comunidad" width={1200} height={1400} />
+            <img src={heroPeople} alt="Educadora, estudiante y joven universitario de la comunidad" width={1200} height={1400} />
           </div>
         </section>
 

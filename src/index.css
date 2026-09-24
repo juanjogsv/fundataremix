@@ -271,7 +271,6 @@ All colors MUST be HSL.
   }
 
   @media (min-width: 960px) and (max-width: 1399px) {
-    .home-hero h1 { font-size: clamp(3.25rem, 5vw, 4.75rem); }
   }
 
   @media (min-width: 1280px) {
