@@ -172,17 +172,52 @@ const EducationSaberOnce = () => {
     },
   });
 
+  // Códigos de entidad que realmente tienen datos para el indicador seleccionado
+  const { data: compCityCodes } = useQuery({
+    queryKey: ["dama-saber-comp-city-codes", selectedCompIndicator],
+    queryFn: async () => {
+      const codes = new Set<string>();
+      const pageSize = 1000;
+      let from = 0;
+      for (;;) {
+        const { data, error } = await ecosistema
+          .from("datos_maestros")
+          .select("cod_entidad")
+          .eq("cod_indicador", selectedCompIndicator)
+          .range(from, from + pageSize - 1);
+        if (error) throw error;
+        if (!data || data.length === 0) break;
+        data.forEach((d: any) => {
+          const code = String(d.cod_entidad || "");
+          if (code.length === 5) codes.add(code);
+        });
+        if (data.length < pageSize) break;
+        from += pageSize;
+      }
+      return codes;
+    },
+  });
+
   const availableCompCities = useMemo(() => {
     if (!damaEntitiesForComp) return [] as { code: string; name: string }[];
     return damaEntitiesForComp
       .filter(e => String(e.cod_entidad).length === 5 && !isExcludedCity(e.entidad || ""))
+      .filter(e => !compCityCodes || compCityCodes.has(String(e.cod_entidad)))
       .map(e => ({ code: String(e.cod_entidad), name: formatCityName(e.entidad || "") }))
       .sort((a, b) => {
         if (a.name === "Manizales") return -1;
         if (b.name === "Manizales") return 1;
         return a.name.localeCompare(b.name);
       });
-  }, [damaEntitiesForComp]);
+  }, [damaEntitiesForComp, compCityCodes]);
+
+  // Si la ciudad seleccionada ya no tiene datos para el indicador, vuelve a Manizales
+  useEffect(() => {
+    if (!compCityCodes) return;
+    if (!compCityCodes.has(selectedCompCity) && compCityCodes.has("17001")) {
+      setSelectedCompCity("17001");
+    }
+  }, [compCityCodes, selectedCompCity]);
 
 
   const compChartData = useMemo(() => {
