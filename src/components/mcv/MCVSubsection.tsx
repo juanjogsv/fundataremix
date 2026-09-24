@@ -528,10 +528,10 @@ const MCVSubsection = ({
                 />
               </div>
               <div className="flex items-center gap-4 flex-wrap">
-                <div className="flex items-center gap-2">
+                <div className="flex w-full flex-col gap-1.5 sm:w-auto sm:flex-row sm:items-center sm:gap-2">
                   <span className="text-sm text-muted-foreground">Indicador:</span>
                   <Select value={selectedIndicator} onValueChange={setSelectedIndicator}>
-                    <SelectTrigger className="w-64">
+                    <SelectTrigger className="w-full sm:w-64">
                       <SelectValue placeholder="Seleccionar indicador" />
                     </SelectTrigger>
                     <SelectContent>
@@ -543,10 +543,10 @@ const MCVSubsection = ({
                     </SelectContent>
                   </Select>
                 </div>
-                <div className="flex items-center gap-2">
+                <div className="flex w-full flex-col gap-1.5 sm:w-auto sm:flex-row sm:items-center sm:gap-2">
                   <span className="text-sm text-muted-foreground">Comparar con:</span>
                   <Select value={compareCity} onValueChange={setCompareCity}>
-                    <SelectTrigger className="w-48">
+                    <SelectTrigger className="w-full sm:w-48">
                       <SelectValue placeholder="Seleccionar ciudad" />
                     </SelectTrigger>
                     <SelectContent>
