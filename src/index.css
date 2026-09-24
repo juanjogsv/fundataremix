@@ -981,10 +981,10 @@ All colors MUST be HSL.
 :where(div, main, section):has(> .institutional-page-header[data-accent="brown"]) { --module-accent: var(--kit-brown); }
 :where(div, main, section):has(> .institutional-page-header[data-accent="teal"]) { --module-accent: var(--kit-teal); }
 
-/* Prueba Datos Abiertos: pestaña principal seleccionada con fondo de acento y texto blanco */
-.datos-abiertos .da-section [data-ui="tabs-trigger"][data-state="active"] {
-  background: hsl(var(--module-accent));
-  color: #fff;
-  box-shadow: none;
-}
-.datos-abiertos .da-section [data-ui="tabs-trigger"][data-state="active"] svg { color: #fff; }
+/* Prueba Datos Abiertos: botones de áreas a explorar con texto blanco al seleccionarlos */
+.datos-abiertos .da-quick-link:hover,
+.datos-abiertos .da-quick-link:focus-visible,
+.datos-abiertos .da-quick-link:active { color: #fff; }
+.datos-abiertos .da-quick-link:hover svg,
+.datos-abiertos .da-quick-link:focus-visible svg,
+.datos-abiertos .da-quick-link:active svg { color: #fff; }
