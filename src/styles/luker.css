@@ -76,6 +76,30 @@ html { scroll-padding-top: var(--luker-header-h); scroll-behavior: smooth; }
 .iframe-fade { opacity: 0; transition: opacity 300ms var(--ease); }
 .iframe-fade[data-loaded="true"] { opacity: 1; }
 
+/* Nombre de la plataforma junto al logo: siempre visible, estilo institucional */
+.luker-platform-name {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.25rem;
+  padding-right: 0.5rem;
+  border-right: 1px solid var(--lk-border-strong);
+  color: var(--lk-brown);
+  font-family: Montserrat, sans-serif;
+  font-size: 0.8125rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+}
+
+.luker-platform-name__dot {
+  color: var(--lk-teal);
+  font-weight: 700;
+}
+
+@media (max-width: 400px) {
+  .luker-platform-name { font-size: 0.75rem; }
+}
+
 /* Ubicación actual en el encabezado: solo el nombre del lugar, con flecha de regreso */
 .luker-breadcrumb {
   display: inline-flex;
