@@ -42,9 +42,12 @@ export function LukerHeader({ navItems = [], currentPath, homeHref = "/" }: Prop
   return (
     <header className="sticky top-0 z-50 border-b border-luker-brown/10 bg-luker-cream">
       <div className="luker-container flex h-[var(--luker-header-h)] items-center justify-between gap-6">
-        <div className="flex min-w-0 items-center gap-3 sm:gap-5">
-          <Link to={homeHref} className="luker-focus flex min-h-11 items-center" aria-label="Fundación Luker, inicio">
+        <div className="flex min-w-0 items-center gap-2 sm:gap-3">
+          <Link to={homeHref} className="luker-focus flex min-h-11 items-center gap-2" aria-label="Fundación Luker · Mi Junta, inicio">
             <img src={logoImage.url} alt="Fundación Luker" className="h-10 w-auto max-w-[9rem] object-contain sm:h-11 sm:max-w-[10rem]" />
+            <span className="luker-platform-name shrink-0" aria-hidden="true">
+              <span className="luker-platform-name__dot">·</span> Mi Junta
+            </span>
           </Link>
 
           {currentLabel && (
