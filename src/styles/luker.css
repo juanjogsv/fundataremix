@@ -86,14 +86,14 @@ html { scroll-padding-top: var(--luker-header-h); scroll-behavior: smooth; }
   color: var(--lk-brown);
   font-family: Montserrat, sans-serif;
   font-size: 0.8125rem;
-  font-weight: 700;
+  font-weight: 400;
   letter-spacing: 0.02em;
   white-space: nowrap;
 }
 
 .luker-platform-name__dot {
   color: var(--lk-teal);
-  font-weight: 700;
+  font-weight: 400;
 }
 
 @media (max-width: 400px) {
