@@ -1,8 +1,32 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { ArrowLeft } from "lucide-react";
 import logoImage from "@/assets/fundacion-luker-color-letra-cafe-horizontal.png.asset.json";
 
 export type LukerNavItem = { label: string; href: string };
+
+const ROUTE_LABELS: Record<string, string> = {
+  "/indicadores": "Indicadores Estratégicos",
+  "/calendario": "Calendario",
+  "/documentos": "Documentos",
+  "/mapa": "Mapa",
+  "/financiero": "Financiero",
+  "/educacion": "Educación",
+  "/emprendimiento": "Emprendimiento",
+  "/desarrollo-rural": "Desarrollo Rural",
+  "/especiales": "Especiales",
+  "/contexto": "Contexto",
+  "/socioeconomico": "Contexto Socioeconómico",
+  "/about": "Acerca de Mi Junta",
+  "/help": "Guía de usuario",
+};
+
+const routeLabel = (path: string) => {
+  if (ROUTE_LABELS[path]) return ROUTE_LABELS[path];
+  if (path.startsWith("/admin")) return "Administración";
+  if (path.startsWith("/auth")) return "Acceso";
+  return null;
+};
 
 type Props = {
   navItems?: LukerNavItem[];
@@ -13,13 +37,27 @@ type Props = {
 export function LukerHeader({ navItems = [], currentPath, homeHref = "/" }: Props) {
   const [open, setOpen] = useState(false);
   const isActive = (href: string) => currentPath === href;
+  const currentLabel = currentPath && currentPath !== "/" ? routeLabel(currentPath) : null;
 
   return (
     <header className="sticky top-0 z-50 border-b border-luker-brown/10 bg-luker-cream">
       <div className="luker-container flex h-[var(--luker-header-h)] items-center justify-between gap-6">
-        <Link to={homeHref} className="luker-focus flex min-h-11 items-center" aria-label="Fundación Luker, inicio">
-          <img src={logoImage.url} alt="Fundación Luker" className="h-10 w-auto max-w-[9rem] object-contain sm:h-11 sm:max-w-[10rem]" />
-        </Link>
+        <div className="flex min-w-0 items-center gap-3 sm:gap-5">
+          <Link to={homeHref} className="luker-focus flex min-h-11 items-center" aria-label="Fundación Luker, inicio">
+            <img src={logoImage.url} alt="Fundación Luker" className="h-10 w-auto max-w-[9rem] object-contain sm:h-11 sm:max-w-[10rem]" />
+          </Link>
+
+          {currentLabel && (
+            <nav aria-label="Migas de pan" className="luker-breadcrumb min-w-0">
+              <Link to={homeHref} className="luker-focus inline-flex min-h-9 items-center gap-1.5" aria-label="Volver al inicio">
+                <ArrowLeft className="h-4 w-4 shrink-0" aria-hidden="true" />
+                <span>Inicio</span>
+              </Link>
+              <span className="luker-breadcrumb__sep" aria-hidden="true">/</span>
+              <span aria-current="page" className="truncate">{currentLabel}</span>
+            </nav>
+          )}
+        </div>
 
         {navItems.length > 0 && (
           <>
