@@ -1,6 +1,18 @@
-import { ArrowLeft, LucideIcon } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Link, useNavigate } from "react-router-dom";
+import { LucideIcon } from "lucide-react";
+import { Link, useLocation } from "react-router-dom";
+
+const SECTION_NAV = [
+  { label: "Indicadores", href: "/indicadores" },
+  { label: "Calendario", href: "/calendario" },
+  { label: "Documentos", href: "/documentos" },
+  { label: "Financiero", href: "/financiero" },
+  { label: "Educación", href: "/educacion" },
+  { label: "Emprendimiento", href: "/emprendimiento" },
+  { label: "Desarrollo Rural", href: "/desarrollo-rural" },
+  { label: "Especiales", href: "/especiales" },
+  { label: "Mapa", href: "/mapa" },
+  { label: "Contexto Socioeconómico", href: "/socioeconomico" },
+];
 
 interface PageHeaderProps {
   title: string;
@@ -18,14 +30,14 @@ const accentFromClass = (className: string) => {
   return "teal";
 };
 
-export const PageHeader = ({ 
-  title, 
+export const PageHeader = ({
+  title,
   mobileTitle,
-  subtitle, 
-  icon: Icon, 
+  subtitle,
+  icon: Icon,
   iconBgColor
 }: PageHeaderProps) => {
-  const navigate = useNavigate();
+  const { pathname } = useLocation();
   const accent = accentFromClass(iconBgColor);
 
   return (
@@ -35,13 +47,16 @@ export const PageHeader = ({
           <Icon />
         </div>
         <div className="min-w-0">
-          <nav aria-label="Migas de pan" className="institutional-page-header__breadcrumbs">
-            <Button variant="ghost" size="icon" onClick={() => navigate("/")} className="institutional-back-button" aria-label="Volver al inicio">
-              <ArrowLeft className="h-5 w-5" />
-            </Button>
-            <Link to="/">Inicio</Link>
-            <span aria-hidden="true">/</span>
-            <span aria-current="page">{title}</span>
+          <nav aria-label="Secciones" className="institutional-section-nav">
+            {SECTION_NAV.map((item) => (
+              <Link
+                key={item.href}
+                to={item.href}
+                aria-current={pathname === item.href ? "page" : undefined}
+              >
+                {item.label}
+              </Link>
+            ))}
           </nav>
           <h1 id="page-title" tabIndex={-1} className="institutional-page-header__title">
             <span className="sm:hidden">{mobileTitle || title}</span>

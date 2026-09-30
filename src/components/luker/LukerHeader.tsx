@@ -48,12 +48,10 @@ export function LukerHeader({ navItems = [], currentPath, homeHref = "/" }: Prop
           </Link>
 
           {currentLabel && (
-            <nav aria-label="Migas de pan" className="luker-breadcrumb min-w-0">
-              <Link to={homeHref} className="luker-focus inline-flex min-h-9 items-center gap-1.5" aria-label="Volver al inicio">
+            <nav aria-label="Ubicación actual" className="luker-breadcrumb min-w-0">
+              <Link to={homeHref} className="luker-focus inline-flex min-h-9 items-center" aria-label="Volver al inicio">
                 <ArrowLeft className="h-4 w-4 shrink-0" aria-hidden="true" />
-                <span>Inicio</span>
               </Link>
-              <span className="luker-breadcrumb__sep" aria-hidden="true">/</span>
               <span aria-current="page" className="truncate">{currentLabel}</span>
             </nav>
           )}
