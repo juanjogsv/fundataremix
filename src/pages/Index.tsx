@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "@/hooks/useAuth";
+import { SECTION_NAVIGATION } from "@/config/navigation";
 import {
   ArrowRight,
   ArrowUpRight,
@@ -10,9 +10,7 @@ import {
   FolderOpen,
   GraduationCap,
   Lightbulb,
-  LogOut,
   MapPin,
-  Settings,
   Sparkles,
   Sprout,
   TrendingUp,
@@ -20,26 +18,28 @@ import {
 const heroPeople = "/hero-people.webp";
 
 const sections = [
-  { id: 1, title: "Indicadores Estratégicos", icon: BarChart3, path: "/indicadores", accent: "teal", description: "Seguimiento de KPIs" },
-  { id: 2, title: "Calendario", icon: Calendar, path: "/calendario", accent: "orange", description: "Eventos y actividades" },
-  { id: 3, title: "Documentos", icon: FolderOpen, path: "/documentos", accent: "brown", description: "Repositorio documental" },
-  { id: 4, title: "Financiero", icon: DollarSign, path: "/financiero", accent: "lime", description: "Gestión financiera" },
-  { id: 5, title: "Educación", icon: GraduationCap, path: "/educacion", accent: "coral", description: "Programas educativos" },
-  { id: 6, title: "Emprendimiento", icon: Lightbulb, path: "/emprendimiento", accent: "orange", description: "Ecosistema de emprendimiento" },
-  { id: 7, title: "Desarrollo Rural", icon: Sprout, path: "/desarrollo-rural", accent: "lime", description: "Proyectos rurales" },
-  { id: 8, title: "Especiales", icon: Sparkles, path: "/especiales", accent: "coral", description: "Proyectos especiales" },
-  { id: 9, title: "Mapa", icon: MapPin, path: "/mapa", accent: "teal", description: "Georreferenciación" },
-  { id: 10, title: "Contexto Socioeconómico", icon: TrendingUp, path: "/socioeconomico", accent: "orange", description: "Indicadores de ciudad" },
+  { icon: BarChart3, description: "Seguimiento de KPIs" },
+  { icon: Calendar, description: "Eventos y actividades" },
+  { icon: FolderOpen, description: "Repositorio documental" },
+  { icon: DollarSign, description: "Gestión financiera" },
+  { icon: GraduationCap, description: "Programas educativos" },
+  { icon: Lightbulb, description: "Ecosistema de emprendimiento" },
+  { icon: Sprout, description: "Proyectos rurales" },
+  { icon: Sparkles, description: "Proyectos especiales" },
+  { icon: MapPin, description: "Georreferenciación" },
+  { icon: TrendingUp, description: "Indicadores de ciudad" },
 ] as const;
+
+const directorySections = SECTION_NAVIGATION.map((section, index) => ({
+  ...section,
+  id: index + 1,
+  title: section.label,
+  path: section.href,
+  ...sections[index],
+}));
 
 const Index = () => {
   const navigate = useNavigate();
-  const { user, isAdmin, signOut } = useAuth();
-
-  const handleSignOut = async () => {
-    await signOut();
-    navigate("/auth");
-  };
 
   return (
     <div className="home-editorial">
@@ -47,18 +47,6 @@ const Index = () => {
         <section className="home-hero">
           <div className="home-hero__letter" aria-hidden="true">L</div>
           <div className="home-hero__copy animate-fade-in">
-            {user && (
-              <div className="home-session-actions">
-                {isAdmin && (
-                  <Button variant="outline" size="sm" onClick={() => navigate("/admin")}>
-                    <Settings className="h-4 w-4" />Admin
-                  </Button>
-                )}
-                <Button variant="ghost" size="sm" onClick={handleSignOut}>
-                  <LogOut className="h-4 w-4" />Salir
-                </Button>
-              </div>
-            )}
             <p className="home-kicker">Plataforma de gestión estratégica</p>
               <h1 id="page-title" tabIndex={-1}>Transformamos vidas a través de la <span>educación</span></h1>
             <p className="home-hero__lead">
@@ -83,7 +71,7 @@ const Index = () => {
             <p>Consulta el seguimiento estratégico, los programas y la información que acompaña nuestras decisiones.</p>
           </div>
           <div className="home-directory__grid">
-            {sections.map((section, index) => {
+            {directorySections.map((section) => {
               const Icon = section.icon;
               return (
                 <button
@@ -92,7 +80,6 @@ const Index = () => {
                   onClick={() => navigate(section.path)}
                   className="home-module animate-fade-in"
                   data-accent={section.accent}
-                  style={{ animationDelay: `${index * 80}ms`, animationFillMode: "both" }}
                 >
                   <span className="home-module__icon"><Icon /></span>
                   <ArrowUpRight className="home-module__arrow" aria-hidden="true" />
