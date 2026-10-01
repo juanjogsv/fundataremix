@@ -73,6 +73,21 @@ Consecuencia práctica: los acentos se usan como fondos, bordes, íconos, barras
 - **Ilustraciones:** editoriales vectoriales, **monocromáticas** (un solo color de línea), trazo orgánico, contornos definidos, detalles simplificados, proporciones naturales, expresiones cálidas, diversidad racial e inclusión. Nada abstracto, sin rellenos degradados.
 - Si no hay foto o ilustración real: contenedor con `aspect-ratio` fijo y `TODO: imagen de marca`; no generar personas ficticias sin aprobación.
 
+### Optimización de carga de imágenes (obligatoria)
+
+Aplicar este ejercicio sin cambiar la apariencia, el encuadre ni el comportamiento de la interfaz:
+
+1. **Inventario previo:** identificar para cada imagen su origen (archivo local, CDN de recursos, almacenamiento o URL externa), peso, dimensiones, formato y componentes donde se usa. Detectar archivos sin referencias y consultas que generen URLs una por una.
+2. **Archivos locales:** convertir fotografías y logos rasterizados a WebP; redimensionarlos al máximo real de visualización y comprimirlos conservando transparencia y calidad visual. Para imágenes procesadas por Vite, preferir `vite-imagetools`; para archivos de `public/`, convertir una vez y conservar el resultado optimizado. Los recursos compartidos de marca se sirven mediante punteros inmutables del CDN.
+3. **Imágenes remotas o de almacenamiento:** usar transformaciones `width` y `quality` solo cuando el servicio las soporte y se hayan verificado. Si no están disponibles, conservar la URL original y reportarlo; nunca inventar parámetros ni crear un proxy inseguro. No generar URLs firmadas individualmente cuando puedan obtenerse en una sola consulta.
+4. **Prioridad:** solo la imagen candidata a LCP de cada página lleva `fetchPriority="high"` y nunca `loading="lazy"`. Si existe una imagen LCP común a todo el sitio, precargarla en `index.html`. Logos o imágenes visibles inmediatamente pueden usar carga normal, pero no deben competir como múltiples candidatos LCP.
+5. **Fuera de la primera pantalla:** añadir `loading="lazy"` y `decoding="async"` a fotografías, portadas y logos inferiores.
+6. **Estabilidad visual:** toda imagen declara `width` y `height` intrínsecos correctos, o un contenedor con `aspect-ratio` estable. Las dimensiones deben coincidir con la proporción real del archivo para evitar saltos durante la carga.
+7. **Estado de carga:** las imágenes de contenido remoto usan un skeleton discreto dentro del espacio ya reservado. Se retira tanto en `load` como en `error`; no se anima la imagen ni se cambia el diseño al completar la carga.
+8. **Verificación:** comprobar en Network el tipo MIME, bytes transferidos, prioridad y ausencia de solicitudes duplicadas; validar también que no haya imágenes rotas, cambios de encuadre, saltos de diseño ni desbordes en móvil y escritorio.
+
+Referencia de implementación aprobada: logos horizontales rasterizados a un máximo de 320 px de ancho, WebP, dimensiones intrínsecas `320 × 139`; portada principal en WebP con dimensiones reales y prioridad alta; portadas de Biblioteca con proporción `4:5`, carga diferida, decodificación asíncrona y skeleton. Estos valores solo se reutilizan cuando el recurso y su proporción sean los mismos.
+
 ## Íconos
 - Glifo sólido o lineal simple **blanco dentro de un círculo sólido** del color de acento (tamaño 32–40 px) en resaltados, contenedores y tarjetas; o glifo suelto en café dentro de controles de UI. `lucide-react` es válido si se usa con este tratamiento.
 - Indicadores de forma: círculo, cuadrado, triángulo, rombo, estrella y anillo, en los colores del kit (leyendas, estados).
