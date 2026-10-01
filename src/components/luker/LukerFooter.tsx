@@ -1,4 +1,4 @@
-import logoImage from "@/assets/fundacion-luker-color-letra-blanca-horizontal.png.asset.json";
+import logoImage from "@/assets/fundacion-luker-color-letra-blanca-horizontal.webp.asset.json";
 
 type Props = { projectName?: string; tagline?: string; adminHref?: string };
 
@@ -12,7 +12,7 @@ export function LukerFooter({
   return (
     <footer className="bg-luker-brown text-luker-cream">
       <div className="luker-container grid grid-cols-1 items-center gap-4 py-10 sm:grid-cols-[9rem_1fr_auto] sm:gap-8">
-        <img src={logoImage.url} alt="Fundación Luker" className="h-auto w-36 max-w-full" />
+        <img src={logoImage.url} alt="Fundación Luker" width={320} height={139} loading="lazy" decoding="async" className="h-auto w-36 max-w-full" />
         <div>
           <p className="text-[1.25rem] font-extrabold leading-tight">{projectName}</p>
           <p className="mt-1 text-[0.78rem] text-luker-cream/80">{tagline}</p>

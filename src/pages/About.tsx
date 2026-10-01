@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ArrowLeft, Target, Lightbulb, Users, TrendingUp, Shield, Zap } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import lukerLogo from "@/assets/fundacion-luker-color-letra-cafe-horizontal.png.asset.json";
+import lukerLogo from "@/assets/fundacion-luker-color-letra-cafe-horizontal.webp.asset.json";
 import { PageHeader } from "@/components/PageHeader";
 
 const lukerLogoUrl = lukerLogo.url;
@@ -23,6 +23,10 @@ const About = () => {
                 <img 
                   src={lukerLogoUrl} 
                   alt="Fundación Luker" 
+                   width={320}
+                   height={139}
+                   loading="lazy"
+                   decoding="async"
                   className="h-20 w-auto object-contain"
                 />
                 <div>

@@ -1,6 +1,7 @@
 # Roadmap
 
 ## Hecho
+- [x] Optimizar la carga de imágenes sin cambios visuales: logos activos convertidos a WebP de 320 px, dimensiones y prioridades explícitas, carga diferida fuera de la primera pantalla y skeleton para portadas remotas de Biblioteca.
 - [x] Implementar la navegación jerárquica de Mi Junta: orientación global y sesión en cabecera, secciones en el banner, retorno contextual en vistas profundas y logo oficial local para carga confiable.
 - [x] Renombrar primer botón de la portada: "Explorar indicadores" → "Explorar módulos", con desplazamiento suave hasta la sección de módulos (#directory), replicando el Hub (ancla + scroll-padding del header + scroll suave con fallback a reduced-motion). Verificado en Playwright (baja 829 px, la sección queda bajo el encabezado) y build OK.
 - [x] Skill fundacion-luker-kit aplicada: regla permanente de botones de áreas (hover/foco: fondo del acento del módulo, texto blanco, excepción de contraste aprobada 24 sep 2026).

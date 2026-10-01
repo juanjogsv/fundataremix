@@ -1,11 +1,11 @@
-import logoImage from "@/assets/fundacion-luker-color-letra-blanca-horizontal.png.asset.json";
+import logoImage from "@/assets/fundacion-luker-color-letra-blanca-horizontal.webp.asset.json";
 
 const logoUrl = logoImage.url;
 
 export const InstitutionalFooter = () => (
   <footer className="institutional-footer">
     <div className="institutional-footer__inner">
-      <img src={logoUrl} alt="Fundación Luker" className="institutional-footer__logo" />
+      <img src={logoUrl} alt="Fundación Luker" width={320} height={139} loading="lazy" decoding="async" className="institutional-footer__logo" />
       <div>
         <p className="institutional-footer__title">Mi Junta</p>
         <p className="institutional-footer__copy">Información para decidir, aprender y transformar.</p>

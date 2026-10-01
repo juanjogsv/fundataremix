@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
 import { Shield, Loader2 } from "lucide-react";
-import lukerLogo from "@/assets/fundacion-luker-color-letra-cafe-horizontal.png.asset.json";
+import lukerLogo from "@/assets/fundacion-luker-color-letra-cafe-horizontal.webp.asset.json";
 
 const lukerLogoUrl = lukerLogo.url;
 
@@ -82,6 +82,10 @@ export const AccessGate = ({ children }: { children: React.ReactNode }) => {
           <img
             src={lukerLogoUrl}
             alt="Fundación Luker"
+             width={320}
+             height={139}
+             fetchPriority="high"
+             decoding="async"
             className="h-14 w-auto object-contain"
           />
           <div className="flex items-center gap-2 text-luker-brown">
