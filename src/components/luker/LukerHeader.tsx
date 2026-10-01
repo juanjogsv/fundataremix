@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { ArrowLeft, LogOut, Menu, Settings, UserRound, X } from "lucide-react";
-import logoImage from "@/assets/fundacion-luker-color-letra-cafe-horizontal.png";
+import logoImage from "@/assets/fundacion-luker-color-letra-cafe-horizontal.webp.asset.json";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -40,7 +40,7 @@ export function LukerHeader({ navItems = [], currentPath, homeHref = "/" }: Prop
       <div className="luker-container flex h-[var(--luker-header-h)] items-center justify-between gap-2 sm:gap-6">
         <div className="flex min-w-0 flex-1 items-center gap-2 sm:gap-3">
           <Link to={homeHref} className="luker-focus flex min-h-11 items-center gap-2" aria-label="Fundación Luker · Mi Junta, inicio">
-            <img src={logoImage} alt="Fundación Luker" className="h-10 w-auto max-w-[9rem] object-contain sm:h-11 sm:max-w-[10rem]" />
+            <img src={logoImage.url} alt="Fundación Luker" width={320} height={139} fetchPriority="high" decoding="async" className="h-10 w-auto max-w-[9rem] object-contain sm:h-11 sm:max-w-[10rem]" />
             <span className="luker-platform-name shrink-0" aria-hidden="true">
               <span className="luker-platform-name__dot">·</span> Mi Junta
             </span>

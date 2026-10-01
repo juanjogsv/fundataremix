@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { ExternalLink, BookOpen } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
+import { LoadAwareImage } from "@/components/media/LoadAwareImage";
 
 interface Publication {
   id: string;
@@ -90,11 +91,15 @@ export function LibraryPublicationsGrid() {
                 {/* Cover image */}
                 <div className="relative aspect-[4/5] overflow-hidden bg-muted">
                   {pub.cover_image_url ? (
-                    <img
+                    <LoadAwareImage
                       src={pub.cover_image_url}
                       alt={pub.title}
-                      className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+                      width={640}
+                      height={800}
                       loading="lazy"
+                      decoding="async"
+                      frameClassName="h-full w-full"
+                      className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
                     />
                   ) : (
                     <div className="flex h-full w-full items-center justify-center bg-muted">

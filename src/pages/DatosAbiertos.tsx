@@ -23,12 +23,11 @@ import {
   Shield,
   ArrowDown,
 } from "lucide-react";
-import lukerLogoBrown from "@/assets/fundacion-luker-color-letra-cafe-horizontal.png.asset.json";
-import lukerLogoWhite from "@/assets/fundacion-luker-color-letra-blanca-horizontal.png.asset.json";
+import lukerLogoBrown from "@/assets/fundacion-luker-color-letra-cafe-horizontal.webp.asset.json";
+import lukerLogoWhite from "@/assets/fundacion-luker-color-letra-blanca-horizontal.webp.asset.json";
 
-const ASSET_ORIGIN = "https://id-preview--86b2a9c4-6838-4f82-a3c4-21cb241b504c.lovable.app";
-const lukerLogoBrownUrl = `${ASSET_ORIGIN}${lukerLogoBrown.url}`;
-const lukerLogoWhiteUrl = `${ASSET_ORIGIN}${lukerLogoWhite.url}`;
+const lukerLogoBrownUrl = lukerLogoBrown.url;
+const lukerLogoWhiteUrl = lukerLogoWhite.url;
 
 // Educación
 import EducationBeneficiaries from "@/components/education/EducationBeneficiaries";
@@ -161,7 +160,7 @@ const DatosAbiertos = () => {
       <header className="da-header sticky top-0 z-50">
         <div className="da-shell flex h-16 items-center justify-between md:h-[72px]">
           <div className="flex items-center gap-4">
-            <img src={lukerLogoBrownUrl} alt="Fundación Luker" className="h-10 w-auto object-contain md:h-12" />
+            <img src={lukerLogoBrownUrl} alt="Fundación Luker" width={320} height={139} fetchPriority="high" decoding="async" className="h-10 w-auto object-contain md:h-12" />
             <div className="da-header-divider hidden h-8 w-px sm:block" />
             <div className="hidden items-center gap-2 sm:flex">
               <Shield className="h-4 w-4" />
@@ -349,7 +348,7 @@ const DatosAbiertos = () => {
         <div className="da-shell">
           <div className="flex flex-col items-start justify-between gap-6 md:flex-row md:items-end">
             <div>
-              <img src={lukerLogoWhiteUrl} alt="Fundación Luker" className="mb-4 h-12 w-auto object-contain" />
+              <img src={lukerLogoWhiteUrl} alt="Fundación Luker" width={320} height={139} loading="lazy" decoding="async" className="mb-4 h-12 w-auto object-contain" />
               <p className="text-sm font-semibold">© 2026 Fundación Luker. Datos abiertos.</p>
             </div>
             <div className="text-left md:text-right">
