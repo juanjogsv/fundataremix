@@ -111,12 +111,14 @@ html { scroll-padding-top: var(--luker-header-h); scroll-behavior: smooth; }
   font-weight: 600;
   letter-spacing: 0.01em;
   white-space: nowrap;
+  overflow: hidden;
 }
 
 .luker-breadcrumb a {
   color: var(--lk-brown);
   text-decoration: none;
   transition: color var(--dur-fast) var(--ease);
+  overflow: hidden;
 }
 
 .luker-breadcrumb a:hover {
@@ -124,11 +126,21 @@ html { scroll-padding-top: var(--luker-header-h); scroll-behavior: smooth; }
   background: color-mix(in oklab, var(--lk-green) 18%, transparent);
 }
 
-.luker-breadcrumb [aria-current="page"] {
+.luker-breadcrumb span {
   overflow: hidden;
   text-overflow: ellipsis;
   color: var(--lk-brown);
   font-weight: 700;
+}
+
+@media (max-width: 639px) {
+  .luker-container > div:first-child > a:first-child img {
+    max-width: 7.25rem;
+  }
+
+  .luker-platform-name {
+    padding-right: 0.375rem;
+  }
 }
 
 @media (max-width: 400px) {
