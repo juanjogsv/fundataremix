@@ -19,7 +19,7 @@ export function LoadAwareImage({
       {!loaded && <div className="absolute inset-0 animate-pulse bg-muted" aria-hidden="true" />}
       <img
         {...props}
-        className={cn(className, "transition-opacity duration-200", loaded ? "opacity-100" : "opacity-0")}
+        className={cn(className, loaded ? "opacity-100" : "opacity-0")}
         onLoad={(event) => {
           setLoaded(true);
           onLoad?.(event);
