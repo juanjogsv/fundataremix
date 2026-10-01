@@ -1,18 +1,6 @@
 import { LucideIcon } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
-
-const SECTION_NAV = [
-  { label: "Indicadores", href: "/indicadores" },
-  { label: "Calendario", href: "/calendario" },
-  { label: "Documentos", href: "/documentos" },
-  { label: "Financiero", href: "/financiero" },
-  { label: "Educación", href: "/educacion" },
-  { label: "Emprendimiento", href: "/emprendimiento" },
-  { label: "Desarrollo Rural", href: "/desarrollo-rural" },
-  { label: "Especiales", href: "/especiales" },
-  { label: "Mapa", href: "/mapa" },
-  { label: "Contexto Socioeconómico", href: "/socioeconomico" },
-];
+import { SECTION_NAVIGATION } from "@/config/navigation";
 
 interface PageHeaderProps {
   title: string;
@@ -48,13 +36,13 @@ export const PageHeader = ({
         </div>
         <div className="min-w-0">
           <nav aria-label="Secciones" className="institutional-section-nav">
-            {SECTION_NAV.map((item) => (
+            {SECTION_NAVIGATION.map((item) => (
               <Link
                 key={item.href}
                 to={item.href}
                 aria-current={pathname === item.href ? "page" : undefined}
               >
-                {item.label}
+                {item.shortLabel ?? item.label}
               </Link>
             ))}
           </nav>
