@@ -62,7 +62,8 @@ export const UploadFinancialData = () => {
 
   const extractMonthFromHeader = (headerText: string): { month: number; year: number; date: string } | null => {
     // Pattern: "A 31 DE OCTUBRE DE 2025" or similar
-    const pattern = /A\s+(\d+)\s+DE\s+(\w+)\s+DE\s+(\d{4})/i;
+    // Tolerates a missing space before the final "DE" (e.g. "SEPTIEMBREDE 2026")
+    const pattern = /A\s+(\d+)\s+DE\s+([A-ZÁÉÍÓÚÑ]+?)\s*DE\s+(\d{4})/i;
     const match = headerText.match(pattern);
     
     if (match) {
